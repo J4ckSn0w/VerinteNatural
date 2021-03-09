@@ -20,8 +20,13 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone_number');
             $table->string('password');
+            $table->bigInteger('user_type_id')->unsigned();
+
+            $table->foreign('user_type_id')->references('id')->on('user_types');
+
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
