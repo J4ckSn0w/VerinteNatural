@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Routing\Controller;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class AuthController extends controller{
     public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
