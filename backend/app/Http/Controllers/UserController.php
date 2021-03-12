@@ -4,77 +4,126 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return User[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
+     * @return mixed
      */
     public function index()
     {
-         return User::all();
+        try {
+            return User::all();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No fue posible obtener los usuarios'], 401);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return User
+     * @param UserRequest $request
+     * @return mixed
      */
     public function store(UserRequest $request): User
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->phone_number = $request->phone_number;
-        $user->user_type_id = $request->user_type_id;
-        $user->save();
+        try {
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->phone_number = $request->phone_number;
+            $user->user_type_id = $request->user_type_id;
+            $user->save();
 
-        return $user;
+            $user->sendEmailVerification();
+
+            return $user;
+        } catch(\Exception $e) {
+            return response()->json(['error' => 'No fue posible crear al usuario'], 401);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return mixed
      */
-    public function show($id)
+    public function show(int $id)
     {
-        //
+        try {
+            return User::findOrfail($id);
+        } catch(\Exception $e) {
+            return response()->json(['error' => 'No fue posible obtener al usuario'], 401);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UserRequest $request
+     * @param int $id
+     * @return mixed
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, int $id)
     {
-        //
+        try {
+            $user = User::findOrfail($id);
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->phone_number = $request->phone_number;
+            $user->user_type_id = $request->user_type_id;
+            $user->save();
+
+            return $user;
+
+        } catch(\Exception $e) {
+            return response()->json(['error' => 'No fue posible actualizar al usuario'], 401);
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Mixed
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        try {
+            $user = User::findOrfail($id);
+            $user->delete();
+
+            return $user;
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No fue posible eliminar al usuario'], 401);
+        }
     }
 
-    public function confirmEmail($id)
+    /**
+     * Send email to confirm address.
+     *
+     * @param int $id
+     * @return Mixed
+     */
+    public function confirmEmail(int $id)
     {
-        $user = User::find($id);
-        $user->emailVerify();
-        return view('emails.confirmed');
+        try {
+            $user = User::find($id);
+            $user->emailVerify();
+
+            return view('emails.confirmed');
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No fue posible enviar el correo de confirmación al usuario'], 401);
+        }
+
     }
 }
