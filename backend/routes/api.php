@@ -16,13 +16,22 @@ use App\Http\Controllers\UserController;
 |
 */
 
+// Login
 Route::post('login', [AuthController::class, 'login'])->middleware('client.secret');
+
+// Customer Register
 Route::post('register', [AuthController::class, 'register']);
 
 //\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
 Route::middleware('auth:api')->group(function() {
+
+    // Logout
     Route::post('logout', [AuthController::class, 'logout']);
+
+    // Users resource
     Route::apiResource('users', UserController::class)->except(['edit', 'create']);
+
+    // Get info of auth user
     Route::get('info', [AuthController::class, 'getAuthUser']);
 });
 
