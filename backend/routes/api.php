@@ -22,7 +22,7 @@ Route::post('register', [AuthController::class, 'register']);
 //\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
 Route::middleware('auth:api')->group(function() {
     Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('user', [UserController::class, 'store']);
+    Route::apiResource('users', UserController::class)->except(['edit', 'create']);
     Route::get('info', [AuthController::class, 'getAuthUser']);
 });
 
