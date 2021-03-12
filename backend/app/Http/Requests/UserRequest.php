@@ -11,7 +11,7 @@ class UserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,10 +23,11 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        $validation = $this->id ? ',' . $this->id : '' ;
         return [
             'name'      => 'required|string|max:255',
-            'email'     => 'required|email|unique:users,email|min:6|max:100',
-            'phone_number' => 'required|string|unique:users,phone_number|min:5|max:50',
+            'email'     => 'required|email|max:100|min:6|unique:users,email' . $validation,
+            'phone_number' => 'required|string|min:5|max:50|unique:users,phone_number' . $validation,
             'user_type_id' => 'required|exists:user_types,id',
             'password' => 'required|string|min:8|max:40'
         ];
