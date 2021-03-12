@@ -70,4 +70,11 @@ class UserController extends Controller
     {
         //
     }
+
+    public function confirmEmail($id)
+    {
+        $user = User::find($id);
+        $user->emailVerify();
+        return view('emails.confirmed');
+    }
 }

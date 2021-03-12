@@ -12,3 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('/email/confirm/{user_id}', [\App\Http\Controllers\UserController::class, 'confirmEmail'])->name('confirm.email');
+
+
+Route::view('/', 'welcome')->name('home');
