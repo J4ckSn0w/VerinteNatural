@@ -19,7 +19,10 @@ use App\Http\Controllers\UserController;
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
 
+//\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
 Route::middleware('auth:api')->group(function() {
+    Route::post('logout', [AuthController::class, 'logout']);
+
     Route::post('user', [UserController::class, 'store']);
 });
 
