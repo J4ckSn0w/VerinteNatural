@@ -86,6 +86,19 @@ class AuthController extends controller{
     }
 
     public function getAuthUser() {
-        return Auth::user();
+        $user = Auth::user();
+        return response()->json(
+            [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone_number' => $user->phone_number,
+                'user_type_id' => $user->user_type_id,
+                'created_at' => $user->created_at,
+                'photo' => $user->customer ? $user->customer->photo : "",
+                'rfc' => $user->customer ? $user->customer->rfc : "",
+                'email_verified_at' => $user->email_verified_at
+            ]
+        );
     }
 }
