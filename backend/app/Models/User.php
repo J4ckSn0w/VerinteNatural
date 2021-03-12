@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Mail\EmailVerification;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
 
@@ -64,6 +67,15 @@ class User extends Authenticatable
         $customer->save();
 
         return $customer;
+    }
+
+    public function sendEmailVerification() {
+        Mail::to($this)->send(new EmailVerification($this->name, $this->id));
+    }
+
+    public function emailVerify() {
+        $this->email_verified_at = new Carbon();
+        $this->save();
     }
 
     /********** End Methods *********/
