@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Routing\Controller;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends controller{
     public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
@@ -21,23 +22,23 @@ class AuthController extends controller{
             //change to 'email' if you want
             $user = User::findForPassport($username);
 
+
             if ($user) {
                 if (auth()->attempt(['email' => $user->email, 'password' => $request->password])) {
                     $token = $user->createToken('Personal Access Token')->accessToken;
-                    return response()->json(
-                        [
-                            'id' => $user->id,
-                            'name' => $user->name,
-                            'email' => $user->email,
-                            'phone_number' => $user->phone_number,
-                            'user_type_id' => $user->user_type_id,
-                            'created_at' => $user->created_at,
-                            'email_verified_at' => $user->email_verified_at ?: false,
-                            'photo' => $user->customer ? $user->customer->photo : "",
-                            'rfc' => $user->customer ? $user->customer->rfc : "",
-                            'accessToken' => $token
-                        ]
-                    );
+
+                    return response()->json([
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'phone_number' => $user->phone_number,
+                        'user_type_id' => $user->user_type_id,
+                        'created_at' => $user->created_at,
+                        'email_verified_at' => $user->email_verified_at,
+                        'photo' => $user->customer ? $user->customer->photo : "",
+                        'rfc' => $user->customer ? $user->customer->rfc : "",
+                        'accessToken' => $token
+                    ]);
                 } else {
                     return response()->json(['error' => 'Verifique su información'], 401);
                 }
@@ -64,7 +65,7 @@ class AuthController extends controller{
 
         $user->sendEmailVerification();
 
-        return response()->json(array_merge($user->attributesToArray(),
+        return response()->json(
             [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -74,14 +75,17 @@ class AuthController extends controller{
                 'created_at' => $user->created_at,
                 'photo' => $user->customer ? $user->customer->photo : "",
                 'rfc' => $user->customer ? $user->customer->rfc : "",
-                'email_verified_at' => $user->email_verified_at ?: false,
+                'email_verified_at' => $user->email_verified_at,
                 'accessToken' => $token
             ]
-        ));
+        );
     }
 
     public function logout() {
        return Auth::user()->token()->revoke();
     }
 
+    public function getAuthUser() {
+        return Auth::user();
+    }
 }
