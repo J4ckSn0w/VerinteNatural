@@ -29,15 +29,13 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return JsonResponse
      */
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         try {
-            $customer = User::whereHas('customer', function($customer) use ($id){
-                $customer->where('id', $id);
-            })->with('customer')->first();
+            $customer = User::findOrfail($id)->load('customer');
             return response()->json(['data' => $customer], 200);
         } catch(\Exception $e) {
             return response()->json(['error' => 'No fue posible realizar la consulta'], 401);
