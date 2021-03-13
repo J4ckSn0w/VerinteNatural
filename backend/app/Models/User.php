@@ -48,8 +48,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    /*********** Methods ***********
-     * @param $username
+    /*********** Methods ************/
+
+    /* @param $username
      * @return mixed
      */
 
@@ -90,4 +91,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /********** End Relations *********/
+
+
+    /*********** Appends ************/
+
+
+
+    /********** End Appends *********/
 }
