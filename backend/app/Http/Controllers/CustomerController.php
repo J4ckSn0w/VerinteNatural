@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CustomerRequest;
 use App\Http\Requests\CustomerUpdateRequest;
-use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
@@ -63,7 +59,7 @@ class CustomerController extends Controller
 
             $user->updateCustomer($request->rfc, $request->photo ?? '');
 
-            return response()->json(['data' => $user]);
+            return response()->json(['data' => $user], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'No fue posible actuazlizar la informacion'], 401);
         }
@@ -72,11 +68,19 @@ class CustomerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param int $id
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
-        //
+        try {
+            $user = User::findOrfail($id);
+            $user->customer->delete();
+            $user->delete();
+
+            return response()->json(['data' => $user], 200);
+        } catch(\Exception $e) {
+            return response()->json(['error' => 'No fue posible eliminar esta cuenta'], 401);
+        }
     }
 }
