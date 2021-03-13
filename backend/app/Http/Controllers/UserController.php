@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -18,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            return response()->json(['data' => User::where('user_type_id', '!=', 4)->get()]);
+            return response()->json(['data' => User::where('user_type_id', '!=', 4)->get()], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'No fue posible obtener los usuarios'], 401);
         }
@@ -30,7 +31,7 @@ class UserController extends Controller
      * @param UserRequest $request
      * @return mixed
      */
-    public function store(UserRequest $request): User
+    public function store(UserRequest $request): JsonResponse
     {
         try {
             $user = new User();
@@ -43,7 +44,7 @@ class UserController extends Controller
 
             $user->sendEmailVerification();
 
-            return response()->json(['data' => $user]);
+            return response()->json(['data' => $user], 200);
         } catch(\Exception $e) {
             return response()->json(['error' => 'No fue posible crear al usuario'], 401);
         }
@@ -58,7 +59,7 @@ class UserController extends Controller
     public function show(int $id)
     {
         try {
-            return response()->json(['data' => User::findOrfail($id)]);
+            return response()->json(['data' => User::findOrfail($id)], 200);
         } catch(\Exception $e) {
             return response()->json(['error' => 'No fue posible obtener al usuario'], 401);
         }
@@ -77,12 +78,12 @@ class UserController extends Controller
             $user = User::findOrfail($id);
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->password = bcrypt($request->password);
+            $user->password = $request->password ? bcrypt($request->password) : $user->password;
             $user->phone_number = $request->phone_number;
             $user->user_type_id = $request->user_type_id;
             $user->save();
 
-            return response()->json(['data' => $user]);
+            return response()->json(['data' => $user], 200);
 
         } catch(\Exception $e) {
             return response()->json(['error' => 'No fue posible actualizar al usuario'], 401);
@@ -102,7 +103,7 @@ class UserController extends Controller
             $user = User::findOrfail($id);
             $user->delete();
 
-            return response()->json(['data' => $user]);
+            return response()->json(['data' => $user], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'No fue posible eliminar al usuario'], 401);
         }

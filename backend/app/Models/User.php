@@ -48,15 +48,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    /*********** Methods ***********
+    /*********** Methods ************/
+
+    /**
+     * Search match username
      * @param $username
      * @return mixed
      */
-
     public static function findForPassport($username) {
         return self::firstWhere('email', $username) ?? self::firstWhere('phone_number',  $username);
     }
 
+    /**
+     * Create customer from user
+     * @param $data
+     * @return Customer
+     */
     public function setCustomer($data): Customer
     {
         $customer = new Customer();
@@ -69,13 +76,46 @@ class User extends Authenticatable implements MustVerifyEmail
         return $customer;
     }
 
-    public function sendEmailVerification() {
-        Mail::to($this)->send(new EmailVerification($this->name, $this->id));
+    /**
+     * Send Mail to user
+     * @return int
+     */
+    public function sendEmailVerification(): int
+    {
+        try {
+            Mail::to($this)->send(new EmailVerification($this->name, $this->id));
+            return 1;
+        } catch(\Exception $e) {
+            return 0;
+        }
+
     }
 
-    public function emailVerify() {
+    /**
+     * Verify email
+     * @return int
+     */
+    public function emailVerify(): int
+    {
         $this->email_verified_at = new Carbon();
         $this->save();
+
+        return 1;
+    }
+
+    /**
+     * Update customer from user
+     * @param $rfc
+     * @param $photo
+     * @return mixed
+     */
+    public function updateCustomer($rfc, $photo) {
+        $customer = Customer::findOrfail($this->customer->id);
+        $customer->rfc = $rfc;
+        $customer->photo = $photo;
+        $customer->save();
+
+        return $customer;
     }
 
     /********** End Methods *********/
@@ -90,4 +130,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /********** End Relations *********/
+
+
+    /*********** Appends ************/
+
+
+
+    /********** End Appends *********/
 }
