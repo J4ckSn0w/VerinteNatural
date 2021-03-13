@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            return response()->json(['data' => User::where('user_type_id', '!=', 4)->get()], 200);
+            return response()->json(['data' => User::where('user_type_id', '!=', 4)->with('user_type')->get()], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'No fue posible obtener los usuarios'], 401);
         }
