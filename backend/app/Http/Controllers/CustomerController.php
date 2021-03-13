@@ -19,9 +19,9 @@ class CustomerController extends Controller
         try {
             $customers = User::where('user_type_id', 4)->with('customer')->get();
 
-            return response()->json(['data' => $customers]);
+            return response()->json(['data' => $customers],200);
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible realizar la consulta']);
+            return response()->json(['error' => 'No fue posible realizar la consulta'],401);
         }
     }
 
@@ -30,11 +30,18 @@ class CustomerController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
-        //
+        try {
+            $customer = User::whereHas('customer', function($customer) use ($id){
+                $customer->where('id', $id);
+            })->with('customer')->first();
+            return response()->json(['data' => $customer], 200);
+        } catch(\Exception $e) {
+            return response()->json(['error' => 'No fue posible realizar la consulta'], 401);
+        }
     }
 
 

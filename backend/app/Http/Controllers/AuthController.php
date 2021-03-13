@@ -42,7 +42,7 @@ class AuthController extends controller {
                     'accessToken' => $token,
                     'customer' => $user->customer ?? null
 
-                ]);
+                ], 200);
             } else {
                 return response()->json(['error' => 'Verifique su información'], 401);
             }

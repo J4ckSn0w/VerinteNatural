@@ -16,9 +16,9 @@ class UserTypeController extends Controller
     public function index()
     {
         try {
-            return response()->json(['data' => UserType::all()]);
+            return response()->json(['data' => UserType::all()], 200);
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible realizar la consulta']);
+            return response()->json(['error' => 'No fue posible realizar la consulta'], 401);
         }
     }
 }
