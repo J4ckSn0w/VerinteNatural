@@ -18,12 +18,14 @@ class CreateAddressesTable extends Migration
             $table->string('street', 255);
             $table->string('number', 40);
             $table->string('zip_code', 40);
-            $table->bigInteger('customer_id')->unsigned();
+            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('municipality_id');
 
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('municipality_id')->references('id')->on('municipalities');
         });
     }
 
