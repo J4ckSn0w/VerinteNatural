@@ -79,6 +79,15 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->save();
     }
 
+    public function updateCustomer($rfc, $photo) {
+        $customer = Customer::findOrfail($this->customer->id);
+        $customer->rfc = $rfc;
+        $customer->photo = $photo;
+        $customer->save();
+
+        return $customer;
+    }
+
     /********** End Methods *********/
 
 
