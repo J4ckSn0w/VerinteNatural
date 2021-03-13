@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserTypeController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,5 +35,8 @@ Route::middleware('auth:api')->group(function() {
 
     // Get info of auth user
     Route::get('info', [AuthController::class, 'getAuthUser']);
+
+    //User Types resource
+    Route::get('user/types', [UserTypeController::class, 'index']);
 });
 
