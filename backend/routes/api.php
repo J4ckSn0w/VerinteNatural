@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTypeController;
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,12 +32,17 @@ Route::middleware('auth:api')->group(function() {
     Route::post('logout', [AuthController::class, 'logout']);
 
     // Users resource
-    Route::apiResource('users', UserController::class)->except(['edit', 'create']);
+    Route::apiResource('users', UserController::class)
+        ->except(['edit', 'create']);
 
     // Get info of auth user
     Route::get('info', [AuthController::class, 'getAuthUser']);
 
-    //User Types resource
+    // User Types resource
     Route::get('user/types', [UserTypeController::class, 'index']);
+
+    // Customer resource
+    Route::apiResource('customers', CustomerController::class)
+        ->except(['edit', 'create', 'store']);
 });
 
