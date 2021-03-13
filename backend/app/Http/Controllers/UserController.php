@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -30,7 +31,7 @@ class UserController extends Controller
      * @param UserRequest $request
      * @return mixed
      */
-    public function store(UserRequest $request): User
+    public function store(UserRequest $request): JsonResponse
     {
         try {
             $user = new User();
