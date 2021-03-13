@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Address extends Model
 {
@@ -20,9 +21,22 @@ class Address extends Model
 
     /*********** Relations ************/
 
-    public function customer(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /**
+     * Get customer of address
+     * @return BelongsTo
+     */
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    /**
+     * Get Municipality of address
+     * @return BelongsTo
+     */
+    public function municipality(): BelongsTo
+    {
+        return $this->belongsTo(Municipality::class);
     }
 
     /********** End Relations *********/
