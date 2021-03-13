@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
         try {
-            return User::all();
+            return response()->json(['data' => User::where('user_type_id', '!=', 4)->get()]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'No fue posible obtener los usuarios'], 401);
         }
@@ -43,7 +43,7 @@ class UserController extends Controller
 
             $user->sendEmailVerification();
 
-            return $user;
+            return response()->json(['data' => $user]);
         } catch(\Exception $e) {
             return response()->json(['error' => 'No fue posible crear al usuario'], 401);
         }
@@ -58,7 +58,7 @@ class UserController extends Controller
     public function show(int $id)
     {
         try {
-            return User::findOrfail($id);
+            return response()->json(['data' => User::findOrfail($id)]);
         } catch(\Exception $e) {
             return response()->json(['error' => 'No fue posible obtener al usuario'], 401);
         }
@@ -82,7 +82,7 @@ class UserController extends Controller
             $user->user_type_id = $request->user_type_id;
             $user->save();
 
-            return $user;
+            return response()->json(['data' => $user]);
 
         } catch(\Exception $e) {
             return response()->json(['error' => 'No fue posible actualizar al usuario'], 401);
@@ -102,7 +102,7 @@ class UserController extends Controller
             $user = User::findOrfail($id);
             $user->delete();
 
-            return $user;
+            return response()->json(['data' => $user]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'No fue posible eliminar al usuario'], 401);
         }
