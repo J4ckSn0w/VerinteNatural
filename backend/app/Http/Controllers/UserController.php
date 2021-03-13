@@ -77,7 +77,7 @@ class UserController extends Controller
             $user = User::findOrfail($id);
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->password = bcrypt($request->password);
+            $user->password = $request->password ? bcrypt($request->password) : $user->password;
             $user->phone_number = $request->phone_number;
             $user->user_type_id = $request->user_type_id;
             $user->save();
