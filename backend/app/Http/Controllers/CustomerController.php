@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerRequest;
+use App\Http\Requests\CustomerUpdateRequest;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
@@ -46,20 +49,31 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CustomerUpdateRequest $request
+     * @param int $id
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(CustomerUpdateRequest $request, $id): JsonResponse
     {
-        //
+        try {
+            $user = User::findOrfail($id)->load('customer');
+            $user->name = $request->name;
+            $user->phone_number = $request->phone_number;
+            $user->save();
+
+            $user->updateCustomer($request->rfc, $request->photo ?? '');
+
+            return response()->json(['data' => $user]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'No fue posible actuazlizar la informacion'], 401);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {
