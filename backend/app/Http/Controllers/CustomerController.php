@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -10,11 +12,17 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        try {
+            $customers = User::where('user_type_id', 4)->with('customer')->get();
+
+            return response()->json(['data' => $customers]);
+        } catch(\Exception $e) {
+            return response()->json(['error' => 'No fue posible realizar la consulta']);
+        }
     }
 
 
