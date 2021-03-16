@@ -21,7 +21,7 @@ class UserController extends Controller
         try {
             return response()->json(['data' => User::where('user_type_id', '!=', 4)->with('user_type')->get()], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'No fue posible obtener los usuarios'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
@@ -46,7 +46,7 @@ class UserController extends Controller
 
             return response()->json(['data' => $user], 200);
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible crear al usuario'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
@@ -61,7 +61,7 @@ class UserController extends Controller
         try {
             return response()->json(['data' => User::findOrfail($id)], 200);
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible obtener al usuario'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
@@ -76,17 +76,18 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrfail($id);
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->password = $request->password ? bcrypt($request->password) : $user->password;
-            $user->phone_number = $request->phone_number;
-            $user->user_type_id = $request->user_type_id;
+            $user->fill(
+                array_merge(
+                    $request->toArray(),
+                    ['password' => $request->password ? bcrypt($request->password) : $user->password]
+                )
+            );
             $user->save();
 
             return response()->json(['data' => $user], 200);
 
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible actualizar al usuario'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
 
     }
@@ -105,7 +106,7 @@ class UserController extends Controller
 
             return response()->json(['data' => $user], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'No fue posible eliminar al usuario'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
@@ -123,7 +124,7 @@ class UserController extends Controller
 
             return view('emails.confirmed');
         } catch (\Exception $e) {
-            return response()->json(['error' => 'No fue posible enviar el correo de confirmación al usuario'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
 
     }
