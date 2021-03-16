@@ -69,13 +69,21 @@ class AddressController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return Response
+     * @param AddressRequest $request
+     * @param int $id
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(AddressRequest $request, $id): JsonResponse
     {
-        //
+        try {
+            $address = Address::findOrfail($id);
+            $address->fill($request->all());
+            $address->save();
+
+            return response()->json(['data' => $address], 200);
+        } catch(\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 401);
+        }
     }
 
     /**
