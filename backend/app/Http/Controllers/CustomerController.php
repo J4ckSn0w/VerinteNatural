@@ -20,7 +20,7 @@ class CustomerController extends Controller
 
             return response()->json(['data' => $customers],200);
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible realizar la consulta'],401);
+            return response()->json(['error' => $e->getMessage()],401);
         }
     }
 
@@ -37,7 +37,7 @@ class CustomerController extends Controller
             $customer = User::findOrfail($id)->load('customer');
             return response()->json(['data' => $customer], 200);
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible realizar la consulta'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
@@ -61,7 +61,7 @@ class CustomerController extends Controller
 
             return response()->json(['data' => $user], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'No fue posible actuazlizar la informacion'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
@@ -80,7 +80,7 @@ class CustomerController extends Controller
 
             return response()->json(['data' => $user], 200);
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible eliminar esta cuenta'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 }

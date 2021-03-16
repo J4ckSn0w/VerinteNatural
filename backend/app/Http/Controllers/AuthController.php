@@ -48,7 +48,7 @@ class AuthController extends controller {
             }
 
         } catch(Exception $e) {
-            return response()->json(['error' => 'Verifique su información'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
@@ -88,7 +88,7 @@ class AuthController extends controller {
                 ]
             );
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible registrar al usuario'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
 
     }
@@ -102,7 +102,7 @@ class AuthController extends controller {
         try {
             return Auth::user()->token()->revoke();
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue cerrar sesión'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
@@ -127,7 +127,7 @@ class AuthController extends controller {
                 ]
             );
         } catch(\Exception $e) {
-            return response()->json(['error' => 'No fue posible obtener la información del usuario'], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
 
     }

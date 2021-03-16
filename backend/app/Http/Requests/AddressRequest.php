@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use phpDocumentor\Reflection\Types\Boolean;
 
-class CustomerUpdateRequest extends FormRequest
+class AddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +25,11 @@ class CustomerUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|string|max:255',
-            'phone_number' => 'required|string|min:5|max:50|unique:users,phone_number,' . $this->id,
-            'rfc'   => ['required','string', 'regex:/^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))((-)?([A-Z\d]{3}))?$/']
+            'street' => 'required|min:3|max:200',
+            'number' => 'required|min:1|max:40',
+            'zip_code' => 'required|min:2|max:40',
+            'suburb'   => 'required|min:3|max:100',
+            'municipality_id' => 'required|exists:municipalities,id'
         ];
     }
 }

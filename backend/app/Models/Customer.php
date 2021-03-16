@@ -41,5 +41,10 @@ class Customer extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function addresses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
+
     /********** End Relations *********/
 }

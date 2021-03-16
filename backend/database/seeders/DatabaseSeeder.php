@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Municipality;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +16,8 @@ class DatabaseSeeder extends Seeder
     {
         // Catalogs
         $this->call(UserTypesTableSeeder::class);
+        $this->call(StatesTableSeeder::class);
+        $this->call(MunicipalitiesTableSeeder::class);
 
         // Real Data
         $this->call(UsersTableSeeder::class);
