@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddressRequest;
 use App\Models\Address;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -31,12 +32,23 @@ class AddressController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param AddressRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(AddressRequest $request): JsonResponse
     {
-        //
+        try {
+            return response()->json([
+                'data' => Address::create(
+                    array_merge(
+                        $request->toArray(),
+                        ['customer_id' => Auth::user()->customer->id]
+                    )
+                )
+            ], 200);
+        } catch (\Exception $e) {
+          return response()->json(['error' => $e->getMessage()], 401);
+        }
     }
 
     /**
