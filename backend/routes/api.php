@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTypeController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,5 +45,9 @@ Route::middleware('auth:api')->group(function() {
     // Customer resource
     Route::apiResource('customers', CustomerController::class)
         ->except(['edit', 'create', 'store']);
+
+    // Addresses of Customers
+    Route::apiResource('addresses', AddressController::class)
+        ->except(['edit', 'create']);
 });
 
