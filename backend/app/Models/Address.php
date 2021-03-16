@@ -16,6 +16,8 @@ class Address extends Model
         'street',
         'number',
         'zip_code',
+        'suburb',
+        'municipality_id',
         'customer_id'
     ];
 
