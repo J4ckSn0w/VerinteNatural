@@ -6,6 +6,9 @@ import { ToastrService } from 'ngx-toastr';
 import { LOGIN_STATE_ENUM } from '../../emun/login-state.enum';
 import { SessionService } from '../../services/session.service';
 import { LoginService } from '../../services/login.service';
+import Swal from 'sweetalert2';
+import { environment } from '../../../environments/environment';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +18,7 @@ import { LoginService } from '../../services/login.service';
 export class LoginComponent implements OnInit {
 
   sub_auth: Subscription;
+  userType = 0;
 
   loginForm = new FormGroup({
     correo: new FormControl(null, [Validators.required,Validators.email]),
@@ -25,7 +29,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private userService: UserService
   ) { }
 
   /* 
@@ -45,7 +50,19 @@ export class LoginComponent implements OnInit {
   fnCheckLocalStorage(){
     if(localStorage.getItem("authorization")){
       console.log("Logeado");
-      this.router.navigate(["system/home"]); //Redirigimos a la ruta principal 
+      //Checar el tipo de usuario para mandarlo a su ruta especifica
+      this.userService.fnGetUserByToken()
+      .then( resolve => {
+        switch(resolve.user_type_id){
+          case 1:
+            this.router.navigate(["system/home"]); //Redirigimos a la ruta principal 
+          case 2:
+            this.router.navigate(["store/home"]); //Redirigimos a la ruta principal 
+        }
+      })
+      .catch(reject => {
+
+      });
     }
   }
 
@@ -89,18 +106,32 @@ export class LoginComponent implements OnInit {
       grant_type: "password",
       scope: "*",
       client_id: "2",
-      client_secret: "U8Y4qKL80TEhZrtXLNgmwSWQ9Pp9S0xa72KuG9UK",
+      client_secret: environment.client_secret,
       username: this.loginForm.value.correo,
       password: this.loginForm.value.password
     };
     
     this.loginService.fnPostLogin(data)
-    .then(() => {
+    .then((response:any) => {
+      this.userType = response.user_type_id;
+      console.log(this.userType);
     })
     .catch(err => {
       console.log('Entre aqui');
       this.toastr.error("Hubo un error con los datos, favor de revisarlos.");
       this.sessionService.fnSetLoginStateValue(LOGIN_STATE_ENUM.VALIDATION_ERROR);
+    });
+  }
+
+  fnSwallAlert(){
+
+    console.log("ENTRE");
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Se registro correctamente!',
+      text: 'Redirigiendo a Inicio de Sesion.',
+      footer: '<a href>Why do I have this issue?</a>'
     });
   }
 

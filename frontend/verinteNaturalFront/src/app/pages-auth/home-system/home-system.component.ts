@@ -17,10 +17,10 @@ export class HomeSystemComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('Entre a ngOnInit de Home System.');
+    //console.log('Entre a ngOnInit de Home System.');
     this.sub_auth = this.sessionService._num_hasAccess.subscribe(
       num_state => {
-        console.log('Valor de num_state: '+num_state);
+        //console.log('Valor de num_state: '+num_state);
         switch(num_state){
           case LOGIN_STATE_ENUM.LOGGED:
             console.log("Logeado");

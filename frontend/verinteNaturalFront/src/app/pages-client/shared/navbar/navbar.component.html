@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#">Clientes</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="javascript:void(0)" [routerLink]="'/store'" routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="javascript:void(0)" [routerLink]="'/store/address'" routerLinkActive="active">Direcciones</a>
+        </div>
+    </div>
+    <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link no-caret" data-toggle="dropdown" role="button" href="javascript:void(0)" (click)="fnLogOut()">
+                <i class="ni ni-ui-04 d-lg-none"></i>
+                <span class="nav-link-inner--text">Cerrar Session</span>
+            </a>
+        </li>
+    </ul>
+</nav>

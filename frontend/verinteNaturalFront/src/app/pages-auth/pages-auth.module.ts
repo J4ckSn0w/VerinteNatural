@@ -8,6 +8,7 @@ import { routesPagesAuth } from './pages-auth.routing';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { FooterComponent } from '../shared/footer/footer.component';
+import { ClientControlComponent } from './client/client-control/client-control.component';
 
 @NgModule({
     declarations: [

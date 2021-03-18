@@ -22,21 +22,23 @@ export class SessionService {
 
     fnSaveSession(any_logindata:any, saveToken:boolean = true):void{
         this.$permission.next(any_logindata);
+        console.log('Dentro de save session');
+        console.log(this.$permission);
         this.$num_hasAccess.next(LOGIN_STATE_ENUM.LOGGED);
-        console.log('valor dentro de fnSaveSession: '+this.$num_hasAccess.value);
+        //console.log('valor dentro de fnSaveSession: '+this.$num_hasAccess.value);
         if(saveToken){
-            localStorage.setItem("authorization",any_logindata.access_token);
+            localStorage.setItem("authorization",any_logindata.accessToken);
         }
 
         this.$logged.next(any_logindata);
     }
 
     fnGetSessionToken():string{
-        console.log('Entre a fnGetSessionToken.');
+        //console.log('Entre a fnGetSessionToken.');
         let token = localStorage.getItem("authorization");
-        console.log('Token guardao en local Storage: ' + token);
+        //console.log('Token guardao en local Storage: ' + token);
         if(token){
-            console.log('Entre a el if de token');
+            //console.log('Entre a el if de token');
             return (token == undefined)?null:token;
         }
         return null;

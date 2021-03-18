@@ -1,0 +1,49 @@
+<h2 class="display-3 text-center mt-5">Nuevo Usuario</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card my-4">
+                <div class="card-header">
+                    <ul class="nav nav-pills card-header-pills">
+                        <li class="nav-item">
+                            <a class="btn btn-danger btn-sm" href="javascript:void(0)" routerLinkActive="active" [routerLink]="['/system/user']"><i class="fas fa-arrow-left"></i> Regresar</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <form role="form" novalidate class="row" [formGroup]="newUserForm">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Correo</label>
+                            <input type="email" class="form-control" placeholder="Correo" formControlName="email">
+                            <div *ngIf="error_email" class="text-danger">
+                                El correo ya esta siendo usado por otro usuario.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Contraseña</label>
+                            <input type="text" class="form-control" placeholder="Contraseña" formControlName="password">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Telefono</label>
+                            <input type="text" class="form-control" placeholder="Telefono" formControlName="phone_number">
+                            <div *ngIf="error_phone_number" class="text-danger">
+                                El telefono esta siendo usado por otro usuario.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Puesto</label>
+                            <select class="form-control" formControlName="user_type">
+                                <option *ngFor="let rol of arrayRoles" [value]="rol.id">{{rol.name}}</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newUserForm.invalid" (click)="onSubmit()">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

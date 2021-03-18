@@ -35,6 +35,10 @@ export class LoginService {
             this.http.post(this.str_ip + '/api/login' , obj).toPromise()
               .then((res: any) => {
                 //console.log("THEN de el servicio");
+                if(res.error)
+                {
+                  reject();
+                }
                 console.log(res);
                 this.sessionService.fnSaveSession(res);
                 resolve(res)
@@ -51,23 +55,25 @@ export class LoginService {
 
     fnTokenLoginUser(array_params:Array<any>, str_api:string):Promise<any>{
       console.log('Entre a tokenLoginUser');
+      let userToken = this.sessionService.fnGetSessionToken();
       let respuesta = new Promise<any>((resolve, reject) => {
-        let apiHelper = new ApiHelper();
-        let any_validCall = apiHelper.fnSetParams(array_params,str_api);
-        if(any_validCall.success){
-          this.http.get(this.str_ip + any_validCall.message).toPromise()
+        let header = new HttpHeaders({
+          Authorization: 'Bearer '+userToken,
+          Accept: 'application/json',
+          ContentType: 'application/json'
+        });
+        this.http.get(this.str_ip + str_api,{headers: header}).toPromise()
           .then((res:any)=>{
+            console.log('Entre a then');
             this.sessionService.fnSaveSession(res,false);
             resolve();
           })
           .catch(rej => {
+            console.log('Entre a catch');
             this.sessionService.fnLogOut();
             this.sessionService.fnSetLoginStateValue(LOGIN_STATE_ENUM.VALIDATION_ERROR);
             reject();
           });
-        } else {
-          reject(any_validCall.message);
-        }
       });
       return respuesta;
     }

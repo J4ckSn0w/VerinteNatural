@@ -19,15 +19,15 @@ export class AppComponent {
   ){}
 
   ngOnInit(): void {
-    /*
+    
     let token = this.sessionService.fnGetSessionToken();
         if(token){
-            this.loginService.fnTokenLoginUser([],'/api/user/getToken')
+            this.loginService.fnTokenLoginUser([],'/api/info')
             .then(() => {})
             .catch((err) => {})
         }else{
             this.sessionService.fnSetLoginStateValue(LOGIN_STATE_ENUM.LOGOUT);
-        }*/  
+        }
   }
 
 }
