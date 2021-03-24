@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTypeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\VehicleTypeController;
+use App\Http\Controllers\VehicleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,5 +51,12 @@ Route::middleware('auth:api')->group(function() {
     // Addresses of Customers
     Route::apiResource('addresses', AddressController::class)
         ->except(['edit', 'create']);
+
+    Route::apiResource('vehicles/types', VehicleTypeController::class)
+        ->except(['edit', 'create']);
+
+    Route::apiResource('vehicles', VehicleController::class)
+        ->except(['edit', 'create']);
+
 });
 

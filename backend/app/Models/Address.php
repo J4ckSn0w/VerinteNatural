@@ -43,4 +43,11 @@ class Address extends Model
 
     /********** End Relations *********/
 
+
+    /*********** Appends ************/
+
+    /********** End Appends *********/
+
+
+
 }
