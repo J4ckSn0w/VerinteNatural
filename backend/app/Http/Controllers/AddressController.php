@@ -60,7 +60,10 @@ class AddressController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            return response()->json(['data' => Address::findOrfail($id)], 200);
+            $data = Address::findOrfail($id);
+            $data->municipality;
+            $data->municipality->state;
+            return response()->json(['data' => $data], 200);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
@@ -73,7 +76,7 @@ class AddressController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(AddressRequest $request, $id): JsonResponse
+    public function update(AddressRequest $request, int $id): JsonResponse
     {
         try {
             $address = Address::findOrfail($id);
@@ -92,7 +95,7 @@ class AddressController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy($id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         try {
             $address = Address::findOrfail($id);
