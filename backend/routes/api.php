@@ -10,6 +10,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\VehicleTypeController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\WarehouseTypeController;
+use App\Http\Controllers\WarehouseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,11 +54,20 @@ Route::middleware('auth:api')->group(function() {
     Route::apiResource('addresses', AddressController::class)
         ->except(['edit', 'create']);
 
+    // Vehicle Types
     Route::apiResource('vehicles/types', VehicleTypeController::class)
         ->except(['edit', 'create']);
 
+    // Vehicles
     Route::apiResource('vehicles', VehicleController::class)
         ->except(['edit', 'create']);
 
+    // Warehouse Types
+    Route::apiResource('warehouse/types', WarehouseTypeController::class)
+        ->except(['edit', 'create']);
+
+    // Warehouses
+    Route::apiResource('warehouses', WarehouseController::class)
+        ->except(['edit', 'create']);   
 });
 
