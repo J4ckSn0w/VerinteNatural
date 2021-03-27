@@ -47,7 +47,10 @@ class WarehouseController extends Controller
     public function show(int $id): JsonResponse
     {
         try {
-            return response()->json(['data' => Warehouse::findOrfail($id)],200);
+            $warehouse = Warehouse::findOrfail($id);
+            $warehouse->user;
+            $warehouse->warehouse_type;
+            return response()->json(['data' => $warehouse],200);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
