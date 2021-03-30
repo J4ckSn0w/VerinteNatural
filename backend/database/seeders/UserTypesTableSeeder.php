@@ -14,12 +14,13 @@ class UserTypesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('user_types')->insert([
-            ['id'    => '1', 'name'  => 'Administrador'],
-            ['id'    => '2', 'name'  => 'Repartidor'],
-            ['id'    => '3', 'name'  => 'Almacenista'],
-            ['id'    => '4', 'name'  => 'Cliente']
-            ]
-        );
+        DB::table('user_types')
+            ->updateOrInsert(['id' => '1', 'name'  => 'Administrador']);
+
+        DB::table('user_types')
+            ->updateOrInsert(['id' => '2', 'name'  => 'Empleado']);
+
+        DB::table('user_types')
+            ->updateOrInsert(['id' => '3', 'name'  => 'Cliente']);
     }
 }

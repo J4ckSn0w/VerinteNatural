@@ -16,7 +16,7 @@ class CustomerController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $customers = User::where('user_type_id', 4)->with('customer')->get();
+            $customers = User::where('user_type_id', 3)->with('customer')->get();
 
             return response()->json(['data' => $customers],200);
         } catch(\Exception $e) {

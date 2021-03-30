@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class UserType extends Model
+class EmployeeType extends Model
 {
     use HasFactory;
 
-    protected $table = "user_types";
+    protected $table = 'employee_types';
 
     protected $fillable = [
         'name'
@@ -17,9 +18,13 @@ class UserType extends Model
 
     /*********** Relations ************/
 
-    public function users(): \Illuminate\Database\Eloquent\Relations\HasMany
+    /**
+     * Return employees of this type
+     * @return HasMany
+     */
+    public function employees(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Employee::class);
     }
 
     /********** End Relations *********/
@@ -30,5 +35,4 @@ class UserType extends Model
 
 
     /********** End Appends *********/
-
 }
