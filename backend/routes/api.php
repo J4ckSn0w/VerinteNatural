@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\UserTypeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\AddressController;
@@ -12,6 +12,7 @@ use App\Http\Controllers\VehicleTypeController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WarehouseTypeController;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\EmployeeTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,11 @@ Route::middleware('auth:api')->group(function() {
     Route::post('logout', [AuthController::class, 'logout']);
 
     // Users resource
-    Route::apiResource('users', UserController::class)
+    Route::apiResource('employees', EmployeeController::class)
+        ->except(['edit', 'create']);
+
+    // Employee Types
+    Route::apiResource('employee/types', EmployeeTypeController::class)
         ->except(['edit', 'create']);
 
     // Get info of auth user
@@ -68,6 +73,6 @@ Route::middleware('auth:api')->group(function() {
 
     // Warehouses
     Route::apiResource('warehouses', WarehouseController::class)
-        ->except(['edit', 'create']);   
+        ->except(['edit', 'create']);
 });
 
