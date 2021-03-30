@@ -16,12 +16,16 @@ class CreateDriversTable extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->double('rate');
-            $table->unsignedBigInteger('vehicles_id');
-            $table->unsignedBigInteger('employee_id');
-            $table->unsignedBigInteger('driver_type_id');
+            $table->unsignedBigInteger('vehicle_id')->nullable();
+            $table->unsignedBigInteger('employee_id')->nullable();
+            $table->unsignedBigInteger('driver_type_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('vehicle_id')->references('id')->on('vehicles');
+            $table->foreign('employee_id')->references('id')->on('employees');
+            $table->foreign('driver_type_id')->references('id')->on('drivers');
         });
     }
 

@@ -17,15 +17,15 @@ class EmployeeController extends Controller
      */
     public function index(): JsonResponse
     {
-        $limit = request()->get('limit', false);
-        $page = request()->get('page', false);
-        $count = 0;
-        if ($page == 1) {
-            $count = Employee::all()->count();
-        }
+        //$limit = request()->get('limit', false);
+        //$page = request()->get('page', false);
+        //$count = 0;
+        //if ($page == 1) {
+        //    $count = Employee::all()->count();
+        //}
 
         try {
-            $employees = Employee::offset($limit * ($page - 1))->limit($limit)->get();
+            $employees = Employee::all(); //Employee::offset($limit * ($page - 1))->limit($limit)->get();
 
             $employees = $employees->map(function ($e) {
                 $e = $e->only(['id', 'employee_number', 'name', 'employee_type_name', 'warehouse_name']);

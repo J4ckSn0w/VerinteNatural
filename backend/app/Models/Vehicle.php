@@ -37,5 +37,10 @@ class Vehicle extends Model
         return $this->belongsTo(VehicleType::class);
     }
 
+    public function driver(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Driver::class);
+    }
+
     /********** End Relations *********/
 }
