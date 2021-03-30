@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use App\Mail\EmailVerification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Mail;
 
 class Customer extends Model
 {
@@ -29,7 +27,7 @@ class Customer extends Model
     public static function getUserTypeID(): int
     {
         //User Type Id of customer
-        return 4;
+        return 3;
     }
 
     /********** End Methods *********/

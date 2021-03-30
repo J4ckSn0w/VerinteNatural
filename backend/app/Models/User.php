@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Requests\EmployeeRequest;
 use App\Mail\EmailVerification;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -26,7 +27,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'phone_number',
-        'password',
+        'user_type_id',
+        'password'
     ];
 
     /**
@@ -127,6 +129,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function customer(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Customer::class);
+    }
+
+    public function employee(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Employee::class);
     }
 
     public function user_type(): \Illuminate\Database\Eloquent\Relations\BelongsTo
