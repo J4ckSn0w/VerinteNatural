@@ -40,7 +40,12 @@ class Employee extends Model
             ]
         ));
 
-        $employee->user;
+        if ($data['employee']['employee_type_id'] == 3) {
+            $driver = new Driver();
+            $driver->employee_id = $employee->id;
+            $driver->rate = 0;
+            $driver->save();
+        }
 
         return $employee;
     }
@@ -96,6 +101,11 @@ class Employee extends Model
     public function warehouse(): BelongsTo
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function driver(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Driver::class);
     }
 
     /********** End Relations *********/
