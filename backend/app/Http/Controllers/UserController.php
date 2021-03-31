@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserPasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -56,10 +58,10 @@ class UserController extends Controller
      * @param int $id
      * @return mixed
      */
-    public function show(int $id)
+    public function getProfileData()
     {
         try {
-            return response()->json(['data' => User::findOrfail($id)], 200);
+            return response()->json(['data' => User::findOrfail(Auth::id())], 200);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
@@ -72,16 +74,12 @@ class UserController extends Controller
      * @param int $id
      * @return mixed
      */
-    public function update(UserRequest $request, int $id)
+    public function updateProfileData(UserRequest $request)
     {
         try {
-            $user = User::findOrfail($id);
-            $user->fill(
-                array_merge(
-                    $request->toArray(),
-                    ['password' => $request->password ? bcrypt($request->password) : $user->password]
-                )
-            );
+            $user = User::findOrfail(Auth::id());
+            $user->name =  $request->name;
+            $user->phone_number = $request->phone_number;
             $user->save();
 
             return response()->json(['data' => $user], 200);
@@ -127,5 +125,23 @@ class UserController extends Controller
             return response()->json(['error' => $e->getMessage()], 401);
         }
 
+    }
+
+
+    /**
+     * Change the password of Auth user
+     * @param UserPasswordRequest $request
+     * @return JsonResponse
+     */
+    public function changePassword(UserPasswordRequest $request): JsonResponse
+    {
+        try {
+            $user = User::find(Auth::user()->id);
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+            return response()->json(['data' => ['msg' => 'success']], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
     }
 }
