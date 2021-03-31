@@ -25,11 +25,9 @@ class UserRequest extends FormRequest
     {
         $validation = $this->id ? ',' . $this->id : '' ;
         return [
+            'id' => 'required|exists:users,id',
             'name'      => 'required|string|max:255',
-            'email'     => 'required|email|max:100|min:6|unique:users,email' . $validation,
             'phone_number' => 'required|string|min:5|max:50|unique:users,phone_number' . $validation,
-            'user_type_id' => 'required|exists:user_types,id',
-            'password' => 'nullable|string|min:8|max:40'
         ];
     }
 }
