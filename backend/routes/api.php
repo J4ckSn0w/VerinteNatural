@@ -40,6 +40,9 @@ Route::middleware('auth:api')->group(function() {
     // Logout
     Route::post('logout', [AuthController::class, 'logout']);
 
+
+    // API Rest
+
     // Users resource
     Route::apiResource('users', UserController::class)
         ->except(['edit', 'create', 'store', 'delete']);
@@ -89,5 +92,20 @@ Route::middleware('auth:api')->group(function() {
     // Warehouses
     Route::apiResource('warehouses', WarehouseController::class)
         ->except(['edit', 'create']);
+
+    // End API Rest
+
+    // Singles api route
+
+    // Change password of Auth user
+    Route::put('_password', [UserController::class, 'changePassword']);
+
+    // Change profile info of Auth user
+    Route::put('_user', [UserController::class, 'updateProfileData']);
+
+    // Get profile info of Auth user
+    Route::get('_user', [UserController::class, 'getProfileData']);
+
+    // End Singles api route
 });
 
