@@ -15,6 +15,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\EmployeeTypeController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\DriverTypeController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,10 @@ Route::middleware('auth:api')->group(function() {
 
     // Logout
     Route::post('logout', [AuthController::class, 'logout']);
+
+    // Users resource
+    Route::apiResource('users', UserController::class)
+        ->except(['edit', 'create', 'store', 'delete']);
 
     // Employees resource
     Route::apiResource('employees', EmployeeController::class)
