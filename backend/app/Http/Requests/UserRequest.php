@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserRequest extends FormRequest
 {
@@ -23,11 +24,9 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        $validation = $this->id ? ',' . $this->id : '' ;
         return [
-            'id' => 'required|exists:users,id',
             'name'      => 'required|string|max:255',
-            'phone_number' => 'required|string|min:5|max:50|unique:users,phone_number' . $validation,
+            'phone_number' => 'required|string|min:5|max:50|unique:users,phone_number,' . Auth::id(),
         ];
     }
 }
