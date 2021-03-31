@@ -76,12 +76,8 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrfail($id);
-            $user->fill(
-                array_merge(
-                    $request->toArray(),
-                    ['password' => $request->password ? bcrypt($request->password) : $user->password]
-                )
-            );
+            $user->name =  $request->name;
+            $user->phone_number = $request->phone_number;
             $user->save();
 
             return response()->json(['data' => $user], 200);
