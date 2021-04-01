@@ -23,8 +23,8 @@
             border-radius: 25px;
             background-color: white;
             text-align: center;
-            width: 150vh;
-            margin-top: 5vw;
+            width: 500px;
+            margin: 50px 200px;
             padding: 25px;
             display: block;
             justify-content: center;
@@ -54,12 +54,6 @@
             font-size: calc(2vw + 10px);
         }
 
-        .second__text {
-            font-family: 'Courier new', Courier, monospace;
-            font-size: calc(1vw + 7px);
-            color: white;
-        }
-
         .confirm_button {
             background-color: #FFBF00;
             border: none;
@@ -83,6 +77,20 @@
             font-family: 'Courier new', Courier, monospace;
             font-size: 3vw;
             color: white;
+        }
+
+        @media screen and (max-width: 425px) {
+            .first__text {
+                font-size: 20px;
+            }
+
+            .card__text {
+                padding: 20px
+            }
+
+            .confirm_button > a {
+                font-size: 15px;
+            }
         }
 
     </style>
