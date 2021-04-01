@@ -79,6 +79,20 @@
             color: white;
         }
 
+        @media screen and (max-width: 425px) {
+            .first__text {
+                font-size: 20px;
+            }
+
+            .card__text {
+                padding: 20px
+            }
+
+            .confirm_button > a {
+                font-size: 15px;
+            }
+        }
+
     </style>
 
 </head>
