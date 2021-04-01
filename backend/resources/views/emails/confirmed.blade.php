@@ -23,8 +23,8 @@
             border-radius: 25px;
             background-color: white;
             text-align: center;
-            width: 150vh;
-            margin-top: 5vw;
+            width: 500px;
+            margin: 50px 200px;
             padding: 25px;
             display: block;
             justify-content: center;
@@ -52,12 +52,6 @@
             margin-top: 10px;
             color: white;
             font-size: calc(2vw + 10px);
-        }
-
-        .second__text {
-            font-family: 'Courier new', Courier, monospace;
-            font-size: calc(1vw + 7px);
-            color: white;
         }
 
         .confirm_button {

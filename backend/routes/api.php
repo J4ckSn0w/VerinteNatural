@@ -95,6 +95,8 @@ Route::middleware('auth:api')->group(function() {
 
     // End API Rest
 
+
+
     // Singles api route
 
     // Change password of Auth user
