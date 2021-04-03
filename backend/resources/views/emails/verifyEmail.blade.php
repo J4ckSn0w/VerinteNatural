@@ -7,109 +7,102 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Confirmación de Correo</title>
     <style>
-        html, body {
-            background: #C6FFDD;  /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #f7797d, #FBD786, #C6FFDD);  /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #f7797d, #FBD786, #C6FFDD); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        }
-
-        .container {
+        @import url('https://fonts.googleapis.com/css2?family=Rum+Raisin&display=swap');
+        .frame {
+            background: #FFFFFF;
+            justify-content: center;
+            align-content: center;
             display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        .card {
-            border-radius: 25px;
-            background-color: white;
-            text-align: center;
-            width: 150vh;
-            margin-top: 5vw;
-            padding: 25px;
-            display: block;
-            justify-content: center;
-            align-items: center;
+        .rectangle {
+            position: absolute;
+            width: 585px;
+            border-radius: 12px;
+            margin-top: 35px;
+        }
+
+        .rectangle > img {
+            width: 585px;
+            border-radius: 20px;
+            opacity: 0.7;
         }
 
         .logo {
-            margin-top: 25px;
+            position: absolute;
+            width: 158px;
+            height: 143px;
+            top: 64px;
         }
 
-        .card__text {
-            margin-left: 50%;
-            transform: translate(-50%);
-            background-color: #FFBF00;
-            box-shadow: 6px 6px 4px #FBD786;
-            width: 70%;
-            border-radius: 6px;
-            border: none;
-            margin-bottom: 40px;
-            padding: 10px;
+        .logo > img {
+            width: 160px;
+            margin: 0;
         }
 
-        .first__text {
-            font-family: 'Courier new', Courier, monospace;
-            margin-top: 10px;
-            color: white;
-            font-size: calc(2vw + 10px);
+        .content {
+            position: absolute;
+            width: 347px;
+            height: 125px;
+            top: 212px;
+
+            font-family: 'Rum Raisin', sans-serif;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 36px;
+            line-height: 46px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+
+            /* Gray 6 */
+
+            color: #F2F2F2;
+
+            text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
         }
 
-        .second__text {
-            font-family: 'Courier new', Courier, monospace;
-            font-size: calc(1vw + 7px);
-            color: white;
-        }
-
-        .confirm_button {
-            background-color: #FFBF00;
-            border: none;
-            border-radius: 4px;
-            box-shadow: 6px 6px 4px #FBD786;
-            padding: 15px;
-        }
-        .confirm_button:hover {
-            background-color: cadetblue;
-            color: #1a202c;
-            box-shadow: 6px 6px 4px #FBD786;
-        }
-
-        .confirm_button:active {
-            background-color: chocolate;
-            color: white;
-        }
-
-        .confirm_button > a{
+        .submit__button {
+            position: absolute;
             text-decoration: none;
-            font-family: 'Courier new', Courier, monospace;
-            font-size: 3vw;
-            color: white;
+            top: 392px;
+        }
+
+        .submit__button > button {
+            width: 183px;
+            height: 55px;
+            background: #A0E6C8;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Rum Raisin', sans-serif;
+            text-align: center;
+            font-size: 24px;
+            color: #4F4F4F;
+            cursor: pointer;
         }
 
     </style>
 
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <div class="logo">
-                <img width="80%" src="{{asset('/images/logo.png')}}" alt="logo">
-            </div>
-            <div class="card__text">
-                <span class="first__text">
-                    Bienvenido!
-                </span>
-                <br>
-                <span class="second__text">
-                    {{$name}}<br>
-                    Gracias por registrarte en <em>Verinte Natural</em>
-                </span>
-            </div>
-            <button class="confirm_button" >
-                <a href="{{route('confirm.email', $id)}}">
-                    Confirmar
-                </a>
-            </button>
+    <div class="frame">
+
+        <div class="rectangle">
+            <img src="{{asset("/images/font_email.jpg")}}" alt="">
         </div>
+        <div class="logo">
+            <img src="{{asset("/images/logo.png")}}" alt="">
+        </div>
+        <div class="content">
+            ¡Estas a un solo paso! Confirma tu correo electrónico
+        </div>
+
+        <a href="{{route('confirm.email', $id)}}" class="submit__button">
+            <button>
+            Verificar Email
+            </button>
+        </a>
+
     </div>
 </body>
 </html>
