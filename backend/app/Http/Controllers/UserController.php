@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserPasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
@@ -120,7 +121,7 @@ class UserController extends Controller
             $user = User::find($id);
             $user->emailVerify();
 
-            return view('emails.confirmed');
+            return redirect()->to('email/confirmed');
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
@@ -136,12 +137,62 @@ class UserController extends Controller
     public function changePassword(UserPasswordRequest $request): JsonResponse
     {
         try {
-            $user = User::find(Auth::user()->id);
-            $user->password = bcrypt($request->new_password);
-            $user->save();
+            $this->changeNewPassword(Auth::user()->id, $request->new_password);
             return response()->json(['data' => ['msg' => 'success']], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
+    }
+
+    /**
+     * Sent Email to reset password
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function sendEmailToResetPassword(Request $request): JsonResponse
+    {
+        $request->validate([
+            'username' => 'required'
+        ]);
+        try {
+            $user = User::findForPassport($request->username);
+            if ($user) {
+                $token = Password::createToken($user);
+                $url = URL::temporarySignedRoute(
+                    'password.reset',
+                    now()->addMinutes(30),
+                    ['token' => $token, 'object' => $user->id]
+                );
+                $user->notify(new ResetPasswordNotification($url));
+            }
+            return response()->json(['data' => ['msg' => 'ok']], 200);
+        } catch(\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+
+    public function setNewPassword(Request $request, $user_id, $token) {
+
+        $request->validate([
+            'new_password' => 'required|confirmed|min:8'
+        ]);
+
+        try {
+            $user = User::find($user_id);
+            $canChange = Password::tokenExists($user, $token);
+            if($canChange)
+                $this->changeNewPassword($user_id, $request->new_password);
+
+            return redirect('/password/changed');
+        } catch(\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+    }
+
+    public function changeNewPassword($user_id, $new_password)
+    {
+        $user = User::find($user_id);
+        $user->password = bcrypt($new_password);
+        $user->save();
     }
 }

@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Password;
+use \Illuminate\Auth\Events\PasswordReset;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
@@ -33,6 +35,11 @@ Route::post('login', [AuthController::class, 'login'])->middleware('client.secre
 
 // Customer Register
 Route::post('register', [AuthController::class, 'register']);
+
+// Forgot Password
+Route::post('forgot-password', [UserController::class, 'sendEmailToResetPassword']);
+
+Route::put('reset-password/{user_id}/{token}', [UserController::class, 'setNewPassword'])->name('setNewPassword');
 
 //\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
 Route::middleware('auth:api')->group(function() {

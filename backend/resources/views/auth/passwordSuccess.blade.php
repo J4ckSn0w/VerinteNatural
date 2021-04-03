@@ -85,21 +85,21 @@
 
 </head>
 <body>
-    <div class="frame">
-        <div class="rectangle">
-            <img src="{{asset("/images/font_email.jpg")}}" alt="">
-        </div>
-        <div class="logo">
-            <img src="{{asset("/images/logo.png")}}" alt="">
-        </div>
-        <div class="content">
-            ¡Tu correo ha sido confirmado con exito!
-        </div>
-            <a class="submit__button" href="{{route('home')}}">
-                <button >
-                    Ir a Verinte Natural
-                </button>
-            </a>
+<div class="frame">
+    <div class="rectangle">
+        <img src="{{asset("/images/font_email.jpg")}}" alt="">
     </div>
+    <div class="logo">
+        <img src="{{asset("/images/logo.png")}}" alt="">
+    </div>
+    <div class="content">
+        ¡Su contraseña fue cambiada exitosamente!
+    </div>
+    <a class="submit__button" href="{{route('home')}}">
+        <button >
+            Ir a Verinte Natural
+        </button>
+    </a>
+</div>
 </body>
 </html>
