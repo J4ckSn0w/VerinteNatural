@@ -134,6 +134,7 @@ class EmployeeController extends Controller
     {
         try {
             $employee = Employee::find($id);
+            $employee->driver()->delete();
             $employee->delete();
             $user = User::find($employee->user_id);
             $user->delete();
