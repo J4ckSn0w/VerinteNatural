@@ -25,7 +25,7 @@ class WarehouseRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id',
+            'employee_id' => 'nullable|exists:employees,id',
             'warehouse_type_id' => 'required|exists:warehouse_types,id',
             'address' => 'required|string|max:255'
         ];

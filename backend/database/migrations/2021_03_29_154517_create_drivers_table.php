@@ -25,7 +25,7 @@ class CreateDriversTable extends Migration
 
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
             $table->foreign('employee_id')->references('id')->on('employees');
-            $table->foreign('driver_type_id')->references('id')->on('drivers');
+            $table->foreign('driver_type_id')->references('id')->on('driver_types');
         });
     }
 

@@ -26,8 +26,7 @@ class DriverRequest extends FormRequest
         return [
             'rate' => 'required',
             'vehicle_id' => 'required|exists:vehicles,id',
-            'driver_type_id' => 'required|exists:driver_types,id',
-            'employee_id' => 'required|exists:employees,id'
+            'driver_type_id' => 'required|exists:driver_types,id'
         ];
     }
 }

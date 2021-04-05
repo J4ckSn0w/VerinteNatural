@@ -18,6 +18,7 @@ use App\Http\Controllers\EmployeeTypeController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\DriverTypeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,6 +100,9 @@ Route::middleware('auth:api')->group(function() {
     // Warehouses
     Route::apiResource('warehouses', WarehouseController::class)
         ->except(['edit', 'create']);
+
+    Route::apiResource('logs', LogController::class)
+        ->only(['index']);
 
     // End API Rest
 
