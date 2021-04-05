@@ -26,6 +26,7 @@
             width: 585px;
             border-radius: 20px;
             opacity: 0.7;
+            height: 460px;
         }
 
         .logo {
@@ -41,17 +42,17 @@
         }
 
         .content {
-            position: absolute;
+            display: block;
+            position: fixed;
             width: 347px;
-            height: 125px;
+            height: 325px;
             top: 212px;
 
             font-family: 'Rum Raisin', sans-serif;
             font-style: normal;
             font-weight: normal;
-            font-size: 36px;
+            font-size: 26px;
             line-height: 46px;
-            display: flex;
             align-items: center;
             text-align: center;
 
@@ -63,14 +64,8 @@
         }
 
         .submit__button {
-            position: absolute;
-            text-decoration: none;
-            top: 392px;
-        }
-
-        .submit__button > button {
             width: 183px;
-            height: 55px;
+            height: 70px;
             background: #A0E6C8;
             border-radius: 10px;
             border: none;
@@ -81,25 +76,50 @@
             cursor: pointer;
         }
 
+        .input_password {
+            width: 247px;
+            height: 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 40px;
+            margin-bottom: 0;
+        }
+
     </style>
 
 </head>
 <body>
-    <div class="frame">
-        <div class="rectangle">
-            <img src="{{asset("/images/font_email.jpg")}}" alt="">
-        </div>
-        <div class="logo">
-            <img src="{{asset("/images/logo.png")}}" alt="">
-        </div>
-        <div class="content">
-            ¡Tu correo ha sido confirmado con exito!
-        </div>
-            <a class="submit__button" href="{{route('home')}}">
-                <button >
-                    Ir a Verinte Natural
-                </button>
-            </a>
+<div class="frame">
+
+    <div class="rectangle">
+        <img src="{{asset("/images/font_email.jpg")}}" alt="">
     </div>
+    <div class="logo">
+        <img src="{{asset("/images/logo.png")}}" alt="">
+    </div>
+    <div class="content">
+
+        <form  method="POST"
+               action="{{route('setNewPassword',
+                ['user_id' => request()->get('object'),
+                'token' => request()->get('token')])}}"
+        >
+            @method('PUT')
+            <label for="new_password">Nueva Contraseña</label>
+            <input class="input_password"
+                   type="password"
+                   name="new_password" id="new_password">
+            <label for="new_password_confirmation">Confirmar Nueva Contraseña</label>
+            <input class="input_password" type="password"
+                   name="new_password_confirmation" id="new_password_confirmation">
+
+            <button class="submit__button" type="submit">
+                Restablecer Contraseña
+            </button>
+        </form>
+
+    </div>
+
+</div>
 </body>
 </html>

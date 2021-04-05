@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Password;
+use \Illuminate\Auth\Events\PasswordReset;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\EmployeeTypeController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\DriverTypeController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,11 +36,23 @@ Route::post('login', [AuthController::class, 'login'])->middleware('client.secre
 // Customer Register
 Route::post('register', [AuthController::class, 'register']);
 
+// Forgot Password
+Route::post('forgot-password', [UserController::class, 'sendEmailToResetPassword']);
+
+Route::put('reset-password/{user_id}/{token}', [UserController::class, 'setNewPassword'])->name('setNewPassword');
+
 //\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
 Route::middleware('auth:api')->group(function() {
 
     // Logout
     Route::post('logout', [AuthController::class, 'logout']);
+
+
+    // API Rest
+
+    // Users resource
+    Route::apiResource('users', UserController::class)
+        ->except(['edit', 'create', 'store', 'delete']);
 
     // Employees resource
     Route::apiResource('employees', EmployeeController::class)
@@ -84,5 +99,22 @@ Route::middleware('auth:api')->group(function() {
     // Warehouses
     Route::apiResource('warehouses', WarehouseController::class)
         ->except(['edit', 'create']);
+
+    // End API Rest
+
+
+
+    // Singles api route
+
+    // Change password of Auth user
+    Route::put('_password', [UserController::class, 'changePassword']);
+
+    // Change profile info of Auth user
+    Route::put('_user', [UserController::class, 'updateProfileData']);
+
+    // Get profile info of Auth user
+    Route::get('_user', [UserController::class, 'getProfileData']);
+
+    // End Singles api route
 });
 

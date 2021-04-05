@@ -15,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/email/confirm/{user_id}', [\App\Http\Controllers\UserController::class, 'confirmEmail'])->name('confirm.email');
+Route::view('email/confirmed/', 'emails.confirmed')->name('EmailIsConfirmed');
+Route::view('password/changed/', 'auth.passwordSuccess')->name('PasswordChanged');
 
+Route::get('/_reset_password', function() {
+    return view('auth.newPassword');
+})->name('password.reset');
+
+
+//Route::view('email/preview', 'emails.verifyEmail');
 
 Route::view('/', 'welcome')->name('home');

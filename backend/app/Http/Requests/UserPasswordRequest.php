@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ChangePasswordRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UserRequest extends FormRequest
+class UserPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,9 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required|string|max:255',
-            'phone_number' => 'required|string|min:5|max:50|unique:users,phone_number,' . Auth::id(),
+            'current_password' => ['required', new ChangePasswordRule($this->current_password ?? '')],
+            'new_password' => 'required|string|confirmed|min:8|max:40',
+            'new_password_confirmation' => 'required'
         ];
     }
 }

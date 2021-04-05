@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\Requests\EmployeeRequest;
 use App\Mail\EmailVerification;
+use App\Notifications\ResetPasswordNotification;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -118,6 +118,14 @@ class User extends Authenticatable implements MustVerifyEmail
         $customer->save();
 
         return $customer;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = config('services.host.url') . 'api/reset-password/'.$token;
+
+        $delay = now()->addMinutes(30);
+        $this->notify(new ResetPasswordNotification($url));
     }
 
     /********** End Methods *********/

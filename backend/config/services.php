@@ -33,7 +33,6 @@ return [
     'client' => [
         'id' => env('BCRYPT_CLIENT_ID'),
         'secret' => env('BCRYPT_CLIENT_SECRET')
-    ]
-
+    ],
 
 ];

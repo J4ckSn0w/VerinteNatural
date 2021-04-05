@@ -65,12 +65,12 @@
         .submit__button {
             position: absolute;
             text-decoration: none;
-            top: 392px;
+            top: 362px;
         }
 
         .submit__button > button {
             width: 183px;
-            height: 55px;
+            height: 70px;
             background: #A0E6C8;
             border-radius: 10px;
             border: none;
@@ -85,21 +85,24 @@
 
 </head>
 <body>
-    <div class="frame">
-        <div class="rectangle">
-            <img src="{{asset("/images/font_email.jpg")}}" alt="">
-        </div>
-        <div class="logo">
-            <img src="{{asset("/images/logo.png")}}" alt="">
-        </div>
-        <div class="content">
-            ¡Tu correo ha sido confirmado con exito!
-        </div>
-            <a class="submit__button" href="{{route('home')}}">
-                <button >
-                    Ir a Verinte Natural
-                </button>
-            </a>
+<div class="frame">
+
+    <div class="rectangle">
+        <img src="{{asset("/images/font_email.jpg")}}" alt="">
     </div>
+    <div class="logo">
+        <img src="{{asset("/images/logo.png")}}" alt="">
+    </div>
+    <div class="content">
+        ¿Olvidaste tu contraseña? Crea una nueva
+    </div>
+
+    <a href="{{$url}}" class="submit__button">
+        <button>
+            Restablecer Contraseña
+        </button>
+    </a>
+
+</div>
 </body>
 </html>
