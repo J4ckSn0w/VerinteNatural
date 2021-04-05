@@ -17,7 +17,16 @@ class DriverController extends Controller
     public function index(): JsonResponse
     {
         try {
-            return response()->json(['data' => Driver::all()], 200);
+            $drivers = Driver::all();
+            $drivers = $drivers->map(function($driver) {
+                $driver->append(['vehicle_name', 'employee_number']);
+                $driver = $driver->only(
+                    'id', 'rate',
+                    'vehicle_id', 'employee_id', 'driver_type_id',
+                    'vehicle_name', 'employee_number');
+                return $driver;
+            });
+            return response()->json(['data' => $drivers], 200);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
