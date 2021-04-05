@@ -18,7 +18,7 @@ class CreateDriversTable extends Migration
             $table->double('rate');
             $table->unsignedBigInteger('vehicle_id')->nullable();
             $table->unsignedBigInteger('employee_id')->nullable();
-            $table->unsignedBigInteger('driver_type_id')->nullable();
+            $table->unsignedBigInteger('driver_type_id')->default(1);
 
             $table->timestamps();
             $table->softDeletes();
