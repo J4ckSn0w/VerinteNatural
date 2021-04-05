@@ -29,7 +29,7 @@ class CustomerRequest extends FormRequest
             'phone_number' => 'required|string|min:5|max:50|unique:users,phone_number',
             'password'              => 'required|string|confirmed|min:8|max:40',
             'password_confirmation' => 'required',
-            'rfc'   => ['required','string', 'regex:/^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))((-)?([A-Z\d]{3}))?$/']
+            'rfc'   => ['nullable','string', 'regex:/^([A-ZÑ\x26]{3,4}([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1]))((-)?([A-Z\d]{3}))?$/']
         ];
     }
 }
