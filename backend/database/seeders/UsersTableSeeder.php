@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -20,7 +21,9 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@email.com',
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000000',
-            'user_type_id' => 1
+            'user_type_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
     }
 }

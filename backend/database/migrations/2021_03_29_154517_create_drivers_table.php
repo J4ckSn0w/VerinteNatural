@@ -18,14 +18,14 @@ class CreateDriversTable extends Migration
             $table->double('rate');
             $table->unsignedBigInteger('vehicle_id')->nullable();
             $table->unsignedBigInteger('employee_id')->nullable();
-            $table->unsignedBigInteger('driver_type_id')->default(1);
+            $table->unsignedBigInteger('driver_type_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
             $table->foreign('employee_id')->references('id')->on('employees');
-            $table->foreign('driver_type_id')->references('id')->on('drivers');
+            $table->foreign('driver_type_id')->references('id')->on('driver_types');
         });
     }
 
