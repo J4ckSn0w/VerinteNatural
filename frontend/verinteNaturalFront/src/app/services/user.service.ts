@@ -61,7 +61,7 @@ export class UserService {
         });
         this.http.get(this.str_ip + '/api/users', {headers:headers}).toPromise()
           .then((res: any) => {
-              console.log(res);
+              //console.log(res);
               //console.log('Respuesta de user types:'+ res.data);
             resolve(res)
           })
@@ -83,11 +83,11 @@ export class UserService {
         });
         this.http.get(this.str_ip + '/api/users/' + id, {headers:headers}).toPromise()
         .then(res => {
-          console.log(res);
+          //console.log(res);
           resolve(res);
         })
         .catch(rej =>{
-          console.log(rej);
+          //console.log(rej);
           reject(rej);
         })
       });

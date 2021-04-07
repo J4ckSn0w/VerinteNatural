@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 //SweetAlert2
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ForgottenPasswordComponent } from './forgotten-password/forgotten-password.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
         LoginComponent,
         RegisterComponent,
         ErrorComponent,
-        NoAuthRoutesComponent
+        NoAuthRoutesComponent,
+        ForgottenPasswordComponent
     ],
     imports:[
         CommonModule,

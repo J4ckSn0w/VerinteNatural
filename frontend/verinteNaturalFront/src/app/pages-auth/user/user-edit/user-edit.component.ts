@@ -3,8 +3,10 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserTypesService } from '../../../services/user-types.service';
 import { UserService } from '../../../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';
+import { Observable, Subscriber } from 'rxjs';
 
 @Component({
   selector: 'app-user-edit',
@@ -23,6 +25,10 @@ export class UserEditComponent implements OnInit {
     id: this.idUser
   };
 
+  //Show
+  show;
+  sub;
+
   editUserForm = new FormGroup({
     name: new FormControl(null, [Validators.required]),
     email: new FormControl(null, [Validators.required,Validators.email]),
@@ -38,10 +44,35 @@ export class UserEditComponent implements OnInit {
     private router: Router
   ) { }
 
+  state$: Observable<object>;
+
   ngOnInit(): void {
     this.idUser = this.route.snapshot.params.id;
     this.fnGetAllRoles();
     this.fnLoadUserInfo(this.idUser);
+
+    //Editar o ver
+    //this.show = this.route.snapshot.params.show;
+    console.log('Antes de mapping');
+    this.sub = this.route
+      .queryParams
+      .subscribe(params => {
+        // Defaults to 0 if no query param provided.
+        console.log('Dentro de params');
+        console.log(params);
+        if(params.show === "true"){
+          this.show = true;
+        }
+        else {
+          this.show = false;
+        }
+      });
+    //this.show = this.route.paramMap.pipe(map(() => window.history.state.show));
+    console.log('Dentro de show');
+    console.log(this.show);
+    console.log(typeof this.show);
+
+    
   }
 
   fnLoadUserInfo(id){
@@ -121,6 +152,10 @@ export class UserEditComponent implements OnInit {
         text:'Algo salio mal!'
       })
     });
+  }
+
+  change(){
+    this.show = !this.show;
   }
 
 }

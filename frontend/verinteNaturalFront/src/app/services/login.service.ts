@@ -54,7 +54,7 @@ export class LoginService {
     }
 
     fnTokenLoginUser(array_params:Array<any>, str_api:string):Promise<any>{
-      console.log('Entre a tokenLoginUser');
+      //console.log('Entre a tokenLoginUser');
       let userToken = this.sessionService.fnGetSessionToken();
       let respuesta = new Promise<any>((resolve, reject) => {
         let header = new HttpHeaders({
@@ -64,16 +64,33 @@ export class LoginService {
         });
         this.http.get(this.str_ip + str_api,{headers: header}).toPromise()
           .then((res:any)=>{
-            console.log('Entre a then');
+            //console.log('Entre a then');
             this.sessionService.fnSaveSession(res,false);
             resolve();
           })
           .catch(rej => {
-            console.log('Entre a catch');
+            //console.log('Entre a catch');
             this.sessionService.fnLogOut();
             this.sessionService.fnSetLoginStateValue(LOGIN_STATE_ENUM.VALIDATION_ERROR);
             reject();
           });
+      });
+      return respuesta;
+    }
+
+    fnPasswordRecovery(data):Promise<any>{
+      let respuesta = new Promise((resolve,reject) => {
+        let headers = new HttpHeaders({          
+          Accept: 'application/json',
+          ContentType: 'application/json'
+        });
+        this.http.post(this.str_ip + '/api/forgot-password',data,{headers:headers}).toPromise()
+        .then(res => {
+          resolve(res);
+        })
+        .catch(rej =>{
+          reject(rej);
+        });
       });
       return respuesta;
     }

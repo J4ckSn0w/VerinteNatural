@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ClientService } from '../../../services/client.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Subscriber } from 'rxjs';
 
 @Component({
   selector: 'app-client-edit',
@@ -10,6 +11,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./client-edit.component.css']
 })
 export class ClientEditComponent implements OnInit {
+
+  sub;
+  show;
 
   idClient;
   currentClient = {
@@ -41,6 +45,24 @@ export class ClientEditComponent implements OnInit {
   ngOnInit(): void {
     this.idClient = this.route.snapshot.params.id;
     this.fnLoadClientInfo();
+
+    //Show or edit
+    this.sub = this.route.queryParams.subscribe(params => {
+      if(params.show == "true"){
+        this.show = true;
+        console.log(this.show);
+      }
+      else{
+        this.show = false;
+        console.log(this.show);
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.sub.unsubscribe();
   }
 
   fnLoadClientInfo(){

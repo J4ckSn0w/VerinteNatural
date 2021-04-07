@@ -18,6 +18,7 @@ import { UserService } from '../../services/user.service';
 export class LoginComponent implements OnInit {
 
   sub_auth: Subscription;
+  permission: Subscription;
   userType = 0;
 
   loginForm = new FormGroup({
@@ -53,10 +54,13 @@ export class LoginComponent implements OnInit {
       //Checar el tipo de usuario para mandarlo a su ruta especifica
       this.userService.fnGetUserByToken()
       .then( resolve => {
+        console.log('Tipo de usuario:');
+        console.log(resolve.user_type_id);
         switch(resolve.user_type_id){
           case 1:
             this.router.navigate(["system/home"]); //Redirigimos a la ruta principal 
-          case 2:
+          case 3:
+            console.log('Entre a el case 4');
             this.router.navigate(["store/home"]); //Redirigimos a la ruta principal 
         }
       })
@@ -66,21 +70,44 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  fnForgottenPassword(){
+    this.router.navigate(["/auth/password"])
+  }
+
   ngOnDestroy(): void {
     if(this.sub_auth){
       this.sub_auth.unsubscribe();
     }
+    if(this.permission){
+      this.permission.unsubscribe();
+    }
   }
 
   fnSubscribeToAuth(){
-    console.log("Entre a Subscribe Auth");
+    //console.log("Entre a Subscribe Auth");
     this.sub_auth = this.sessionService._num_hasAccess.subscribe(
       num_state => {
         console.log('Valor de num_state: '+num_state);
         switch(num_state){
           case LOGIN_STATE_ENUM.LOGGED:
             console.log("Logeado");
-            this.router.navigate(["system/home"]); //Redirigimos a la ruta principal 
+            console.log(this.userType);
+            this.permission = this.sessionService._permissions.subscribe(
+              data => {
+                console.log('Dentro del observable de permisos');
+                console.log(data);
+                if(data != null || data != undefined){
+                  switch(data.user_type_id){
+                    case 1:
+                      this.router.navigate(["system/home"]); //Redirigimos a la ruta principal
+                      break;
+                    case 4:
+                      this.router.navigate(["store/home"]); //Redirigimos a la ruta principal 
+                      break;
+                  }
+                }
+              }
+            )
             break;
           case LOGIN_STATE_ENUM.VALIDATION_ERROR:
             console.log("Error de validacion");
@@ -99,8 +126,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit(){
     //let data = this.loginForm.value;
-    console.log(this.loginForm.value);
-    console.log(this.loginForm);
+    //console.log(this.loginForm.value);
+    //console.log(this.loginForm);
 
     let data = {
       grant_type: "password",
@@ -114,10 +141,17 @@ export class LoginComponent implements OnInit {
     this.loginService.fnPostLogin(data)
     .then((response:any) => {
       this.userType = response.user_type_id;
+      console.log('User type');
       console.log(this.userType);
+      this.router.navigate(["/store"]);
     })
     .catch(err => {
       console.log('Entre aqui');
+      Swal.fire({
+        icon:'error',
+        title: 'Error!',
+        text: 'Verifique la informacion'
+      });
       this.toastr.error("Hubo un error con los datos, favor de revisarlos.");
       this.sessionService.fnSetLoginStateValue(LOGIN_STATE_ENUM.VALIDATION_ERROR);
     });
@@ -133,6 +167,10 @@ export class LoginComponent implements OnInit {
       text: 'Redirigiendo a Inicio de Sesion.',
       footer: '<a href>Why do I have this issue?</a>'
     });
+  }
+
+  fnRegister(){
+    this.router.navigate(['/auth/register']);
   }
 
 }

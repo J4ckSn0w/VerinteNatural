@@ -51,7 +51,6 @@ export class ClientService {
       });
       return respuesta;
     }
-
     fnEditUser(data):Promise<any>{
       let userToken = this.sessionService.fnGetSessionToken();
       let respuesta = new Promise((resolve,reject) => {
@@ -70,7 +69,6 @@ export class ClientService {
       });
       return respuesta;
     }
-
     fnGetClientById(id):Promise<any>{
       console.log(id);
       let userToken = this.sessionService.fnGetSessionToken();
@@ -108,4 +106,65 @@ export class ClientService {
       });
       return respuesta;
     }
+
+    /*Perfil de el lado de Cliente*/
+
+    fnUserProfile():Promise<any>{
+      let userToken = this.sessionService.fnGetSessionToken();
+      let respuesta = new Promise((resolve,reject) => {
+        let headers = new HttpHeaders({
+          Authorization: 'Bearer '+userToken,
+          Accept: 'application/json',
+          ContentType: 'application/json'
+        });
+        this.http.get(this.str_ip + '/api/_user',{headers:headers}).toPromise()
+        .then(res => {
+          resolve(res)
+        })
+        .catch(rej => {
+          reject(rej);
+        })
+      });
+      return respuesta;
+    }
+
+    fnUpdateProfile(data):Promise<any>{
+      let userToken = this.sessionService.fnGetSessionToken();
+      let respuesta = new Promise((resolve,reject) => {
+        let headers = new HttpHeaders({
+          Authorization: 'Bearer '+userToken,
+          Accept: 'application/json',
+          ContentType: 'application/json'
+        });
+        this.http.put(this.str_ip + '/api/_user',data,{headers:headers}).toPromise()
+        .then(res => {
+          resolve(res);
+        })
+        .catch(rej => {
+          reject(rej);
+        })
+      });
+
+      return respuesta;
+    }
+
+    fnUpdatePassword(data):Promise<any>{
+      let userToken = this.sessionService.fnGetSessionToken();
+      let respuesta = new Promise((resolve,reject) => {
+        let headers = new HttpHeaders({
+          Authorization: 'Bearer '+userToken,
+          Accept: 'application/json',
+          ContentType: 'application/json'
+        });
+        this.http.put(this.str_ip + '/api/_password',data,{headers:headers}).toPromise()
+        .then(res => {
+          resolve(res);
+        })
+        .catch(rej => {
+          reject(rej);
+        })
+      });
+      return respuesta;
+    }
+
 }

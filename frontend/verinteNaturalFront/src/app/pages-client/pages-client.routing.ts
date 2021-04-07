@@ -3,6 +3,7 @@ import { PagesClientRoutingComponent } from './pages-client-routing/pages-client
 import { HomeComponent } from '././home/home.component';
 import { PagesGuard } from '../guard/pages.guard';
 import { AddressModule } from './address/address.module';
+import { ProfileModule } from './profile/profile.module';
 
 export const routesPagesClient : Routes = [
     {
@@ -13,8 +14,12 @@ export const routesPagesClient : Routes = [
             { path:'home', component: HomeComponent },
             { path:'address', canActivate:[PagesGuard], loadChildren: () => AddressModule,
             data : {
-                permissions: 4
-            }}
+                permissions: 3
+            }},
+            { path:'profile', canActivate:[PagesGuard], loadChildren: () => ProfileModule,
+            data : {
+                permissions: 3
+            } }
         ]
     }
 ]

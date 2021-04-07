@@ -62,6 +62,12 @@ export class ClientControlComponent implements OnInit {
   }
 
   fnEdit(id = 0){
-    this.router.navigate(['/system/client/edit',id]);
+    let show = false;
+    this.router.navigate(['/system/client/edit',id],{ queryParams: { show: show } ,  skipLocationChange: true });
+  }
+
+  fnVer(id = 0){
+    let show  = true;
+    this.router.navigate(['/system/client/edit',id],{ queryParams: { show: show } ,  skipLocationChange: true })
   }
 }

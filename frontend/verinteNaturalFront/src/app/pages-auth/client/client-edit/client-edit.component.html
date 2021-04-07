@@ -7,7 +7,7 @@
             <div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
                     <li class="nav-item">
-                        <a class="btn btn-danger btn-sm" href="javascript:void(0)" routerLinkActive="active" [routerLink]="['/system/user']"><i class="fas fa-arrow-left"></i> Regresar</a>
+                        <a class="btn btn-danger btn-sm" href="javascript:void(0)" routerLinkActive="active" [routerLink]="['/system/client']"><i class="fas fa-arrow-left"></i> Regresar</a>
                     </li>
                 </ul>
             </div>
@@ -15,25 +15,25 @@
                 <form role="form" novalidate [formGroup]="editClientForm" class="row">
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Nombre</label>
-                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [value]="currentClient.name">
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [value]="currentClient.name" [attr.disabled]="show == true ? 'disabled' : null">
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Telefono</label>
-                        <input type="text" class="form-control" placeholder="Apellidos" formControlName="phone_number" [value]="currentClient.phone_number">
+                        <input type="text" class="form-control" placeholder="Apellidos" formControlName="phone_number" [value]="currentClient.phone_number" [attr.disabled]="show == true ? 'disabled' : null">
                         <div *ngIf="error_phone_number" class="text-danger">
                             El telefono ya esta siendo usado por otro usuario.
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Email</label>
-                        <input type="email" class="form-control" placeholder="Telefono" formControlName="phone_number" [value]="currentClient.email">
+                        <input type="email" class="form-control" placeholder="Telefono" formControlName="phone_number" [value]="currentClient.email" [attr.disabled]="show == true ? 'disabled' : null">
                         <div *ngIf="error_email" class="text-danger">
                             El correo ya esta siendo usado por otro usuario.
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>RFC</label>
-                        <input type="text" class="form-control" placeholder="RFC" formControlName="rfc" [value]="currentClient.customer.rfc">
+                        <input type="text" class="form-control" placeholder="RFC" formControlName="rfc" [value]="currentClient.customer.rfc" [attr.disabled]="show == true ? 'disabled' : null">
                         <div *ngIf="error_rfc" class="text-danger">
                             El RFC no es valido.
                         </div>
@@ -46,7 +46,7 @@
                             <option *ngFor="let rol of arrayRoles" [value]="rol.id" [attr.selected]="rol.id === currentUser.user_type_id ? 'selected' : null" >{{rol.name}}</option>
                         </select>
                     </div> -->
-                    <button type="button" class="btn btn-primary mx-auto" (click)="onSubmit()">Actualizar</button>
+                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmit()" [attr.disabled]="show == true ? 'disabled' : null">Actualizar</button>
                 </form>
             </div>
         </div>

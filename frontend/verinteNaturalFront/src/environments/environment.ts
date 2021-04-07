@@ -6,7 +6,15 @@ export const environment = {
   production: false,
   ip: 'http://localhost:3000',
   image: '',
-  client_secret: "AxeRSI5BP1wD8G47nblzZFHAV6BvOaeuSaK4M5Mp"
+  client_secret: "XnZeIqBaviFeGndjn0klYgqwlq8Yd1XoVP8utLr0"
+  //Old one
+  //AxeRSI5BP1wD8G47nblzZFHAV6BvOaeuSaK4M5Mp
+
+  //qUy4MZ9Br9tjqQOhaLURNUy94YmgZh9RW7sEARCT
+
+  //dvrnR6v5EfJjC82NtTD3iBbwbb6dyKbc9KonLjvp
+
+  //lb3LtbYVziQQLHQBr6bLrCtIpQIrvw4K5o0up560
 };
 
 /*

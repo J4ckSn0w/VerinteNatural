@@ -4,6 +4,7 @@ import { UserTypesService } from '../../../services/user-types.service';
 import { UserService } from '../../../services/user.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { WarehouseService } from '../../../services/warehouse.service';
 
 @Component({
   selector: 'app-user-new',
@@ -17,17 +18,23 @@ export class UserNewComponent implements OnInit {
     phone_number: new FormControl(null, [Validators.required,Validators.minLength(5),Validators.maxLength(13)]),
     email: new FormControl(null, [Validators.required,Validators.email]),
     password: new FormControl(null, [Validators.required]),
-    user_type: new FormControl(1, Validators.required)
+    user_type: new FormControl(1, Validators.required),
+    warehouse_id: new FormControl(null,[Validators.required])
   });
 
   arrayRoles = [];
+
+  arrayDriversTypes = [];
+
+  arrayWarehouses = [];
 
   error_email = false;
   error_phone_number = false;
   constructor(
     private userTypeService:UserTypesService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private warehouseService: WarehouseService
   ) { }
 
   ngOnInit(): void {
@@ -35,8 +42,12 @@ export class UserNewComponent implements OnInit {
   }
 
   fnGetAllRoles(){
-    this.userTypeService.fnGetUserTypes(null).
-    then((resolve) => {
+    this.arrayRoles = [];
+    this.arrayDriversTypes = [];
+    this.arrayWarehouses = [];
+    //this.userTypeService.fnGetUserTypes(null).
+    this.userTypeService.fnGetEmployeesTypes()
+    .then((resolve) => {
       console.log(resolve);
       resolve.data.forEach(element => {
         this.arrayRoles.push(element);
@@ -46,6 +57,12 @@ export class UserNewComponent implements OnInit {
       console.log('Salio algo mal');
       console.log(rej);
     });
+    this.warehouseService.fnGetWarehouses()
+    .then(res => {
+      res.data.forEach(element => {
+        this.arrayWarehouses.push(element);
+      })
+    })
   }
 
   onSubmit(){
@@ -76,6 +93,7 @@ export class UserNewComponent implements OnInit {
           title: 'Ocurrio un error!'
         });
         let errors = reject.error.errors;
+        console.log(reject);
         if(errors.email){
           this.error_email = true;
         }

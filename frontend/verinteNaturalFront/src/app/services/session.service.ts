@@ -22,8 +22,8 @@ export class SessionService {
 
     fnSaveSession(any_logindata:any, saveToken:boolean = true):void{
         this.$permission.next(any_logindata);
-        console.log('Dentro de save session');
-        console.log(this.$permission);
+        //console.log('Dentro de save session');
+        //console.log(this.$permission);
         this.$num_hasAccess.next(LOGIN_STATE_ENUM.LOGGED);
         //console.log('valor dentro de fnSaveSession: '+this.$num_hasAccess.value);
         if(saveToken){

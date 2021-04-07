@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class NoAuthRoutesComponent implements OnInit {
 
   constructor() { 
-    console.log("AuthPage");
+    //console.log("AuthPage");
   }
 
   ngOnInit(): void {

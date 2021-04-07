@@ -22,8 +22,7 @@ export class RegisterComponent implements OnInit {
   public passwordVerify: boolean;
 
   newUserForm = new FormGroup({
-    nombre: new FormControl(null, [Validators.required]),
-    rfc: new FormControl(null, [Validators.required]),
+    nombre: new FormControl(null, [Validators.required]),    
     numero: new FormControl(null, [Validators.required,Validators.maxLength(13),Validators.minLength(5)]),
     correo: new FormControl(null, [Validators.required,Validators.email]),
     password: new FormControl(null, [Validators.required]),
@@ -129,6 +128,10 @@ export class RegisterComponent implements OnInit {
       text: 'Redirigiendo a Inicio de Sesion.',
       footer: '<a href>Why do I have this issue?</a>'
     });
+  }
+
+  fnLogin(){
+    this.router.navigate(["/auth/login"]);
   }
 
 }

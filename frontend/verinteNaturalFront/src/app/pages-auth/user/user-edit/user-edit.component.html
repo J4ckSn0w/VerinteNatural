@@ -15,27 +15,28 @@
                 <form role="form" novalidate [formGroup]="editUserForm" class="row">
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Nombre</label>
-                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [value]="currentUser.name">
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [value]="currentUser.name" [attr.disabled]="show ? 'disabled' : null">
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Telefono</label>
-                        <input type="text" class="form-control" placeholder="Apellidos" formControlName="phone_number" [value]="currentUser.phone_number">
+                        <input type="text" class="form-control" placeholder="Apellidos" formControlName="phone_number" [value]="currentUser.phone_number" [attr.disabled]="show ? 'disabled' : null">
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Email</label>
-                        <input type="email" class="form-control" placeholder="Telefono" formControlName="phone_number" [value]="currentUser.email">
+                        <input type="email" class="form-control" placeholder="Telefono" formControlName="phone_number" [value]="currentUser.email" [attr.disabled]="show ? 'disabled' : null">
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Contraseña</label>
-                        <input type="text" class="form-control" placeholder="Contraseña" formControlName="password">
+                        <input type="text" class="form-control" placeholder="Contraseña" formControlName="password" [attr.disabled]="show ? 'disabled' : null">
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Rol de Usuario</label>
-                        <select class="form-control" formControlName="user_type_id">
+                        <select class="form-control" formControlName="user_type_id" [attr.disabled]="show ? 'disabled' : null">
                             <option *ngFor="let rol of arrayRoles" [value]="rol.id" [attr.selected]="rol.id === currentUser.user_type_id ? 'selected' : null" >{{rol.name}}</option>
                         </select>
                     </div>
-                    <button type="button" class="btn btn-primary mx-auto" (click)="onSubmit()">Actualizar</button>
+                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmit()">Actualizar</button>
+                    <!--<button type="button" class="btn btn-primary mx-auto" (click)="change()">Cambiar</button>-->
                 </form>
             </div>
         </div>

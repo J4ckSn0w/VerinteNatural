@@ -41,4 +41,24 @@ export class UserTypesService{
         });
         return respuesta;
     }
+
+    fnGetEmployeesTypes():Promise<any>{
+      let userToken = this.sessionService.fnGetSessionToken();
+      let respuesta = new Promise((resolve,reject) => {
+        let headers = new HttpHeaders({
+          Authorization: 'Bearer '+userToken,
+              Accept: 'application/json',
+              ContentType: 'application/json'
+        });
+        this.http.get(this.str_ip + '/api/employee/types',{headers:headers}).toPromise()
+        .then(res => {
+          resolve(res);
+        })
+        .catch(rej => {
+          reject(rej);
+        })
+      });
+
+      return respuesta;
+    }
 }

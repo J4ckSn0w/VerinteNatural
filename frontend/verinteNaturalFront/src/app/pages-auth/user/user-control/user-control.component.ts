@@ -37,7 +37,8 @@ export class UserControlComponent implements OnInit {
   }
 
   fnEdit(id = 0){
-    this.router.navigate(['/system/user/edit',id]);
+    let show = false;
+    this.router.navigate(['/system/user/edit',id],{ queryParams: { show: show } ,  skipLocationChange: true});
   }
 
   fnDelete(id = 0){ 
@@ -64,6 +65,11 @@ export class UserControlComponent implements OnInit {
         Swal.fire('Se elimino el usuario correctamente', '', 'success')
       }
     });
+  }
+
+  fnVer(id = 0){
+    let show = true;
+    this.router.navigate(['/system/user/edit',id], { queryParams: { show: show } ,  skipLocationChange: true });
   }
 
 }
