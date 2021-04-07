@@ -6,6 +6,9 @@ import { ToastrService } from 'ngx-toastr';
 import { LOGIN_STATE_ENUM } from '../../emun/login-state.enum';
 import { SessionService } from '../../services/session.service';
 import { LoginService } from '../../services/login.service';
+import Swal from 'sweetalert2';
+import { environment } from '../../../environments/environment';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +18,8 @@ import { LoginService } from '../../services/login.service';
 export class LoginComponent implements OnInit {
 
   sub_auth: Subscription;
+  permission: Subscription;
+  userType = 0;
 
   loginForm = new FormGroup({
     correo: new FormControl(null, [Validators.required,Validators.email]),
@@ -25,7 +30,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private sessionService: SessionService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private userService: UserService
   ) { }
 
   /* 
@@ -45,25 +51,63 @@ export class LoginComponent implements OnInit {
   fnCheckLocalStorage(){
     if(localStorage.getItem("authorization")){
       console.log("Logeado");
-      this.router.navigate(["system/home"]); //Redirigimos a la ruta principal 
+      //Checar el tipo de usuario para mandarlo a su ruta especifica
+      this.userService.fnGetUserByToken()
+      .then( resolve => {
+        console.log('Tipo de usuario:');
+        console.log(resolve.user_type_id);
+        switch(resolve.user_type_id){
+          case 1:
+            this.router.navigate(["system/home"]); //Redirigimos a la ruta principal 
+          case 3:
+            console.log('Entre a el case 4');
+            this.router.navigate(["store/home"]); //Redirigimos a la ruta principal 
+        }
+      })
+      .catch(reject => {
+
+      });
     }
+  }
+
+  fnForgottenPassword(){
+    this.router.navigate(["/auth/password"])
   }
 
   ngOnDestroy(): void {
     if(this.sub_auth){
       this.sub_auth.unsubscribe();
     }
+    if(this.permission){
+      this.permission.unsubscribe();
+    }
   }
 
   fnSubscribeToAuth(){
-    console.log("Entre a Subscribe Auth");
+    //console.log("Entre a Subscribe Auth");
     this.sub_auth = this.sessionService._num_hasAccess.subscribe(
       num_state => {
         console.log('Valor de num_state: '+num_state);
         switch(num_state){
           case LOGIN_STATE_ENUM.LOGGED:
             console.log("Logeado");
-            this.router.navigate(["system/home"]); //Redirigimos a la ruta principal 
+            console.log(this.userType);
+            this.permission = this.sessionService._permissions.subscribe(
+              data => {
+                console.log('Dentro del observable de permisos');
+                console.log(data);
+                if(data != null || data != undefined){
+                  switch(data.user_type_id){
+                    case 1:
+                      this.router.navigate(["system/home"]); //Redirigimos a la ruta principal
+                      break;
+                    case 4:
+                      this.router.navigate(["store/home"]); //Redirigimos a la ruta principal 
+                      break;
+                  }
+                }
+              }
+            )
             break;
           case LOGIN_STATE_ENUM.VALIDATION_ERROR:
             console.log("Error de validacion");
@@ -82,26 +126,51 @@ export class LoginComponent implements OnInit {
 
   onSubmit(){
     //let data = this.loginForm.value;
-    console.log(this.loginForm.value);
-    console.log(this.loginForm);
+    //console.log(this.loginForm.value);
+    //console.log(this.loginForm);
 
     let data = {
       grant_type: "password",
       scope: "*",
       client_id: "2",
-      client_secret: "U8Y4qKL80TEhZrtXLNgmwSWQ9Pp9S0xa72KuG9UK",
+      client_secret: environment.client_secret,
       username: this.loginForm.value.correo,
       password: this.loginForm.value.password
     };
     
     this.loginService.fnPostLogin(data)
-    .then(() => {
+    .then((response:any) => {
+      this.userType = response.user_type_id;
+      console.log('User type');
+      console.log(this.userType);
+      this.router.navigate(["/store"]);
     })
     .catch(err => {
       console.log('Entre aqui');
+      Swal.fire({
+        icon:'error',
+        title: 'Error!',
+        text: 'Verifique la informacion'
+      });
       this.toastr.error("Hubo un error con los datos, favor de revisarlos.");
       this.sessionService.fnSetLoginStateValue(LOGIN_STATE_ENUM.VALIDATION_ERROR);
     });
+  }
+
+  fnSwallAlert(){
+
+    console.log("ENTRE");
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Se registro correctamente!',
+      text: 'Redirigiendo a Inicio de Sesion.',
+      footer: '<a href>Why do I have this issue?</a>'
+    });
+  }
+
+  fnRegister(){
+    this.router.navigate(['/auth/register']);
   }
 
 }

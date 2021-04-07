@@ -13,25 +13,31 @@ export class PagesGuard implements CanActivate{
         private sessionService: SessionService
     ){}
 
-    canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | Promise<boolean> | boolean{
+    canActivate(route: ActivatedRouteSnapshot, myData : any): Observable<boolean> | Promise<boolean> | boolean{
+        //return true;
         return new Promise(resolve => {
-            let check: boolean = true;
+            //console.log('Entre a Pages guard');
+            let check: boolean = false;
             const sub_session: Subscription = this.sessionService._permissions.subscribe(
                 data => {
                     if(data && !check){
                         check = true;
-                        if(data.tipoUsuario == 0){
+                        console.log(data.user_type_id);
+                        console.log(route.data.permissions);
+                        if(data.user_type_id == 1 || route.data.permissions == data.user_type_id){
+                            console.log('Entre a if');
                             resolve(true);
                         }else{
-                            this.router.navigate(['/system/home']);
+                            this.router.navigate(['/store/home']);
                             resolve(false);
                         }
+                        resolve(true);
                     }
                 }
             )
             setTimeout(() => {
             if(!check){
-                this.router.navigate(['/system/home']);
+                this.router.navigate(['/store/home']);
                 resolve(false);
             }
             if(sub_session){

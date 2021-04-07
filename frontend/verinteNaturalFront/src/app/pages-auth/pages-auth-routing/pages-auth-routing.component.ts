@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class PagesAuthRoutingComponent implements OnInit {
 
   constructor() { 
-    console.log('Entre al constructor de pages-auth');
+    //console.log('Entre al constructor de pages-auth');
   }
 
   ngOnInit(): void {

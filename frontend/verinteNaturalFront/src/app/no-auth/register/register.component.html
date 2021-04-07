@@ -1,4 +1,4 @@
-<main>
+<!--<main>
     <section class="section section-shaped section-lg">
         <div class="shape shape-style-1 bg-gradient-default">
             <span></span>
@@ -36,6 +36,9 @@
                                         </div>
                                         <input class="form-control" placeholder="Numero Telefono" type="text" formControlName="numero" maxlength="13">
                                     </div>
+                                    <div *ngIf="error_phone" class="text-danger">
+                                        <small>El telefono ya esta en uso.</small>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group input-group-alternative">
@@ -43,6 +46,9 @@
                                             <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                         </div>
                                         <input class="form-control" placeholder="RFC" type="text" formControlName="rfc">
+                                    </div>
+                                    <div *ngIf="error_rfc" class="text-danger">
+                                        <small>El RFC no es valido.</small>
                                     </div>
                                 </div>
                                 <div class="form-group mb-3">
@@ -54,6 +60,7 @@
                                     </div>
                                     <div *ngIf="newUserForm.get('correo').errors?.required && newUserForm.get('correo').touched"> <small>Se requiere email</small> </div>
                                     <div *ngIf="newUserForm.get('correo').errors?.email && newUserForm.get('correo').touched"> <small>Email no valido</small> </div>
+                                    <div *ngIf="error_email" class="text-danger"> <small>El email esta siendo usado por otro usuario.</small> </div>
 
                                 </div>
                                 <div class="form-group">
@@ -100,4 +107,65 @@
             </div>
         </div>
     </section>
-</main>
+</main>-->
+<div class="bg-image">
+</div>
+<div class="big-container">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="col-md-6 my-container">
+                <div class="my-container-header">
+                    <h2>Bienvenido</h2>
+                    <p>Al registrarse, estas aceptando nuestros Terminos de uso y Politica de privacidad</p>
+                </div>
+                <div class="my-container-social">
+                    <div class="identificate">
+                        <p>Registrate con tus redes sociales</p>
+                    </div>
+                    <div class="my-buttons">
+                        <button class="google-button"><i class="fa fa-google"></i></button>
+                        <button class="facebook-button"><i class="fa fa-facebook"></i></button>
+                    </div>
+                </div>
+                <div class="line-divider">
+                    <span class="white-line"></span> <span class="white-line"></span>
+                </div>
+                <div class="my-container-form">
+                    <form role="form" novalidate [formGroup]="newUserForm">
+                        <div class="my-inputs">
+                            <input class="my-input-text" type="text" placeholder="Nombre" formControlName="nombre">
+                            <input class="my-input-text" type="email" placeholder="Email" formControlName="correo">
+                            <input class="my-input-text" type="text" placeholder="Numero" formControlName="numero">
+                            <input class="my-input-text" type="password" placeholder="Contraseña" formControlName="password">
+                            <input class="my-input-text" type="password" placeholder="Confirma contraseña" formControlName="passwordVerify">
+                        </div>
+                        <div class="row bottom-text">
+                            <div class="col-12 col-md-12 col-sm-12 justify-content-start remember-me">
+                                <input type="checkbox" id="checkPass">
+                                <label for="checkPass">He leido los terminos y condiciones.</label>
+                            </div>
+                        </div>
+                        <div class="row button-submit">
+                            <div class="col-12 align-self-center">
+                                <button class="idetificate-button" type="submit" value="Identificarse" (click)="onSubmit()">Registrate</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="my-container-bottom">
+                    <p>¿Tienes cuenta? <a href="javascript:void(0)" (click)="fnLogin()">  Inicia sesion</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>

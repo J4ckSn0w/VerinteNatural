@@ -1,0 +1,41 @@
+<h2 class="display-3 text-center mt-5">Nuevo Producto</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="btn btn-danger btn-sm" href="javascript:void(0)" routerLink="/system/product"><i class="fas fa-arrow-left"></i>Regresar</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <form novalidate role="form" [formGroup]="editProductForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre" formControlName="name">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Descripcion</label>
+                        <input class="form-control" type="text" placeholder="Descripcion" formControlName="description">
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Tipo Producto</label>
+                        <select class="form-control" formControlName="product_type_id">
+                            <option *ngFor="let productType of arrayProductTypes; let index;" [value]="productType.id">{{productType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 ml-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" [value]="1" formControlName="product_is_by_part">
+                            <label class="form-check-label">
+                            Por pieza
+                        </label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" (click)="onSubmit()" [disabled]="this.editProductForm.invalid">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

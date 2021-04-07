@@ -8,18 +8,24 @@ import { RouterModule, Router } from '@angular/router';
 import { routesNoAuth } from './no-auth.routing';
 import { ReactiveFormsModule } from '@angular/forms';
 
+//SweetAlert2
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ForgottenPasswordComponent } from './forgotten-password/forgotten-password.component';
+
 
 @NgModule({
     declarations: [
         LoginComponent,
         RegisterComponent,
         ErrorComponent,
-        NoAuthRoutesComponent
+        NoAuthRoutesComponent,
+        ForgottenPasswordComponent
     ],
     imports:[
         CommonModule,
         RouterModule.forChild(routesNoAuth),
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        SweetAlert2Module
     ]
 })
 export class NoAuthModule { }
