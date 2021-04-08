@@ -7,10 +7,10 @@ import { AuthGuard } from './guard/auth.guard';
 import { PagesClientModule } from './pages-client/pages-client.module';
 
 export const routes: Routes = [
-    { path:'', redirectTo:'auth',pathMatch:'full' },
+    { path:'', redirectTo:'store',pathMatch:'full' },
     { path:'auth',loadChildren: () => NoAuthModule },
     { path:'system', canActivate: [AuthGuard] , loadChildren: () => PagesAuthModule },
-    { path:'store', canActivate: [AuthGuard], loadChildren: () => PagesClientModule },
+    { path:'store', loadChildren: () => PagesClientModule },
     { path:'**', component: ErrorComponent}
 ]
 

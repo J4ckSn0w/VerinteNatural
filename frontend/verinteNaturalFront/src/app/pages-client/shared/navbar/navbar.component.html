@@ -11,10 +11,15 @@
         </div>
     </div>
     <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-        <li class="nav-item dropdown">
+        <li *ngIf="login" class="nav-item dropdown">
             <a class="nav-link no-caret" data-toggle="dropdown" role="button" href="javascript:void(0)" (click)="fnLogOut()">
                 <i class="ni ni-ui-04 d-lg-none"></i>
                 <span class="nav-link-inner--text">Cerrar Session</span>
+            </a>
+        </li>
+        <li *ngIf="!login" class="nav-item dropdown">
+            <a class="nav-link no-caret" data-toggle="dropdown" role="button" href="javascript:void(0)" (click)="fnLogIn()">
+                <span class="nav-link-inner--text">Iniciar Session</span>
             </a>
         </li>
     </ul>
