@@ -1,0 +1,9 @@
+export enum LOGIN_STATE_ENUM{
+    LOGGED = 1,
+    NO_LOGGED = 2,
+    CHECKING = 3,
+    LOGOUT = 4,
+    EXPIRED_TOKEN = 5,
+    NO_PERMISSON = 6,
+    VALIDATION_ERROR = 7
+}
