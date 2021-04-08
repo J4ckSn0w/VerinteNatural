@@ -9,17 +9,37 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
+  login = false;
+
   constructor(
     private sessionService: SessionService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.fnLoadSession();
+  }
+
+  fnLoadSession(){
+    let userToken = this.sessionService.fnGetSessionToken();
+    console.log('userToken');
+    console.log(userToken);
+    if(userToken == null){
+      this.login = false;
+    }
+    else{
+      this.login = true;
+    }
+  }
+
+  fnLogIn(){
+    this.router.navigate(["/auth/login"]);
   }
 
   fnLogOut() {
+    console.log('Entre a la funcion LogOut');
     this.sessionService.fnLogOut();
     this.router.navigate(['/']);
-}
+  }
 
 }
