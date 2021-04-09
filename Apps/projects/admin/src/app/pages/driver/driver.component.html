@@ -1,1 +1,48 @@
-<p>driver works!</p>
+<h2 class="display-3 text-center mt-5">Control Conductores</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card text-center md-4">
+            <!--<div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="btn btn-primary btn-sm" [routerLink]="['/system/driver/new']"><i class="fas fa-plus"></i> Nuevo conductor</a>
+                    </li>
+                </ul>
+            </div>-->
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Tipo de Conductor</th>
+                            <th scope="col">Calificacion</th>
+                            <th scope="col">Vehiculo</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let driver of arrayDrivers; let index;">
+                            <th scope="row">{{ driver.id }}</th>
+                            <td>{{ driver.name }}</td>
+                            <td>{{ driver.rate }}</td>
+                            <td>{{ driver.vehicle.name }}</td>
+                            <td>{{ driver.vehicle.vehicle_type.name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-8 col-sm-6 text-right">
+                                        <a href="javascript:void(0)" (click)="fnEdit(driver.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-8 col-sm-6 text-left">
+                                        <a href="javascript:void(0)" (click)="fnDelete(driver.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VehicleComponent implements OnInit {
 
+  arrayVehicles = [];
+
   constructor() { }
 
   ngOnInit(): void {
+    this.fnLoadVehicles();
   }
+  fnLoadVehicles(){}
+
+  fnDelete(){}
+  fnEdit(){}
+  fnVer(){}
 
 }

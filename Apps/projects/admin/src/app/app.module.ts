@@ -9,6 +9,9 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // <-- Aña
+import { HttpClientModule } from '@angular/common/http';
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // <-- Aña
     RouterModule,
     CommonModule,
     routing,
-    NgbModule
+    NgbModule,
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

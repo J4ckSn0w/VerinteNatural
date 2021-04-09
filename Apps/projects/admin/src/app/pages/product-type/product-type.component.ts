@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductTypeComponent implements OnInit {
 
+  arrayProductTypes = [];
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  fnEdit(){}
+  fnDelete(){}
+  fnVer(){}
+  fnLoadProductTypes(){}
 
 }

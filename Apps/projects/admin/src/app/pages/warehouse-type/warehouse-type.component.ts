@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WarehouseTypeComponent implements OnInit {
 
-  constructor() { }
+  arrayWarehouseTypes = [];
+
+  constructor(
+    //private warehouseTypeService: WarehouseTypeComponent
+  ) { }
 
   ngOnInit(): void {
+    this.fnLoadWarehouseTypes();
   }
+
+  fnLoadWarehouseTypes(){}
+
+  fnEdit(){}
+  fnNew(){}
+  fnDelete(){}
+
+  fnVer(){}
 
 }

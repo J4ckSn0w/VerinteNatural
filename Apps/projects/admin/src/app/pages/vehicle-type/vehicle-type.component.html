@@ -1,1 +1,45 @@
-<p>vehicle-type works!</p>
+<h2 class="display-3 text-center mt-5">Control Tipo de Vehiculos</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card text-center md-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="btn btn-primary btn-sm" [routerLink]="['/system/vehicle-type/new']"><i class="fas fa-plus"></i> Nuevo tipo de vehiculo</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let vehicle of arrayVehiclesTypes; let index;">
+                            <th scope="row">{{ vehicle.id }}</th>
+                            <td>{{ vehicle.name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-8 col-sm-3 text-right">
+                                        <a href="javascript:void(0)" (click)="fnVer(vehicle.id)"><i class="fas fa-eye"></i></a>
+                                    </div>
+                                    <div class="col-8 col-sm-3 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEdit(vehicle.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-8 col-sm-3 text-left">
+                                        <a href="javascript:void(0)" (click)="fnDelete(vehicle.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
