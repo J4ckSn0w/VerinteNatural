@@ -28,21 +28,28 @@
                     <a class="nav-link" href="#">CONTACTO</a>
                 </li>
             </ul>
-            <a href="javascript:void(0)" (click)="fnLogIn()">
-                <ul class="navbar-nav mr-auto">
-                    <li *ngIf="!login" class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)" (click)="fnLogIn()"><button class="login-button" href="#">Iniciar Sesión</button></a>
-                    </li>
-                </ul>
-            </a>
-
-            <li *ngIf="login" class="nav-item dropdown">
-                <a class="nav-link no-caret" data-toggle="dropdown" role="button" href="javascript:void(0)" (click)="fnLogOut()">
-                    <i class="ni ni-ui-04 d-lg-none"></i>
-                    <li *ngIf="!login">
-                        <a href="javascript:void(0)" (click)="fnLogIn()"></a><button class="login-button" href="#">Cerrar Sesión</button></li>
-                </a>
-            </li>
+            <ul class="navbar-nav mr-auto">
+                <li *ngIf="!login" class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)" (click)="fnLogIn()"><button class="login-button" href="#">Iniciar Sesión</button></a>
+                </li>
+            </ul>
+            <!--<a href="javascript:void(0)" (click)="fnLogIn()">
+                
+            </a>-->
+            <ul class="navbar-nav mr-auto">
+                <li *ngIf="login" class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)" (click)="fnLogOut()"><button class="login-button" href="#">Cerrar Sesión</button></a>
+                </li>
+            </ul>
+            <!--<ul class="navbar-nav mr-auto">
+                <li *ngIf="login" class="nav-item dropdown">
+                    <a class="nav-link no-caret" data-toggle="dropdown" role="button" href="javascript:void(0)" (click)="fnLogOut()">
+                        <i class="ni ni-ui-04 d-lg-none"></i>
+                        <li *ngIf="!login">
+                            <a href="javascript:void(0)" (click)="fnLogIn()"></a><button class="login-button" href="#">Cerrar Sesión</button></li>
+                    </a>
+                </li>
+            </ul>-->
         </div>
     </nav>
 </body>

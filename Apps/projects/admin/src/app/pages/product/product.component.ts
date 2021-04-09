@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductComponent implements OnInit {
 
+  arrayProducts = [];
+
   constructor() { }
 
   ngOnInit(): void {
+    this.fnLoadProducts();
   }
+
+  fnEdit(){}
+  fnVer(){}
+  fnDelete(){}
+  fnLoadProducts(){}
 
 }

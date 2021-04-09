@@ -15,17 +15,29 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { WarehouseTypeComponent } from './warehouse-type/warehouse-type.component';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { FooterComponent } from '../shared/footer/footer.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
     declarations:[
         HomeComponent,
         NavbarComponent,
         FooterComponent,
-        PagesRoutingComponent, ClientComponent, DriverComponent, ProductComponent, ProductTypeComponent, UserComponent, VehicleComponent, VehicleTypeComponent, WarehouseComponent, WarehouseTypeComponent
+        PagesRoutingComponent,
+        ClientComponent,
+        DriverComponent,
+        ProductComponent,
+        ProductTypeComponent,
+        UserComponent,
+        VehicleComponent,
+        VehicleTypeComponent,
+        WarehouseComponent,
+        WarehouseTypeComponent
     ],
     imports:[
         CommonModule,
-        RouterModule.forChild(pagesRoutes)
+        RouterModule.forChild(pagesRoutes),
+        NgbModule,
     ]
 })
 

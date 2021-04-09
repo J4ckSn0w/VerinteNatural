@@ -18,7 +18,9 @@ export class SessionService {
     $logged:BehaviorSubject<LoginResponseModel> = new BehaviorSubject<LoginResponseModel>(null);
     _logged:Observable<LoginResponseModel> = this.$logged.asObservable();
     
-    constructor() {}
+    constructor() {
+        console.log('Session Service Constructor');
+    }
 
     fnSaveSession(any_logindata:any, saveToken:boolean = true):void{
         this.$permission.next(any_logindata);

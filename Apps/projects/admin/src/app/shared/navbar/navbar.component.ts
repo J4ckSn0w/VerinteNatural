@@ -9,12 +9,28 @@ import { SessionService } from '../../services/sessionService.service';
 })
 export class NavbarComponent implements OnInit {
 
+  logged = false;
+
   constructor(
     private router: Router,
     private sessionService:SessionService
   ) { }
 
   ngOnInit(): void {
+    this.fnSesionIniciada();
+  }
+
+  fnSesionIniciada(){
+    let valor = localStorage.getItem("authorization");
+    console.log('Valor');
+    console.log(valor);
+    if(localStorage.getItem("authorization")){
+      console.log('Entre al true');
+      this.logged = true;
+    }else{
+      console.log('Entre a false');
+      this.logged = false;
+    }
   }
 
   fnLogout() {
