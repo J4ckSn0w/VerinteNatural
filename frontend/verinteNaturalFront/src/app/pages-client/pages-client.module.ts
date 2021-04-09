@@ -8,13 +8,21 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from "@angular/forms";
 import { FooterComponent } from './shared/footer/footer.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
+import { SessionModalComponent } from './../no-auth/session-modal/session-modal/session-modal.component'
+import { LoginComponent } from './../no-auth/session-modal/login/login.component'
+import { ForgotPasswordComponent } from './../no-auth/session-modal/forgot-password/forgot-password.component'
+import { RegisterComponent } from './../no-auth/session-modal/register/register.component'
 
 @NgModule({
     declarations: [
         HomeComponent,
         PagesClientRoutingComponent,
         FooterComponent,
-        NavbarComponent
+        NavbarComponent,
+        SessionModalComponent,
+        LoginComponent,
+        ForgotPasswordComponent,
+        RegisterComponent
     ],
     imports: [
         RouterModule.forChild(routesPagesClient),
@@ -24,4 +32,4 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
     ]
 })
 
-export class PagesClientModule {}
+export class PagesClientModule { }
