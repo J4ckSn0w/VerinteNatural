@@ -17,7 +17,7 @@ export class ForgottenPasswordComponent implements OnInit {
   afterSend = false;
 
   passwordForm = new FormGroup({
-    username: new FormControl(null,[Validators.required])
+    username: new FormControl(null, [Validators.required])
   });
 
   constructor(
@@ -28,25 +28,25 @@ export class ForgottenPasswordComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(){
+  onSubmit() {
     let data = {
-      username:this.passwordForm.value.username
+      username: this.passwordForm.value.username
     };
     this.loginService.fnPasswordRecovery(data)
-    .then(res => {
-      this.beforeSend = false;
-      this.afterSend = true;
-    })
-    .catch(rej => {
+      .then(res => {
+        this.beforeSend = false;
+        this.afterSend = true;
+      })
+      .catch(rej => {
 
-    });
+      });
   }
 
-  fnRegister(){
+  fnRegister() {
     this.router.navigate(["/auth/register"]);
   }
 
-  fnLogin(){
+  fnLogin() {
     this.router.navigate(["/auth/login"]);
   }
 

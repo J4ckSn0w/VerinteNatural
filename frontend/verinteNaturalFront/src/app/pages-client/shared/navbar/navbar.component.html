@@ -60,8 +60,10 @@
             <li *ngIf="!login"><a href="javascript:void(0)" (click)="fnLogIn()"></a><button class="login-button" href="#">Iniciar Sesión</button></li>
         </a>
         <li *ngIf="login" class="nav-item dropdown">
-            <a class="nav-link no-caret" data-toggle="dropdown" role="button" href="javascript:void(0)" (click)="fnLogOut()">
+            <a class="nav-link no-caret" data-toggle="dropdown" role="button" href="javascript:void(0)"
+                (click)="fnLogOut()">
                 <i class="ni ni-ui-04 d-lg-none"></i>
+
                 <li *ngIf="!login"><a href="javascript:void(0)" (click)="fnLogIn()"></a><button class="login-button" href="#">Cerrar Sesión</button></li>
             </a>
         </li>
