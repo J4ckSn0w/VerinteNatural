@@ -20,19 +20,19 @@ export class NavbarComponent implements OnInit {
     this.fnLoadSession();
   }
 
-  fnLoadSession(){
+  fnLoadSession() {
     let userToken = this.sessionService.fnGetSessionToken();
     console.log('userToken');
     console.log(userToken);
-    if(userToken == null){
+    if (userToken == null) {
       this.login = false;
     }
-    else{
+    else {
       this.login = true;
     }
   }
 
-  fnLogIn(){
+  fnLogIn() {
     this.router.navigate(["/auth/login"]);
   }
 
