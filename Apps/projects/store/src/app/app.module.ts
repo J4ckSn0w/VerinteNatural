@@ -1,16 +1,57 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
+//Tools
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { routing } from './app.routing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
+
+//Views
 import { AppComponent } from './app.component';
+
+
+// Shared
+import { HeaderComponent } from 'components/shared/header/header.component';
+import { FooterComponent } from 'components/shared/footer/footer.component';
+
+// Components
+import { SessionModalComponent } from 'components/modals/session-modal/session-modal/session-modal.component'
+import { LoginComponent } from 'components/modals/session-modal/login/login.component'
+import { ForgotPasswordComponent } from 'components/modals/session-modal/forgot-password/forgot-password.component'
+import { RegisterComponent } from 'components/modals/session-modal/register/register.component';
+import { ProfileComponent } from './views/profile/profile.component'
 
 @NgModule({
   declarations: [
-    AppComponent
+    //Views
+    AppComponent,
+    ProfileComponent,
+
+    //Shared
+    HeaderComponent,
+    FooterComponent,
+
+    // Components
+    SessionModalComponent,
+    LoginComponent,
+    ForgotPasswordComponent,
+    RegisterComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    RouterModule,
+    routing,
+    BrowserAnimationsModule,
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

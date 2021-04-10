@@ -32,7 +32,7 @@ use App\Http\Controllers\LogController;
 */
 
 // Login
-Route::post('login', [AuthController::class, 'login'])->middleware('client.secret');
+Route::post('login', [AuthController::class, 'login']);
 
 // Customer Register
 Route::post('register', [AuthController::class, 'register']);

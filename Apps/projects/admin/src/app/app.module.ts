@@ -8,10 +8,12 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; // <-- Aña
 import { HttpClientModule } from '@angular/common/http';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 
 @NgModule({
   declarations: [

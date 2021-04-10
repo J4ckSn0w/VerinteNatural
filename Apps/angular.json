@@ -142,6 +142,7 @@
               "projects/store/src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "projects/store/src/styles.css"
             ],
             "scripts": []

@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-md navbar-light" style="background-color: #ffd154;">
+    <a class="navbar-brand" href="javascript:void(0)">
+        <img style="width: 15%;" class="" src='assets/images/logo.png'>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">INICIO <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="">CÓNOCENOS</a>
+                <a class="dropdown-toggle " href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false"></a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="">Item 1</a>
+                    <a class="dropdown-item" href="#">Item 2</a>
+                    <a class="dropdown-item" href="#">Item 3</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">TIENDA</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">CONTACTO</a>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav mr-auto">
+            <li *ngIf="!isLogged">
+                <a href="javascript:void(0)" class="nav-link" (click)="open()">
+                    Identificate
+                </a>
+            </li>
+            <li *ngIf="isLogged" class="nav-item dropdown">
+                <a class="nav-link" href="javascript:void(0)">Hola {{isLogged.name}}</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" (click)="logout()" href="javascript:void(0)">Cerrar sesión</a>
+                </div>
+            </li>
+        </ul>
+
+
+        <!-- <li class="nav-item dropdown">
+            <!-- <li>
+            
+        </li>
+        </li> -->
+    </div>
+</nav>

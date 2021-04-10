@@ -1,0 +1,92 @@
+<div>
+
+    <!-- Social Account Buttons -->
+    <div class="row pt-1" *ngIf="!registerSuccess">
+        <div class="col-6">
+            <button type="button" class="btn google-button"><i class="fa fa-google fa-lg p-2"></i></button>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn facebook-button"><i class="fa fa-facebook fa-lg p-2"></i></button>
+        </div>
+    </div>
+
+    <!-- Dividier -->
+    <div class="row justify-content-center pt-2" *ngIf="!registerSuccess">
+        <div class="col-5">
+            <hr>
+        </div>
+        <div class="col-1 justify-content-center text-center">
+            <i class="far fa-circle"></i>
+        </div>
+        <div class="col-5">
+            <hr>
+        </div>
+    </div>
+
+
+    <!-- Register Form -->
+    <div class="row justify-content-center pt-2">
+        <div class="col-12 px-5 text-center">
+            <!-- Instruction Alert -->
+            <ngb-alert *ngIf="!registerSuccess" type="info" [dismissible]="false">Datos obligatorios (*)</ngb-alert>
+            <!-- Success Alert -->
+            <ngb-alert *ngIf="registerSuccess" [dismissible]="false" type="success">El registro fue exitoso, se envio un
+                mensaje de verificación a tu correo electrónico</ngb-alert>
+            <form *ngIf="!registerSuccess" role="form" novalidate [formGroup]="newUserForm" class="form-group">
+
+                <input class="form-control mb-1" type="text" placeholder="Nombre *" formControlName="name">
+                <span *ngIf="checkError('name')" class="text-danger">
+                    {{errors['name']}}</span>
+
+
+                <input class="form-control mb-1" type="email" placeholder="Email *" formControlName="email">
+                <span *ngIf="checkError('email')" class="text-danger">
+                    {{errors['email']}}</span>
+
+                <input class="form-control mb-1" type="text" placeholder="Numero *" formControlName="phone_number">
+                <span *ngIf="checkError('phone_number')" class="text-danger">
+                    {{errors['phone_number']}}</span>
+
+                <input class="form-control mb-1 uppercase-input" type="text" placeholder="RFC" formControlName="rfc">
+                <span *ngIf="checkError('rfc')" class="text-danger">
+                    {{errors['rfc']}}</span>
+
+                <input class="form-control mb-1" type="password" placeholder="Contraseña *" formControlName="password">
+                <span *ngIf="checkError('password')" class="text-danger">
+                    {{errors['password']}}</span>
+
+                <input class="form-control mb-1" type="password" placeholder="Confirmar contraseña *"
+                    formControlName="password_confirmation">
+                <span *ngIf="checkError('password_confirmation')" class="text-danger">
+                    {{errors['password_confirmation']}}</span>
+
+
+                <!-- Terms and conditions accepted checkbox -->
+                <div class="custom-control custom-checkbox my-3">
+                    <input type="checkbox" class="custom-control-input" id="checkbox1"
+                        (change)="checkboxValue($event.target.checked)">
+                    <label class="custom-control-label" for="checkbox1">He leido los terminos y condiciones</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button [disabled]="waitRequest || !acceptTerms" class=" btn btn-success btn-lg" type="submit"
+                    (click)="onSubmit()">
+                    <i class="fa fa-spinner fa-spin" *ngIf="waitRequest"></i>
+                    {{ waitRequest ? 'Creando' : 'Crear cuenta en Verinte Natural!'}}
+                </button>
+
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Back to login -->
+    <div class="row">
+        <div class="col-12">
+            <a href="javascript:void(0)" (click)="goToLogin()" class="good_link">
+                {{ registerSuccess ? 'Iniciar sesión' : 'Ya tengo una cuenta'}}
+            </a>
+        </div>
+    </div>
+
+</div>
