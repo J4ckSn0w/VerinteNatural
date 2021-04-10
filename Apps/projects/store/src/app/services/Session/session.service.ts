@@ -1,6 +1,7 @@
 import { EventEmitter, Injectable, resolveForwardRef } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpRequestService } from 'services/Tools/HttpRequest/http-request.service';
+//import { HttpRequestService } from '../services/Tools/HttpRequest/http-request.service';
+import { HttpRequestService } from '../../services/Tools/HttpRequest/http-request.service';
 
 @Injectable({
   providedIn: 'root'

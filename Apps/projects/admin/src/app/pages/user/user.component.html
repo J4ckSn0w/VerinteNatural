@@ -48,7 +48,7 @@
 
 <!--Modales-->
 <!--Modal Nuevo Usuario-->
-<ng-template #NewUserModal>
+<ng-template #NewUserModal let-newUserModal>
     <div class="modal-header">
         <h2>Nuevo Usuario</h2>
     </div>
@@ -88,10 +88,12 @@
                     <option *ngFor="let warehouse of arrayWarehouses" [value]="warehouse.id">{{warehouse.name}}</option>
                 </select>
             </div>
-            <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newUserForm.invalid" (click)="onSubmit()">Guardar</button>
+            <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newUserForm.invalid" (click)="onSubmitNew()">Guardar</button>
         </form>
     </div>
     <div class="modal-footer">
-
+        <div>
+            <button class="btn btn-danger" (click)="newUserModal.close()">Cerrar</button>
+        </div>
     </div>
 </ng-template>

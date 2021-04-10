@@ -30,7 +30,6 @@ export class ProfileComponent implements OnInit {
         this.name = this.isLogged.name
         this.email = this.isLogged.email
         this.phone_number = this.isLogged.phone_number
-
       }
     })
   }
