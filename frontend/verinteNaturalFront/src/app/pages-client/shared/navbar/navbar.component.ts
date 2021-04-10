@@ -33,7 +33,9 @@ export class NavbarComponent implements OnInit {
   }
 
   fnLogIn() {
+    console.log('Entre a la funcion LogOut');
     this.router.navigate(["/auth/login"]);
+    
   }
 
   fnLogOut() {

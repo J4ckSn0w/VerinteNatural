@@ -2,22 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Autour+One&display=swap');
 
 *{
-    margin: 0;
-    padding: 0;
     color: #000;
     font-family: 'roboto';
     letter-spacing: 1px;
     font-weight: 800;
-}
-
-/*Styling logo*/
-.logo{
-    padding:1vh 1vw;
-    text-align: center;
-}
-.logo img {
-    height: 10px;
-    width: 10px;
 }
 
 /*Styling Buttons*/
@@ -43,6 +31,27 @@
     box-shadow: 0 3px 20px #ffc22e;
     display: flex;
   }
+
+  .navbar.li{
+    padding-left: 10px;
+  }
+
+  .navbar-nav.navbar-center {
+    position: relative;
+    left: 25%;
+    transform: translatex(-25%);
+}
+.navbar-nav.navbar-right {
+  position: relative;
+  left: 55%;
+  transform: translatex(-55%);
+}
+
+  .navbar-brand>img {
+    height: 100%;
+    padding: 15px;
+    width: auto;
+  }
   .navbar .dropdown .dropdown-menu {
     margin-top: 0;
     border-top: none;
@@ -59,7 +68,7 @@
       pointer-events: none;
     }
   }
-  @media (max-width: 768px) {
+ 
     .navbar {
       padding: 8px 16px;
     }
@@ -70,4 +79,4 @@
       top: 0;
       right: 0;
     }
-  }
+  

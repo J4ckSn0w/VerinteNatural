@@ -25,7 +25,7 @@ import { BrowserModule } from '@angular/platform-browser';
         ReactiveFormsModule,
         SweetAlert2Module,
         FormsModule,
-        BrowserModule
+    
     ]
 })
 export class NoAuthModule { }
