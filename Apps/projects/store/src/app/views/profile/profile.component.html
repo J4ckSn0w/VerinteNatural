@@ -1,10 +1,3 @@
-<!--<div class="card mt-5" style="width: 600px;">
-    <div class="card-body">
-        <h5 class="card-title">{{ name }}</h5>
-        <p class="card-text">Correo electrónico: {{email}}</p>
-        <p class="card-text">Número de teléfono: {{phone_number}}</p>
-    </div>
-</div>-->
 <div class="container">
     <h2>Tu Pefil</h2>
 </div>
@@ -18,30 +11,10 @@
                     </div>
                     <div class="my-profile-card-content">
                         <p class="control-text">Nombre</p>
-                        <p>Armando Sandoval</p>
+                        <p>{{name}}</p>
                     </div>
                     <div class="my-profile-card-footer">
                         <a href="javascript:void(0)">Editar informacion.</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="my-profile-card">
-                <div class="my-profile-container card border-warning">
-                    <div class="my-profile-card-header">
-                        <h4>Datos de inicio de sesion.</h4>
-                    </div>
-                    <div class="my-profile-card-content">
-                        <p class="control-text">Correo electronico</p>
-                        <p>armando@email.com</p>
-                    </div>
-                    <div class="my-profile-card-content">
-                        <p class="control-text">Contraseña</p>
-                        <p>********</p>
-                    </div>
-                    <div class="my-profile-card-footer">
-                        <a href="javascript:void(0)">Editar.</a>
                     </div>
                 </div>
             </div>
@@ -55,13 +28,23 @@
                     </div>
                 </div>
             </div>
-            <div class="my-profile-card card border-warning">
-                <div class="my-profile-container ">
+        </div>
+        <div class="col">
+            <div class="my-profile-card">
+                <div class="my-profile-container card border-warning">
                     <div class="my-profile-card-header">
-                        <h4>Información Teléfonica.</h4>
+                        <h4>Datos de inicio de sesion.</h4>
+                    </div>
+                    <div class="my-profile-card-content">
+                        <p class="control-text">Correo electronico</p>
+                        <p>{{email}}</p>
+                    </div>
+                    <div class="my-profile-card-content">
+                        <p class="control-text">Teléfono móvil</p>
+                        <p>{{phone_number}}</p>
                     </div>
                     <div class="my-profile-card-footer">
-                        <a href="javascript:void(0)">Administrar teléfonos.</a>
+                        <a href="javascript:void(0)">Editar.</a>
                     </div>
                 </div>
             </div>
