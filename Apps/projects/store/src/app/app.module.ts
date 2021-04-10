@@ -12,7 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 //Views
 import { AppComponent } from './app.component';
-
+import { ProfileComponent } from 'views/profile/profile.component';
+import { HomeComponent } from 'views/home/home.component'
 
 // Shared
 import { HeaderComponent } from 'components/shared/header/header.component';
@@ -23,13 +24,15 @@ import { SessionModalComponent } from 'components/modals/session-modal/session-m
 import { LoginComponent } from 'components/modals/session-modal/login/login.component'
 import { ForgotPasswordComponent } from 'components/modals/session-modal/forgot-password/forgot-password.component'
 import { RegisterComponent } from 'components/modals/session-modal/register/register.component';
-import { ProfileComponent } from './views/profile/profile.component'
+import { CarouselComponent } from 'components/home/carousel/carousel.component';
+
 
 @NgModule({
   declarations: [
     //Views
     AppComponent,
     ProfileComponent,
+    HomeComponent,
 
     //Shared
     HeaderComponent,
@@ -39,7 +42,9 @@ import { ProfileComponent } from './views/profile/profile.component'
     SessionModalComponent,
     LoginComponent,
     ForgotPasswordComponent,
-    RegisterComponent
+    RegisterComponent,
+    CarouselComponent
+
   ],
   imports: [
     BrowserModule,
