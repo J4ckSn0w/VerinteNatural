@@ -101,7 +101,5 @@ export class UserNewComponent implements OnInit {
           this.error_phone_number = true;
         }
       });
-
     }
-
 }

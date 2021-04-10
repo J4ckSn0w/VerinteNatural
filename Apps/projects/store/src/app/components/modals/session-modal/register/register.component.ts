@@ -77,7 +77,7 @@ export class RegisterComponent implements OnInit {
   }
 
   checkError(field: String) {
-    return this.errors[field.toString()]
+    return this.errors[field.toString()] ?? false
   }
 
   checkboxValue(checked: boolean) {

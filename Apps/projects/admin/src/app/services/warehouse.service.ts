@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SessionService } from './session.service';
+import { SessionService } from '../services/sessionService.service';
 
 @Injectable({
     providedIn: 'root'
@@ -48,7 +48,7 @@ export class WarehouseService {
               })
               .catch(rej => {
                   reject(rej);
-              })
+              });
         });
         return respuesta;
     }
@@ -67,7 +67,7 @@ export class WarehouseService {
               })
               .catch(rej => {
                   reject(rej);
-              })
+              });
         });
         return respuesta;
     }
@@ -86,7 +86,7 @@ export class WarehouseService {
               })
               .catch(rej => {
                   reject(rej);
-              })
+              });
         });
         return respuesta;
     }
@@ -105,10 +105,10 @@ export class WarehouseService {
               })
               .catch(rej => {
                   reject(rej);
-              })
+              });
         });
-        
-
         return respuesta;
     }
+
+    
 }
