@@ -25,6 +25,7 @@ import { CommonModule } from '@angular/common';
     ErrorComponent*/
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     routing,
     HttpClientModule,

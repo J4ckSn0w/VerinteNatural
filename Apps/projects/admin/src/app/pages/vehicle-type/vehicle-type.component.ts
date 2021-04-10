@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vehicle-type.component.css']
 })
 export class VehicleTypeComponent implements OnInit {
+  arrayVehiclesTypes = [];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.fnLoadVehicleTypes();
   }
+
+  fnDelete(){}
+  fnVer(){}
+  fnEdit(){}
+  fnLoadVehicleTypes(){}
 
 }

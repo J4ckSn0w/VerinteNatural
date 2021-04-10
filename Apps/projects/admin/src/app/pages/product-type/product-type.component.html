@@ -1,1 +1,42 @@
-<p>product-type works!</p>
+<h2 class="display-3 text-center mt-5 mb-5">Control Tipo de Producto</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card text-center my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="btn btn-primary btn-sm" [routerLink]="['/system/product-type/new']" href="javascript:void(0)"> <i class="fas fa-plus"></i> Nuevo tipo producto</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let productType of arrayProductTypes; let index;">
+                            <th scope="row">{{ productType.id }}</th>
+                            <td>{{ productType.name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-8 col-sm-6 text-right">
+                                        <a href="javascript:void(0)" (click)="fnEdit(productType.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-8 col-sm-6 text-left">
+                                        <a href="javascript:void(0)" (click)="fnDelete(productType.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WarehouseComponent implements OnInit {
 
+  arrayWarehouses = [];
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  fnVer(){}
+  fnEdit(){}
+  fnDelete(){}
+  fnLoadWarehouses(){}
 
 }
