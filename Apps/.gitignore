@@ -46,4 +46,4 @@ testem.log
 Thumbs.db
 
 
-./ecommerce_proxy.config.json
+ecommerce_proxy.config.json
