@@ -12,6 +12,9 @@ export class ProfileComponent implements OnInit {
 
   private logsSubscription: Subscription
   isLogged: any;
+  name: string = ''
+  email: string = ''
+  phone_number: string = ''
 
   constructor(
     private sessionService: SessionService,
@@ -19,9 +22,16 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.sessionService.checkAuthUser()
     this.logsSubscription = this.sessionService.isLogged.subscribe(res => {
       this.isLogged = res
       if (!this.isLogged) this.router.navigate(['/'])
+      else {
+        this.name = this.isLogged.name
+        this.email = this.isLogged.email
+        this.phone_number = this.isLogged.phone_number
+
+      }
     })
   }
 

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SessionModalComponent } from 'components/modals/session-modal/session-modal/session-modal.component'
 import { SessionService } from 'services/Session/session.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private router: Router
   ) { }
 
   ngOnInit(): void { }
@@ -25,6 +27,10 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.sessionService.logout()
+  }
+
+  goToProfile() {
+    this.router.navigate(['profile'])
   }
 
 }

@@ -30,7 +30,7 @@
             <!-- Instruction Alert -->
             <ngb-alert *ngIf="!registerSuccess" type="info" [dismissible]="false">Datos obligatorios (*)</ngb-alert>
             <!-- Success Alert -->
-            <ngb-alert *ngIf="registerSuccess" [dismissible]="false" type="success">El registro fue exitoso, se envio un
+            <ngb-alert *ngIf="registerSuccess" [dismissible]="false" type="success">El registro fue exitoso, se envió un
                 mensaje de verificación a tu correo electrónico</ngb-alert>
             <form *ngIf="!registerSuccess" role="form" novalidate [formGroup]="newUserForm" class="form-group">
 

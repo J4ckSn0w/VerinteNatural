@@ -1,53 +1,47 @@
 <nav class="navbar navbar-expand-md navbar-light" style="background-color: #ffd154;">
-    <a class="navbar-brand" href="javascript:void(0)">
-        <img style="width: 15%;" class="" src='assets/images/logo.png'>
-    </a>
+    <img style="width: 7%;" class="" src='assets/images/logo.png' alt="logo">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        aria-controls="navbarCollapse" aria-expanded="f">
+        <span class=" navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">INICIO <span class="sr-only">(current)</span></a>
+        <ul class="navbar-nav navbar-center">
+            <li class="nav-item ml-auto">
+                <a class="nav-link" href="#">INICIO</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" style="padding-left: 30%;">
                 <a class="nav-link" href="">CÓNOCENOS</a>
                 <a class="dropdown-toggle " href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false"></a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="">Item 1</a>
-                    <a class="dropdown-item" href="#">Item 2</a>
-                    <a class="dropdown-item" href="#">Item 3</a>
-                </div>
+                <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="">Item 1</a>
+                        <a class="dropdown-item" href="#">Item 2</a>
+                        <a class="dropdown-item" href="#">Item 3</a>
+                    </div> -->
             </li>
-            <li class="nav-item">
+            <li class="nav-item" style="padding-left: 30%;">
                 <a class="nav-link" href="#">TIENDA</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" style="padding-left: 30%;">
                 <a class="nav-link" href="#">CONTACTO</a>
             </li>
-        </ul>
-
-        <ul class="navbar-nav mr-auto">
-            <li *ngIf="!isLogged">
-                <a href="javascript:void(0)" class="nav-link" (click)="open()">
+            <li *ngIf="!isLogged" class="nav-item">
+                <a class="nav-link" href="javascript:void(0)" (click)="open()">
                     Identificate
                 </a>
             </li>
             <li *ngIf="isLogged" class="nav-item dropdown">
-                <a class="nav-link" href="javascript:void(0)">Hola {{isLogged.name}}</a>
+                <a class="nav-link" href="javascript:void(0)" (click)="goToProfile()">Hola {{isLogged.name}}</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" (click)="logout()" href="javascript:void(0)">Cerrar sesión</a>
                 </div>
             </li>
         </ul>
+        <ul class="navbar-nav navbar-right">
 
+        </ul>
+        <ul class="navbar-nav mr-auto">
 
-        <!-- <li class="nav-item dropdown">
-            <!-- <li>
-            
-        </li>
-        </li> -->
+        </ul>
     </div>
 </nav>
