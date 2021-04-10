@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { routesPagesClient } from './pages-client.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FooterComponent } from './shared/footer/footer.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SessionModalComponent } from './../no-auth/session-modal/session-modal/session-modal.component'
@@ -28,7 +28,8 @@ import { RegisterComponent } from './../no-auth/session-modal/register/register.
         RouterModule.forChild(routesPagesClient),
         NgbModule,
         CommonModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule
     ]
 })
 
