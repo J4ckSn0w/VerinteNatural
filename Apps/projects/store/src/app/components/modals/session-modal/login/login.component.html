@@ -1,0 +1,70 @@
+<!-- Modal Content -->
+<div>
+    <!-- Social Account Buttons -->
+    <div class="row pt-1">
+        <div class="col-6">
+            <button type="button" class="btn google-button"><i class="fa fa-google fa-lg p-2"></i></button>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn facebook-button"><i class="fa fa-facebook fa-lg p-2"></i></button>
+        </div>
+    </div>
+
+    <!-- Dividier -->
+    <div class="row justify-content-center pt-2">
+        <div class="col-5">
+            <hr>
+        </div>
+        <div class="col-1 justify-content-center text-center">
+            <i class="far fa-circle"></i>
+        </div>
+        <div class="col-5">
+            <hr>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="row pt-2">
+        <div class="col-12 px-5 text-center">
+            <form class="form-group" role="form" novalidate [formGroup]="loginForm">
+
+                <input class="form-control mb-2" type="text" placeholder="Correo electrónico o teléfono móvil"
+                    formControlName="username">
+                <span *ngIf="checkError('username')" class="text-danger">
+                    {{errors['username'] ? errors['username'] : ''}}</span>
+
+                <input class="form-control mb-2" type="password" placeholder="Contraseña" formControlName="password">
+                <span *ngIf="checkError('password')" class="text-danger">
+                    {{errors['password'] ? errors['password'] : ''}}</span>
+
+                <!-- Remember me button -->
+                <div class="custom-control custom-checkbox my-3">
+                    <input type="checkbox" class="custom-control-input" id="checkbox1">
+                    <label class="custom-control-label" for="checkbox1">Recordarme</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button [disabled]="waitRequest" class=" btn btn-success btn-lg" type="submit" (click)="onSubmit()">
+                    <i class="fa fa-spinner fa-spin" *ngIf="waitRequest"></i>
+                    {{ waitRequest ? 'Entrando' : 'Continuar'}}
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Alerts -->
+    <ngb-alert [dismissible]="false" *ngIf="hasError" type="danger">Verifique su información</ngb-alert>
+
+    <!-- Other options form -->
+    <div class="row">
+        <div class="col-12">
+            <p>
+                <a class="good_link" href="javascript:void(0)" (click)="toRegister()"> Crear cuenta nueva</a><br>
+                <a class="good_link" href="javascript:void(0)" (click)="toRecoverPassword()"> ¿Olvidaste tu
+                    contraseña?</a>
+            </p>
+        </div>
+    </div>
+
+</div>

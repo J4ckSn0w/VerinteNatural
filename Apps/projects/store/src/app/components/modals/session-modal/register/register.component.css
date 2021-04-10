@@ -1,0 +1,30 @@
+.facebook-button {
+    background-color: #23589a;
+    width: 100%;
+    color: white;
+    border: 1px solid #23589a;
+}
+
+.facebook-button:hover {
+    background-color: #163964;
+}
+
+.google-button {
+    background-color: white;
+    width: 100%;
+    border: none;
+    border: 1px solid rgba(14, 13, 13, 0.398);
+}
+
+.google-button:hover {
+    background-color: rgb(240, 238, 238);
+}
+
+.uppercase-input {
+    text-transform: uppercase;
+}
+
+.good_link {
+    text-decoration: none;
+    color: #52939a;
+}

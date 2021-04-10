@@ -1,0 +1,21 @@
+<!-- Modal Header -->
+<div class="modal-header">
+    <h4 class="modal-title">{{tabs[currentComponent].title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<!-- Modal Body -->
+<div class="modal-body" [ngSwitch]="currentComponent">
+
+    <app-login *ngSwitchCase="0" (changeComponent)="changeComponent($event)"
+        (closeModalEvent)="activeModal.dismiss('Cross click')">
+    </app-login>
+
+    <app-register *ngSwitchCase="1" (changeComponent)="changeComponent($event)">
+    </app-register>
+
+    <app-forgot-password *ngSwitchCase="2" (changeComponent)="changeComponent($event)"></app-forgot-password>
+
+</div>
