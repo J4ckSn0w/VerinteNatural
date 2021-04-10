@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { rejects } from "assert";
-import { SessionService } from './session.service';
+import { SessionService } from '../services/sessionService.service';
 
 @Injectable({
     providedIn: 'root'

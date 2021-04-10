@@ -16,7 +16,7 @@ import { WarehouseTypeComponent } from './warehouse-type/warehouse-type.componen
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
     declarations:[
@@ -38,6 +38,7 @@ import { FormsModule } from "@angular/forms";
         CommonModule,
         RouterModule.forChild(pagesRoutes),
         NgbModule,
+        ReactiveFormsModule
     ]
 })
 
