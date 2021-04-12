@@ -35,7 +35,7 @@ class EmployeeController extends Controller
 
 
             return response()->json(['data' => $employees], 200);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -63,7 +63,7 @@ class EmployeeController extends Controller
             ]);
 
             return response()->json(['data' => $employee], 201);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
@@ -90,7 +90,7 @@ class EmployeeController extends Controller
                 ]
             );
             return response()->json(['data' => $employee], 201);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
@@ -110,7 +110,7 @@ class EmployeeController extends Controller
                     'name' => $request->name,
                     'email' =>  $request->email,
                     'phone_number' => $request->phone_number,
-                    'password' => $request->password
+                    'password' => $request->password,
                 ],
                 'employee' => [
                     'id' => $id,
@@ -120,7 +120,7 @@ class EmployeeController extends Controller
             ]);
 
             return response()->json(['data' => $employee], 201);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
@@ -138,9 +138,11 @@ class EmployeeController extends Controller
             $employee->driver()->delete();
             $employee->delete();
             $user = User::find($employee->user_id);
+            $user->email = $user->email . "__deleted_" . $user->id;
+            $user->save();
             $user->delete();
             return response()->json(['data' => $employee], 200);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }

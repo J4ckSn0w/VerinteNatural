@@ -23,13 +23,14 @@ class EmployeeRequest extends FormRequest
      */
     public function rules()
     {
-        $validation = request()->method === "PUT" ? ',' . $this->user_id : '' ;
+        $passwordValidation = request()->method === "PUT" ? '|nullable' : '|required';
+        $validation = request()->method === "PUT" ? ',' . $this->user_id : '';
 
         return [
             'name'      => 'required|string|max:255',
             'email'     => 'required|email|max:100|min:6|unique:users,email' . $validation,
             'phone_number' => 'required|string|min:5|max:50|unique:users,phone_number' . $validation,
-            'password' => 'nullable|string|min:8|max:40',
+            'password' => 'string|min:8|max:40' . $passwordValidation,
             'employee_type_id' => 'required|exists:employee_types,id',
             'warehouse_id' => 'required|exists:warehouses,id'
         ];
