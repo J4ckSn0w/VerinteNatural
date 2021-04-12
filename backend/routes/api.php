@@ -1,24 +1,30 @@
 <?php
 
+// Facades
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Password;
 use \Illuminate\Auth\Events\PasswordReset;
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\UserTypeController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\AddressController;
-use App\Http\Controllers\VehicleTypeController;
-use App\Http\Controllers\VehicleController;
-use App\Http\Controllers\WarehouseTypeController;
-use App\Http\Controllers\WarehouseController;
-use App\Http\Controllers\EmployeeTypeController;
-use App\Http\Controllers\DriverController;
-use App\Http\Controllers\DriverTypeController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LogController;
+// Admin Controllers
+use App\Http\Controllers\admin\AuthController as AuthControllerAdmin;
+use App\Http\Controllers\admin\EmployeeController;
+use App\Http\Controllers\admin\UserTypeController;
+use App\Http\Controllers\admin\CustomerController;
+use App\Http\Controllers\admin\VehicleTypeController;
+use App\Http\Controllers\admin\VehicleController;
+use App\Http\Controllers\admin\WarehouseTypeController;
+use App\Http\Controllers\admin\WarehouseController;
+use App\Http\Controllers\admin\EmployeeTypeController;
+use App\Http\Controllers\admin\DriverController;
+use App\Http\Controllers\admin\DriverTypeController;
+use App\Http\Controllers\admin\LogController;
+
+// Client Controllers
+use App\Http\Controllers\client\AuthController as AuthControllerClient;
+use App\Http\Controllers\client\UserController;
+use App\Http\Controllers\client\AddressController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,94 +37,124 @@ use App\Http\Controllers\LogController;
 |
 */
 
-// Login
-Route::post('login', [AuthController::class, 'login']);
 
-// Customer Register
-Route::post('register', [AuthController::class, 'register']);
+// System Admin API Routes
+Route::prefix('_p1')->group(function() {
 
-// Forgot Password
-Route::post('forgot-password', [UserController::class, 'sendEmailToResetPassword']);
+    // Login
+    Route::post('login', [AuthControllerAdmin::class, 'login'])->middleware('AdminSystemUser');
 
-Route::put('reset-password/{user_id}/{token}', [UserController::class, 'setNewPassword'])->name('setNewPassword');
+    //\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
+    Route::middleware('auth:api', 'AdminSystemAuth')->group(function() {
 
-//\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
-Route::middleware('auth:api')->group(function() {
+        // Logout
+        Route::post('logout', [AuthControllerAdmin::class, 'logout']);
 
-    // Logout
-    Route::post('logout', [AuthController::class, 'logout']);
+        // API Rest
 
+        // Employees resource
+        Route::apiResource('employees', EmployeeController::class)
+            ->except(['edit', 'create']);
 
-    // API Rest
+        // Employee Types
+        Route::apiResource('employee/types', EmployeeTypeController::class)
+            ->except(['edit', 'create']);
 
-    // Users resource
-    Route::apiResource('users', UserController::class)
-        ->except(['edit', 'create', 'store', 'delete']);
+        // Drivers resource
+        Route::apiResource('drivers', DriverController::class)
+            ->except(['edit', 'create', 'store', 'delete']);
 
-    // Employees resource
-    Route::apiResource('employees', EmployeeController::class)
-        ->except(['edit', 'create']);
+        // Drivers resource
+        Route::apiResource('driver/types', DriverTypeController::class)
+            ->only(['index']);
 
-    // Employee Types
-    Route::apiResource('employee/types', EmployeeTypeController::class)
-        ->except(['edit', 'create']);
+        // Get info of auth user
+        Route::get('info', [AuthControllerAdmin::class, 'getAuthUser']);
 
-    // Drivers resource
-    Route::apiResource('drivers', DriverController::class)
-        ->except(['edit', 'create', 'store', 'delete']);
+        // User Types resource
+        Route::get('user/types', [UserTypeController::class, 'index']);
 
-    // Drivers resource
-    Route::apiResource('driver/types', DriverTypeController::class)
-        ->only(['index']);
+        // Customer resource
+        Route::apiResource('customers', CustomerController::class)
+            ->except(['edit', 'create', 'store']);
 
-    // Get info of auth user
-    Route::get('info', [AuthController::class, 'getAuthUser']);
+        // Vehicle Types
+        Route::apiResource('vehicles/types', VehicleTypeController::class)
+            ->except(['edit', 'create']);
 
-    // User Types resource
-    Route::get('user/types', [UserTypeController::class, 'index']);
+        // Vehicles
+        Route::apiResource('vehicles', VehicleController::class)
+            ->except(['edit', 'create']);
 
-    // Customer resource
-    Route::apiResource('customers', CustomerController::class)
-        ->except(['edit', 'create', 'store']);
+        // Warehouse Types
+        Route::apiResource('warehouse/types', WarehouseTypeController::class)
+            ->except(['edit', 'create']);
 
-    // Addresses of Customers
-    Route::apiResource('addresses', AddressController::class)
-        ->except(['edit', 'create']);
+        // Warehouses
+        Route::apiResource('warehouses', WarehouseController::class)
+            ->except(['edit', 'create']);
 
-    // Vehicle Types
-    Route::apiResource('vehicles/types', VehicleTypeController::class)
-        ->except(['edit', 'create']);
+        // Logs
+        Route::apiResource('logs', LogController::class)
+            ->only(['index']);
 
-    // Vehicles
-    Route::apiResource('vehicles', VehicleController::class)
-        ->except(['edit', 'create']);
-
-    // Warehouse Types
-    Route::apiResource('warehouse/types', WarehouseTypeController::class)
-        ->except(['edit', 'create']);
-
-    // Warehouses
-    Route::apiResource('warehouses', WarehouseController::class)
-        ->except(['edit', 'create']);
-
-    Route::apiResource('logs', LogController::class)
-        ->only(['index']);
-
-    // End API Rest
+        // End API Rest
 
 
+        // Singles api route
 
-    // Singles api route
-
-    // Change password of Auth user
-    Route::put('_password', [UserController::class, 'changePassword']);
-
-    // Change profile info of Auth user
-    Route::put('_user', [UserController::class, 'updateProfileData']);
-
-    // Get profile info of Auth user
-    Route::get('_user', [UserController::class, 'getProfileData']);
-
-    // End Singles api route
+        // End Singles api route
+    });
 });
+
+
+// E-commerce API Routes
+Route::prefix('_p2')->group(function() {
+    //TODO: Match new APIs
+    
+    // Login
+    Route::post('login', [AuthControllerClient::class, 'login'])->middleware('EcommerceUser');
+
+    // Register
+    Route::post('register', [AuthControllerClient::class, 'register']);
+
+    // Forgot Password
+    Route::post('forgot-password', [UserController::class, 'sendEmailToResetPassword']);
+
+    Route::put('reset-password/{user_id}/{token}', [UserController::class, 'setNewPassword'])->name('setNewPassword');
+
+    //\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
+    Route::middleware('auth:api', 'EcommerceAuth')->group(function() {
+
+        // Logout
+        Route::post('logout', [AuthController::class, 'logout']);
+
+        // API Rest
+
+        // Addresses of Customers
+        Route::apiResource('addresses', AddressController::class)
+            ->except(['edit', 'create']);
+
+        // Get info of auth user
+        Route::get('info', [AuthControllerClient::class, 'getAuthUser']); // Change Retorned Info 
+
+        // End API Rest
+
+
+        // Singles api route
+
+        // Change password
+        Route::put('_password', [UserController::class, 'changePassword']);
+
+        // Modified profile info
+        Route::put('_user', [UserController::class, 'updateProfileData']);
+
+        // Get profile info
+        Route::get('_user', [UserController::class, 'getProfileData']);
+
+        // End Singles api route
+    });
+
+});
+
 

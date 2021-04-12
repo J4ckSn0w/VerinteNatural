@@ -62,6 +62,10 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'client.secret' => \App\Http\Middleware\ClientSecret::class
+        'client.secret' => \App\Http\Middleware\ClientSecret::class,
+        'AdminSystemUser' => \App\Http\Middleware\AdminSystemUser::class,
+        'AdminSystemAuth' => \App\Http\Middleware\AdminSystemAuth::class,
+        'EcommerceUser' => \App\Http\Middleware\EcommerceUser::class,
+        'EcommerceAuth' => \App\Http\Middleware\EcommerceAuth::class
     ];
 }

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use App\Models\DriverType;
+use App\Http\Controllers\Controller;
+use App\Models\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class DriverTypeController extends Controller
+class LogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,8 @@ class DriverTypeController extends Controller
     public function index(): JsonResponse
     {
         try {
-            return response()->json(['data' => DriverType::all()], 200);
+            $logs = Log::all();
+            return response()->json(['data' => $logs], 200);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }

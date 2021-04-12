@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\client;
 
-use App\Http\Requests\CustomerRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
-use App\Models\Customer;
+use App\Http\Requests\CustomerRequest;
 use App\Models\User;
-use Illuminate\Routing\Controller;
-use Exception;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use Exception;
+use Illuminate\Http\JsonResponse;
 
-class AuthController extends controller {
 
+class AuthController extends Controller {
+    
     /**
      * Login user.
      *
@@ -36,11 +39,10 @@ class AuthController extends controller {
                     'name' => $user->name,
                     'email' => $user->email,
                     'phone_number' => $user->phone_number,
-                    'user_type_id' => $user->user_type_id,
                     'created_at' => $user->created_at,
                     'email_verified_at' => $user->email_verified_at,
                     'accessToken' => $token,
-                    'customer' => $user->customer ?? null
+                    'customer' => $user->customer
 
                 ], 200);
             } else {
@@ -123,7 +125,7 @@ class AuthController extends controller {
                     'user_type_id' => $user->user_type_id,
                     'created_at' => $user->created_at,
                     'email_verified_at' => $user->email_verified_at,
-                    'customer' => $user->customer ?? null
+                    'customer' => $user->customer
                 ]
             );
         } catch(\Exception $e) {
@@ -131,4 +133,5 @@ class AuthController extends controller {
         }
 
     }
+    
 }
