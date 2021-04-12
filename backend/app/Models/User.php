@@ -58,7 +58,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param $username
      * @return mixed
      */
-    public static function findForPassport($username) {
+    public static function findForPassport($username)
+    {
         return self::firstWhere('email', $username) ?? self::firstWhere('phone_number',  $username);
     }
 
@@ -67,12 +68,12 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param $data
      * @return Customer
      */
-    public function setCustomer($data): Customer
+    public function setCustomer($rfc, $photo): Customer
     {
         $customer = new Customer();
-        $customer->photo = $data['photo'] ?? '';
+        $customer->rfc = $rfc;
+        $customer->photo = $photo;
         $customer->user_id = $this->id;
-        $customer->rfc = $data['rfc'];
         $customer->registered = 1;
         $customer->save();
 
@@ -88,10 +89,9 @@ class User extends Authenticatable implements MustVerifyEmail
         try {
             Mail::to($this)->send(new EmailVerification($this->name, $this->id));
             return 1;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return 0;
         }
-
     }
 
     /**
@@ -112,7 +112,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param $photo
      * @return mixed
      */
-    public function updateCustomer($rfc, $photo) {
+    public function updateCustomer($rfc, $photo)
+    {
         $customer = Customer::findOrfail($this->customer->id);
         $customer->rfc = $rfc;
         $customer->photo = $photo;
@@ -123,7 +124,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendPasswordResetNotification($token)
     {
-        $url = config('services.host.url') . 'api/reset-password/'.$token;
+        $url = config('services.host.url') . 'api/reset-password/' . $token;
 
         $delay = now()->addMinutes(30);
         $this->notify(new ResetPasswordNotification($url));
