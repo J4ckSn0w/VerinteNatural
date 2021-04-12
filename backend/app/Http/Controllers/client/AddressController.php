@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\client;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AddressRequest;
 use App\Models\Address;
 use Illuminate\Http\JsonResponse;

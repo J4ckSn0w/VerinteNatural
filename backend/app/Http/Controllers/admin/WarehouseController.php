@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
-use App\Http\Requests\VehicleTypeRequest;
-use App\Models\VehicleType;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\WarehouseRequest;
+use App\Models\Warehouse;
 use Illuminate\Http\JsonResponse;
 
-class VehicleTypeController extends Controller
+class WarehouseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class VehicleTypeController extends Controller
     public function index(): JsonResponse
     {
         try {
-            return response()->json(['data' => VehicleType::all()], 200);
+            return response()->json(['data' => Warehouse::all()],200);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
@@ -25,14 +26,14 @@ class VehicleTypeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param VehicleTypeRequest $request
+     * @param WarehouseRequest $request
      * @return JsonResponse
      */
-    public function store(VehicleTypeRequest $request): JsonResponse
+    public function store(WarehouseRequest $request): JsonResponse
     {
         try {
-            $vehicleType = VehicleType::create($request->all());
-            return response()->json(['data' =>$vehicleType], 201);
+            $warehouse = Warehouse::create($request->all());
+            return response()->json(['data' => $warehouse],201);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
@@ -41,13 +42,16 @@ class VehicleTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return JsonResponse
      */
-    public function show($id): JsonResponse
+    public function show(int $id): JsonResponse
     {
         try {
-            return response()->json(['data' => VehicleType::findOrfail($id)], 200);
+            $warehouse = Warehouse::findOrfail($id);
+            $warehouse->user;
+            $warehouse->warehouse_type;
+            return response()->json(['data' => $warehouse],200);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
@@ -56,17 +60,17 @@ class VehicleTypeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param VehicleTypeRequest $request
+     * @param WarehouseRequest $request
      * @param int $id
      * @return JsonResponse
      */
-    public function update(VehicleTypeRequest $request, $id): JsonResponse
+    public function update(WarehouseRequest $request, int $id): JsonResponse
     {
         try {
-            $vehicleType = VehicleType::findOrfail($id);
-            $vehicleType->fill($request->all());
-            $vehicleType->save();
-            return response()->json(['data' => $vehicleType], 200);
+            $warehouse = Warehouse::findOrfail($id);
+            $warehouse->fill($request->all());
+            $warehouse->save();
+            return response()->json(['data' => Warehouse::all()],200);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
@@ -78,12 +82,12 @@ class VehicleTypeController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy($id): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         try {
-            $vehicleType = VehicleType::findOrfail($id);
-            $vehicleType->delete();
-            return response()->json(['data' => $vehicleType], 200);
+            $warehouse = Warehouse::findOrfail($id);
+            $warehouse->delete();
+            return response()->json(['data' => $warehouse],200);
         } catch(\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
