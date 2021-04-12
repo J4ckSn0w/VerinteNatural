@@ -19,9 +19,29 @@ class CustomerController extends Controller
         try {
             $customers = User::where('user_type_id', 3)->with('customer')->get();
 
-            return response()->json(['data' => $customers],200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()],401);
+            return response()->json(['data' => $customers], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 401);
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param CustomerUpdateRequest $request
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function store(CustomerUpdateRequest $request, $id): JsonResponse
+    {
+        try {
+            $user = User::create($request->all());
+
+            $user->setCustomer($request->rfc ?? '', $request->photo ?? '');
+
+            return response()->json(['data' => $user], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 401);
         }
     }
 
@@ -37,7 +57,7 @@ class CustomerController extends Controller
         try {
             $customer = User::findOrfail($id)->load('customer');
             return response()->json(['data' => $customer], 200);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
@@ -80,7 +100,7 @@ class CustomerController extends Controller
             $user->delete();
 
             return response()->json(['data' => $user], 200);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
