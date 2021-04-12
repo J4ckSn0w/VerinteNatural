@@ -19,12 +19,14 @@ use App\Http\Controllers\admin\EmployeeTypeController;
 use App\Http\Controllers\admin\DriverController;
 use App\Http\Controllers\admin\DriverTypeController;
 use App\Http\Controllers\admin\LogController;
+use App\Http\Controllers\admin\ProductController as ProductControllerAdmin;
+use App\Http\Controllers\admin\ProductTypeController;
 
 // Client Controllers
 use App\Http\Controllers\client\AuthController as AuthControllerClient;
 use App\Http\Controllers\client\UserController;
 use App\Http\Controllers\client\AddressController;
-
+use App\Models\ProductType;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,13 +41,13 @@ use App\Http\Controllers\client\AddressController;
 
 
 // System Admin API Routes
-Route::prefix('_p1')->group(function() {
+Route::prefix('_p1')->group(function () {
 
     // Login
     Route::post('login', [AuthControllerAdmin::class, 'login'])->middleware('AdminSystemUser');
 
     //\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
-    Route::middleware('auth:api', 'AdminSystemAuth')->group(function() {
+    Route::middleware('auth:api', 'AdminSystemAuth')->group(function () {
 
         // Logout
         Route::post('logout', [AuthControllerAdmin::class, 'logout']);
@@ -76,7 +78,7 @@ Route::prefix('_p1')->group(function() {
 
         // Customer resource
         Route::apiResource('customers', CustomerController::class)
-            ->except(['edit', 'create', 'store']);
+            ->except(['edit', 'create']);
 
         // Vehicle Types
         Route::apiResource('vehicles/types', VehicleTypeController::class)
@@ -98,6 +100,14 @@ Route::prefix('_p1')->group(function() {
         Route::apiResource('logs', LogController::class)
             ->only(['index']);
 
+        // Products resource
+        Route::apiResource('products', ProductControllerAdmin::class)
+            ->except(['edit', 'create']);
+
+        // Product Types resource
+        Route::apiResource('product/types', ProductTypeController::class)
+            ->except(['edit', 'create']);
+
         // End API Rest
 
 
@@ -109,9 +119,9 @@ Route::prefix('_p1')->group(function() {
 
 
 // E-commerce API Routes
-Route::prefix('_p2')->group(function() {
+Route::prefix('_p2')->group(function () {
     //TODO: Match new APIs
-    
+
     // Login
     Route::post('login', [AuthControllerClient::class, 'login'])->middleware('EcommerceUser');
 
@@ -124,7 +134,7 @@ Route::prefix('_p2')->group(function() {
     Route::put('reset-password/{user_id}/{token}', [UserController::class, 'setNewPassword'])->name('setNewPassword');
 
     //\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
-    Route::middleware('auth:api', 'EcommerceAuth')->group(function() {
+    Route::middleware('auth:api', 'EcommerceAuth')->group(function () {
 
         // Logout
         Route::post('logout', [AuthControllerClient::class, 'logout']);
@@ -154,7 +164,4 @@ Route::prefix('_p2')->group(function() {
 
         // End Singles api route
     });
-
 });
-
-
