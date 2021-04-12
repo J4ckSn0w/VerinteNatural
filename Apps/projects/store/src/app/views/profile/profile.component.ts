@@ -28,7 +28,6 @@ export class ProfileComponent implements OnInit {
 
     //Get user data profile
     this.profileSubscription = this.profileData.profileData().subscribe((res: any) => {
-      console.log(res)
       this.name = res.data.name
       this.email = res.data.email
       this.phone_number = res.data.phone_number
