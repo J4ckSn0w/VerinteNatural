@@ -1,5 +1,4 @@
-import { EventEmitter, Injectable, resolveForwardRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpRequestService } from 'services/Tools/HttpRequest/http-request.service';
 
 @Injectable({
@@ -21,17 +20,17 @@ export class SessionService {
       username: body.username,
       password: body.password
     };
-    return this.http.guess('POST', '/api/login', body).toPromise()
+    return this.http.guess('POST', '/api/_p2/login', body).toPromise()
   }
 
   // API to register new account
   register(body: any) {
-    return this.http.guess('POST', '/api/register', body).toPromise()
+    return this.http.guess('POST', '/api/_p2/register', body).toPromise()
   }
 
   // API to recover password from email
   recoverPassword(body: any) {
-    return this.http.guess('POST', '/api/forgot-password', body).toPromise()
+    return this.http.guess('POST', '/api/_p2/forgot-password', body).toPromise()
   }
 
   // Save Session Token on LocaStorage
@@ -51,7 +50,7 @@ export class SessionService {
 
   // Ckeck if user logged
   checkAuthUser() {
-    this.http.auth('GET', '/api/info').toPromise()
+    this.http.auth('GET', '/api/_p2/info').toPromise()
       .then(res => {
         this.isLogged.emit(res)
       }).catch(err => {
@@ -61,7 +60,7 @@ export class SessionService {
 
   // Logout 
   logout() {
-    return this.http.auth('POST', '/api/logout').toPromise()
+    return this.http.auth('POST', '/api/_p2/logout').toPromise()
       .then(res => {
         this.isLogged.emit(false)
         this.removeSessionToken()

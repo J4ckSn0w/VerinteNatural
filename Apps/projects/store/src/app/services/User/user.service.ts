@@ -10,7 +10,7 @@ export class UserService {
   constructor(private http: HttpRequestService) { }
 
   profileData() {
-    return this.http.auth('GET', '/api/_user')
+    return this.http.auth('GET', '/api/_p2/_user')
   }
 
 }

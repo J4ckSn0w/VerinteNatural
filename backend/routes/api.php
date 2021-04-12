@@ -127,7 +127,7 @@ Route::prefix('_p2')->group(function() {
     Route::middleware('auth:api', 'EcommerceAuth')->group(function() {
 
         // Logout
-        Route::post('logout', [AuthController::class, 'logout']);
+        Route::post('logout', [AuthControllerClient::class, 'logout']);
 
         // API Rest
 
