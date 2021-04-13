@@ -37,9 +37,12 @@ class Employee extends Model
             $data['employee'],
             [
                 'user_id' => $user->id,
-                'employee_number' => self::newEmployeeNumber($data['employee']['employee_type_id'])
+                'employee_number' => ''
             ]
         ));
+
+        $employee->employee_number = self::newEmployeeNumber($employee);
+        $employee->save();
 
         if ($data['employee']['employee_type_id'] == 3) {
             $driver = new Driver();
@@ -68,9 +71,9 @@ class Employee extends Model
         return $employee;
     }
 
-    public static function newEmployeeNumber($type): string
+    public static function newEmployeeNumber($employee): string
     {
-        return EmployeeType::find($type)->name[0] . (Employee::all()->count() + ($type * 1000) + 1);
+        return EmployeeType::find($employee->employee_type_id)->name[0] . ($employee->id + ($employee->employee_type_id * 1000) + 1);
     }
 
     /********** End Methods *********/
