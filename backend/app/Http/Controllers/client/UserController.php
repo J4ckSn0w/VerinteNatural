@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserPasswordRequest;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
@@ -23,7 +25,7 @@ class UserController extends Controller
     {
         try {
             return response()->json(['data' => User::findOrfail(Auth::id())], 200);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
@@ -44,11 +46,9 @@ class UserController extends Controller
             $user->save();
 
             return response()->json(['data' => $user], 200);
-
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
-
     }
 
     /**
@@ -67,7 +67,6 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
-
     }
 
     /**
@@ -107,12 +106,13 @@ class UserController extends Controller
                 $user->notify(new ResetPasswordNotification($url));
             }
             return response()->json(['data' => ['msg' => 'ok']], 200);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
 
-    public function setNewPassword(Request $request, $user_id, $token) {
+    public function setNewPassword(Request $request, $user_id, $token)
+    {
 
         $request->validate([
             'new_password' => 'required|confirmed|min:8'
@@ -121,11 +121,11 @@ class UserController extends Controller
         try {
             $user = User::find($user_id);
             $canChange = Password::tokenExists($user, $token);
-            if($canChange)
+            if ($canChange)
                 $this->changeNewPassword($user_id, $request->new_password);
 
             return redirect('/password/changed');
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
