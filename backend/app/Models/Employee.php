@@ -32,14 +32,18 @@ class Employee extends Model
     {
         $user = User::create(array_merge($data['user'], ['user_type_id' => self::USER_TYPE_ID]));
         $user->sendEmailVerification();
+        $user->assign($data['role']['name']);
 
         $employee = Employee::create(array_merge(
             $data['employee'],
             [
                 'user_id' => $user->id,
-                'employee_number' => self::newEmployeeNumber($data['employee']['employee_type_id'])
+                'employee_number' => ''
             ]
         ));
+
+        $employee->employee_number = self::newEmployeeNumber($employee);
+        $employee->save();
 
         if ($data['employee']['employee_type_id'] == 3) {
             $driver = new Driver();
@@ -65,12 +69,15 @@ class Employee extends Model
 
         $user->save();
 
+        $user->retract($user->getRoles());
+        $user->assign($data['role']['name']);
+
         return $employee;
     }
 
-    public static function newEmployeeNumber($type): string
+    public static function newEmployeeNumber($employee): string
     {
-        return EmployeeType::find($type)->name[0] . (Employee::all()->count() + ($type * 1000) + 1);
+        return EmployeeType::find($employee->employee_type_id)->name[0] . ($employee->id + ($employee->employee_type_id * 1000));
     }
 
     /********** End Methods *********/
@@ -118,6 +125,8 @@ class Employee extends Model
     /********** End Relations *********/
 
 
+
+
     /*********** Appends ************/
 
     public function getNameAttribute()
@@ -146,6 +155,9 @@ class Employee extends Model
     }
 
     /********** End Appends *********/
+
+
+
 
     // BOOT
     public static function boot()

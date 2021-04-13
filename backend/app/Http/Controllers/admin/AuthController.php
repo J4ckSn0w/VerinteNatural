@@ -21,7 +21,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
-       try {
+        try {
             //get username (default is :email)
             $username = $request->username;
 
@@ -44,8 +44,7 @@ class AuthController extends Controller
             } else {
                 return response()->json(['error' => 'Verifique su información'], 401);
             }
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
@@ -55,10 +54,11 @@ class AuthController extends Controller
      *
      * @return Mixed
      */
-    public function logout() {
+    public function logout()
+    {
         try {
             return Auth::user()->token()->revoke();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
@@ -68,9 +68,16 @@ class AuthController extends Controller
      *
      * @return Mixed
      */
-    public function getAuthUser() {
+    public function getAuthUser()
+    {
         try {
             $user = Auth::user();
+
+            $abilities = $user->getAbilities()->map(function ($ability) {
+                return $ability->name;
+            });
+
+
             return response()->json(
                 [
                     'id' => $user->id,
@@ -78,12 +85,12 @@ class AuthController extends Controller
                     'email' => $user->email,
                     'phone_number' => $user->phone_number,
                     'user_type_id' => $user->user_type_id,
-                    'created_at' => $user->created_at
+                    'created_at' => $user->created_at,
+                    'abilities' => $abilities
                 ]
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
-
     }
 }
