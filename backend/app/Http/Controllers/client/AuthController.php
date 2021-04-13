@@ -13,8 +13,9 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 
 
-class AuthController extends Controller {
-    
+class AuthController extends Controller
+{
+
     /**
      * Login user.
      *
@@ -23,7 +24,7 @@ class AuthController extends Controller {
      */
     public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
-       try {
+        try {
             //get username (default is :email)
             $username = $request->username;
 
@@ -48,8 +49,7 @@ class AuthController extends Controller {
             } else {
                 return response()->json(['error' => 'Verifique su información'], 401);
             }
-
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
@@ -71,7 +71,7 @@ class AuthController extends Controller {
             $user->user_type_id = Customer::getUserTypeID();
             $user->save();
 
-            $user->setCustomer(['photo' => $request->photo, 'rfc' => $request->rfc]);
+            $user->setCustomer($request->photo ?? '', $request->rfc ?? '');
             $token = $user->createToken('Personal Access Token')->accessToken;
 
             $user->sendEmailVerification();
@@ -89,10 +89,9 @@ class AuthController extends Controller {
                     'customer' => $user->customer
                 ]
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
-
     }
 
     /**
@@ -100,10 +99,11 @@ class AuthController extends Controller {
      *
      * @return Mixed
      */
-    public function logout() {
+    public function logout()
+    {
         try {
             return Auth::user()->token()->revoke();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
     }
@@ -113,7 +113,8 @@ class AuthController extends Controller {
      *
      * @return Mixed
      */
-    public function getAuthUser() {
+    public function getAuthUser()
+    {
         try {
             $user = Auth::user();
             return response()->json(
@@ -128,10 +129,8 @@ class AuthController extends Controller {
                     'customer' => $user->customer
                 ]
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
-
     }
-    
 }
