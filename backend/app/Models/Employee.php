@@ -73,7 +73,7 @@ class Employee extends Model
 
     public static function newEmployeeNumber($employee): string
     {
-        return EmployeeType::find($employee->employee_type_id)->name[0] . ($employee->id + ($employee->employee_type_id * 1000) + 1);
+        return EmployeeType::find($employee->employee_type_id)->name[0] . ($employee->id + ($employee->employee_type_id * 1000));
     }
 
     /********** End Methods *********/
