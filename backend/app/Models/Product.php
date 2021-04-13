@@ -33,6 +33,16 @@ class Product extends Model
 
     /********** End Relations *********/
 
+
+    /*********** Appends ************/
+
+    public function getProductTypeNameAttribute()
+    {
+        return $this->product_type->name ?? '';
+    }
+
+    /********** End Appends *********/
+
     // BOOT
     public static function boot()
     {
