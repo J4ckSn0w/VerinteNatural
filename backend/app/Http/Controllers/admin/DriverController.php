@@ -19,16 +19,20 @@ class DriverController extends Controller
     {
         try {
             $drivers = Driver::all();
-            $drivers = $drivers->map(function($driver) {
+            $drivers = $drivers->map(function ($driver) {
                 $driver->append(['vehicle_name', 'employee_number']);
                 $driver = $driver->only(
-                    'id', 'rate',
-                    'vehicle_id', 'employee_id', 'driver_type_id',
-                    'vehicle_name', 'employee_number');
+                    'id',
+                    'rate',
+                    'vehicle_id',
+                    'employee_id',
+                    'vehicle_name',
+                    'employee_number'
+                );
                 return $driver;
             });
             return response()->json(['data' => $drivers], 200);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -44,7 +48,7 @@ class DriverController extends Controller
         try {
             $driver = Driver::findOrfail($id)->append(['name', 'employee_number']);
             return response()->json(['data' => $driver], 200);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([], 400);
         }
     }
@@ -63,7 +67,7 @@ class DriverController extends Controller
             $driver->fill($request->all());
             $driver->save();
             return response()->json(['data' => $driver], 201);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
