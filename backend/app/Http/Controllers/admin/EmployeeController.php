@@ -8,6 +8,8 @@ use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Bouncer;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -59,12 +61,13 @@ class EmployeeController extends Controller
                 'employee' => [
                     'employee_type_id' => $request->employee_type_id,
                     'warehouse_id' => $request->warehouse_id
-                ]
+                ],
+                'role' => $request->role
             ]);
 
             return response()->json(['data' => $employee], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
     }
 
@@ -91,7 +94,7 @@ class EmployeeController extends Controller
             );
             return response()->json(['data' => $employee], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
     }
 
@@ -116,12 +119,13 @@ class EmployeeController extends Controller
                     'id' => $id,
                     'employee_type_id' => $request->employee_type_id,
                     'warehouse_id' => $request->warehouse_id
-                ]
+                ],
+                'role' => $request->role
             ]);
 
             return response()->json(['data' => $employee], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
     }
 
@@ -144,6 +148,24 @@ class EmployeeController extends Controller
             return response()->json(['data' => $employee], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
+        }
+    }
+
+
+    /**
+     * Get roles of employee type
+     */
+    public function getRoles($employee_type_id = null)
+    {
+        try {
+            if ($employee_type_id)
+                $roles = DB::table('roles')->select('name', 'title')->where('employee_type_id', $employee_type_id)->get();
+            else
+                $roles = DB::table('roles')->select('name', 'title')->get();
+
+            return response()->json(['data' => $roles], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
     }
 }
