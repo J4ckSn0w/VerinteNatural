@@ -113,6 +113,8 @@ Route::prefix('_p1')->group(function () {
 
         // Singles api route
 
+        Route::get('roles/{employee_type_id?}', [EmployeeController::class, 'getRoles']);
+
         // End Singles api route
     });
 });
