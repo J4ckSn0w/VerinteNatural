@@ -17,7 +17,17 @@ class ProductController extends Controller
     public function index()
     {
         try {
-            return response()->json(['data' => Product::all()], 200);
+            $products = Product::all();
+            $products = $products->map(function ($product) {
+                $product->append(['product_type_name']);
+                $product = $product->only(
+                    'id',
+                    'name',
+                    'product_type_name'
+                );
+                return $product;
+            });
+            return response()->json(['data' => $products], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
