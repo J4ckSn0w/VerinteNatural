@@ -32,6 +32,7 @@ class Employee extends Model
     {
         $user = User::create(array_merge($data['user'], ['user_type_id' => self::USER_TYPE_ID]));
         $user->sendEmailVerification();
+        $user->assign($data['role']['name']);
 
         $employee = Employee::create(array_merge(
             $data['employee'],
@@ -67,6 +68,9 @@ class Employee extends Model
         else $user->password = $user->getOriginal('password');
 
         $user->save();
+
+        $user->retract($user->getRoles());
+        $user->assign($data['role']['name']);
 
         return $employee;
     }
@@ -121,6 +125,8 @@ class Employee extends Model
     /********** End Relations *********/
 
 
+
+
     /*********** Appends ************/
 
     public function getNameAttribute()
@@ -149,6 +155,9 @@ class Employee extends Model
     }
 
     /********** End Appends *********/
+
+
+
 
     // BOOT
     public static function boot()
