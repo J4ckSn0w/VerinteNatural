@@ -19,9 +19,11 @@ class DatabaseSeeder extends Seeder
         $this->call(StatesTableSeeder::class);
         $this->call(MunicipalitiesTableSeeder::class);
         $this->call(EmployeeTypesTableSeeder::class);
-        $this->call(DriverTypesTableSeeder::class);
 
         // Real Data
         $this->call(UsersTableSeeder::class);
+
+        // Roles 
+        $this->call(AbilitiesAndRoles::class);
     }
 }
