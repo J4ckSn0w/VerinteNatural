@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\WarehouseController;
 use App\Http\Controllers\admin\EmployeeTypeController;
 use App\Http\Controllers\admin\DriverController;
 use App\Http\Controllers\admin\DriverTypeController;
+use App\Http\Controllers\admin\IncidentController;
 use App\Http\Controllers\admin\LogController;
 use App\Http\Controllers\admin\ProductController as ProductControllerAdmin;
 use App\Http\Controllers\admin\ProductTypeController;
@@ -108,16 +109,24 @@ Route::prefix('_p1')->group(function () {
         Route::apiResource('product/types', ProductTypeController::class)
             ->except(['edit', 'create']);
 
-        // Get Providers
+        // Providers resources
         Route::apiResource('providers', ProviderController::class)
             ->except(['edit', 'create']);
+
+        // Incidents resources
+        Route::apiResource('incidents', IncidentController::class)
+            ->except(['edit', 'create', 'update']);
 
         // End API Rest
 
 
         // Singles api route
 
+        // Get abilities
         Route::get('roles/{employee_type_id?}', [EmployeeController::class, 'getRoles']);
+
+        // Change incidents status
+        Route::put('incidents/{id}/{status}', [IncidentController::class, 'changeStatus']);
 
         // End Singles api route
     });
