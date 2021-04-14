@@ -112,14 +112,28 @@ class Employee extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
+    /**
+     * Driver data of employee
+     */
     public function driver(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Driver::class);
     }
 
+    /**
+     * Warehouse of leader
+     */
     public function leader_warehouse(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Warehouse::class, 'leader_id', 'id');
+    }
+
+    /**
+     * Incidents of employee
+     */
+    public function incidents()
+    {
+        return $this->hasMany(Incident::class);
     }
 
     /********** End Relations *********/

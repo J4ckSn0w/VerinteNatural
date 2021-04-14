@@ -56,7 +56,7 @@ class Product extends Model
 
         static::created(function ($model) {
             Log::create([
-                "category" => "Producto",
+                "category" => "Productos",
                 "action" => "Se creó el producto " . $model->name,
                 "user_id" => Auth::id()
             ]);
@@ -65,7 +65,7 @@ class Product extends Model
         static::updated(function ($model) {
 
             Log::create([
-                "category" => "Producto",
+                "category" => "Productos",
                 "action" => "Se actualizó el producto " . $model->name,
                 "user_id" => Auth::id()
             ]);
@@ -74,7 +74,7 @@ class Product extends Model
         static::deleted(function ($model) {
 
             Log::create([
-                "category" => "Producto",
+                "category" => "Productos",
                 "action" => "Se eliminó el producto " . $model->name,
                 "user_id" => Auth::id()
             ]);
