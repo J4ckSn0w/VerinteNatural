@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKilometresTable extends Migration
+class CreateMileageRecordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateKilometresTable extends Migration
      */
     public function up()
     {
-        Schema::create('kilometres', function (Blueprint $table) {
+        Schema::create('mileage_records', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->double('initial_mileage');
             $table->double('final_mileage');
             $table->unsignedBigInteger('vehicle_id');
+            $table->double('gasoline_price');
+            $table->double('spent_gasoline');
 
             $table->timestamps();
 
@@ -32,6 +34,6 @@ class CreateKilometresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kilometres');
+        Schema::dropIfExists('mileage_records');
     }
 }
