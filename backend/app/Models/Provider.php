@@ -4,38 +4,43 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class WarehouseType extends Model
+class Provider extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'warehouse_types';
+    protected $table = 'providers';
 
     protected $fillable = [
-        'name'
+        'name',
+        'address',
+        'contact',
+        'email',
+        'phone_number',
+        'schedule'
     ];
-    /**
-     * @var mixed
-     */
 
     /*********** Methods ************/
-
-
 
     /********** End Methods *********/
 
 
     /*********** Relations ************/
 
-    public function warehouses(): HasMany
+    public function products()
     {
-        return $this->hasMany(Warehouse::class);
+        return $this->belongsToMany(Product::class)->withPivot('price');
     }
 
     /********** End Relations *********/
+
+
+    /*********** Appends ************/
+
+
+    /********** End Appends *********/
 
     // BOOT
     public static function boot()
@@ -44,8 +49,8 @@ class WarehouseType extends Model
 
         static::created(function ($model) {
             Log::create([
-                "category" => "Tipos de Almacenes",
-                "action" => "Se creó el tipo de almacen " . $model->name,
+                "category" => "Proveedor",
+                "action" => "Se creó el proveedor " . $model->name,
                 "user_id" => Auth::id()
             ]);
         });
@@ -53,8 +58,8 @@ class WarehouseType extends Model
         static::updated(function ($model) {
 
             Log::create([
-                "category" => "Tipos de Almacenes",
-                "action" => "Se actualizó el tipo de almacen " . $model->name,
+                "category" => "Proveedor",
+                "action" => "Se actualizó el proveedor " . $model->name,
                 "user_id" => Auth::id()
             ]);
         });
@@ -62,8 +67,8 @@ class WarehouseType extends Model
         static::deleted(function ($model) {
 
             Log::create([
-                "category" => "Tipos de Almacenes",
-                "action" => "Se eliminó el tipo de almacen " . $model->name,
+                "category" => "Proveedor",
+                "action" => "Se eliminó el proveedor " . $model->name,
                 "user_id" => Auth::id()
             ]);
         });

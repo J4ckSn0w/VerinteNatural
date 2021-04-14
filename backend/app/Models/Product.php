@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'products';
 
@@ -29,6 +30,11 @@ class Product extends Model
     public function product_type(): BelongsTo
     {
         return $this->belongsTo(ProductType::class);
+    }
+
+    public function providers()
+    {
+        return $this->belongsToMany(Provider::class);
     }
 
     /********** End Relations *********/
