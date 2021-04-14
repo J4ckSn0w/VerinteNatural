@@ -21,12 +21,12 @@ use App\Http\Controllers\admin\DriverTypeController;
 use App\Http\Controllers\admin\LogController;
 use App\Http\Controllers\admin\ProductController as ProductControllerAdmin;
 use App\Http\Controllers\admin\ProductTypeController;
+use App\Http\Controllers\admin\ProviderController;
 
 // Client Controllers
 use App\Http\Controllers\client\AuthController as AuthControllerClient;
 use App\Http\Controllers\client\UserController;
 use App\Http\Controllers\client\AddressController;
-use App\Models\ProductType;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,6 +106,10 @@ Route::prefix('_p1')->group(function () {
 
         // Product Types resource
         Route::apiResource('product/types', ProductTypeController::class)
+            ->except(['edit', 'create']);
+
+        // Get Providers
+        Route::apiResource('providers', ProviderController::class)
             ->except(['edit', 'create']);
 
         // End API Rest
