@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name', 255);
             $table->unsignedBigInteger('product_type_id')->nullable();
             $table->string('description', 255)->nullable();
+            $table->string('sku', 255)->nullable();
 
             $table->timestamps();
             $table->softDeletes();

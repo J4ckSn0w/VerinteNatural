@@ -8,6 +8,7 @@ use \Illuminate\Auth\Events\PasswordReset;
 
 // Admin Controllers
 use App\Http\Controllers\admin\AuthController as AuthControllerAdmin;
+use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\EmployeeController;
 use App\Http\Controllers\admin\UserTypeController;
 use App\Http\Controllers\admin\CustomerController;
@@ -116,6 +117,10 @@ Route::prefix('_p1')->group(function () {
         // Incidents resources
         Route::apiResource('incidents', IncidentController::class)
             ->except(['edit', 'create', 'update']);
+
+        // Categories resources
+        Route::apiResource('categories', CategoryController::class)
+            ->only(['index']);
 
         // End API Rest
 

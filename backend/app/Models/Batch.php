@@ -4,20 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class Product extends Model
+class Batch extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'products';
+    protected $table = 'batches';
 
     protected $fillable = [
-        'name',
-        'product_type_id',
-        'description',
+        'quantity',
+        'unit_cost',
+        'product_id',
+        'provider_id',
+        'unit',
         'sku'
     ];
 
@@ -28,30 +29,12 @@ class Product extends Model
 
     /*********** Relations ************/
 
-    public function product_type(): BelongsTo
-    {
-        return $this->belongsTo(ProductType::class);
-    }
-
-    public function providers()
-    {
-        return $this->belongsToMany(Provider::class);
-    }
 
     /********** End Relations *********/
 
 
     /*********** Appends ************/
 
-    public function getProductTypeNameAttribute()
-    {
-        return $this->product_type->name ?? '';
-    }
-
-    public function getCategoryNameAttribute()
-    {
-        return $this->product_type->category->name ?? '';
-    }
 
     /********** End Appends *********/
 
