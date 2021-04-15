@@ -48,6 +48,11 @@ class Product extends Model
         return $this->product_type->name ?? '';
     }
 
+    public function getCategoryNameAttribute()
+    {
+        return $this->product_type->category->name ?? '';
+    }
+
     /********** End Appends *********/
 
     // BOOT
