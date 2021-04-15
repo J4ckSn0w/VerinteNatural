@@ -24,7 +24,8 @@ class ProductTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255'
+            'name' => 'required|max:99',
+            'category_id' => 'required|exists:categories,id'
         ];
     }
 }
