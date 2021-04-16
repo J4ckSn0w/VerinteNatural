@@ -19,7 +19,6 @@ class CreateBatchesTable extends Migration
             $table->double('unit_cost')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('provider_id')->nullable();
-            $table->string('unit', 100)->nullable();
             $table->string('sku', 100)->nullable();
 
             $table->softDeletes();
