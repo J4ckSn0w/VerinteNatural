@@ -147,7 +147,8 @@ return [
     */
 
     'attributes' => [
-        "warehouse_id" => "almácen"
+        "warehouse_id" => "almácen",
+        "image" => "imagen"
     ],
 
 ];
