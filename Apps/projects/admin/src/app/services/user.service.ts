@@ -21,7 +21,7 @@ export class UserService {
             let headers = new HttpHeaders;
             headers.append('Content-Type','application/json');
             headers.append('Accept','application/json');
-            this.http.post(this.str_ip + '/api/register', obj).toPromise()
+            this.http.post(this.str_ip + '/api/_p1/register', obj).toPromise()
               .then((res: any) => {
                 resolve(res)
               })
@@ -40,7 +40,7 @@ export class UserService {
             Accept: 'application/json',
             ContentType: 'application/json'
           });
-          this.http.post(this.str_ip + '/api/users', obj,{headers:headers}).toPromise()
+          this.http.post(this.str_ip + '/api/_p1/employees', obj,{headers:headers}).toPromise()
             .then((res: any) => {
               resolve(res)
             })
@@ -59,7 +59,7 @@ export class UserService {
           Accept: 'application/json',
           ContentType: 'application/json'
         });
-        this.http.get(this.str_ip + '/api/users', {headers:headers}).toPromise()
+        this.http.get(this.str_ip + '/api/_p1/employees', {headers:headers}).toPromise()
           .then((res: any) => {
               //console.log(res);
               //console.log('Respuesta de user types:'+ res.data);
@@ -81,7 +81,7 @@ export class UserService {
           Accept: 'application/json',
           ContentType: 'application/json'
         });
-        this.http.get(this.str_ip + '/api/users/' + id, {headers:headers}).toPromise()
+        this.http.get(this.str_ip + '/api/_p1/employees/' + id, {headers:headers}).toPromise()
         .then(res => {
           //console.log(res);
           resolve(res);
@@ -102,7 +102,7 @@ export class UserService {
           Accept: 'application/json',
           ContentType: 'application/json'
         });
-        this.http.put(this.str_ip + '/api/users/' + obj.id,obj,{headers:headers}).toPromise()
+        this.http.put(this.str_ip + '/api/_p1/employees/' + obj.id,obj,{headers:headers}).toPromise()
         .then(res => {
           console.log(res);
           resolve(res);
@@ -124,7 +124,7 @@ export class UserService {
           Accept: 'application/json',
           ContentType: 'application/json'
         });
-        this.http.delete(this.str_ip + '/api/users/' + id, {headers: headers}).toPromise()
+        this.http.delete(this.str_ip + '/api/_p1/employees/' + id, {headers: headers}).toPromise()
         .then((res) => {
           resolve(res);
         })
@@ -143,7 +143,7 @@ export class UserService {
           Accept: 'application/json',
           ContentType: 'application/json'
         });
-        this.http.get(this.str_ip + '/api/info', {headers: headers}).toPromise()
+        this.http.get(this.str_ip + '/api/_p1/info', {headers: headers}).toPromise()
         .then((res) => {
           resolve(res);
         })

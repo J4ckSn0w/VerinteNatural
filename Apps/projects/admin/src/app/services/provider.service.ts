@@ -1,28 +1,29 @@
 import { Injectable } from "@angular/core";
 import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SessionService } from '../services/sessionService.service';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn:'root'
 })
 
-export class WarehouseTypeService {
+export class ProviderService  {
     str_ip = environment.ip;
+
     constructor(
-        private sessionService: SessionService,
-        private http: HttpClient
+        private sesionService : SessionService,
+        private http : HttpClient
     ){}
 
-    fnPostNewWarehouseType(data):Promise<any>{
-        let userToken = this.sessionService.fnGetSessionToken();
+    fnPostProviderNew(data):Promise<any>{
+        let userToken = this.sesionService.fnGetSessionToken();
         let respuesta = new Promise((resolve,reject) => {
             let headers = new HttpHeaders({
                 Authorization: 'Bearer '+userToken,
                 Accept: 'application/json',
                 ContentType: 'application/json'
             });
-            this.http.post(this.str_ip+'/api/_p1/warehouse/types',data,{headers:headers}).toPromise()
+            this.http.post(this.str_ip + '/api/_p1/providers',data,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -33,15 +34,15 @@ export class WarehouseTypeService {
         return respuesta;
     }
 
-    fnPutEditWarehouseType(data,id):Promise<any>{
-        let userToken = this.sessionService.fnGetSessionToken();
+    fnGetProviders():Promise<any>{
+        let userToken = this.sesionService.fnGetSessionToken();
         let respuesta = new Promise((resolve,reject) => {
             let headers = new HttpHeaders({
                 Authorization: 'Bearer '+userToken,
                 Accept: 'application/json',
                 ContentType: 'application/json'
             });
-            this.http.put(this.str_ip+'/api/_p1/warehouse/types/'+id,data,{headers:headers}).toPromise()
+            this.http.get(this.str_ip + '/api/_p1/providers',{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -52,34 +53,15 @@ export class WarehouseTypeService {
         return respuesta;
     }
 
-    fnGetWarehouses():Promise<any>{
-        let userToken = this.sessionService.fnGetSessionToken();
+    fnGetProviderById(id):Promise<any>{
+        let userToken = this.sesionService.fnGetSessionToken();
         let respuesta = new Promise((resolve,reject) => {
             let headers = new HttpHeaders({
                 Authorization: 'Bearer '+userToken,
                 Accept: 'application/json',
                 ContentType: 'application/json'
             });
-            this.http.get(this.str_ip+'/api/_p1/warehouse/types',{headers:headers}).toPromise()
-              .then(res => {
-                  resolve(res);
-              })
-              .catch(rej => {
-                  reject(rej);
-              })
-        });
-        return respuesta;
-    }
-
-    fnGetWarehouseTypeById(id):Promise<any>{
-        let userToken = this.sessionService.fnGetSessionToken();
-        let respuesta = new Promise((resolve,reject) => {
-            let headers = new HttpHeaders({
-                Authorization: 'Bearer '+userToken,
-                Accept: 'application/json',
-                ContentType: 'application/json'
-            });
-            this.http.get(this.str_ip+'/api/_p1/warehouse/types/'+id,{headers:headers}).toPromise()
+            this.http.get(this.str_ip + '/api/_p1/providers/' + id,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -90,15 +72,34 @@ export class WarehouseTypeService {
         return respuesta;
     }
 
-    fnDeleteWarehouseType(id):Promise<any>{
-        let userToken = this.sessionService.fnGetSessionToken();
+    fnDeleteProvider(id):Promise<any>{
+        let userToken = this.sesionService.fnGetSessionToken();
         let respuesta = new Promise((resolve,reject) => {
             let headers = new HttpHeaders({
                 Authorization: 'Bearer '+userToken,
                 Accept: 'application/json',
                 ContentType: 'application/json'
             });
-            this.http.delete(this.str_ip + '/api/_p1/warehouse/types/'+id,{headers:headers}).toPromise()
+            this.http.delete(this.str_ip + '/api/_p1/providers/' + id,{headers:headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        });
+        return respuesta;
+    }
+
+    fnPutEditProvider(data):Promise<any>{
+        let userToken = this.sesionService.fnGetSessionToken();
+        let respuesta = new Promise((resolve,reject) =>{
+            let headers = new HttpHeaders({
+                Authorization: 'Bearer '+userToken,
+                Accept: 'application/json',
+                ContentType: 'application/json'
+            });
+            this.http.put(this.str_ip + '/api/_p1/providers/'+data.id,data,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })

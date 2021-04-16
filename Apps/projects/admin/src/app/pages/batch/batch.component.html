@@ -1,0 +1,104 @@
+<h2 class="display-3 text-center mt-5">Control Lotes</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card text-center my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nuevo Lote</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Tipo de Producto</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let batch of arrayBatches; let index;">
+                            <th scope="row">{{ batch.id }}</th>
+                            <td>{{ batch.name }}</td>
+                            <td>{{ batch.description }}</td>
+                            <td>{{ batch.product_type_id }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-4 col-sm-4 text-left">
+                                        <a href="javascript:void(0)" (click)="fnVer(batch.id)"><i class="fa fa-eye"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEdit(batch.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-right">
+                                        <a href="javascript:void(0)" (click)="fnDelete(batch.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <!--New-->
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Proveedor</label>
+                        <select class="form-control" formControlName="provider_id" (ngModelChange)='onOptionsSelected($event)'>
+                            <option *ngFor="let provider of arrayProviders; let index;" [value]="provider.id">{{provider.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Producto</label>
+                        <select class="form-control" formControlName="product_id">
+                            <option *ngFor="let product of arrayProducts; let index;" [value]="product.id">{{product.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Cantidad</label>
+                        <input class="form-control" type="text" placeholder="Cantidad" formControlName="quantity">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Precio</label>
+                        <input class="form-control" type="text" placeholder="Descripcion" formControlName="unit_cost">
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <!--Edit - View-->
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Cantidad</label>
+                        <input class="form-control" type="text" placeholder="Cantidad" formControlName="quantity">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Precio</label>
+                        <input class="form-control" type="text" placeholder="Descripcion" formControlName="unit_cost">
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitEdit()">Agregar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

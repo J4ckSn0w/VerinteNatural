@@ -28,7 +28,7 @@ export class UserTypesService{
               Accept: 'application/json',
               ContentType: 'application/json'
             });
-            this.http.get(this.str_ip + '/api/user/types', {headers:headers}).toPromise()
+            this.http.get(this.str_ip + '/api/_p1/user/types', {headers:headers}).toPromise()
               .then((res: any) => {
                   //console.log(res);
                   //console.log('Respuesta de user types:'+ res.data);
@@ -50,7 +50,7 @@ export class UserTypesService{
               Accept: 'application/json',
               ContentType: 'application/json'
         });
-        this.http.get(this.str_ip + '/api/employee/types',{headers:headers}).toPromise()
+        this.http.get(this.str_ip + '/api/_p1/employee/types',{headers:headers}).toPromise()
         .then(res => {
           resolve(res);
         })

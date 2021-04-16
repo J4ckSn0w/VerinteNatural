@@ -22,7 +22,7 @@ export class WarehouseTypeService {
                 Accept: 'application/json',
                 ContentType: 'application/json'
             });
-            this.http.post(this.str_ip+'/api/warehouse/types',data,{headers:headers}).toPromise()
+            this.http.post(this.str_ip+'/api/_p1/warehouse/types',data,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -41,7 +41,7 @@ export class WarehouseTypeService {
                 Accept: 'application/json',
                 ContentType: 'application/json'
             });
-            this.http.put(this.str_ip+'/api/warehouse/types/'+id,data,{headers:headers}).toPromise()
+            this.http.put(this.str_ip+'/api/_p1/warehouse/types/'+id,data,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -79,7 +79,7 @@ export class WarehouseTypeService {
                 Accept: 'application/json',
                 ContentType: 'application/json'
             });
-            this.http.get(this.str_ip+'/api/warehouse/types/'+id,{headers:headers}).toPromise()
+            this.http.get(this.str_ip+'/api/_p1/warehouse/types/'+id,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -98,7 +98,7 @@ export class WarehouseTypeService {
                 Accept: 'application/json',
                 ContentType: 'application/json'
             });
-            this.http.delete(this.str_ip + '/api/warehouse/types/'+id,{headers:headers}).toPromise()
+            this.http.delete(this.str_ip + '/api/_p1/warehouse/types/'+id,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })

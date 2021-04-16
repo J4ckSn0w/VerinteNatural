@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from '../../environments/environment';
-import { SessionService } from './session.service';
+import { SessionService } from './sessionService.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -19,11 +19,11 @@ export class ProductService{
         let userToken = this.sessionService.fnGetSessionToken();
         let respuesta = new Promise((resolve,reject) => {
             let headers = new HttpHeaders({
-                Authorizacion:'Bearer '+userToken,
+                Authorization: 'Bearer '+userToken,
                 Accept:'application/json',
                 ContentType:'application/json'
             });
-            this.http.post(this.str_ip+'/api/product',data,{headers:headers}).toPromise()
+            this.http.post(this.str_ip+'/api/_p1/products',data,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -38,11 +38,11 @@ export class ProductService{
         let userToken = this.sessionService.fnGetSessionToken();
         let respuesta = new Promise((resolve,reject) => {
             let headers = new HttpHeaders({
-                Authorizacion:'Bearer '+userToken,
+                Authorization:'Bearer '+userToken,
                 Accept:'application/json',
                 ContentType:'application/json'
             });
-            this.http.put(this.str_ip + '/api/product',data,{headers:headers}).toPromise()
+            this.http.put(this.str_ip + '/api/_p1/products/' + data.id,data,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -57,11 +57,11 @@ export class ProductService{
         let userToken = this.sessionService.fnGetSessionToken();
         let respuesta = new Promise((resolve,reject) => {
             let headers = new HttpHeaders({
-                Authorization:'Bearer '+userToken,
+                Authorization: 'Bearer '+userToken,
                 Accept:'application/json',
                 ContentType:'application/json'
             });
-            this.http.get(this.str_ip+'/api/products/'+id,{headers:headers}).toPromise()
+            this.http.get(this.str_ip+'/api/_p1/products/'+id,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -80,7 +80,7 @@ export class ProductService{
                 Accept:'application/json',
                 ContentType:'application/json'
             });
-            this.http.get(this.str_ip+'/api/products',{headers:headers}).toPromise()
+            this.http.get(this.str_ip+'/api/_p1/products',{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -99,7 +99,7 @@ export class ProductService{
                 Accept:'application/json',
                 ContentType:'application/json'
             });
-            this.http.delete(this.str_ip+'/api/products/'+id,{headers:headers}).toPromise()
+            this.http.delete(this.str_ip+'/api/_p1/products/'+id,{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
