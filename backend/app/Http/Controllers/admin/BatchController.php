@@ -102,9 +102,17 @@ class BatchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BatchRequest $request, $id)
     {
-        //
+        try {
+            $batch = Batch::findOrfail($id);
+            $batch->quantity = $request->quantity;
+            $batch->unit_cost = $request->unit_cost;
+            $batch->save();
+            return response()->json(['data' => $batch], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+        }
     }
 
     /**
@@ -115,6 +123,5 @@ class BatchController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }
