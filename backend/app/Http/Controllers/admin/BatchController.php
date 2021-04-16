@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BatchRequest;
+use App\Models\Batch;
+use App\Models\Product;
+use App\Models\Provider;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BatchController extends Controller
@@ -14,17 +19,24 @@ class BatchController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        try {
+            $batches = Batch::all();
+            $batches = $batches->map(function ($batch) {
+                $batch->append(['product_name', 'provider_name']);
+                $batch = $batch->only([
+                    'sku',
+                    'quantity',
+                    'unit_cost',
+                    'product_name',
+                    'provider_name',
+                    'created_at'
+                ]);
+                return $batch;
+            });
+            return response()->json(['data' => $batches], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+        }
     }
 
     /**
@@ -33,9 +45,38 @@ class BatchController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BatchRequest $request)
     {
-        //
+        try {
+            $date = Carbon::now()->format('dmy');
+            $product = Product::findOrfail($request->product_id);
+            $providerID = $this->formatID($request->provider_id, 4);
+            $sameBatchesToday = Batch::where([['product_id', $request->product_id], ['provider_id', $request->provider_id]])->count();
+            $sku = 'VN' . $providerID . $product->sku . $date . $this->formatID(($sameBatchesToday + 1), 2);
+
+            $batch = new Batch();
+            $batch->fill($request->all());
+            $batch->sku = $sku;
+            $batch->save();
+
+            return response()->json(['data' => $batch], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+        }
+    }
+
+    public function formatID($id, $digits)
+    {
+
+        $formattedID = '';
+
+        for ($i = 1; $i < $digits; $i++)
+            if (pow(10, $i) > $id) $formattedID .= '0';
+
+
+        $formattedID .= $id;
+
+        return $formattedID;
     }
 
     /**
@@ -45,17 +86,6 @@ class BatchController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
     {
         //
     }
