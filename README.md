@@ -1,2 +1,2 @@
-# verinte_natural
+# Verinte Natural
 Verinte Natural
