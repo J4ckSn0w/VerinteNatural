@@ -110,7 +110,13 @@ class ProductController extends Controller
         try {
             $product = Product::find($id);
             $product->name = $request->name;
+            $product->description = $request->description;
             $product->save();
+
+            $base64_str = substr($request->image, strpos($request->image, ",") + 1);
+            $image = base64_decode($base64_str);
+            $path = Storage::disk('public')->put('/images/products/' . $product->sku . '.png', $image);
+
             return response()->json(['data' => $product], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
@@ -127,6 +133,7 @@ class ProductController extends Controller
     {
         try {
             $product = Product::find($id);
+            Storage::disk('public')->delete(['/images/products/' . $product->sku . '.png']);
             $product->delete();
             return response()->json(['data' => $product], 200);
         } catch (\Exception $e) {
