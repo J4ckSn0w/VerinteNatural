@@ -24,6 +24,7 @@ class BatchController extends Controller
             $batches = $batches->map(function ($batch) {
                 $batch->append(['product_name', 'provider_name']);
                 $batch = $batch->only([
+                    'id',
                     'sku',
                     'quantity',
                     'unit_cost',
@@ -59,7 +60,7 @@ class BatchController extends Controller
             $batch->sku = $sku;
             $batch->save();
 
-            return response()->json(['data' => $batch], 200);
+            return response()->json(['data' => $batch], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
@@ -67,7 +68,6 @@ class BatchController extends Controller
 
     public function formatID($id, $digits)
     {
-
         $formattedID = '';
 
         for ($i = 1; $i < $digits; $i++)
@@ -87,7 +87,12 @@ class BatchController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $batch = Batch::findOrfail($id);
+            return response()->json(['data' => $batch], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+        }
     }
 
     /**
