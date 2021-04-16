@@ -13,7 +13,7 @@ class BatchRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class BatchRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'quantity'      => 'required|numeric',
+            'unit_cost'     => 'required|numeric',
+            'product_id'    => 'required|exists:products,id',
+            'provider_id'   => 'required|exists:providers,id'
         ];
     }
 }
