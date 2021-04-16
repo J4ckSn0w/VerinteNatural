@@ -123,5 +123,12 @@ class BatchController extends Controller
      */
     public function destroy($id)
     {
+        try {
+            $batch = Batch::findOrfail($id);
+            $batch->delete();
+            return response()->json(['data' => $batch], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+        }
     }
 }
