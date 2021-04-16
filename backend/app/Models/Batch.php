@@ -17,9 +17,7 @@ class Batch extends Model
         'quantity',
         'unit_cost',
         'product_id',
-        'provider_id',
-        'unit',
-        'sku'
+        'provider_id'
     ];
 
     /*********** Methods ************/
@@ -29,12 +27,30 @@ class Batch extends Model
 
     /*********** Relations ************/
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class);
+    }
 
     /********** End Relations *********/
 
 
     /*********** Appends ************/
 
+    public function getProductNameAttribute()
+    {
+        return $this->product->name ?? '';
+    }
+
+    public function getProviderNameAttribute()
+    {
+        return $this->provider->name ?? '';
+    }
 
     /********** End Appends *********/
 
@@ -45,8 +61,8 @@ class Batch extends Model
 
         static::created(function ($model) {
             Log::create([
-                "category" => "Productos",
-                "action" => "Se creó el producto " . $model->name,
+                "category" => "Lotes",
+                "action" => "Se creó el lote " . $model->sku,
                 "user_id" => Auth::id()
             ]);
         });
@@ -54,8 +70,8 @@ class Batch extends Model
         static::updated(function ($model) {
 
             Log::create([
-                "category" => "Productos",
-                "action" => "Se actualizó el producto " . $model->name,
+                "category" => "Lotes",
+                "action" => "Se actualizó el lote " . $model->sku,
                 "user_id" => Auth::id()
             ]);
         });
@@ -63,8 +79,8 @@ class Batch extends Model
         static::deleted(function ($model) {
 
             Log::create([
-                "category" => "Productos",
-                "action" => "Se eliminó el producto " . $model->name,
+                "category" => "Lotes",
+                "action" => "Se eliminó el lote " . $model->sku,
                 "user_id" => Auth::id()
             ]);
         });
