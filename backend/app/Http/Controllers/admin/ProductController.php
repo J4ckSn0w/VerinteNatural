@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -56,6 +57,10 @@ class ProductController extends Controller
                 $productType->code .
                 $this->formatProductID($product->id);
             $product->save();
+
+            $base64_str = substr($request->image, strpos($request->image, ",") + 1);
+            $image = base64_decode($base64_str);
+            $path = Storage::disk('public')->put('/images/products/' . $product->sku . '.png', $image);
 
             return response()->json(['data' => $product], 201);
         } catch (\Exception $e) {
