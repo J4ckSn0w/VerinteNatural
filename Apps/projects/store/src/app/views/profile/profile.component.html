@@ -1,53 +1,18 @@
 <div class="container">
-    <h2>Tu Pefil</h2>
-</div>
-<div class="container">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2">
-        <div class="col">
-            <div class="my-profile-card">
-                <div class="my-profile-container card border-warning">
-                    <div class="my-profile-card-header">
-                        <h4>Datos personales.</h4>
-                    </div>
-                    <div class="my-profile-card-content">
-                        <p class="control-text">Nombre</p>
-                        <p>{{name}}</p>
-                    </div>
-                    <div class="my-profile-card-footer">
-                        <a href="javascript:void(0)">Editar informacion.</a>
-                    </div>
-                </div>
-            </div>
-            <div class="my-profile-card card border-warning">
-                <div class="my-profile-container ">
-                    <div class="my-profile-card-header">
-                        <h4>Direcciones.</h4>
-                    </div>
-                    <div class="my-profile-card-footer">
-                        <a href="javascript:void(0)">Administrar direcciones.</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="my-profile-card">
-                <div class="my-profile-container card border-warning">
-                    <div class="my-profile-card-header">
-                        <h4>Datos de inicio de sesion.</h4>
-                    </div>
-                    <div class="my-profile-card-content">
-                        <p class="control-text">Correo electronico</p>
-                        <p>{{email}}</p>
-                    </div>
-                    <div class="my-profile-card-content">
-                        <p class="control-text">Teléfono móvil</p>
-                        <p>{{phone_number}}</p>
-                    </div>
-                    <div class="my-profile-card-footer">
-                        <a href="javascript:void(0)">Editar.</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <app-user-data [user]="user"></app-user-data>
+    <app-change-password></app-change-password>
+    <div class="tab">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="javascript:void(0)">Pedidos en curso</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">Todos los pedidos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="javascript:void(0)">Direcciones</a>
+            </li>
+        </ul>
+
     </div>
 </div>

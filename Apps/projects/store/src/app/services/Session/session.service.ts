@@ -70,4 +70,9 @@ export class SessionService {
       })
   }
 
+
+  changePassword(body: any) {
+    return this.http.auth('PUT', '/api/_p2/_password', body).toPromise()
+  }
+
 }
