@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SessionService } from 'services/Session/session.service'
 import { Router } from '@angular/router'
@@ -14,9 +14,11 @@ export class ProfileComponent implements OnInit {
   private logsSubscription: Subscription
   private profileSubscription: Subscription
   isLogged: any;
-  name: string = ''
-  email: string = ''
-  phone_number: string = ''
+  user: any = {
+    name: '',
+    email: '',
+    phone_number: ''
+  }
 
   constructor(
     private sessionService: SessionService,
@@ -28,14 +30,12 @@ export class ProfileComponent implements OnInit {
 
     //Get user data profile
     this.profileSubscription = this.profileData.profileData().subscribe((res: any) => {
-      this.name = res.data.name
-      this.email = res.data.email
-      this.phone_number = res.data.phone_number
+      this.user = res.data;
     }, err => {
       console.log(err)
     })
 
-    // Ask if user loggin
+    // Ask if user is loggin
     this.logsSubscription = this.sessionService.isLogged.subscribe(res => {
       this.isLogged = res
       if (!this.isLogged) this.router.navigate(['/'])
