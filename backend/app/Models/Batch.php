@@ -4,21 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class Product extends Model
+class Batch extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'products';
+    protected $table = 'batches';
 
     protected $fillable = [
-        'name',
-        'product_type_id',
-        'description',
-        'sku'
+        'quantity',
+        'unit_cost',
+        'product_id',
+        'provider_id'
     ];
 
     /*********** Methods ************/
@@ -28,14 +27,14 @@ class Product extends Model
 
     /*********** Relations ************/
 
-    public function product_type(): BelongsTo
+    public function product()
     {
-        return $this->belongsTo(ProductType::class);
+        return $this->belongsTo(Product::class);
     }
 
-    public function providers()
+    public function provider()
     {
-        return $this->belongsToMany(Provider::class);
+        return $this->belongsTo(Provider::class);
     }
 
     /********** End Relations *********/
@@ -43,14 +42,14 @@ class Product extends Model
 
     /*********** Appends ************/
 
-    public function getProductTypeNameAttribute()
+    public function getProductNameAttribute()
     {
-        return $this->product_type->name ?? '';
+        return $this->product->name ?? '';
     }
 
-    public function getCategoryNameAttribute()
+    public function getProviderNameAttribute()
     {
-        return $this->product_type->category->name ?? '';
+        return $this->provider->name ?? '';
     }
 
     /********** End Appends *********/
@@ -62,8 +61,8 @@ class Product extends Model
 
         static::created(function ($model) {
             Log::create([
-                "category" => "Productos",
-                "action" => "Se creó el producto " . $model->name,
+                "category" => "Lotes",
+                "action" => "Se creó el lote " . $model->sku,
                 "user_id" => Auth::id()
             ]);
         });
@@ -71,8 +70,8 @@ class Product extends Model
         static::updated(function ($model) {
 
             Log::create([
-                "category" => "Productos",
-                "action" => "Se actualizó el producto " . $model->name,
+                "category" => "Lotes",
+                "action" => "Se actualizó el lote " . $model->sku,
                 "user_id" => Auth::id()
             ]);
         });
@@ -80,8 +79,8 @@ class Product extends Model
         static::deleted(function ($model) {
 
             Log::create([
-                "category" => "Productos",
-                "action" => "Se eliminó el producto " . $model->name,
+                "category" => "Lotes",
+                "action" => "Se eliminó el lote " . $model->sku,
                 "user_id" => Auth::id()
             ]);
         });

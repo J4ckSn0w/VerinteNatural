@@ -15,7 +15,9 @@ class ProductType extends Model
     protected $table = 'product_types';
 
     protected $fillable = [
-        'name'
+        'name',
+        'code',
+        'category_id'
     ];
 
 
@@ -26,12 +28,28 @@ class ProductType extends Model
 
     /*********** Relations ************/
 
-    public function products(): HasMany
+    public function products()
     {
         return $this->hasMany(Product::class);
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     /********** End Relations *********/
+
+
+    /*********** Appends ************/
+
+    public function getCategoryNameAttribute()
+    {
+        return $this->category->name ?? '';
+    }
+
+    /********** End Appends *********/
+
 
     // BOOT
     public static function boot()
