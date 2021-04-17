@@ -24,6 +24,8 @@ export class UserComponent implements OnInit {
   error_email = false;
   error_phone_number = false;
 
+  errors = {}
+
   show  = false;
 
   arrayRoles = [];
@@ -283,6 +285,10 @@ export class UserComponent implements OnInit {
         text:'Algo salio mal!'
       })
     });
+  }
+
+  fnCheckErrors(cadea){
+    return this.errors[cadea] ?? false;
   }
 
 }

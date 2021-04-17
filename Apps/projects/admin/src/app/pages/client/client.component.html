@@ -61,26 +61,29 @@
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Correo</label>
                         <input type="email" class="form-control" placeholder="Correo" formControlName="email">
-                        <div *ngIf="error_email" class="text-danger">
-                            El correo ya esta siendo usado por otro usuario.
+                        <div *ngIf="fnCheckErrors('email')" class="text-danger">
+                            {{ errors['email'] }}
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Contraseña</label>
                         <input type="text" class="form-control" placeholder="Contraseña" formControlName="password">
+                        <div *ngIf="fnCheckErrors('phone_number')" class="text-danger">
+                            {{ errors['password'] }}
+                        </div>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Telefono</label>
                         <input type="text" class="form-control" placeholder="Telefono" formControlName="phone_number">
-                        <div *ngIf="error_phone_number" class="text-danger">
-                            El telefono esta siendo usado por otro usuario.
+                        <div *ngIf="fnCheckErrors('phone_number')" class="text-danger">
+                            {{ errors['phone_number'] }}
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>RFC</label>
                         <input type="text" class="form-control" placeholder="RFC" formControlName="rfc">
-                        <div *ngIf="error_rfc" class="text-danger">
-                            El RFC no es valido.
+                        <div *ngIf="fnCheckErrors('rfc')" class="text-danger">
+                            {{ errors['rfc'] }}
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
@@ -98,22 +101,22 @@
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Telefono</label>
                         <input type="text" class="form-control" placeholder="Apellidos" formControlName="phone_number" [(ngModel)]="currentClient.phone_number" [attr.disabled]="show == true ? 'disabled' : null">
-                        <div *ngIf="error_phone_number" class="text-danger">
-                            El telefono ya esta siendo usado por otro usuario.
+                        <div *ngIf="fnCheckErrors('phone_number')" class="text-danger">
+                            {{ errors['phone_number'] }}
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Email</label>
-                        <input type="email" class="form-control" placeholder="Telefono" formControlName="email" [(ngModel)]="currentClient.email" [attr.disabled]="show == true ? 'disabled' : null">
-                        <div *ngIf="error_email" class="text-danger">
-                            El correo ya esta siendo usado por otro usuario.
+                        <input type="email" class="form-control" placeholder="Email" formControlName="email" [(ngModel)]="currentClient.email" [attr.disabled]="show == true ? 'disabled' : null">
+                        <div *ngIf="fnCheckErrors('email')" class="text-danger">
+                            {{ errors['email'] }}
                         </div>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>RFC</label>
                         <input type="text" class="form-control" placeholder="RFC" formControlName="rfc" [(ngModel)]="currentClient.customer.rfc" [attr.disabled]="show == true ? 'disabled' : null">
-                        <div *ngIf="error_rfc" class="text-danger">
-                            El RFC no es valido.
+                        <div *ngIf="fnCheckErrors('rfc')" class="text-danger">
+                            {{ errors['rfc'] }}
                         </div>
                     </div>
                     <div class="fomr-group col-md-6 col-sm-12">

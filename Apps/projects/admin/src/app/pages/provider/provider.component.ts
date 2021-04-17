@@ -84,14 +84,10 @@ export class ProviderComponent implements OnInit {
     products:[]
   }
 
-  mySingleValues = {
-    name:'MI NOMBRE',
-    email:'MI EMAIL',
-    phone_number:'MI PHONE NUMBER'
-  }
-
   priceError = false;
   idError = false;
+
+  errors = {};
 
   ngOnInit(): void {
     this.fnLoadProviders();
@@ -284,5 +280,8 @@ export class ProviderComponent implements OnInit {
     .catch(rej => {
 
     })
+  }
+  fnCheckErrors(cadena){
+    return this.errors[cadena] ?? false;
   }
 }

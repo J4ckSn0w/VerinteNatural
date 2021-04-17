@@ -20,7 +20,7 @@ export class DriverComponent implements OnInit {
   });
 
   currentView = 0;
-  arrayViewsNames = ['Nuevo producto','Editar producto','Info producto'];
+  arrayViewsNames = ['Nuevo conductor','Editar conductor','Info conductor'];
 
   show  = false;
 

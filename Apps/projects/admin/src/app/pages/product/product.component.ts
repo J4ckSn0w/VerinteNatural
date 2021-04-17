@@ -17,7 +17,8 @@ export class ProductComponent implements OnInit {
     name: new FormControl(null,[Validators.required]),
     description: new FormControl(null,[Validators.required]),
     product_is_by_part: new FormControl(null,[Validators.required]),
-    product_type_id: new FormControl(null,[Validators.required])
+    product_type_id: new FormControl(null,[Validators.required]),
+    image:new FormControl(null,[Validators.required])
   });
 
   currentView = 0;
@@ -62,8 +63,11 @@ export class ProductComponent implements OnInit {
     name:'',
     product_type_id:'',
     description:'',
+    image:'',
     id:''
   }
+
+  base;
 
   constructor(
     private modalService: NgbModal,
@@ -74,6 +78,17 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.fnLoadProducts();
   }
+
+  handleUpload(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+        console.log(reader.result);
+        this.base = reader.result;
+    };
+    
+}
 
   fnEdit(id){
     this.show = false;
@@ -152,7 +167,8 @@ export class ProductComponent implements OnInit {
       name : this.newForm.value.name,
       description: this.newForm.value.description,
       product_is_by_part: this.newForm.value.product_is_by_part,
-      product_type_id: this.newForm.value.product_type_id
+      product_type_id: this.newForm.value.product_type_id,
+      image: this.base
     };
     console.log('DATA');
     console.log(data);
@@ -174,7 +190,9 @@ export class ProductComponent implements OnInit {
         title:'Error!',
         text:'Ocurrio un error al intentar agregar el nuevo producto'
       })
-    })
+      console.log(rej);
+    });
+    
   }
   onSubmitEdit(){
     let data = {

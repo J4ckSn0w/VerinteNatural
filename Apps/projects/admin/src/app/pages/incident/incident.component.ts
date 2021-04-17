@@ -18,7 +18,7 @@ export class IncidentComponent implements OnInit {
   });
 
   currentView = 0;
-  arrayViewsNames = ['Nuevo producto','Editar producto','Info producto'];
+  arrayViewsNames = ['Nuevo reporte','Editar reporte','Info reporte'];
 
   show  = false;
 

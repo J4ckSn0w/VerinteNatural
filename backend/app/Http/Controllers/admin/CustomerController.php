@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerUpdateRequest;
+use App\Http\Requests\CustomerRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use App\Models\Customer;
@@ -33,7 +34,7 @@ class CustomerController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function store(CustomerUpdateRequest $request): JsonResponse
+    public function store(CustomerRequest $request): JsonResponse
     {
         try {
             $user = new User();
