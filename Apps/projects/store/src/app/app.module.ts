@@ -27,6 +27,11 @@ import { ForgotPasswordComponent } from 'components/modals/session-modal/forgot-
 import { RegisterComponent } from 'components/modals/session-modal/register/register.component';
 import { CarouselComponent } from 'components/home/carousel/carousel.component';
 import { PortfolioComponent } from './components/home/portfolio/portfolio.component';
+import { UserDataComponent } from './components/profile/user-data/user-data.component';
+import { ChangePasswordComponent } from './components/profile/change-password/change-password.component';
+import { AddressesComponent } from './components/profile/addresses/addresses.component';
+import { MyOrdersComponent } from './components/profile/my-orders/my-orders.component';
+import { MyPendingsOrdersComponent } from './components/profile/my-pendings-orders/my-pendings-orders.component';
 
 
 @NgModule({
@@ -46,7 +51,12 @@ import { PortfolioComponent } from './components/home/portfolio/portfolio.compon
     ForgotPasswordComponent,
     RegisterComponent,
     CarouselComponent,
-    PortfolioComponent
+    PortfolioComponent,
+    UserDataComponent,
+    ChangePasswordComponent,
+    AddressesComponent,
+    MyOrdersComponent,
+    MyPendingsOrdersComponent
 
   ],
   imports: [
