@@ -20,7 +20,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let productType of arrayProductTypes; let index;">
-                            <th scope="row">{{ productType.id }}</th>
+                            <th scope="row">{{ productType.code }}</th>
                             <td>{{ productType.name }}</td>
                             <!--Opciones-->
                             <td>
@@ -58,6 +58,10 @@
                         <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
+                        <label>Categoria</label>
+                        <select class="form-control" formControlName="category_id">
+                            <option *ngFor="let category of arrayProductCategory; let index;" [value]="category.id">{{ category.name }}</option>
+                        </select>
                     </div>
                     <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitNew()">Crear</button>
                 </form>
@@ -70,8 +74,12 @@
                         <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [(ngModel)]="currentProductType.name" [attr.disabled]="!show ? 'disabled': null">
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
+                        <label>Categoria</label>
+                        <select class="form-control" formControlName="category_id" [attr.disabled]="!show ? 'disabled': null">
+                            <option *ngFor="let category of arrayProductCategory; let index;" [value]="category.id" [attr.selected]="currentProductType.category_id == category.id">{{ category.name }}</option>
+                        </select>
                     </div>
-                    <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitEdit()">Actualizar</button>
+                    <button *ngIf="show" type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitEdit()">Actualizar</button>
                 </form>
             </div>
             <div class="modal-footer">

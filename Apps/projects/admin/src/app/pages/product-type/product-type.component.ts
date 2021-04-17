@@ -3,6 +3,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductTypeService } from '../../services/product-type.service';
 import Swal from 'sweetalert2';
+import { ProductCategoriesService } from '../../services/product-categories.service';
 
 @Component({
   selector: 'app-product-type',
@@ -14,6 +15,7 @@ export class ProductTypeComponent implements OnInit {
   /*Modal Inicio*/
   newForm = new FormGroup({
     name: new FormControl(null,[Validators.required]),
+    category_id: new FormControl(null,[Validators.required]), 
   });
 
   currentView = 0;
@@ -52,14 +54,18 @@ export class ProductTypeComponent implements OnInit {
 
   currentProductType = {
     name:'',
-    id:''
+    id:'',
+    category_id:''
   }
 
   arrayProductTypes = [];
 
+  arrayProductCategory = [];
+
   constructor(
     private modalService: NgbModal,
-    private productTypeService: ProductTypeService
+    private productTypeService: ProductTypeService,
+    private productCategoriesService : ProductCategoriesService
   ) { }
 
   ngOnInit(): void {
@@ -104,6 +110,7 @@ export class ProductTypeComponent implements OnInit {
     this.fnLoadProductTypeinfo(id);
     this.show = false;
   }
+
   fnNew(){
     console.log('Entre');
     this.currentView = 0;
@@ -114,8 +121,10 @@ export class ProductTypeComponent implements OnInit {
     //   this.getDismissReason(reason);
     // })
   }
+
   fnLoadProductTypes(){
     this.arrayProductTypes = [];
+    this.arrayProductCategory = [];
     this.productTypeService.fnGetProductTypes()
     .then(res => {
       res.data.forEach(element => {
@@ -123,6 +132,16 @@ export class ProductTypeComponent implements OnInit {
       });
     })
     .catch(rej => {
+    });
+
+    this.productCategoriesService.fnGetProductCategories()
+    .then(res => {
+      res.data.forEach(element => {
+        this.arrayProductCategory.push(element);
+      })
+    })
+    .catch(rej => {
+      console.log('Algo salio mal');
     })
   }
 
@@ -132,14 +151,19 @@ export class ProductTypeComponent implements OnInit {
       this.currentProductType = res.data;
       this.currentProductType.id = id;
       this.currentView = 1;
+      console.log('Respuesta');
+      console.log(this.currentProductType);
       this.fnOpenModal();
     });
   }
 
   onSubmitNew(){
     let data = {
-      name : this.newForm.value.name
+      name : this.newForm.value.name,
+      category_id: this.newForm.value.category_id
     };
+    console.log('DATA');
+    console.log(data);
     this.productTypeService.fnPostNewProductType(data)
     .then(res => {
       Swal.fire({
@@ -154,10 +178,14 @@ export class ProductTypeComponent implements OnInit {
     })
     .catch()
   }
+
   onSubmitEdit(){
     let data = {
-      name: (this.newForm.value.name == undefined) ? this.currentProductType.name : this.newForm.value.name
+      name: (this.newForm.value.name == undefined) ? this.currentProductType.name : this.newForm.value.name,
+      category_id: (this.newForm.value.category_id == undefined) ? this.currentProductType.category_id : this.newForm.value.category_id
     };
+    console.log('DATA');
+    console.log(data);
     this.productTypeService.fnPutEditProductTypes(data,this.currentProductType.id)
     .then(res => {
       Swal.fire({

@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   ip: 'http://localhost:3000',
   image: '',
-  client_secret: "b0v4s0ckRiCzOsAy41QO2jmpt8MnvPifrrnKLRTT"
+  client_secret: "sdCEiRzs2ve3m0QQhsESzc7adarVOLVGj4ruqxte"
 };
 
 /*
