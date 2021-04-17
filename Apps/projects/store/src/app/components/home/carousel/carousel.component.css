@@ -1,0 +1,90 @@
+/*************************
+*******Main Slider******
+**************************/
+
+#home{
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  #home-carousel .carousel-inner .item {
+    background-size:cover;
+  }
+  
+  #home-carousel .slider-content {
+    height: 100%;
+  }
+  
+  #home-carousel .carousel-caption {
+    left: 0;
+    top: 0;
+    z-index: 11;
+    text-align: left;
+  }
+  
+  .carousel-caption > div {
+    border-radius: 10px;
+    background-color: #FFF2D0;
+    opacity: 0.5;
+    padding: 60px 50px 80px 15%;
+    margin: auto;
+    position: relative;
+    top: 35%;
+    width: 55%;
+  }
+  
+  #home-carousel .carousel-inner h2 {
+    color: #000;
+    font-size: 40px;
+    line-height: 50px;
+    margin-bottom: 20px;
+    text-shadow: none;
+    text-transform: uppercase;
+  }
+  
+  #home-carousel .carousel-inner p {
+    color: #000;
+    line-height: 28px;
+    font-size: 30px;
+    margin-top: 0;
+    text-shadow:none;
+  }
+  
+  #nav-arrows > a {
+    border: 1px solid #fff;
+    color: #fff;
+    display: block;
+    height: 60px;
+    line-height: 76px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 60px;
+    z-index: 20;
+    margin-top: -30px;
+  
+      -webkit-transition: all 0.3s ease 0s;
+         -moz-transition: all 0.3s ease 0s;
+          -ms-transition: all 0.3s ease 0s;
+           -o-transition: all 0.3s ease 0s;
+              transition: all 0.3s ease 0s;
+  }
+  
+  #nav-arrows > a.sl-prev {
+      left: 50px;
+  }
+  
+  #nav-arrows > a.sl-next {
+      right: 50px;
+  }
+  
+  #nav-arrows > a.sl-next:hover {
+      background-color: #ffd154;
+      border-color: #ffd154;
+      color: #fff;
+  }
+  
+  .carousel-indicators .active {
+    background-color: #ffd154;
+    border: 0;
+  }

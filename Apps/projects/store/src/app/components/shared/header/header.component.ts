@@ -10,7 +10,6 @@ import { Router } from '@angular/router'
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
   @Input() isLogged: any;
 
   constructor(

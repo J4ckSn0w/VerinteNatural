@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { routing } from './app.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 //Views
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { LoginComponent } from 'components/modals/session-modal/login/login.comp
 import { ForgotPasswordComponent } from 'components/modals/session-modal/forgot-password/forgot-password.component'
 import { RegisterComponent } from 'components/modals/session-modal/register/register.component';
 import { CarouselComponent } from 'components/home/carousel/carousel.component';
+import { PortfolioComponent } from './components/home/portfolio/portfolio.component';
 
 
 @NgModule({
@@ -43,7 +45,8 @@ import { CarouselComponent } from 'components/home/carousel/carousel.component';
     LoginComponent,
     ForgotPasswordComponent,
     RegisterComponent,
-    CarouselComponent
+    CarouselComponent,
+    PortfolioComponent
 
   ],
   imports: [
@@ -53,7 +56,8 @@ import { CarouselComponent } from 'components/home/carousel/carousel.component';
     routing,
     BrowserAnimationsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

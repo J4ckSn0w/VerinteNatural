@@ -94,7 +94,8 @@
             "styles": [
               "projects/admin/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           }
         },
         "lint": {
@@ -148,7 +149,17 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "projects/store/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "projects/store/src/assets/js/jquery.fancybox.pack.js",
+              "projects/store/src/assets/js/jquery.mixitup.min.js",
+              "projects/store/src/assets/js/jquery.nav.js",
+              "projects/store/src/assets/js/jquery.parallax-1.1.3.js",
+              "projects/store/src/assets/js/wow.min.js",
+              "projects/store/src/assets/js/bootstrap.min.js",
+              "projects/store/src/assets/js/owl.carousel.min.js",
+              "projects/store/src/assets/js/main.js"
+              
+            ]
           },
           "configurations": {
             "production": {
