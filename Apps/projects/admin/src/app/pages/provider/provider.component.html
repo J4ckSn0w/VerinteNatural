@@ -1,0 +1,202 @@
+<h2 class="display-3 text-center mt-5">Control Proveedores</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card text-center my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nuevo Proveedor</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Numero</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let provider of arrayProviders; let index;">
+                            <th scope="row">{{ provider.id }}</th>
+                            <td>{{ provider.name }}</td>
+                            <td>{{ provider.email }}</td>
+                            <td>{{ provider.phone_number }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-4 col-sm-4 text-left">
+                                        <a href="javascript:void(0)" (click)="fnVer(provider.id)"><i class="fa fa-eye"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEdit(provider.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-right">
+                                        <a href="javascript:void(0)" (click)="fnDelete(provider.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #myModal let-MyModal>
+    <div class="my-modal-container">
+        <div [ngSwitch]="currentView">
+            <div>
+                <div class="modal-header">
+                    <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                    <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+                </div>
+                <div *ngSwitchCase="0" class="modal-body">
+                    <!--New-->
+                    <form novalidate role="form" [formGroup]="newForm" class="row">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Nombre</label>
+                            <input class="form-control" type="text" placeholder="Nombre" formControlName="name">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Correo</label>
+                            <input class="form-control" type="text" placeholder="Correo" formControlName="email">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Numero</label>
+                            <input class="form-control" type="text" placeholder="Numero" formControlName="phone_number">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Contacto</label>
+                            <input class="form-control" type="text" placeholder="Contacto" formControlName="contact">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Horarios</label>
+                            <input class="form-control" type="text" placeholder="Horarios" formControlName="schedule">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+
+                        </div>
+                        <div class="container">
+                            <div class="wrapper">
+                                <div class="panel-body table-responsive">
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Producto</th>
+                                                <th scope="col">Precio</th>
+                                                <th scope="col">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let product of arrayProviderProducts" class="">
+                                                <th>{{ product.id }}</th>
+                                                <td>{{ product.name }}</td>
+                                                <td>{{ product.price }}</td>
+                                                <td>
+                                                    <a class="btn btn-danger" (click)="fnDeleteProduct(product.id)"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>
+                                                    <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
+                                                        <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="text" placeholder="Precio" [(ngModel)]="currentProduct.price" [ngModelOptions]="{standalone: true}">
+                                                    <p *ngIf="priceError" class="text-danger">El precio debe ser diferente</p>
+                                                </td>
+                                                <td><a class="btn btn-primary" (click)="fnAddProduct()"><i class="fas fa-plus"></i> Agregar</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
+                    </form>
+                </div>
+                <div *ngSwitchCase="1" class="modal-body">
+                    <!--Edit - View-->
+                    <form novalidate role="form" [formGroup]="newForm" class="row">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Nombre</label>
+                            <input class="form-control" type="text" placeholder="Nombre del proveedor" formControlName="name" [(ngModel)]="currentProvider.name" [attr.disabled]="show?'disabled':null">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Correo</label>
+                            <input class="form-control" type="text" placeholder="Correo del proveedor" formControlName="email" [(ngModel)]="currentProvider.email" [attr.disabled]="show?'disabled':null">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Numero</label>
+                            <input class="form-control" type="text" placeholder="Numero del proveedor" formControlName="phone_number" [(ngModel)]="currentProvider.phone_number" [attr.disabled]="show?'disabled':null">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Contacto</label>
+                            <input class="form-control" type="text" placeholder="Contacto" formControlName="contact" [(ngModel)]="currentProvider.contact" [attr.disabled]="show?'disabled':null">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Horarios</label>
+                            <input class="form-control" type="text" placeholder="Horarios" formControlName="schedule" [(ngModel)]="currentProvider.schedule" [attr.disabled]="show?'disabled':null">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+
+                        </div>
+                        <div class="container">
+                            <div class="wrapper">
+                                <div class="panel-body table-responsive">
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Producto</th>
+                                                <th scope="col">Precio</th>
+                                                <th scope="col">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let product of arrayProviderProducts" class="">
+                                                <th>{{ product.id }}</th>
+                                                <td>{{ product.name }}</td>
+                                                <td>{{ product.price }}</td>
+                                                <td>
+                                                    <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProduct(product.id)"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="!show">
+                                                <th scope="row">1</th>
+                                                <td>
+                                                    <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
+                                                        <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="text" placeholder="Precio" [(ngModel)]="currentProduct.price" [ngModelOptions]="{standalone: true}">
+                                                    <p *ngIf="priceError" class="text-danger">El precio debe ser diferente</p>
+                                                </td>
+                                                <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProduct()"><i class="fas fa-plus"></i> Agregar</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitEdit()">Actualizar</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div>
+                        <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

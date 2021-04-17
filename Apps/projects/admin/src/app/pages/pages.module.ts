@@ -17,6 +17,9 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { FooterComponent } from '../shared/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ProviderComponent } from './provider/provider.component';
+import { IncidentComponent } from './incident/incident.component';
+import { BatchComponent } from './batch/batch.component';
 
 @NgModule({
     declarations:[
@@ -32,13 +35,17 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
         VehicleComponent,
         VehicleTypeComponent,
         WarehouseComponent,
-        WarehouseTypeComponent
+        WarehouseTypeComponent,
+        ProviderComponent,
+        IncidentComponent,
+        BatchComponent
     ],
     imports:[
         CommonModule,
         RouterModule.forChild(pagesRoutes),
         NgbModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule
     ]
 })
 

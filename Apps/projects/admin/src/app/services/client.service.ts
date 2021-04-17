@@ -18,11 +18,14 @@ export class ClientService {
     ) {}
 
     fnPostNewClient(obj) : Promise<any> {
+      let userToken = this.sessionService.fnGetSessionToken();
         let respuesta = new Promise((resolve, reject) => {
-            let headers = new HttpHeaders;
-            headers.append('Content-Type','application/json');
-            headers.append('Accept','application/json');
-            this.http.post(this.str_ip + '/api/register', obj).toPromise()
+          let headers = new HttpHeaders({
+            Authorization: 'Bearer '+ userToken,
+            Accept: 'application/json',
+            ContentType: 'application/json'
+          });
+            this.http.post(this.str_ip + '/api/_p1/customers', obj,{headers:headers}).toPromise()
               .then((res: any) => {
                 resolve(res)
               })
@@ -41,7 +44,7 @@ export class ClientService {
           Accept: 'application/json',
           ContentType: 'application/json'
         });
-        this.http.get(this.str_ip + '/api/customers',{headers: headers}).toPromise()
+        this.http.get(this.str_ip + '/api/_p1/customers',{headers: headers}).toPromise()
         .then(res => {
           resolve(res);
         })
@@ -59,7 +62,7 @@ export class ClientService {
           Accept: 'application/json',
           ContentType: 'application/json'
         });
-        this.http.put(this.str_ip + '/api/customers/' + data.id, data, {headers:headers}).toPromise()
+        this.http.put(this.str_ip + '/api/_p1/customers/' + data.id, data, {headers:headers}).toPromise()
         .then(res => {
           resolve(res);
         })
@@ -78,7 +81,7 @@ export class ClientService {
           Accept: 'application/json',
           ContentType: 'application/json'
         });
-        this.http.get(this.str_ip + '/api/customers/' + id, {headers: headers}).toPromise()
+        this.http.get(this.str_ip + '/api/_p1/customers/' + id, {headers: headers}).toPromise()
         .then(res => {
           resolve(res);
         })
@@ -96,7 +99,7 @@ export class ClientService {
           Accept: 'application/json',
           ContentType: 'application/json'
         });
-        this.http.delete(this.str_ip + '/api/customers/' + id, {headers: headers}).toPromise()
+        this.http.delete(this.str_ip + '/api/_p1/customers/' + id, {headers: headers}).toPromise()
         .then(res => {
           resolve(res);
         })

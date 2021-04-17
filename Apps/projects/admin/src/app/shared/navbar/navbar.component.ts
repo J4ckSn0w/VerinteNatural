@@ -22,8 +22,6 @@ export class NavbarComponent implements OnInit {
 
   fnSesionIniciada(){
     let valor = localStorage.getItem("authorization");
-    console.log('Valor');
-    console.log(valor);
     if(localStorage.getItem("authorization")){
       console.log('Entre al true');
       this.logged = true;

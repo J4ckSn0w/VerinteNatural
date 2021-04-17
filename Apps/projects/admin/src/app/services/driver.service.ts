@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from '../../environments/environment';
-import { SessionService } from './session.service';
+import { SessionService } from '../services/sessionService.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -25,7 +25,7 @@ export class DriverService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
             });
-            this.http.get(this.str_ip + '/api/driver/types',{headers:headers}).toPromise()
+            this.http.get(this.str_ip + '/api/_p1/driver/types',{headers:headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -39,7 +39,7 @@ export class DriverService{
     fnPostDriver():Promise<any>{
         let userToken = this.sessionService.fnGetSessionToken();
         let respuesta = new Promise((resolve,reject) => {
-
+            
         });
         return respuesta;
     }
@@ -49,7 +49,44 @@ export class DriverService{
         let respuesta = new Promise((resolve,reject) => {
 
         });
+        return respuesta;
+    }
 
+    fnGetDriverById(id):Promise<any>{
+        let userToken = this.sessionService.fnGetSessionToken();
+        let respuesta = new Promise((resolve,reject) => {
+            let headers = new HttpHeaders({
+                Authorization: 'Bearer '+userToken,
+                Accept: 'application/json',
+                ContentType: 'application/json'
+            });
+            this.http.get(this.str_ip + '/api/_p1/drivers/'+id,{headers:headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        });
+        return respuesta;
+    }
+
+    fnEditDriver(data):Promise<any>{
+        let userToken = this.sessionService.fnGetSessionToken();
+        let respuesta = new Promise((resolve,reject) => {
+            let headers = new HttpHeaders({
+                Authorization: 'Bearer '+userToken,
+                Accept: 'application/json',
+                ContentType: 'application/json'
+            });
+            this.http.put(this.str_ip+'/api/_p1/drivers/' + data.id,data,{headers:headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej)
+            });
+        });
         return respuesta;
     }
 }

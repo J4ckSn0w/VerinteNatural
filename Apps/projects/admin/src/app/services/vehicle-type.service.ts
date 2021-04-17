@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from '../../environments/environment';
-import { SessionService } from './session.service';
+import { SessionService } from '../services/sessionService.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class VehicleTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.post(this.str_ip + '/api/vehicles/types',data,{headers:headers}).toPromise()
+              this.http.post(this.str_ip + '/api/_p1/vehicles/types',data,{headers:headers}).toPromise()
               .then(res => {
                   resolve(res);
               })
@@ -42,7 +42,7 @@ export class VehicleTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.put(this.str_ip+'/api/vehicles/types/'+id,data,{headers:headers}).toPromise()
+              this.http.put(this.str_ip+'/api/_p1/vehicles/types/'+id,data,{headers:headers}).toPromise()
               .then(res => {
                   resolve(res);
               })
@@ -61,7 +61,7 @@ export class VehicleTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.get(this.str_ip + '/api/vehicles/types',{headers:headers}).toPromise()
+              this.http.get(this.str_ip + '/api/_p1/vehicles/types',{headers:headers}).toPromise()
               .then(res => {
                   resolve(res);
               })
@@ -80,7 +80,7 @@ export class VehicleTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.get(this.str_ip + '/api/vehicles/types/' + id,{headers:headers}).toPromise()
+              this.http.get(this.str_ip + '/api/_p1/vehicles/types/' + id,{headers:headers}).toPromise()
               .then(res => {
                   resolve(res);
               })
@@ -99,7 +99,7 @@ export class VehicleTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.delete(this.str_ip + '/api/vehicles/types/'+id,{headers:headers}).toPromise()
+              this.http.delete(this.str_ip + '/api/_p1/vehicles/types/'+id,{headers:headers}).toPromise()
               .then(res => {
                   resolve(res);
               })

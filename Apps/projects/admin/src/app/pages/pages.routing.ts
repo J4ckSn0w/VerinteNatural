@@ -11,6 +11,9 @@ import { VehicleComponent } from './vehicle/vehicle.component';
 import { VehicleTypeComponent } from './vehicle-type/vehicle-type.component';
 import { WarehouseComponent } from './warehouse/warehouse.component';
 import { WarehouseTypeComponent } from './warehouse-type/warehouse-type.component';
+import { ProviderComponent } from './provider/provider.component';
+import { IncidentComponent } from './incident/incident.component';
+import { BatchComponent } from './batch/batch.component';
 export const pagesRoutes: Routes = [{
     path:'',
     component:PagesRoutingComponent,
@@ -26,5 +29,8 @@ export const pagesRoutes: Routes = [{
         { path:'vehicle-type', component:VehicleTypeComponent },
         { path:'warehouse', component:WarehouseComponent },
         { path:'warehouse-type', component:WarehouseTypeComponent },
+        { path:'provider', component:ProviderComponent },
+        { path:'incident', component:IncidentComponent },
+        { path:'batch', component:BatchComponent },
     ]
 }];

@@ -1,11 +1,11 @@
-<h2 class="display-3 text-center mt-5">Control Productos</h2>
+<h2 class="display-3 text-center mt-5">Control Incidencias</h2>
 <div class="row">
     <div class="col-12">
         <div class="card text-center my-4">
             <div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
                     <li class="nav-item">
-                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nuevo Producto</a>
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nueva incidencia</a>
                     </li>
                 </ul>
             </div>
@@ -21,22 +21,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let product of arrayProducts; let index;">
-                            <th scope="row">{{ product.id }}</th>
-                            <td>{{ product.name }}</td>
-                            <td>{{ product.description }}</td>
-                            <td>{{ product.product_type_id }}</td>
+                        <tr *ngFor="let incident of arrayIndicents; let index;">
+                            <th scope="row">{{ incident.id }}</th>
+                            <td>{{ incident.name }}</td>
+                            <td>{{ incident.description }}</td>
+                            <td>{{ incident.product_type_id }}</td>
                             <!--Opciones-->
                             <td>
                                 <div class="row">
                                     <div class="col-4 col-sm-4 text-left">
-                                        <a href="javascript:void(0)" (click)="fnVer(product.id)"><i class="fa fa-eye"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnVer(incident.id)"><i class="fa fa-eye"></i></a>
                                     </div>
                                     <div class="col-4 col-sm-4 text-center">
-                                        <a href="javascript:void(0)" (click)="fnEdit(product.id)"><i class="fa fa-pencil"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnEdit(incident.id)"><i class="fa fa-pencil"></i></a>
                                     </div>
                                     <div class="col-4 col-sm-4 text-right">
-                                        <a href="javascript:void(0)" (click)="fnDelete(product.id)"><i class="fa fa-trash text-danger"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnDelete(incident.id)"><i class="fa fa-trash text-danger"></i></a>
                                     </div>
                                 </div>
                             </td>
@@ -58,26 +58,15 @@
                 <!--New-->
                 <form novalidate role="form" [formGroup]="newForm" class="row">
                     <div class="form-group col-md-6 col-sm-12">
-                        <label>Nombre</label>
-                        <input class="form-control" type="text" placeholder="Nombre" formControlName="name">
+                        <label>Problema</label>
+                        <input class="form-control" type="text" placeholder="Problema" formControlName="subject">
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
-                        <label>Descripcion</label>
-                        <input class="form-control" type="text" placeholder="Descripcion" formControlName="description">
+
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
-                        <label>Tipo Producto</label>
-                        <select class="form-control" formControlName="product_type_id">
-                            <option *ngFor="let productType of arrayProductTypes; let index;" [value]="productType.id">{{productType.name}}</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-md-12 col-sm-12 ml-12">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" [value]="1" formControlName="product_is_by_part">
-                            <label class="form-check-label">
-                            Por pieza
-                        </label>
-                        </div>
+                        <label>Descripcion</label>
+                        <textarea class="form-control" placeholder="Descripcion" id="exampleFormControlTextarea1" rows="3" formControlName="description"></textarea>
                     </div>
                     <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
                 </form>

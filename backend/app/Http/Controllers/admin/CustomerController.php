@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use App\Models\Customer;
 
 class CustomerController extends Controller
 {
@@ -32,10 +33,16 @@ class CustomerController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function store(CustomerUpdateRequest $request, $id): JsonResponse
+    public function store(CustomerUpdateRequest $request): JsonResponse
     {
         try {
-            $user = User::create($request->all());
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->phone_number = $request->phone_number;
+            $user->user_type_id = Customer::getUserTypeID();
+            $user->save();
 
             $user->setCustomer($request->rfc ?? '', $request->photo ?? '');
 

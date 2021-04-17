@@ -21,9 +21,9 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let user of arrayUser; let index;">
-                            <th scope="row">{{ user.id }}</th>
+                            <th scope="row">{{ user.employee_number }}</th>
                             <td>{{ user.name }}</td>
-                            <td>{{ user.user_type.name }}</td>
+                            <td>{{ user.employee_type_name }}</td>
                             <!--Opciones-->
                             <td>
                                 <div class="row">
@@ -49,51 +49,84 @@
 <!--Modales-->
 <!--Modal Nuevo Usuario-->
 <ng-template #NewUserModal let-newUserModal>
-    <div class="modal-header">
-        <h2>Nuevo Usuario</h2>
-    </div>
-    <div class="modal-body">
-        <form role="form" novalidate class="row" [formGroup]="newUserForm">
-            <div class="form-group col-md-6 col-sm-12">
-                <label>Nombre</label>
-                <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
-            </div>
-            <div class="form-group col-md-6 col-sm-12">
-                <label>Correo</label>
-                <input type="email" class="form-control" placeholder="Correo" formControlName="email">
-                <div *ngIf="error_email" class="text-danger">
-                    El correo ya esta siendo usado por otro usuario.
-                </div>
-            </div>
-            <div class="form-group col-md-6 col-sm-12">
-                <label>Contraseña</label>
-                <input type="text" class="form-control" placeholder="Contraseña" formControlName="password">
-            </div>
-            <div class="form-group col-md-6 col-sm-12">
-                <label>Telefono</label>
-                <input type="text" class="form-control" placeholder="Telefono" formControlName="phone_number">
-                <div *ngIf="error_phone_number" class="text-danger">
-                    El telefono esta siendo usado por otro usuario.
-                </div>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label>Puesto</label>
-                <select class="form-control" formControlName="user_type">
-                    <option *ngFor="let rol of arrayRoles" [value]="rol.id">{{rol.name}}</option>
-                </select>
-            </div>
-            <div class="form-group col-md-12 col-sm-12">
-                <label>Almacen asignado</label>
-                <select class="form-control" formControlName="warehouse_id">
-                    <option *ngFor="let warehouse of arrayWarehouses" [value]="warehouse.id">{{warehouse.name}}</option>
-                </select>
-            </div>
-            <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newUserForm.invalid" (click)="onSubmitNew()">Guardar</button>
-        </form>
-    </div>
-    <div class="modal-footer">
+    <div [ngSwitch]="currentView">
         <div>
-            <button class="btn btn-danger" (click)="newUserModal.close()">Cerrar</button>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <form role="form" novalidate class="row" [formGroup]="newUserForm">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Correo</label>
+                        <input type="email" class="form-control" placeholder="Correo" formControlName="email">
+                        <div *ngIf="error_email" class="text-danger">
+                            El correo ya esta siendo usado por otro usuario.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Contraseña</label>
+                        <input type="text" class="form-control" placeholder="Contraseña" formControlName="password">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Telefono</label>
+                        <input type="text" class="form-control" placeholder="Telefono" formControlName="phone_number">
+                        <div *ngIf="error_phone_number" class="text-danger">
+                            El telefono esta siendo usado por otro usuario.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Puesto</label>
+                        <select class="form-control" formControlName="employee_type_id">
+                            <option *ngFor="let rol of arrayRoles" [value]="rol.id">{{rol.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Almacen asignado</label>
+                        <select class="form-control" formControlName="warehouse_id">
+                            <option *ngFor="let warehouse of arrayWarehouses" [value]="warehouse.id">{{warehouse.name}}</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newUserForm.invalid" (click)="onSubmitNew()">Guardar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <form role="form" novalidate [formGroup]="newUserForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [(ngModel)]="currentUser.name" [attr.disabled]="show ? 'disabled' : null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Telefono</label>
+                        <input type="text" class="form-control" placeholder="Apellidos" formControlName="phone_number" [(ngModel)]="currentUser.phone_number" [attr.disabled]="show ? 'disabled' : null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Telefono" formControlName="email" [(ngModel)]="currentUser.email" [attr.disabled]="show ? 'disabled' : null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Contraseña</label>
+                        <input type="text" class="form-control" placeholder="Contraseña" formControlName="password" [attr.disabled]="show ? 'disabled' : null">
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Rol de Usuario</label>
+                        <select class="form-control" formControlName="employee_type_id" [attr.disabled]="show ? 'disabled' : null">
+                            <option *ngFor="let rol of arrayRoles" [value]="rol.id" [attr.selected]="rol.id === currentUser.employee_type.id ? 'selected' : null" >{{rol.name}}</option>
+                        </select>
+                    </div>
+                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdi()">Actualizar</button>
+                    <!--<button type="button" class="btn btn-primary mx-auto" (click)="change()">Cambiar</button>-->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="newUserModal.close()">Cerrar</button>
+                </div>
+            </div>
         </div>
     </div>
 </ng-template>

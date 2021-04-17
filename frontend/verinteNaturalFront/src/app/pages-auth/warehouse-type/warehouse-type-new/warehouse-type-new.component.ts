@@ -47,7 +47,8 @@ export class WarehouseTypeNewComponent implements OnInit {
           console.log(rej);
         }
       })
-    })
+    });
+    
   }
 
 }

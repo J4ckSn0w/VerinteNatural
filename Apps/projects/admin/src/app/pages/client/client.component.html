@@ -5,7 +5,7 @@
             <div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
                     <li class="nav-item">
-                        <a class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Nuevo cliente</a>
+                        <a class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nuevo cliente</a>
                     </li>
                 </ul>
             </div>
@@ -44,3 +44,94 @@
         </div>
     </div>
 </div>
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <!--New-->
+                <form role="form" novalidate class="row" [formGroup]="newForm">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Correo</label>
+                        <input type="email" class="form-control" placeholder="Correo" formControlName="email">
+                        <div *ngIf="error_email" class="text-danger">
+                            El correo ya esta siendo usado por otro usuario.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Contraseña</label>
+                        <input type="text" class="form-control" placeholder="Contraseña" formControlName="password">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Telefono</label>
+                        <input type="text" class="form-control" placeholder="Telefono" formControlName="phone_number">
+                        <div *ngIf="error_phone_number" class="text-danger">
+                            El telefono esta siendo usado por otro usuario.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>RFC</label>
+                        <input type="text" class="form-control" placeholder="RFC" formControlName="rfc">
+                        <div *ngIf="error_rfc" class="text-danger">
+                            El RFC no es valido.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitNew()">Guardar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <!--Edit - View-->
+                <form role="form" novalidate [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [(ngModel)]="currentClient.name" [attr.disabled]="show == true ? 'disabled' : null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Telefono</label>
+                        <input type="text" class="form-control" placeholder="Apellidos" formControlName="phone_number" [(ngModel)]="currentClient.phone_number" [attr.disabled]="show == true ? 'disabled' : null">
+                        <div *ngIf="error_phone_number" class="text-danger">
+                            El telefono ya esta siendo usado por otro usuario.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Telefono" formControlName="email" [(ngModel)]="currentClient.email" [attr.disabled]="show == true ? 'disabled' : null">
+                        <div *ngIf="error_email" class="text-danger">
+                            El correo ya esta siendo usado por otro usuario.
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>RFC</label>
+                        <input type="text" class="form-control" placeholder="RFC" formControlName="rfc" [(ngModel)]="currentClient.customer.rfc" [attr.disabled]="show == true ? 'disabled' : null">
+                        <div *ngIf="error_rfc" class="text-danger">
+                            El RFC no es valido.
+                        </div>
+                    </div>
+                    <div class="fomr-group col-md-6 col-sm-12">
+                    </div>
+                    <!-- <div class="form-group col-md-12 col-sm-12">
+                        <label>Rol de Usuario</label>
+                        <select class="form-control" formControlName="user_type_id">
+                            <option *ngFor="let rol of arrayRoles" [value]="rol.id" [attr.selected]="rol.id === currentUser.user_type_id ? 'selected' : null" >{{rol.name}}</option>
+                        </select>
+                    </div> -->
+                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()" [attr.disabled]="show == true ? 'disabled' : null">Actualizar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

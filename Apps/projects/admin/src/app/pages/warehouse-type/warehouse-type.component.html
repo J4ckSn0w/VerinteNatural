@@ -5,7 +5,7 @@
             <div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
                     <li class="nav-item">
-                        <a class="btn btn-primary btn-sm" [routerLink]="['/system/warehouse-type/new']"><i class="fas fa-plus"></i> Nuevo tipo de almacen</a>
+                        <a class="btn btn-primary btn-sm" (click)="fnNew(myModal)"><i class="fas fa-plus"></i> Nuevo tipo de almacen</a>
                     </li>
                 </ul>
             </div>
@@ -26,10 +26,10 @@
                             <td>
                                 <div class="row">
                                     <div class="col-8 col-sm-3 text-right">
-                                        <a href="javascript:void(0)" (click)="fnVer(warehouseType.id)"><i class="fas fa-eye"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnVer(myModal,warehouseType.id)"><i class="fas fa-eye"></i></a>
                                     </div>
                                     <div class="col-8 col-sm-3 text-center">
-                                        <a href="javascript:void(0)" (click)="fnEdit(warehouseType.id)"><i class="fa fa-pencil"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnEdit(myModal,warehouseType.id)"><i class="fa fa-pencil"></i></a>
                                     </div>
                                     <div class="col-8 col-sm-3 text-left">
                                         <a href="javascript:void(0)" (click)="fnDelete(warehouseType.id)"><i class="fa fa-trash text-danger"></i></a>
@@ -43,3 +43,44 @@
         </div>
     </div>
 </div>
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <!--New-->
+                <form role="form" novalidate class="row" [formGroup]="newForm">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitNew()">Guardar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <!--Edit - View-->
+                <form role="form" novalidate class="row" [formGroup]="newForm">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [ngModel]="currentWarehouseType.name" [attr.disabled]="show ? 'disabled' : null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+
+                    </div>
+                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitEdit()">Guardar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

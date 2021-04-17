@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { environment } from '../../environments/environment';
-import { SessionService } from './session.service';
+import { SessionService } from '../services/sessionService.service';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class ProductTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.post(this.str_ip+'/api/',data,{headers:headers}).toPromise()
+              this.http.post(this.str_ip+'/api/_p1/product/types',data,{headers:headers}).toPromise()
               .then(res => {
                   resolve(res);
               })
@@ -43,7 +43,7 @@ export class ProductTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.get(this.str_ip+'/api/',{headers:headers}).toPromise()
+              this.http.get(this.str_ip+'/api/_p1/product/types',{headers:headers}).toPromise()
               .then(res => {
                   resolve(res);
               })
@@ -62,7 +62,7 @@ export class ProductTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.put(this.str_ip+'/api'+id,data,{headers:headers}).toPromise()
+              this.http.put(this.str_ip+'/api/_p1/product/types/'+id,data,{headers:headers}).toPromise()
               .then(res => {
                   resolve(res);
               })
@@ -81,7 +81,7 @@ export class ProductTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.get(this.str_ip+'/api/'+id,{headers:headers}).toPromise()
+              this.http.get(this.str_ip+'/api/_p1/product/types/'+id,{headers:headers}).toPromise()
               .then(res => {
                   resolve(res);
               })
@@ -100,7 +100,7 @@ export class ProductTypeService{
                 Accept: 'application/json',
                 ContentType: 'application/json'
               });
-              this.http.delete(this.str_ip + '/api/'+id,{headers: headers}).toPromise()
+              this.http.delete(this.str_ip + '/api/_p1/product/types/'+id,{headers: headers}).toPromise()
               .then(res => {
                   resolve(res);
                 })

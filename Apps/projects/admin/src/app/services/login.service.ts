@@ -32,7 +32,7 @@ export class LoginService {
             let headers = new HttpHeaders;
             headers.append('Content-Type','application/json');
             headers.append('Accept','application/json');
-            this.http.post(this.str_ip + '/api/login' , obj).toPromise()
+            this.http.post(this.str_ip + '/api/_p1/login' , obj).toPromise()
               .then((res: any) => {
                 //console.log("THEN de el servicio");
                 if(res.error)

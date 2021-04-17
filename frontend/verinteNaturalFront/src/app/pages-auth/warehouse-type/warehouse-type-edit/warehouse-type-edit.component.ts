@@ -55,7 +55,7 @@ export class WarehouseTypeEditComponent implements OnInit {
     })
     .catch(rej => {
       this.fnLoadWarehouseTypeInfo();
-    })
+    });
   }
 
   onSubmit(){
