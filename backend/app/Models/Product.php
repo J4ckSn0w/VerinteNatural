@@ -18,7 +18,8 @@ class Product extends Model
         'name',
         'product_type_id',
         'description',
-        'sku'
+        'sku',
+        'minium_stock'
     ];
 
     /*********** Methods ************/
