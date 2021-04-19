@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BatchRequest;
 use App\Http\Requests\PurchaseOrderRequest;
+use App\Http\Requests\ReceivePurchaseOrderRequest;
 use App\Models\PurchaseOrder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -64,7 +66,8 @@ class PurchaseOrderController extends Controller
                 return [
                     'product_id' => $product['id'],
                     'purchase_order_id' => $purchase_order->id,
-                    'quantity' => $product['quantity']
+                    'quantity' => $product['quantity'],
+                    'unit_price' => $product['unit_price']
                 ];
             }));
 
@@ -106,6 +109,8 @@ class PurchaseOrderController extends Controller
                     'sku' => $product->sku,
                     'quantity' => $product->pivot->quantity,
                     'quantity_received' => $product->pivot->quantity_received,
+                    'unit_price' => $product->pivot->unit_price
+
                 ];
             });
 
@@ -135,7 +140,8 @@ class PurchaseOrderController extends Controller
                 return [
                     'product_id' => $product['id'],
                     'purchase_order_id' => $purchase_order->id,
-                    'quantity' => $product['quantity']
+                    'quantity' => $product['quantity'],
+                    'unit_price' => $product['unit_price']
                 ];
             }));
 
@@ -169,6 +175,38 @@ class PurchaseOrderController extends Controller
             $purchase_order = PurchaseOrder::findOrfail($id);
             $purchase_order->status = $status;
             $purchase_order->save();
+            return response()->json(['data' => $purchase_order], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+        }
+    }
+
+    public function receive(ReceivePurchaseOrderRequest $request, $id)
+    {
+        try {
+            $purchase_order = PurchaseOrder::findOrfail($id);
+            $purchase_order->status = 4;
+            $purchase_order->save();
+            $purchase_order->products()->detach();
+            $products = new Collection($request->products);
+            $purchase_order->products()->sync($products->map(function ($product) use ($purchase_order) {
+                // Create new batch
+                (new BatchController)->store(
+                    new BatchRequest([
+                        'quantity'      => $product['quantity_received'],
+                        'unit_cost'     =>  $product['unit_price'],
+                        'product_id'    => $product['id'],
+                        'provider_id'   => $purchase_order->provider_id
+                    ])
+                );
+                return [
+                    'product_id'            => $product['id'],
+                    'purchase_order_id'     => $purchase_order->id,
+                    'quantity'              => $product['quantity'],
+                    'quantity_received'    => $product['quantity_received'],
+                    'unit_price'            =>  $product['unit_price'],
+                ];
+            }));
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
