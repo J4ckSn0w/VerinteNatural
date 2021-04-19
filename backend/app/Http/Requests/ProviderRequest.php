@@ -31,7 +31,7 @@ class ProviderRequest extends FormRequest
             'schedule' => 'nullable|max:255',
             'products' => 'nullable|array',
             'products.*.price' => 'required|numeric',
-            'products.*.id' => 'required|numeric'
+            'products.*.id' => 'required|numeric|exists:products,id'
         ];
     }
 }
