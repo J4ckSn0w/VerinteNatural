@@ -23,7 +23,7 @@ export class BatchComponent implements OnInit {
   });
 
   currentView = 0;
-  arrayViewsNames = ['Nuevo producto','Editar producto','Info producto'];
+  arrayViewsNames = ['Nuevo lote','Editar lote','Info lote'];
 
   show  = false;
 
@@ -130,6 +130,7 @@ export class BatchComponent implements OnInit {
       res.data.forEach(element => {
         this.arrayBatches.push(element);
       })
+      console.log(res);
     });
   }
 
@@ -214,7 +215,9 @@ export class BatchComponent implements OnInit {
     let data = {
       quantity:(this.newForm.value.quantity == undefined) ? this.currentBatch.quantity : this.newForm.value.quantity,
       unit_cost:(this.newForm.value.unit_cost == undefined) ? this.currentBatch.unit_cost : this.newForm.value.unit_cost,
-      id:this.currentBatch.id
+      id:this.currentBatch.id,
+      provider_id:this.currentBatch.provider_id,
+      product_id:this.currentBatch.product_id
     }
     this.batchesService.fnPuteditbatch(data)
     .then(res => {
@@ -232,7 +235,8 @@ export class BatchComponent implements OnInit {
         icon:'error',
         title:'Error!',
         text:'Hubo un error al intentar editar el lote',
-      })
+      });
+      console.log(rej);
     })
   }
 }

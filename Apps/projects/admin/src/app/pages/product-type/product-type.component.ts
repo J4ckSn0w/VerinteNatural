@@ -15,7 +15,7 @@ export class ProductTypeComponent implements OnInit {
   /*Modal Inicio*/
   newForm = new FormGroup({
     name: new FormControl(null,[Validators.required]),
-    category_id: new FormControl(null,[Validators.required]), 
+    //category_id: new FormControl(null,[Validators.required]), 
   });
 
   currentView = 0;
@@ -182,7 +182,7 @@ export class ProductTypeComponent implements OnInit {
   onSubmitEdit(){
     let data = {
       name: (this.newForm.value.name == undefined) ? this.currentProductType.name : this.newForm.value.name,
-      category_id: (this.newForm.value.category_id == undefined) ? this.currentProductType.category_id : this.newForm.value.category_id
+      //category_id: (this.newForm.value.category_id == undefined) ? this.currentProductType.category_id : this.newForm.value.category_id
     };
     console.log('DATA');
     console.log(data);
@@ -203,7 +203,8 @@ export class ProductTypeComponent implements OnInit {
         icon:'error',
         title:'Error!',
         text:'Algo salio mal al intentar editar el tipo de producto.'
-      })
+      });
+      console.log(rej);
     })
   }
 }

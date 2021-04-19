@@ -29,6 +29,10 @@ export class ClientComponent implements OnInit {
 
   closeResult = '';
 
+  errors = {
+
+  }
+
   getDismissReason(reason:any):string{
     if(reason == ModalDismissReasons.ESC){
       return 'by pressing ESC';
@@ -157,6 +161,8 @@ export class ClientComponent implements OnInit {
 
   onSubmitNew(){
 
+    
+
     let data = {
       user_id:this.currentClient.user_id,
       name:this.newForm.value.name,
@@ -181,17 +187,21 @@ export class ClientComponent implements OnInit {
     .catch(rej => {
       console.log('ERRORES');
       console.log(rej);
-      let errors = rej.error.errors;
-      if(errors.email){
-        this.error_email = true;
-      }
-      if(errors.phone_number){
-        this.error_phone_number = true;
-      }
-      if(errors.rfc){
-        this.error_rfc = true;
-      }
+      this.errors = rej.error.errors;
+      // if(this.errors.email){
+      //   this.error_email = true;
+      // }
+      // if(this.errors.phone_number){
+      //   this.error_phone_number = true;
+      // }
+      // if(this.errors.rfc){
+      //   this.error_rfc = true;
+      // }
     });
+  }
+
+  fnCheckErrors(cadena){
+    return this.errors[cadena] ?? false;
   }
 
   onSubmitEdit(){

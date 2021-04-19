@@ -18,7 +18,7 @@ export class VehicleTypeComponent implements OnInit {
   });
 
   currentView = 0;
-  arrayViewsNames = ['Nuevo tipo producto','Editar tipo producto','Info tipo producto'];
+  arrayViewsNames = ['Nuevo tipo vehiculo','Editar tipo vehiculo','Info tipo vehiculo'];
 
   show  = false;
 

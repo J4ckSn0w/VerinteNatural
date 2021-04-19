@@ -15,8 +15,8 @@
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Nombre</th>
-                            <th scope="col">Descripcion</th>
-                            <th scope="col">Tipo de Producto</th>
+                            <th scope="col">Tipo Producto</th>
+                            <th scope="col">Categoria Producto</th>
                             <th scope="col">Opciones</th>
                         </tr>
                     </thead>
@@ -24,8 +24,8 @@
                         <tr *ngFor="let product of arrayProducts; let index;">
                             <th scope="row">{{ product.id }}</th>
                             <td>{{ product.name }}</td>
-                            <td>{{ product.description }}</td>
-                            <td>{{ product.product_type_id }}</td>
+                            <td>{{ product.product_type_name }}</td>
+                            <td>{{ product.category_name }}</td>
                             <!--Opciones-->
                             <td>
                                 <div class="row">
@@ -71,6 +71,12 @@
                             <option *ngFor="let productType of arrayProductTypes; let index;" [value]="productType.id">{{productType.name}}</option>
                         </select>
                     </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="validatedCustomFile" required (change)="handleUpload($event)" formControlName="image">
+                            <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                        </div>
+                    </div>
                     <div class="form-group col-md-12 col-sm-12 ml-12">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" [value]="1" formControlName="product_is_by_part">
@@ -98,6 +104,12 @@
                         <select class="form-control" formControlName="product_type_id" [attr.disabled]="show?'disabled':null">
                             <option *ngFor="let productType of arrayProductTypes; let index;" [attr.selected]="productType.id == currentProduct.product_type_id"  [value]="productType.id" >{{productType.name}}</option>
                         </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="validatedCustomFile" required>
+                            <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                        </div>
                     </div>
                     <div class="form-group col-md-12 col-sm-12 ml-12">
                         <div class="form-check">
