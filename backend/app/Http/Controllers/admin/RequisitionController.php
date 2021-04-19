@@ -19,7 +19,21 @@ class RequisitionController extends Controller
     public function index()
     {
         try {
-            return response()->json(['data' => Requisition::all()], 200);
+            $requisitions = Requisition::query()->select('id', 'folio', 'required_to', 'created_at', 'status', 'warehouse_id')->get();
+            $requisitions = $requisitions->map(function ($requisition) {
+                $requisition->append('status_name', 'warehouse_name');
+                $requisition = $requisition->only([
+                    'id',
+                    'folio',
+                    'required_to',
+                    'status',
+                    'status_name',
+                    'created_at',
+                    'warehouse_name'
+                ]);
+                return $requisition;
+            });
+            return response()->json(['data' => $requisitions], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
