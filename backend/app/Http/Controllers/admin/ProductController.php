@@ -92,7 +92,10 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            return response()->json(['data' => Product::find($id)], 200);
+            $product = Product::find($id);
+            $product->image = base64_encode(Storage::disk('public')->get('images/products/' . $product->sku . '.png'));
+
+            return response()->json(['data' => $product], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
@@ -111,6 +114,7 @@ class ProductController extends Controller
             $product = Product::find($id);
             $product->name = $request->name;
             $product->description = $request->description;
+            $product->minium_stock = $request->minium_stock;
             $product->save();
 
             $base64_str = substr($request->image, strpos($request->image, ",") + 1);
