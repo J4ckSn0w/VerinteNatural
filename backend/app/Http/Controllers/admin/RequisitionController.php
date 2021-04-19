@@ -155,4 +155,16 @@ class RequisitionController extends Controller
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
     }
+
+    public function changeStatus($id, $status)
+    {
+        try {
+            $requisition = Requisition::findOrfail($id);
+            $requisition->status = $status;
+            $requisition->save();
+            return response()->json(['data' => $requisition], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+        }
+    }
 }
