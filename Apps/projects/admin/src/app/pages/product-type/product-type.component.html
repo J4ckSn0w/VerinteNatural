@@ -59,8 +59,8 @@
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Categoria</label>
-                        <select class="form-control">
-                            <option *ngFor="let category of arrayProductCategory; let index;" [value]="category.id" [attr.selected]="currentProductType.category_id == category.id">{{ category.name }}</option>
+                        <select class="form-control" formControlName="category_id">
+                            <option *ngFor="let category of arrayProductCategory; let index;" [value]="category.id" >{{ category.name }}</option>
                         </select>
                     </div>
                     <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitNew()">Crear</button>
@@ -76,7 +76,7 @@
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Categoria</label>
                         <select class="form-control" formControlName="category_id" [attr.disabled]="!show ? 'disabled': null" [(ngModel)]="currentProductType.category_id">
-                            <option *ngFor="let category of arrayProductCategory; let index;" [value]="category.id" [attr.selected]="currentProductType.category_id == category.id ? 'selected' : null" >{{ category.name }}, {{ category.id }} , {{ currentProductType.category_id }}</option>
+                            <option *ngFor="let category of arrayProductCategory; let index;" [value]="category.id" >{{ category.name }}</option>
                         </select>
                     </div>
                     <button *ngIf="show" type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitEdit()">Actualizar</button>

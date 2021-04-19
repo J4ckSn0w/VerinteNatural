@@ -156,13 +156,11 @@ export class ClientComponent implements OnInit {
 
   fnNew(){
     this.currentView = 0;
+    this.newForm.reset();
     this.fnOpenModal();
   }
 
   onSubmitNew(){
-
-    
-
     let data = {
       user_id:this.currentClient.user_id,
       name:this.newForm.value.name,
@@ -180,7 +178,8 @@ export class ClientComponent implements OnInit {
         icon:'success',
         title:'Se creo el cliente correctamente',
         didClose: () =>{
-          this.router.navigate(['/system/client']);
+          //this.fnLoadClient();
+          this.fnCloseModal();
         }
       });
     })
@@ -225,7 +224,6 @@ export class ClientComponent implements OnInit {
         title: 'Correcto!',
         text:'Se edito el cliente correctamente',
         didClose: () => {
-          //this.router.navigate(["/system/client"]);
           this.fnCloseModal();
         }
       })

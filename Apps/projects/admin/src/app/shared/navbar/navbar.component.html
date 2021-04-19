@@ -108,6 +108,22 @@
             <a class="nav-link" href="" [routerLink]="['/admin/batch']" routerLinkActive="router-link-active">Lotes</a>
         </li>
     </ul>
+    <ul *ngIf="logged" class="navbar-nav align-items-lg-center ml-lg-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link no-caret" data-toggle="dropdown" role="button" href="javascript:void(0)" (click)="fnLogout()">
+                <i class="ni ni-ui-04 d-lg-none"></i>
+                <span class="nav-link-inner--text">Cerrar Session</span>
+            </a>
+        </li>
+    </ul>
+    <ul *ngIf="!logged" class="navbar-nav align-items-lg-center ml-lg-auto">
+        <li class="nav-item dropdown">
+            <a class="nav-link no-caret" data-toggle="dropdown" role="button" href="javascript:void(0)" (click)="fnLogout()">
+                <i class="ni ni-ui-04 d-lg-none"></i>
+                <span class="nav-link-inner--text">Iniciar Session</span>
+            </a>
+        </li>
+    </ul>
 </div>
 
 <div id="main">

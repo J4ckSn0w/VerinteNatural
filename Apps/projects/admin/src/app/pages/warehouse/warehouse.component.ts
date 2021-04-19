@@ -18,7 +18,7 @@ export class WarehouseComponent implements OnInit {
     name: new FormControl(null,[Validators.required]),
     address: new FormControl(null,[Validators.required]),
     warehouse_type_id: new FormControl(null,[Validators.required]),
-    user_id: new FormControl(null)
+    leader_id: new FormControl(null)
   });
 
   currentView = 0;
@@ -52,7 +52,10 @@ export class WarehouseComponent implements OnInit {
     warehouse_type_id:'',
     user_id:'',
     employee_id:'',
-    leader_id:''
+    leader_id:'',
+    warehouse_type:{
+      id:''
+    }
   }
 
   constructor(
@@ -67,6 +70,8 @@ export class WarehouseComponent implements OnInit {
   }
 
   fnNew(myModal){
+    this.currentView = 0;
+    this.show = false;
     this.modalService.open(myModal).result.then((result) => {
 
     },(reason) => {
@@ -93,6 +98,7 @@ export class WarehouseComponent implements OnInit {
     });
   }
   fnDelete(){}
+
   fnLoadWarehouses(){
     this.arrayUsers = [];
     this.arrayWarehouseTypes = [];
@@ -126,11 +132,12 @@ export class WarehouseComponent implements OnInit {
   fnLoadWarehouseInfo(id){ 
     this.arrayUsers = [];
     this.arrayWarehouseTypes = [];
-    this.arrayWarehouses = [];
+    //this.arrayWarehouses = [];
     this.warehouseService.fnGetWarehouseById(id)
     .then(res => {
+      console.log('Warehouse info');
       this.currentWarehouse = res.data;
-      //console.log(res.data);
+      console.log(res.data);
     })
     .catch()
     this.warehouseTypeService.fnGetWarehouses()
@@ -145,8 +152,6 @@ export class WarehouseComponent implements OnInit {
         this.arrayUsers.push(element);
       })
     });
-    console.log('CurrentWarehouse');
-    console.log(this.currentWarehouse);
   }
 
   fnCloseModal(){
@@ -159,7 +164,7 @@ export class WarehouseComponent implements OnInit {
       name : this.newForm.value.name,
       address: this.newForm.value.address,
       warehouse_type_id: this.newForm.value.warehouse_type_id,
-      user_id: this.newForm.value.user_id
+      leader_id: this.newForm.value.leader_id
     }
     this.warehouseService.fnPostNewWarehouse(data)
     .then(res => {
@@ -185,17 +190,18 @@ export class WarehouseComponent implements OnInit {
       })
     });
   }
-  onSubmitEdit(id){
+
+  onSubmitEdit(d){
     console.log(this.newForm);
     let data = {
       name : (this.newForm.value.name == undefined) ? this.currentWarehouse.name : this.newForm.value.name,
       address: (this.newForm.value.address == undefined) ? this.currentWarehouse.address : this.newForm.value.address,
       warehouse_type_id: (this.newForm.value.warehouse_type_id == undefined) ? this.currentWarehouse.warehouse_type_id : this.newForm.value.warehouse_type_id,
-      employee_id: (this.newForm.value.employee_id == undefined) ? this.currentWarehouse.leader_id : this.newForm.value.employee_id
+      leader_id: (this.newForm.value.employee_id == undefined) ? this.currentWarehouse.leader_id : this.newForm.value.employee_id
     };
     console.log('Data en editar');
     console.log(data);
-    this.warehouseService.fnPostEditWarehouse(data,id)
+    this.warehouseService.fnPostEditWarehouse(data,this.currentWarehouse.id)
     .then(res => {
       Swal.fire({
         icon: 'success',
@@ -216,7 +222,9 @@ export class WarehouseComponent implements OnInit {
           //this.router.navigate(["/system/warehouse"]);
           this.fnCloseModal();      
         }
-      })
+      });
+      console.log('ERROR AL EDITAR');
+      console.log(rej);
     });
   }
 }

@@ -65,7 +65,10 @@ export class VehicleComponent implements OnInit {
     license_plate:'',
     brand:'',
     description:'',
-    vehicle_type_id:''
+    vehicle_type_id:'',
+    vehicle_type:{
+      id:''
+    }
   }
 
   constructor(

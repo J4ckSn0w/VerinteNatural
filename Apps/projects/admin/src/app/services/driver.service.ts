@@ -11,11 +11,30 @@ export class DriverService{
 
     str_ip = environment.ip;
 
+    userToken = this.sessionService.fnGetSessionToken();
+    headers = new HttpHeaders({
+            Authorization: 'Bearer '+this.userToken,
+            Accept: 'application/json',
+            ContentType: 'application/json'
+    })
+
     constructor(
         private sessionService: SessionService,
         private http: HttpClient
     ){}
 
+    fnGetDriversAll():Promise<any>{
+        let respuesta = new Promise((resolve,reject) => {
+            this.http.get(this.str_ip + '/api/_p1/drivers',{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        });
+        return respuesta;
+    }
 
     fnGetDrivers():Promise<any>{
         let userToken = this.sessionService.fnGetSessionToken();

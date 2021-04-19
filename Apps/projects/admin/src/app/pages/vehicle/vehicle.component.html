@@ -69,7 +69,7 @@
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Tipo de Vehiculo</label>
-                        <select class="form-control" formControlName="vehicle_type_id">
+                        <select class="form-control" formControlName="vehicle_type_id" [(ngModel)]="currentVehicle.vehicle_type.id">
                             <option *ngFor="let vehicleType of arrayVehicleTypes" [value]="vehicleType.id">{{vehicleType.name}}</option>
                         </select>
                     </div>
@@ -93,8 +93,8 @@
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Tipo de Vehiculo</label>
-                        <select class="form-control" formControlName="vehicle_type_id" [attr.disabled]="show ? 'disabled': null">
-                            <option *ngFor="let vehicleType of arrayVehicleTypes" [value]="vehicleType.id" [attr.selected]="vehicleType.id == currentVehicle.vehicle_type_id">{{vehicleType.name}}</option>
+                        <select class="form-control" formControlName="vehicle_type_id" [attr.disabled]="show ? 'disabled': null" [(ngModel)]="currentVehicle.vehicle_type.id">
+                            <option *ngFor="let vehicleType of arrayVehicleTypes" [value]="vehicleType.id" >{{vehicleType.name}}</option>
                         </select>
                     </div>
                     <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()">Guardar</button>

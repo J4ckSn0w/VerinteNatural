@@ -14,14 +14,16 @@
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Rol</th>
+                            <th scope="col">Calificacion</th>
+                            <th scope="col">Vehiculo</th>
                             <th scope="col">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let driver of arrayDrivers; let index;">
-                            <th scope="row">{{ driver.id }}</th>
-                            <td>{{ driver.name }}</td>
+                            <th scope="row">{{ driver.employee_number }}</th>
+                            <td>{{ driver.rate }}</td>
+                            <td>{{ driver.vehicle_name }}</td>
                             <!--Opciones-->
                             <td>
                                 <div class="row">

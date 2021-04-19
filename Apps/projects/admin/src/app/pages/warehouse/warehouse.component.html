@@ -71,7 +71,7 @@
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Encargado de Almacen</label>
-                        <select class="form-control" formControlName="user_id">
+                        <select class="form-control" formControlName="leader_id">
                             <option *ngFor="let user of arrayUsers" [value]="user.id">{{user.name}}</option>
                         </select>
                     </div>
@@ -91,14 +91,14 @@
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Tipo Almacen</label>
-                        <select class="form-control" formControlName="warehouse_type_id" [attr.disabled]="show ? 'disabled' : null">
-                            <option *ngFor="let warehouseType of arrayWarehouseTypes" [value]="warehouseType.id" [attr.selected]="warehouseType.id == currentWarehouse.warehouse_type_id">{{warehouseType.name}}</option>
+                        <select class="form-control" formControlName="warehouse_type_id" [attr.disabled]="show ? 'disabled' : null" [(ngModel)]="currentWarehouse.warehouse_type.id">
+                            <option *ngFor="let warehouseType of arrayWarehouseTypes" [value]="warehouseType.id" >{{warehouseType.name}}</option>
                         </select>
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Encargado de Almacen</label>
-                        <select class="form-control" formControlName="user_id" [attr.disabled]="show ? 'disabled' : null">
-                            <option *ngFor="let user of arrayUsers" [value]="user.id" [attr.selected]="user.id == currentWarehouse.user_id">{{user.name}}</option>
+                        <select class="form-control" formControlName="leader_id" [attr.disabled]="show ? 'disabled' : null" [(ngModel)]="currentWarehouse.leader_id">
+                            <option *ngFor="let user of arrayUsers" [value]="user.id">{{user.name}}</option>
                         </select>
                     </div>
                     <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()">Actualizar</button>

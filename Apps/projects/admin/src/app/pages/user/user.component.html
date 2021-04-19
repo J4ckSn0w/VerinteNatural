@@ -119,9 +119,21 @@
                         <input type="text" class="form-control" placeholder="Contraseña" formControlName="password" [attr.disabled]="show ? 'disabled' : null">
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
-                        <label>Rol de Usuario</label>
-                        <select class="form-control" formControlName="employee_type_id" [attr.disabled]="show ? 'disabled' : null">
-                            <option *ngFor="let rol of arrayRoles" [value]="rol" [attr.selected]="rol.id === currentUser.employee_type.id ? 'selected' : null" >{{rol.name}}</option>
+                        <label>Puesto</label>
+                        <select class="form-control" formControlName="employee_type_id" [(ngModel)]="currentUser.employee_type.id">
+                            <option *ngFor="let userType of arrayUserTypes" [value]="userType.id">{{userType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Almacen asignado</label>
+                        <select class="form-control" formControlName="warehouse_id" [(ngModel)]="currentUser.warehouse.id">
+                            <option *ngFor="let warehouse of arrayWarehouses" [value]="warehouse.id">{{warehouse.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Rol</label>
+                        <select class="form-control" formControlName="role" [(ngModel)]="currentUser">
+                            <option *ngFor="let rol of arrayRoles;" [ngValue]="rol">{{ rol.name }}</option>
                         </select>
                     </div>
                     <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdi()">Actualizar</button>
