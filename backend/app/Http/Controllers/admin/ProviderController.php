@@ -36,7 +36,6 @@ class ProviderController extends Controller
         try {
             $provider = Provider::create($request->all());
             $products = new Collection($request->products);
-            $provider->products()->detach();
             $provider->products()->sync($products->map(function ($product) use ($provider) {
                 return [
                     'product_id' => $product['id'],
@@ -60,14 +59,14 @@ class ProviderController extends Controller
     {
         try {
             $provider = Provider::findOrfail($id);
-            $provider->products = $provider->products()->select('id', 'name')->get()->map(function ($product) {
+            $provider->products = $provider->products()->select('id', 'name', 'sku')->get()->map(function ($product) {
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
+                    'sku' => $product->sku,
                     'price' => $product->pivot->price,
                 ];
             });
-            //$provider->products = $provider->products
             return response()->json(['data' => $provider], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
