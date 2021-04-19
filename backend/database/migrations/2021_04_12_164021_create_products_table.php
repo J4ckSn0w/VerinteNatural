@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('product_type_id')->nullable();
             $table->string('description', 255)->nullable();
             $table->string('sku', 255)->nullable();
+            $table->double('minium_stock')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
