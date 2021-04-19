@@ -89,7 +89,7 @@ export class DriverComponent implements OnInit {
 
   fnLoadDrivers(){
     this.arrayDrivers = [];
-    this.driverService.fnGetDrivers()
+    this.driverService.fnGetDriversAll()
     .then(res => {
       console.log('RESPUESTA');
       console.log(res);
@@ -98,7 +98,8 @@ export class DriverComponent implements OnInit {
       }); 
     })
     .catch(rej => {
-
+      console.log('ERROR');
+      console.log(rej);
     })
   }
 

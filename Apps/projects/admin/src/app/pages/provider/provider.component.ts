@@ -251,12 +251,24 @@ export class ProviderComponent implements OnInit {
     .then(res => {
       console.log('RESPUESTA');
       console.log(res);
-      this.fnLoadProviders();
-      this.fnCloseModal();
+      Swal.fire({
+        icon:'success',
+        title:'Correcto!',
+        text:'Se agrego el proveedor correctamente',
+        didClose:() => {
+          this.fnLoadProviders();
+          this.fnCloseModal();
+        }
+      })
     })
     .catch(rej => {
       console.log('SALIO ALGO MAL');
       console.log(rej);
+      Swal.fire({
+        icon:'error',
+        title:'Error!',
+        text:'Hubo un error al intentar agregar el nuevo proveedor'
+      })
     })
   }
 
@@ -274,12 +286,28 @@ export class ProviderComponent implements OnInit {
     .then(res => {
       console.log('Respuesta');
       console.log(res.data);
-      this.fnLoadProviders();
-      this.fnCloseModal();
+      Swal.fire({
+        icon:'success',
+        title:'Correcto!',
+        text:'Se edito correctamente el proveedor',
+        didClose:() => {
+          this.fnLoadProviders();
+          this.fnCloseModal();
+        }
+      })
     })
     .catch(rej => {
+      Swal.fire({
+        icon:'error',
+        title:'Error!',
+        text:'Algo salio mal al intentar editar el proveedor',
+        didClose:() => {
 
-    })
+        }
+      });
+      console.log('Error al editar');
+      console.log(rej);
+    });
   }
   fnCheckErrors(cadena){
     return this.errors[cadena] ?? false;

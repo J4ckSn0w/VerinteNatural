@@ -15,7 +15,7 @@ export class ProductTypeComponent implements OnInit {
   /*Modal Inicio*/
   newForm = new FormGroup({
     name: new FormControl(null,[Validators.required]),
-    //category_id: new FormControl(null,[Validators.required]), 
+    category_id: new FormControl(null,[Validators.required]), 
   });
 
   currentView = 0;

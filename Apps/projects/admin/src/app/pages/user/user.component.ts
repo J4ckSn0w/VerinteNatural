@@ -48,6 +48,9 @@ export class UserComponent implements OnInit {
     id:'',
     user_id:'',
     employee_number:'',
+    role:{
+      id:''
+    }
   }
 
   newUserForm = new FormGroup({
@@ -59,6 +62,17 @@ export class UserComponent implements OnInit {
     warehouse_id: new FormControl(null,[Validators.required]),
     role: new FormControl(null,[Validators.required])
   });
+
+  fnLoadInfoForm(data){
+    console.log('LOAD INFO FORM');
+    this.newUserForm.value.name = data.name,
+    this.newUserForm.value.phone_number = data.phone_number,
+    this.newUserForm.value.email = data.email,
+    this.newUserForm.value.employee_type_id = data.employee_type.id,
+    this.newUserForm.value.warehouse_id = data.warehouse.id
+
+    console.log(this.newUserForm);
+  }
 
   //Modal
   closeResult = '';
@@ -146,7 +160,7 @@ export class UserComponent implements OnInit {
       this.currentUser = res.data;
     })
     .catch(rej => {
-
+      console.log('Error al traer informacion de usuario');
     });
     this.currentView = 1;
     this.show = false;
@@ -165,6 +179,7 @@ export class UserComponent implements OnInit {
       console.log('INFO');
       console.log(res.data);
       this.currentUser = res.data;
+      this.fnLoadInfoForm(this.currentUser);
     })
     .catch(rej => {
     });

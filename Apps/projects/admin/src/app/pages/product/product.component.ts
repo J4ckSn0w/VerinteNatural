@@ -159,6 +159,12 @@ export class ProductComponent implements OnInit {
       this.currentProduct = res.data;
       this.currentView = 1;
       this.fnOpenModal();
+      console.log('Producto:');
+      console.log(res);
+    })
+    .catch(rej => {
+      console.log('Algo salio mal');
+      console.log(rej);
     })
   }
 
@@ -199,7 +205,8 @@ export class ProductComponent implements OnInit {
       name:(this.newForm.value.name == undefined) ? this.currentProduct.name : this.newForm.value.name,
       description: (this.newForm.value.description == undefined) ? this.currentProduct.description : this.newForm.value.description,
       product_type_id:(this.newForm.value.product_type_id == undefined) ? this.currentProduct.product_type_id : this.newForm.value.product_type_id,
-      id:this.currentProduct.id
+      id:this.currentProduct.id,
+      image: this.base
     };
     console.log('Data');
     console.log(data);
@@ -221,7 +228,9 @@ export class ProductComponent implements OnInit {
         text:'hubo un error al intentar editar el producto',
         didClose:() => {
         }
-      })
+      });
+      console.log('Error al editar');
+      console.log(rej);
     })
   }
 
