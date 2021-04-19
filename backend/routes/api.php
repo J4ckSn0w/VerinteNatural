@@ -22,6 +22,7 @@ use App\Http\Controllers\admin\LogController;
 use App\Http\Controllers\admin\ProductController as ProductControllerAdmin;
 use App\Http\Controllers\admin\ProductTypeController;
 use App\Http\Controllers\admin\ProviderController;
+use App\Http\Controllers\admin\RequisitionController;
 
 // Client Controllers
 use App\Http\Controllers\client\AuthController as AuthControllerClient;
@@ -122,6 +123,10 @@ Route::prefix('_p1')->group(function () {
 
         // Batches resources
         Route::apiResource('batches', BatchController::class)
+            ->except(['create', 'edit']);
+
+        // Requisitions resources
+        Route::apiResource('requisitions', RequisitionController::class)
             ->except(['create', 'edit']);
 
         // End API Rest
