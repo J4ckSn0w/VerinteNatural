@@ -50,9 +50,14 @@ class Requisition extends Model
 
     /*********** Appends ************/
 
-    public function getStatusValueAttribute()
+    public function getStatusNameAttribute()
     {
         return $this->STATUS[$this->status] ?? '';
+    }
+
+    public function getWarehouseNameAttribute()
+    {
+        return $this->warehouse->name ?? '';
     }
 
 
