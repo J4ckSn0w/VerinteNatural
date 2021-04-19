@@ -17,8 +17,8 @@ class WarehouseController extends Controller
     public function index(): JsonResponse
     {
         try {
-            return response()->json(['data' => Warehouse::all()],200);
-        } catch(\Exception $e) {
+            return response()->json(['data' => Warehouse::all()], 200);
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -33,8 +33,8 @@ class WarehouseController extends Controller
     {
         try {
             $warehouse = Warehouse::create($request->all());
-            return response()->json(['data' => $warehouse],201);
-        } catch(\Exception $e) {
+            return response()->json(['data' => $warehouse], 201);
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -49,10 +49,10 @@ class WarehouseController extends Controller
     {
         try {
             $warehouse = Warehouse::findOrfail($id);
-            $warehouse->user;
+            $warehouse->leader;
             $warehouse->warehouse_type;
-            return response()->json(['data' => $warehouse],200);
-        } catch(\Exception $e) {
+            return response()->json(['data' => $warehouse], 200);
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -70,8 +70,8 @@ class WarehouseController extends Controller
             $warehouse = Warehouse::findOrfail($id);
             $warehouse->fill($request->all());
             $warehouse->save();
-            return response()->json(['data' => Warehouse::all()],200);
-        } catch(\Exception $e) {
+            return response()->json(['data' => Warehouse::all()], 200);
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -87,8 +87,8 @@ class WarehouseController extends Controller
         try {
             $warehouse = Warehouse::findOrfail($id);
             $warehouse->delete();
-            return response()->json(['data' => $warehouse],200);
-        } catch(\Exception $e) {
+            return response()->json(['data' => $warehouse], 200);
+        } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
