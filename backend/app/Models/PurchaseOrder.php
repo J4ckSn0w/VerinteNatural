@@ -7,20 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class Requisition extends Model
+class PurchaseOrder extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $STATUS = [
-        0 => 'En proceso',
+        0 => 'En proceso ',
         1 => 'Aceptada',
-        2 => 'Rechazada'
+        3 => 'En recolección',
+        4 => 'Completeda',
+        5 => 'Rechazada'
     ];
 
-    protected $table = 'requisitions';
+    protected $table = 'purchase_orders';
 
     protected $fillable = [
-        'required_to'
+        'delivery_to',
+        'total',
+        'subtotal',
+        'iva',
+        'warehouse_id',
+        'requisition_id',
+        'provider_id'
     ];
 
     /*********** Methods ************/
@@ -30,9 +38,9 @@ class Requisition extends Model
 
     /*********** Relations ************/
 
-    public function user()
+    public function provider()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Provider::class);
     }
 
     public function warehouse()
@@ -40,14 +48,19 @@ class Requisition extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
-    public function products()
+    public function requisition()
     {
-        return $this->belongsToMany(Product::class)->withPivot('quantity');
+        return $this->belongsTo(Requisition::class);
     }
 
-    public function purchase_order()
+    public function user()
     {
-        return $this->hasOne(PurchaseOrder::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)->withPivot('unit_price', 'quantity', 'quantity_received');
     }
 
     /********** End Relations *********/
@@ -65,6 +78,11 @@ class Requisition extends Model
         return $this->warehouse->name ?? '';
     }
 
+    public function getProviderNameAttribute()
+    {
+        return $this->provider->name ?? '';
+    }
+
 
     /********** End Appends *********/
 
@@ -75,8 +93,8 @@ class Requisition extends Model
 
         static::created(function ($model) {
             Log::create([
-                "category" => "Solicitudes de mercancia",
-                "action" => "Se creó una solicitude de mercancia " . $model->id,
+                "category" => "Ordenes de compra",
+                "action" => "Se creó una orden de compra " . $model->id,
                 "user_id" => Auth::id()
             ]);
         });
@@ -84,8 +102,8 @@ class Requisition extends Model
         static::updated(function ($model) {
 
             Log::create([
-                "category" => "Solicitudes de mercancia",
-                "action" => "Se actualizó una solicitudes de mercancia " . $model->id,
+                "category" => "Ordenes de compra",
+                "action" => "Se actualizó una orden de compra " . $model->id,
                 "user_id" => Auth::id()
             ]);
         });
@@ -93,8 +111,8 @@ class Requisition extends Model
         static::deleted(function ($model) {
 
             Log::create([
-                "category" => "Solicitudes de mercancia",
-                "action" => "Se eliminó una solicitude de mercancia " . $model->id,
+                "category" => "Ordenes de compra",
+                "action" => "Se eliminó una orden de compra " . $model->id,
                 "user_id" => Auth::id()
             ]);
         });

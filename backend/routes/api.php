@@ -22,6 +22,7 @@ use App\Http\Controllers\admin\LogController;
 use App\Http\Controllers\admin\ProductController as ProductControllerAdmin;
 use App\Http\Controllers\admin\ProductTypeController;
 use App\Http\Controllers\admin\ProviderController;
+use App\Http\Controllers\admin\PurchaseOrderController;
 use App\Http\Controllers\admin\RequisitionController;
 
 // Client Controllers
@@ -129,6 +130,10 @@ Route::prefix('_p1')->group(function () {
         Route::apiResource('requisitions', RequisitionController::class)
             ->except(['create', 'edit']);
 
+        // Purchase orders resources
+        Route::apiResource('purchase/orders', PurchaseOrderController::class)
+            ->except(['create', 'edit']);
+
         // End API Rest
 
 
@@ -137,8 +142,15 @@ Route::prefix('_p1')->group(function () {
         // Get abilities
         Route::get('roles/{employee_type_id?}', [EmployeeController::class, 'getRoles']);
 
-        // Change incidents status
+        // Change incident status
         Route::put('incidents/{id}/{status}', [IncidentController::class, 'changeStatus']);
+
+        // Change requisition status
+        Route::put('requisitions/{id}/{status}', [RequisitionController::class, 'changeStatus']);
+
+        // Change purchase order status
+        Route::put('purchase/orders/{id}/{status}', [PurchaseOrderController::class, 'changeStatus']);
+
 
         // End Singles api route
     });

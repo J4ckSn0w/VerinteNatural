@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RequisitionRequest;
-use App\Models\Requisition;
+use App\Http\Requests\PurchaseOrderRequest;
+use App\Models\PurchaseOrder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RequisitionController extends Controller
+class PurchaseOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,26 +19,29 @@ class RequisitionController extends Controller
     public function index()
     {
         try {
-            $requisitions = Requisition::query()->select('id', 'folio', 'required_to', 'created_at', 'status', 'warehouse_id')->get();
-            $requisitions = $requisitions->map(function ($requisition) {
-                $requisition->append('status_name', 'warehouse_name');
-                $requisition = $requisition->only([
+            $purchase_orders = PurchaseOrder::query()
+                ->select('id', 'warehouse_id', 'created_at', 'folio', 'total', 'provider_id', 'status')->get();
+            $purchase_orders = $purchase_orders->map(function ($purchase_order) {
+                $purchase_order->append(['warehouse_name', 'provider_name', 'status_name']);
+                $purchase_order = $purchase_order->only([
                     'id',
+                    'created_at',
                     'folio',
-                    'required_to',
+                    'total',
                     'status',
                     'status_name',
-                    'created_at',
-                    'warehouse_name'
+                    'warehouse_name',
+                    'provider_name'
                 ]);
-                return $requisition;
+
+                return $purchase_order;
             });
-            return response()->json(['data' => $requisitions], 200);
+
+            return response()->json(['data' => $purchase_orders], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -46,24 +49,26 @@ class RequisitionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RequisitionRequest $request)
+    public function store(PurchaseOrderRequest $request)
     {
         try {
-            $requisition = new Requisition();
-            $requisition->required_to = $request->required_to;
-            $requisition->user_id = Auth::id();
-            $requisition->warehouse_id = Auth::user()->employee->warehouse_id ??  1;
-            $requisition->folio = 'SM' . $this->formatID($requisition->id);
-            $requisition->save();
+            $purchase_order = new PurchaseOrder();
+            $purchase_order->fill($request->all());
+            $purchase_order->user_id = Auth::id();
+            $purchase_order->save();
+            $purchase_order->folio = 'OC' . $this->formatID($purchase_order->id);
+            $purchase_order->save();
+
             $products = new Collection($request->products);
-            $requisition->products()->sync($products->map(function ($product) use ($requisition) {
+            $purchase_order->products()->sync($products->map(function ($product) use ($purchase_order) {
                 return [
                     'product_id' => $product['id'],
-                    'requisition_id' => $requisition->id,
+                    'purchase_order_id' => $purchase_order->id,
                     'quantity' => $product['quantity']
                 ];
             }));
-            return response()->json(['data' => $requisition], 201);
+
+            return response()->json(['data' => $purchase_order], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
@@ -83,6 +88,7 @@ class RequisitionController extends Controller
         return $formattedID;
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -92,17 +98,18 @@ class RequisitionController extends Controller
     public function show($id)
     {
         try {
-            $requisition = Requisition::findOrfail($id);
-            $requisition->products = $requisition->products()->select('id', 'name', 'sku')->get()->map(function ($product) {
+            $purchase_order = PurchaseOrder::findOrfail($id);
+            $purchase_order->products = $purchase_order->products()->select('id', 'name', 'sku')->get()->map(function ($product) {
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
                     'sku' => $product->sku,
                     'quantity' => $product->pivot->quantity,
+                    'quantity_received' => $product->pivot->quantity_received,
                 ];
             });
 
-            return response()->json(['data' => $requisition], 200);
+            return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
@@ -115,24 +122,24 @@ class RequisitionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RequisitionRequest $request, $id)
+    public function update(PurchaseOrderRequest $request, $id)
     {
         try {
-            $requisition = Requisition::findOrfail($id);
-            $requisition->required_to = $request->required_to;
-            $requisition->save();
+            $purchase_order = PurchaseOrder::findOrfail($id);
+            $purchase_order->fill($request->all());
+            $purchase_order->save();
 
-            $requisition->products()->detach();
+            $purchase_order->products()->detach();
             $products = new Collection($request->products);
-            $requisition->products()->sync($products->map(function ($product) use ($requisition) {
+            $purchase_order->products()->sync($products->map(function ($product) use ($purchase_order) {
                 return [
                     'product_id' => $product['id'],
-                    'requisition_id' => $requisition->id,
+                    'purchase_order_id' => $purchase_order->id,
                     'quantity' => $product['quantity']
                 ];
             }));
 
-            return response()->json(['data' => $requisition], 200);
+            return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
@@ -147,10 +154,10 @@ class RequisitionController extends Controller
     public function destroy($id)
     {
         try {
-            $requisition = Requisition::findOrfail($id);
-            $requisition->products()->detach();
-            $requisition->delete();
-            return response()->json(['data' => $requisition], 200);
+            $purchase_order = PurchaseOrder::findOrfail($id);
+            $purchase_order->products()->detach();
+            $purchase_order->delete();
+            return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
@@ -159,10 +166,10 @@ class RequisitionController extends Controller
     public function changeStatus($id, $status)
     {
         try {
-            $requisition = Requisition::findOrfail($id);
-            $requisition->status = $status;
-            $requisition->save();
-            return response()->json(['data' => $requisition], 200);
+            $purchase_order = PurchaseOrder::findOrfail($id);
+            $purchase_order->status = $status;
+            $purchase_order->save();
+            return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
