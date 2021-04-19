@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserTypesService } from '../../services/user-types.service';
 import { WarehouseService } from '../../services/warehouse.service';
 import Swal from 'sweetalert2';
+import { RolesService } from '../../services/roles.service';
 
 @Component({
   selector: 'app-user',
@@ -29,6 +30,7 @@ export class UserComponent implements OnInit {
   show  = false;
 
   arrayRoles = [];
+  arrayUserTypes = [];
   arrayWarehouses = [];
   arrayDriversTypes = [];
 
@@ -54,7 +56,8 @@ export class UserComponent implements OnInit {
     email: new FormControl(null, [Validators.required,Validators.email]),
     password: new FormControl(null, [Validators.required]),
     employee_type_id: new FormControl(1, Validators.required),
-    warehouse_id: new FormControl(null,[Validators.required])
+    warehouse_id: new FormControl(null,[Validators.required]),
+    role: new FormControl(null,[Validators.required])
   });
 
   //Modal
@@ -67,7 +70,8 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private modalService: NgbModal,
     private userTypeService: UserTypesService,
-    private warehouseService: WarehouseService
+    private warehouseService: WarehouseService,
+    private rolesService: RolesService
   ) { }
 
   ngOnInit(): void {
@@ -77,6 +81,7 @@ export class UserComponent implements OnInit {
 
   fnGetAllRoles(){
     this.arrayRoles = [];
+    this.arrayUserTypes = [];
     this.arrayDriversTypes = [];
     this.arrayWarehouses = [];
     //this.userTypeService.fnGetUserTypes(null).
@@ -84,7 +89,7 @@ export class UserComponent implements OnInit {
     .then((resolve) => {
       console.log(resolve);
       resolve.data.forEach(element => {
-        this.arrayRoles.push(element);
+        this.arrayUserTypes.push(element);
       });
     })
     .catch((rej) => {
@@ -96,6 +101,22 @@ export class UserComponent implements OnInit {
       res.data.forEach(element => {
         this.arrayWarehouses.push(element);
       })
+    })
+    .catch(rej => {
+      console.log('Algo salio mal al cargar los almacenes');
+    });
+    /*Roles */
+    this.rolesService.fnGetRoles()
+    .then(res => {
+      res.data.forEach(element => {
+        this.arrayRoles.push(element);
+      });
+      console.log('Roles');
+      console.log(res.data);
+    })
+    .catch(rej => {
+      console.log('Algo salio mal al traer los roles');
+      console.log(rej);
     })
   }
 
@@ -219,8 +240,14 @@ export class UserComponent implements OnInit {
         "phone_number": this.newUserForm.value.phone_number,
         "password": this.newUserForm.value.password,
         "employee_type_id": this.newUserForm.value.employee_type_id,
-        "warehouse_id":this.newUserForm.value.warehouse_id
+        "warehouse_id":this.newUserForm.value.warehouse_id,
+        role: {
+          name:this.newUserForm.value.role.name,
+          title:this.newUserForm.value.role.title
+        }
       };
+      console.log('Data');
+      console.log(data);
       Swal.showLoading();
     
       this.userService.fnPostNewUserA(data)
@@ -290,5 +317,4 @@ export class UserComponent implements OnInit {
   fnCheckErrors(cadea){
     return this.errors[cadea] ?? false;
   }
-
 }

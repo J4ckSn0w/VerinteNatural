@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Admin</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -63,4 +63,56 @@
             </li>
         </ul>
     </div>
-</nav>
+</nav>-->
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/home']" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/user']" routerLinkActive="router-link-active">Usuarios</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/client']" routerLinkActive="router-link-active">Clientes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/driver']" routerLinkActive="router-link-active">Conductores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/warehouse']" routerLinkActive="router-link-active">Almacen</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/warehouse-type']" routerLinkActive="router-link-active">Tipo de Almacen</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/vehicle']" routerLinkActive="router-link-active">Vehiculos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/vehicle-type']" routerLinkActive="router-link-active">Tipos de vehiculos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/product-type']" routerLinkActive="router-link-active">Tipos de productos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/product']" routerLinkActive="router-link-active">Productos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/provider']" routerLinkActive="router-link-active">Proveedores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/incident']" routerLinkActive="router-link-active">Incidencias</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="" [routerLink]="['/admin/batch']" routerLinkActive="router-link-active">Lotes</a>
+        </li>
+    </ul>
+</div>
+
+<div id="main">
+    <span style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776;</span>
+</div>
+
+<script>
+</script>

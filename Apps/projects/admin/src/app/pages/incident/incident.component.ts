@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import Swal from 'sweetalert2';
 import{ IncidentService } from '../../services/incidents.service'
 
 @Component({
@@ -80,6 +81,15 @@ export class IncidentComponent implements OnInit {
       this.currentEmployee = res;
       console.log('Simon');
       console.log(this.currentEmployee);
+      this.userService.fnGetUserById(this.currentEmployee.id)
+      .then(res => {
+        console.log('Mi data');
+        console.log(res);
+      })
+      .catch(rej => {
+        console.log('Error');
+        console.log(rej);
+      })
     })
     .catch(rej => {
       console.log('Algo salio mal');
@@ -91,9 +101,13 @@ export class IncidentComponent implements OnInit {
     this.currentView = 0;
     this.fnOpenModal();
   }
+
   fnEdit(id){}
+
   fnVer(id){}
+
   fnDelete(id){}
+
   fnLoadIncidents(){
     this.arrayIndicents = [];
     this.incidentService.fnGetIncidents()
@@ -101,17 +115,18 @@ export class IncidentComponent implements OnInit {
       res.data.forEach(element => {
         this.arrayIndicents.push(element);
       });
-      this.fnOpenModal();
+      //this.fnOpenModal();
     });
   }
+
   fnLoadIncident(id){}
 
   onSubmitNew(){
     let data = {
       subject:this.newForm.value.subject,
       description:this.newForm.value.description,
-      //employee_id:this.currentEmployee.employee_id
-      employee_id:this.currentEmployee.id
+      employee_id:this.currentEmployee.employee_id
+      //employee_id:this.currentEmployee.id
     };
     console.log('DATA');
     console.log(data);
@@ -122,6 +137,18 @@ export class IncidentComponent implements OnInit {
       this.fnLoadIncidents();
       this.fnCloseModal();
     })
+    .catch(rej => {
+      console.log('ERROR');
+      console.log(rej);
+      let arrayErrores = '';
+      arrayErrores = rej.error.errors.employee_id[0];
+      Swal.fire({
+        icon:'error',
+        title:'Error!',
+        text:arrayErrores
+      })
+    });
   }
+  
   onSubmitEdit(){}
 }
