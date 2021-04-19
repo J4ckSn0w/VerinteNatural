@@ -45,6 +45,11 @@ class Requisition extends Model
         return $this->belongsToMany(Product::class)->withPivot('quantity');
     }
 
+    public function purchase_order()
+    {
+        return $this->hasOne(PurchaseOrder::class);
+    }
+
     /********** End Relations *********/
 
 
