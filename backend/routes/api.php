@@ -124,7 +124,7 @@ Route::prefix('_p1')->group(function () {
 
         // Batches resources
         Route::apiResource('batches', BatchController::class)
-            ->except(['create', 'edit']);
+            ->except(['create', 'edit', 'store']);
 
         // Requisitions resources
         Route::apiResource('requisitions', RequisitionController::class)
@@ -150,6 +150,9 @@ Route::prefix('_p1')->group(function () {
 
         // Change purchase order status
         Route::put('purchase/orders/{id}/{status}', [PurchaseOrderController::class, 'changeStatus']);
+
+        // Receive Purchase order
+        Route::post('purchase/orders/{id}/receive', [PurchaseOrderController::class, 'receive']);
 
 
         // End Singles api route
