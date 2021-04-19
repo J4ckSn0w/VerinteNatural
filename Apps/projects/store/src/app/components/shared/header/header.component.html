@@ -1,146 +1,59 @@
-<!--
-Fixed Navigation
-==================================== -->
-<header id="navigation" class="navbar-fixed-top">
-
-     <!--
-        #Search Bar
-        ========================== -->
-        <div class="search-bar">
-            <form>
-              <label for="searchQuery">
-                <!-- <i class="fa fa-leaf"></i> -->
-              </label>
-              <input type="search" id="searchQuery" name="searchQuery" placeholder="¿Qué producto buscas?" style="background-color: transparent;"/>
-            </form>
-            <button>
-              <i class="fa fa-search" style="color: black;"></i>
-            </button>
-          </div>
-          <!--
-        End #Search Bar
-        ========================== -->
-
-        <div class="container">
-            <div class="navbar-header">
-
-                <!-- responsive nav button -->
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!-- /responsive nav button -->
+<header class="navbar-fixed-top">
+    <div class="container" >
+        <div class="navbar-header">
+            <nav class="navbar navbar-expand-md navbar-light mb-3" style="background-color: trasparent;">
 
                 <!-- logo -->
-                <h1 class="navbar-brand">
-                    <a href="#">
-                        <img src="../../../../assets/images/logoVerinte (1) (1) (1).png" alt="Verinte Logo">
-                    </a>
-                </h1>
+                <a href="#">
+                    <img src="../../../../assets/images/logoVerinte (1) (1) (1).png" alt="Verinte Logo">
+                </a>
                 <!-- /logo -->
 
-                <!-- main nav -->
-                <nav class="collapse navigation navbar-collapse navbar-right" role="navigation">
-                    <ul id="nav" class="nav navbar-nav">
-                        <li class="current"><a href="#home">INICIO</a></li>
-                        <li><a href="#service">CÓNOCENOS</a></li>
-                        <li><a href="#portfolio">TIENDA</a></li>
-                        <li><a href="#about">CONTACTO</a></li>
-                        <li><a href="#pricing">IDENTIFICATE</a></li>
-                        <li><a href="" class="btn">
-                            <i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
-                          </a></li>
-                    </ul>
-                </nav>
-                <!-- /main nav -->
+                <!-- responsive nav button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="f">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- /responsive nav button -->
+                
+                <div class="navigation navbar-collapse collapse navbar-collapse navbar-right" id="navbarCollapse">
+                    <div style="margin-top: 1.5rem;">
+                        <ul class="navbar-nav navbar-center">
+                            <li>
 
+                                <!--
+                                    #Search Bar
+                                    ========================== -->
+                                    <div style="margin-right: 2rem; margin-left: 2rem;">
+                                        <div class="search-bar">
+                                            <form class="text-center">
+                                                <label for="searchQuery"></label>
+                                                <input type="search" id="searchQuery" name="searchQuery" placeholder="¿Qué producto buscas?" style="background-color: transparent;"/>
+                                            </form>
+                                                <button>
+                                                    <i class="fa fa-search" style="color: black;"></i>
+                                                </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!--
+                                        End #Search Bar
+                                        ========================== -->
+                                    
+                                    </li>
+                                    <li class="current"><div style="margin-top: 0.8rem;"><a class="nav-link" href="#home">INICIO</a></div></li>
+                                    <li class=""><div style="margin-top: 0.8rem;"><a class="nav-link" href="#service">CÓNOCENOS</a></div></li>
+                                    <li class="nav-item"><div style="margin-top: 0.8rem;"><a class="nav-link" href="#portfolio">TIENDA</a></div></li>
+                                    <li class="nav-item"><div style="margin-top: 0.8rem;"><a class="nav-link" href="#about">CONTACTO</a></div></li>
+                                    <li *ngIf="!isLogged" class="nav-item"><div style="margin-top: 0.8rem;"><a class="nav-link" href="javascript:void(0)" (click)="open()">INICIAR SESIÓN</a></div></li>
+                                    <li *ngIf="isLogged" class="nav-item dropdown"><div style="margin-top: 0.8rem;">
+                                        <a class="nav-link" href="javascript:void(0)" (click)="goToProfile()">Bienvenido {{isLogged.name}}</a></div>
+                                        <a class="dropdown-item" aria-labelledby="dropdownMenuLink" (click)="logout()" href="javascript:void(0)">Cerrar sesión</a>
+                                    </li>
+                                    <li><div style="margin-top: 0.8rem; padding-left: 1rem;"><a href="" class="btn"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a></div></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
 </header>
-<!--
-End Fixed Navigation
-==================================== -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<nav class="navbar navbar-expand-md navbar-light mb-3" style="background-color: #ffd154;">
-    <img style="width: 7%;" class="" src='assets/images/logo.png' alt="logo">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-        aria-controls="navbarCollapse" aria-expanded="f">
-        <span class=" navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav navbar-center">
-            <li class="nav-item ml-auto">
-                <a class="nav-link" href="#">INICIO</a>
-            </li>
-            <li class="nav-item dropdown" style="padding-left: 30%;">
-                <a class="nav-link" href="">CÓNOCENOS</a>
-                <a class="dropdown-toggle " href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false"></a>
-            </li>
-            <li class="nav-item" style="padding-left: 30%;">
-                <a class="nav-link" href="#">TIENDA</a>
-            </li>
-            <li class="nav-item" style="padding-left: 30%;">
-                <a class="nav-link" href="#">CONTACTO</a>
-            </li>
-            <li *ngIf="!isLogged" class="nav-item">
-                <a class="nav-link" href="javascript:void(0)" (click)="open()">
-                    Identificate
-                </a>
-            </li>
-            <li *ngIf="isLogged" class="nav-item dropdown">
-                <a class="nav-link" href="javascript:void(0)" (click)="goToProfile()">Hola {{isLogged.name}}</a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" (click)="logout()" href="javascript:void(0)">Cerrar sesión</a>
-                </div>
-            </li>
-        </ul>
-        <ul class="navbar-nav navbar-right">
-
-        </ul>
-        <ul class="navbar-nav mr-auto">
-
-        </ul>
-    </div>
-</nav>
--->
