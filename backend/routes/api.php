@@ -151,6 +151,9 @@ Route::prefix('_p1')->group(function () {
         // Change purchase order status
         Route::put('purchase/orders/{id}/{status}', [PurchaseOrderController::class, 'changeStatus']);
 
+        // Change batch status
+        Route::put('batches/{id}/{status}', [BatchController::class, 'changeStatus']);
+
         // Receive Purchase order
         Route::post('purchase/orders/{id}/receive', [PurchaseOrderController::class, 'receive']);
 
