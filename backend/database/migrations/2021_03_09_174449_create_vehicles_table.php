@@ -19,12 +19,14 @@ class CreateVehiclesTable extends Migration
             $table->string('brand', 100)->nullable();
             $table->string('description', 255)->nullable();
             $table->unsignedBigInteger('vehicle_type_id');
+            $table->double('mileage')->nullable();
+            $table->double('spent_fuel')->default(0);
+            $table->double('fuel_cost')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('vehicle_type_id')->references('id')->on('vehicle_types');
-
         });
     }
 

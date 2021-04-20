@@ -20,6 +20,7 @@ use App\Http\Controllers\admin\DriverTypeController;
 use App\Http\Controllers\admin\IncidentController;
 use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\LogController;
+use App\Http\Controllers\admin\MileageRecordController;
 use App\Http\Controllers\admin\ProductController as ProductControllerAdmin;
 use App\Http\Controllers\admin\ProductTypeController;
 use App\Http\Controllers\admin\ProviderController;
@@ -143,6 +144,12 @@ Route::prefix('_p1')->group(function () {
         Route::apiResource('inventories', InventoryController::class)
             ->except(['create', 'edit', 'store']);
 
+        // Mileage Records index
+        Route::get('mileage/records/{vehicle_id}', [MileageRecordController::class, 'index']);
+
+        // Mileage Records store
+        Route::post('mileage/records', [MileageRecordController::class, 'store']);
+
         // End API Rest
 
 
@@ -165,6 +172,14 @@ Route::prefix('_p1')->group(function () {
 
         // Receive Purchase order
         Route::post('purchase/orders/{id}/receive', [PurchaseOrderController::class, 'receive']);
+
+        // Download Report General
+        Route::get('vehicles/report', [VehicleController::class, 'vehicleReportGeneral']);
+
+        // Download Report
+        Route::get('vehicles/report/{id}/{date_from}/{date_to}', [VehicleController::class, 'vehicleReport']);
+
+
 
 
         // End Singles api route

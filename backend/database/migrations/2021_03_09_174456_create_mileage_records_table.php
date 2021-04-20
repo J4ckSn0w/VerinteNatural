@@ -15,11 +15,10 @@ class CreateMileageRecordsTable extends Migration
     {
         Schema::create('mileage_records', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->double('initial_mileage');
-            $table->double('final_mileage');
-            $table->unsignedBigInteger('vehicle_id');
-            $table->double('gasoline_price');
-            $table->double('spent_gasoline');
+            $table->double('mileage');
+            $table->foreignId('vehicle_id');
+            $table->double('fuel_cost');
+            $table->double('spent_fuel');
 
             $table->timestamps();
 
