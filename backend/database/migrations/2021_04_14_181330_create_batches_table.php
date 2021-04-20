@@ -21,12 +21,14 @@ class CreateBatchesTable extends Migration
             $table->unsignedBigInteger('provider_id')->nullable();
             $table->string('sku', 100)->nullable();
             $table->integer('status')->default(0);
+            $table->foreignId('warehouse_id')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('provider_id')->references('id')->on('providers');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses');
         });
     }
 

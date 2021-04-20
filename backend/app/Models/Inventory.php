@@ -7,25 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class Batch extends Model
+class Inventory extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $STATUS = [
-        0 => 'Almacenado',
-        1 => 'Activo',
-        2 => 'Terminado',
-        3 => 'Perdida'
+        0 => 'Por encima del stock minimo',
+        1 => 'Cerca del stock minimo',
+        2 => 'Por debajo del stock minimo',
+        3 => 'Sin existencias'
     ];
 
-    protected $table = 'batches';
+    protected $table = 'inventories';
 
     protected $fillable = [
-        'quantity',
-        'unit_cost',
-        'product_id',
-        'provider_id',
-        'warehouse_id'
+        'available',
+        'total',
+        'product_name',
+        'sku',
+        'warehouse_id',
+        'batch_id',
+        'minium_stock'
     ];
 
     /*********** Methods ************/
@@ -35,14 +37,9 @@ class Batch extends Model
 
     /*********** Relations ************/
 
-    public function product()
+    public function batch()
     {
-        return $this->belongsTo(Product::class);
-    }
-
-    public function provider()
-    {
-        return $this->belongsTo(Provider::class);
+        return $this->belongsTo(Batch::class);
     }
 
     public function warehouse()
@@ -50,20 +47,15 @@ class Batch extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
+    public function units()
+    {
+        return $this->belongsToMany(Unit::class)->withPivot('price', 'is_default');
+    }
+
     /********** End Relations *********/
 
 
     /*********** Appends ************/
-
-    public function getProductNameAttribute()
-    {
-        return $this->product->name ?? '';
-    }
-
-    public function getProviderNameAttribute()
-    {
-        return $this->provider->name ?? '';
-    }
 
     public function getWarehouseNameAttribute()
     {
@@ -84,8 +76,8 @@ class Batch extends Model
 
         static::created(function ($model) {
             Log::create([
-                "category" => "Lotes",
-                "action" => "Se creó el lote " . $model->sku,
+                "category" => "Inventarios",
+                "action" => "Se creó el inventario " . $model->sku,
                 "user_id" => Auth::id()
             ]);
         });
@@ -93,8 +85,8 @@ class Batch extends Model
         static::updated(function ($model) {
 
             Log::create([
-                "category" => "Lotes",
-                "action" => "Se actualizó el lote " . $model->sku,
+                "category" => "Inventarios",
+                "action" => "Se actualizó el inventario " . $model->sku,
                 "user_id" => Auth::id()
             ]);
         });
@@ -102,8 +94,8 @@ class Batch extends Model
         static::deleted(function ($model) {
 
             Log::create([
-                "category" => "Lotes",
-                "action" => "Se eliminó el lote " . $model->sku,
+                "category" => "Inventarios",
+                "action" => "Se eliminó el inventario " . $model->sku,
                 "user_id" => Auth::id()
             ]);
         });

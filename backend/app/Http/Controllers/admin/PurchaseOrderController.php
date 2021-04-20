@@ -196,7 +196,8 @@ class PurchaseOrderController extends Controller
                         'quantity'      => $product['quantity_received'],
                         'unit_cost'     =>  $product['unit_price'],
                         'product_id'    => $product['id'],
-                        'provider_id'   => $purchase_order->provider_id
+                        'provider_id'   => $purchase_order->provider_id,
+                        'warehouse_id'  => $purchase_order->warehouse_id
                     ])
                 );
                 return [

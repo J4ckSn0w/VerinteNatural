@@ -18,13 +18,14 @@ use App\Http\Controllers\admin\EmployeeTypeController;
 use App\Http\Controllers\admin\DriverController;
 use App\Http\Controllers\admin\DriverTypeController;
 use App\Http\Controllers\admin\IncidentController;
+use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\LogController;
 use App\Http\Controllers\admin\ProductController as ProductControllerAdmin;
 use App\Http\Controllers\admin\ProductTypeController;
 use App\Http\Controllers\admin\ProviderController;
 use App\Http\Controllers\admin\PurchaseOrderController;
 use App\Http\Controllers\admin\RequisitionController;
-
+use App\Http\Controllers\admin\UnitController;
 // Client Controllers
 use App\Http\Controllers\client\AuthController as AuthControllerClient;
 use App\Http\Controllers\client\UserController;
@@ -124,7 +125,7 @@ Route::prefix('_p1')->group(function () {
 
         // Batches resources
         Route::apiResource('batches', BatchController::class)
-            ->except(['create', 'edit', 'store']);
+            ->only(['index', 'show']);
 
         // Requisitions resources
         Route::apiResource('requisitions', RequisitionController::class)
@@ -133,6 +134,14 @@ Route::prefix('_p1')->group(function () {
         // Purchase orders resources
         Route::apiResource('purchase/orders', PurchaseOrderController::class)
             ->except(['create', 'edit']);
+
+        // Units resources
+        Route::apiResource('units', UnitController::class)
+            ->except(['create', 'edit']);
+
+        // Inventory resources
+        Route::apiResource('inventories', InventoryController::class)
+            ->except(['create', 'edit', 'store']);
 
         // End API Rest
 
