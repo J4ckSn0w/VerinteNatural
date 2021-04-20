@@ -24,7 +24,8 @@ class Batch extends Model
         'quantity',
         'unit_cost',
         'product_id',
-        'provider_id'
+        'provider_id',
+        'warehouse_id'
     ];
 
     /*********** Methods ************/
@@ -44,6 +45,11 @@ class Batch extends Model
         return $this->belongsTo(Provider::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     /********** End Relations *********/
 
 
@@ -57,6 +63,11 @@ class Batch extends Model
     public function getProviderNameAttribute()
     {
         return $this->provider->name ?? '';
+    }
+
+    public function getWarehouseNameAttribute()
+    {
+        return $this->warehouse->name ?? '';
     }
 
     public function getStatusNameAttribute()
