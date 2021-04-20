@@ -22,12 +22,14 @@ class BatchController extends Controller
         try {
             $batches = Batch::all();
             $batches = $batches->map(function ($batch) {
-                $batch->append(['product_name', 'provider_name']);
+                $batch->append(['product_name', 'provider_name', 'status_name']);
                 $batch = $batch->only([
                     'id',
                     'sku',
                     'quantity',
                     'unit_cost',
+                    'status',
+                    'status_name',
                     'product_name',
                     'provider_name',
                     'created_at'
@@ -126,6 +128,18 @@ class BatchController extends Controller
         try {
             $batch = Batch::findOrfail($id);
             $batch->delete();
+            return response()->json(['data' => $batch], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+        }
+    }
+
+    public function changeStatus($id, $status)
+    {
+        try {
+            $batch = Batch::findOrfail($id);
+            $batch->status = $status;
+            $batch->save();
             return response()->json(['data' => $batch], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);

@@ -20,6 +20,7 @@ class CreateBatchesTable extends Migration
             $table->unsignedBigInteger('product_id')->nullable();
             $table->unsignedBigInteger('provider_id')->nullable();
             $table->string('sku', 100)->nullable();
+            $table->integer('status')->default(0);
 
             $table->softDeletes();
             $table->timestamps();

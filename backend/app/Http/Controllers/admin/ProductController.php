@@ -92,7 +92,7 @@ class ProductController extends Controller
     public function show($id)
     {
         try {
-            $product = Product::find($id);
+            $product = Product::findOrfail($id);
             $product->image = base64_encode(Storage::disk('public')->get('images/products/' . $product->sku . '.png'));
 
             return response()->json(['data' => $product], 200);
