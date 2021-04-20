@@ -53,8 +53,11 @@ class RequisitionController extends Controller
             $requisition->required_to = $request->required_to;
             $requisition->user_id = Auth::id();
             $requisition->warehouse_id = Auth::user()->employee->warehouse_id ??  1;
+            $requisition->save();
+
             $requisition->folio = 'SM' . $this->formatID($requisition->id);
             $requisition->save();
+
             $products = new Collection($request->products);
             $requisition->products()->sync($products->map(function ($product) use ($requisition) {
                 return [
