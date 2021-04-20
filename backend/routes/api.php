@@ -47,12 +47,6 @@ use App\Http\Controllers\client\AddressController;
 // System Admin API Routes
 Route::prefix('_p1')->group(function () {
 
-    // Download Report General
-    Route::get('vehicles/report', [VehicleController::class, 'vehicleReportGeneral']);
-
-    // Download Report
-    Route::get('vehicles/report/{id}/{date_from}/{date_to}', [VehicleController::class, 'vehicleReport']);
-
     // Login
     Route::post('login', [AuthControllerAdmin::class, 'login'])->middleware('AdminSystemUser');
 
@@ -178,6 +172,12 @@ Route::prefix('_p1')->group(function () {
 
         // Receive Purchase order
         Route::post('purchase/orders/{id}/receive', [PurchaseOrderController::class, 'receive']);
+
+        // Download Report General
+        Route::get('vehicles/report', [VehicleController::class, 'vehicleReportGeneral']);
+
+        // Download Report
+        Route::get('vehicles/report/{id}/{date_from}/{date_to}', [VehicleController::class, 'vehicleReport']);
 
 
 
