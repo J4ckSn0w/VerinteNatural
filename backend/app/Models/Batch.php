@@ -11,6 +11,13 @@ class Batch extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $STATUS = [
+        0 => 'Almacenado',
+        1 => 'Activo',
+        2 => 'Terminado',
+        3 => 'Perdida'
+    ];
+
     protected $table = 'batches';
 
     protected $fillable = [
@@ -50,6 +57,11 @@ class Batch extends Model
     public function getProviderNameAttribute()
     {
         return $this->provider->name ?? '';
+    }
+
+    public function getStatusNameAttribute()
+    {
+        return $this->STATUS[$this->status] ?? '';
     }
 
     /********** End Appends *********/
