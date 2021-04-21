@@ -1,0 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:ital@1&display=swap");
+
+#name {
+    color: #003566;
+    font-family: "Prompt", sans-serif;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Commissioner&display=swap");
+#price {
+    margin-top: 5px;
+    color: #202020;
+    font-size: 15px;
+    font-family: "Commissioner", sans-serif;
+}
