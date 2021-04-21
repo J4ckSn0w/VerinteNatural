@@ -18,7 +18,20 @@ class MileageRecordController extends Controller
     public function index($vehicle_id)
     {
         try {
-            $mileage_records = MileageRecord::query()->where('vehicle_id', $vehicle_id)->select('id', 'spent_fuel', 'fuel_cost', 'mileage', 'created_at')->get();
+
+            $from = request()->get('from', false);
+            $to = request()->get('to', false);
+
+            if ($from && $to)
+                $mileage_records = MileageRecord::query()
+                    ->where('vehicle_id', $vehicle_id)
+                    ->whereBetween('created_at', [$from, $to])
+                    ->select('id', 'spent_fuel', 'fuel_cost', 'mileage', 'created_at')
+                    ->get();
+            else $mileage_records = MileageRecord::query()
+                ->where('vehicle_id', $vehicle_id)
+                ->select('id', 'spent_fuel', 'fuel_cost', 'mileage', 'created_at')
+                ->get();
             return response()->json(['data' => $mileage_records], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
