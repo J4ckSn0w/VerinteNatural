@@ -31,6 +31,7 @@ use App\Http\Controllers\admin\UnitController;
 use App\Http\Controllers\client\AuthController as AuthControllerClient;
 use App\Http\Controllers\client\UserController;
 use App\Http\Controllers\client\AddressController;
+use App\Http\Controllers\client\ProductController as ProductControllerClient;
 
 /*
 |--------------------------------------------------------------------------
@@ -189,7 +190,6 @@ Route::prefix('_p1')->group(function () {
 
 // E-commerce API Routes
 Route::prefix('_p2')->group(function () {
-    //TODO: Match new APIs
 
     // Login
     Route::post('login', [AuthControllerClient::class, 'login'])->middleware('EcommerceUser');
@@ -201,6 +201,10 @@ Route::prefix('_p2')->group(function () {
     Route::post('forgot-password', [UserController::class, 'sendEmailToResetPassword']);
 
     Route::put('reset-password/{user_id}/{token}', [UserController::class, 'setNewPassword'])->name('setNewPassword');
+
+    // Addresses of Customers
+    Route::apiResource('products', ProductControllerClient::class)
+        ->only(['index', 'show']);
 
     //\Illuminate\Support\Facades\Auth::routes(['verify' => true]);
     Route::middleware('auth:api', 'EcommerceAuth')->group(function () {
