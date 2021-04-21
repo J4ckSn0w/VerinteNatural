@@ -1,8 +1,0 @@
-{
-    "/api/*": {
-        "target": "http://backend.test/",
-        "secure": false,
-        "logLevel": "debug",
-        "changeOrigin": true
-    }
-}
