@@ -17,6 +17,12 @@
         <h4 class="text-center mb-3">Tipo: {{$vehicle->vehicle_type_name}}</h4>
         <h5 class="text-left">Reporte del: {{$date_from}}, al: {{$date_to}}</h5>
         <table class="table">
+
+            @php
+            $total_mileage = 0;
+            $total_fuel_cost = 0;
+            $total_spent_fuel = 0;
+            @endphp
             <thead>
                 <tr>
                     <th>Fecha</th>
@@ -27,6 +33,12 @@
             </thead>
             <tbody>
                 @foreach ($mileages as $mileage)
+                @php
+                $total_mileage += $mileage->mileage;
+                $total_fuel_cost = $mileage->fuel_cost;
+                $total_spent_fuel = $mileage->spent_fuel;
+                @endphp
+
                 <tr>
                     <td>{{$mileage->created_at }}</td>
                     <td>{{$mileage->mileage}} km</td>
@@ -38,9 +50,9 @@
             <tfoot>
                 <tr>
                     <td>Total</td>
-                    <td>{{$vehicle->mileage}} km</td>
-                    <td>$ {{$vehicle->fuel_cost}}</td>
-                    <td>{{$vehicle->spent_fuel}} L</td>
+                    <td>{{$total_mileage}} km</td>
+                    <td>$ {{$total_fuel_cost}}</td>
+                    <td>{{$total_spent_fuel}} L</td>
                 </tr>
             </tfoot>
         </table>
