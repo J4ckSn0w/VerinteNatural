@@ -67,6 +67,19 @@ class Inventory extends Model
         return $this->STATUS[$this->status] ?? '';
     }
 
+    public function getUnitDefaultAttribute()
+    {
+        $unit = $this->units()->select('id', 'name', 'price')->where('is_default', 1)->first() ??  null;
+        if ($unit)
+            return $unit->only('id', 'name', 'price');
+        else return null;
+    }
+
+    public function getImageAttribute()
+    {
+        return config('services.storage.products') . substr($this->sku, 6, 12)  . '.png';
+    }
+
     /********** End Appends *********/
 
     // BOOT
