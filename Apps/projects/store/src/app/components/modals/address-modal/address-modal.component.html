@@ -1,6 +1,6 @@
 <!-- Modal Header -->
 <div class="modal-header">
-    <h4 class="modal-title">Titulo</h4>
+    <h4 class="modal-title">{{fromParent.title}} dirección</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -8,5 +8,29 @@
 
 <!-- Modal Body -->
 <div class="modal-body">
+    <div class="row">
+        <div class="col-6 form-group">
+            <input type="text" class="form-control" placeholder="Calle">
+        </div>
+        <div class="col-6 form-group">
+            <input type="text" class="form-control" placeholder="Código postal">
+        </div>
+        <div class="col-6 form-group">
+            <input type="text" class="form-control" placeholder="Colonia">
+        </div>
+        <div class="col-6 form-group">
+            <input type="text" class="form-control" placeholder="Número">
+        </div>
+        <div class="col-6 form-group">
+            <input type="text" class="form-control" placeholder="Estado">
+        </div>
+        <div class="col-6 form-group">
+            <input type="text" class="form-control" placeholder="Municipio">
+        </div>
+    </div>
+</div>
 
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-success">Guardar</button>
 </div>

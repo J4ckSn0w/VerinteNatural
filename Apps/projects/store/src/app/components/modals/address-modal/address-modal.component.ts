@@ -8,6 +8,9 @@ import { NgbModal, NgbModalConfig, NgbActiveModal } from '@ng-bootstrap/ng-boots
 })
 export class AddressModalComponent implements OnInit {
 
+  title: string = '';
+  fromParent: any;
+
   constructor(
     private modalService: NgbModal,
     private config: NgbModalConfig,
@@ -17,10 +20,6 @@ export class AddressModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  open(modal: String) {
-    const modalRef = this.modalService.open(modal);
   }
 
 }

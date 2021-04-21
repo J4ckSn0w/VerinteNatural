@@ -14,8 +14,12 @@ export class AddressesComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  open() {
+  open(title: string, action: string) {
     const modalRef = this.modalService.open(AddressModalComponent);
+    modalRef.componentInstance.fromParent = {
+      title: title,
+      action: action
+    }
   }
 
 
