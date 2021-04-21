@@ -44,6 +44,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-
-.ecommerce_proxy.config.json
+ecommerce_proxy.config.json

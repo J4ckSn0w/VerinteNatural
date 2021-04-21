@@ -35,4 +35,8 @@ return [
         'secret' => env('BCRYPT_CLIENT_SECRET')
     ],
 
+    'storage' => [
+        'products' => env('APP_URL') . '/images/products/'
+    ]
+
 ];

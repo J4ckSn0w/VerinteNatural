@@ -32,6 +32,8 @@ import { ChangePasswordComponent } from './components/profile/change-password/ch
 import { AddressesComponent } from './components/profile/addresses/addresses.component';
 import { MyOrdersComponent } from './components/profile/my-orders/my-orders.component';
 import { MyPendingsOrdersComponent } from './components/profile/my-pendings-orders/my-pendings-orders.component';
+import { ProductsListComponent } from './components/shared/products-list/products-list.component';
+import { ProductComponent } from './components/shared/product/product.component';
 
 
 @NgModule({
@@ -56,7 +58,9 @@ import { MyPendingsOrdersComponent } from './components/profile/my-pendings-orde
     ChangePasswordComponent,
     AddressesComponent,
     MyOrdersComponent,
-    MyPendingsOrdersComponent
+    MyPendingsOrdersComponent,
+    ProductsListComponent,
+    ProductComponent
 
   ],
   imports: [
