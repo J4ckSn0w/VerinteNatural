@@ -29,7 +29,6 @@ import { CarouselComponent } from 'components/home/carousel/carousel.component';
 import { PortfolioComponent } from './components/home/portfolio/portfolio.component';
 import { UserDataComponent } from './components/profile/user-data/user-data.component';
 import { ChangePasswordComponent } from './components/profile/change-password/change-password.component';
-import { AddressesComponent } from './components/profile/addresses/addresses.component';
 import { MyOrdersComponent } from './components/profile/my-orders/my-orders.component';
 import { MyPendingsOrdersComponent } from './components/profile/my-pendings-orders/my-pendings-orders.component';
 import { ProductsListComponent } from './components/shared/products-list/products-list.component';
@@ -56,11 +55,10 @@ import { ProductComponent } from './components/shared/product/product.component'
     PortfolioComponent,
     UserDataComponent,
     ChangePasswordComponent,
-    AddressesComponent,
     MyOrdersComponent,
     MyPendingsOrdersComponent,
     ProductsListComponent,
-    ProductComponent
+    ProductComponent,
 
   ],
   imports: [

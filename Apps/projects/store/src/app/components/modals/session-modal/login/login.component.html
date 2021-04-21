@@ -54,7 +54,10 @@
     </div>
 
     <!-- Alerts -->
-    <ngb-alert [dismissible]="false" *ngIf="hasError" type="danger">Verifique su información</ngb-alert>
+    <ngb-alert [dismissible]="false" *ngIf="hasError && checkError('server_error')" type="danger">
+        {{errors['server_error'] ? errors['server_error'] : ''}}</ngb-alert>
+    <ngb-alert [dismissible]="false" *ngIf="hasError && checkError('no_verified')" type="danger">{{errors['no_verified']
+        ? errors['no_verified'] : ''}}</ngb-alert>
 
     <!-- Other options form -->
     <div class="row">

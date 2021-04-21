@@ -4,15 +4,22 @@
     <div class="tab">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="javascript:void(0)">Pedidos en curso</a>
+                <a class="nav-link" [routerLink]="['/profile']" routerLinkActive="router-link-active"
+                    aria-current="page" href="javascript:void(0)">Direcciones</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Todos los pedidos</a>
+                <a class="nav-link" [routerLink]="['/profile/orders']" routerLinkActive="router-link-active"
+                    href="javascript:void(0)">Todos los pedidos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="javascript:void(0)">Direcciones</a>
+                <a class="nav-link" [routerLink]="['/profile/orders-on-process']" routerLinkActive="router-link-active"
+                    href=" javascript:void(0)">Pedidos
+                    pendientes</a>
             </li>
         </ul>
-
     </div>
+    <div class="tab__container">
+        <router-outlet></router-outlet>
+    </div>
+
 </div>

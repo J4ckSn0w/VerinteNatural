@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AddressModalComponent } from 'components/modals/address-modal/address-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-addresses',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddressesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
+
+  open() {
+    const modalRef = this.modalService.open(AddressModalComponent);
+  }
+
 
 }

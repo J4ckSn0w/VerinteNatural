@@ -19,9 +19,12 @@ class EcommerceUser
     {
         $user = User::findForPassport($request->username);
 
+        if ($user && !$user->email_verified_at)
+            return response()->json(['errors' => ['no_verified' => ['Correo electrónico no verificado']]], 401);
+
         if ($user && $user->user_type_id == 3)
             return $next($request);
-        else  
-            return response()->json(['error', ['errors' => ['server_error' => 'Unauthorized']]], 401);
+        else
+            return response()->json(['errors' => ['server_error' => ['Error interno, intentelo más tarde']]], 401);
     }
 }

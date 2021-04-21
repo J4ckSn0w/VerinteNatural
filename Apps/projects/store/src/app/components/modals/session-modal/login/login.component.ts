@@ -29,10 +29,6 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  // ngOnDestroy(): void {
-  //   if (this.loginRequest) this.loginRequest.unsubscribe()
-  // }
-
   onSubmit() {
 
     this.waitRequest = true;
@@ -48,6 +44,7 @@ export class LoginComponent implements OnInit {
       this.closeModal()
       this.waitRequest = false;
     }).catch(err => {
+      console.log(err);
       this.waitRequest = false;
       this.hasError = true;
       this.errors = err.error.errors ?? [];
