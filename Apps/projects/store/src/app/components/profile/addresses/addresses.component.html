@@ -1,13 +1,41 @@
 <div class="container">
     <div class="row">
         <div class="col-12 mt-3">
-            <button type="button" class="btn btn-info float-right" (click)="open('Agregar', 'POST')">Nueva
+            <button type="button" class="btn btn-info float-right"
+                (click)="open({title: 'Agregar', action: 'POST'})">Nueva
                 dirección</button>
         </div>
     </div>
     <div class="row">
         <div class="col-12">
             Listado de direcciones
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Dirección</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let address of addresses,let i=index">
+                        <td>{{i + 1}}</td>
+                        <td>
+                            {{address.street}} #{{address.number}}, {{address.suburb}}, {{address.state_name}},
+                            {{address.municipality_name}}, {{address.zip_code}}
+                        </td>
+                        <td>
+                            <span class="m-1">
+                                <i class="fa fa-edit"
+                                    (click)="open({title: 'Editar', action: 'PUT', id: address.id})"></i>
+                            </span>
+                            <span class="m-1">
+                                <i class="fa fa-trash" (click)="delete(address.id)"></i>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
