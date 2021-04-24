@@ -18,7 +18,8 @@ export class ProductComponent implements OnInit {
     description: new FormControl(null,[Validators.required]),
     product_is_by_part: new FormControl(null,[Validators.required]),
     product_type_id: new FormControl(null,[Validators.required]),
-    image:new FormControl(null,[Validators.required])
+    image:new FormControl(null,[Validators.required]),
+    minium_stock:new FormControl(null,[Validators.required]),
   });
 
   currentView = 0;
@@ -174,7 +175,8 @@ export class ProductComponent implements OnInit {
       description: this.newForm.value.description,
       product_is_by_part: this.newForm.value.product_is_by_part,
       product_type_id: this.newForm.value.product_type_id,
-      image: this.base
+      image: this.base,
+      minium_stock: this.newForm.value.minium_stock
     };
     console.log('DATA');
     console.log(data);

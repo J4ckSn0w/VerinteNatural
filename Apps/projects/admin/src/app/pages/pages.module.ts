@@ -20,6 +20,9 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ProviderComponent } from './provider/provider.component';
 import { IncidentComponent } from './incident/incident.component';
 import { BatchComponent } from './batch/batch.component';
+import { ReportComponent } from './report/report.component';
+import { RequisitionsComponent } from './requisitions/requisitions.component';
+import { UnitComponent } from './unit/unit.component';
 
 @NgModule({
     declarations:[
@@ -38,7 +41,10 @@ import { BatchComponent } from './batch/batch.component';
         WarehouseTypeComponent,
         ProviderComponent,
         IncidentComponent,
-        BatchComponent
+        BatchComponent,
+        ReportComponent,
+        RequisitionsComponent,
+        UnitComponent
     ],
     imports:[
         CommonModule,

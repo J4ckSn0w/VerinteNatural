@@ -27,14 +27,17 @@
                             <!--Opciones-->
                             <td>
                                 <div class="row">
-                                    <div class="col-8 col-sm-3 text-right">
+                                    <div class="col-6 col-sm-2 text-right">
                                         <a href="javascript:void(0)" (click)="fnVer(vehicle.id)"><i class="fas fa-eye"></i></a>
                                     </div>
-                                    <div class="col-8 col-sm-3 text-center">
+                                    <div class="col-6 col-sm-2 text-center">
                                         <a href="javascript:void(0)" (click)="fnEdit(vehicle.id)"><i class="fa fa-pencil"></i></a>
                                     </div>
-                                    <div class="col-8 col-sm-3 text-left">
+                                    <div class="col-6 col-sm-2 text-left">
                                         <a href="javascript:void(0)" (click)="fnDelete(vehicle.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                    <div class="col-6 col-sm-2 text-left">
+                                        <a href="javascript:void(0)" (click)="fnNewKilometraje(vehicle.id)"><i class="fas fa-tachometer-alt"></i></a>
                                     </div>
                                 </div>
                             </td>
@@ -67,6 +70,10 @@
                         <label>Descripcion</label>
                         <input type="text" class="form-control" placeholder="Descripcion" formControlName="description">
                     </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>kilometraje</label>
+                        <input type="text" class="form-control" placeholder="kilometraje" formControlName="mileage" [ngModel]="currentVehicle.mileage" [attr.disabled]="show ? 'disabled': null">
+                    </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Tipo de Vehiculo</label>
                         <select class="form-control" formControlName="vehicle_type_id" [(ngModel)]="currentVehicle.vehicle_type.id">
@@ -91,6 +98,10 @@
                         <label>Descripcion</label>
                         <input type="text" class="form-control" placeholder="Descripcion" formControlName="description" [ngModel]="currentVehicle.description" [attr.disabled]="show ? 'disabled': null">
                     </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>kilometraje</label>
+                        <input type="text" class="form-control" placeholder="kilometraje" formControlName="mileage" [ngModel]="currentVehicle.mileage" [attr.disabled]="show ? 'disabled': null">
+                    </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Tipo de Vehiculo</label>
                         <select class="form-control" formControlName="vehicle_type_id" [attr.disabled]="show ? 'disabled': null" [(ngModel)]="currentVehicle.vehicle_type.id">
@@ -98,6 +109,31 @@
                         </select>
                     </div>
                     <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()">Guardar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="3" class="modal-body">
+                <form role="form" novalidate class="row" [formGroup]="newKilometerForm">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Placa</label>
+                        <input type="text" class="form-control" formControlName="license_plate" placeholder="Placa" [(ngModel)]="currentVehicle.license_plate" disabled>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Marca</label>
+                        <input type="text" class="form-control" placeholder="Marca" formControlName="brand" [(ngModel)]="currentVehicle.brand" disabled>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Kilometraje</label>
+                        <input type="text" class="form-control" placeholder="Kilometraje" formControlName="mileage">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Costo de combustible</label>
+                        <input type="text" class="form-control" placeholder="Costo de combustible" formControlName="fuel_cost" [ngModel]="currentVehicle.fuel_cost" [attr.disabled]="show ? 'disabled': null">
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Combustible gastado</label>
+                        <input type="text" class="form-control" placeholder="Costo de combustible" formControlName="spent_fuel" [ngModel]="currentVehicle.spent_fuel" [attr.disabled]="show ? 'disabled': null">
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newKilometerForm.invalid" (click)="onSubmitKilometer()">Guardar</button>
                 </form>
             </div>
             <div class="modal-footer">

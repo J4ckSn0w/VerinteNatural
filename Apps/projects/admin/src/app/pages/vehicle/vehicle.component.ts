@@ -17,7 +17,8 @@ export class VehicleComponent implements OnInit {
     license_plate: new FormControl(null,[Validators.required]),
     brand: new FormControl(null,[Validators.required]),
     description: new FormControl(null,[Validators.required]),
-    vehicle_type_id: new FormControl(null,[Validators.required])
+    vehicle_type_id: new FormControl(null,[Validators.required]),
+    mileage: new FormControl(null,[Validators.required])
   });
 
   currentView = 0;
@@ -68,8 +69,19 @@ export class VehicleComponent implements OnInit {
     vehicle_type_id:'',
     vehicle_type:{
       id:''
-    }
+    },
+    mileage:'',
+    fuel_cost:'',
+    spent_fuel:''
   }
+
+  newKilometerForm = new FormGroup({
+    mileage:new FormControl(null,[Validators.required]),
+    fuel_cost:new FormControl(null,[Validators.required]),
+    spent_fuel:new FormControl(null,[Validators.required]),
+    license_plate:new FormControl(null),
+    brand: new FormControl(null)
+  });
 
   constructor(
     private modalService: NgbModal,
@@ -80,6 +92,7 @@ export class VehicleComponent implements OnInit {
   ngOnInit(): void {
     this.fnLoadVehicles();
   }
+
   fnLoadVehicles(){
     this.arrayVehicleTypes = [];
     this.arrayVehicles = [];
@@ -163,13 +176,29 @@ export class VehicleComponent implements OnInit {
     this.fnOpenModal();
   }
 
+  fnNewKilometraje(id){
+    this.currentView = 3;
+    this.show = false;
+    //this.fnOpenModal();
+
+    this.vehicleService.fnGetVehicleById(id)
+    .then(res => {
+      this.currentVehicle = res.data;
+      this.fnOpenModal();
+    })
+
+  }
+
   onSubmitNew(){
     let data = {
       license_plate: this.newForm.value.license_plate,
       brand: this.newForm.value.brand,
       description: this.newForm.value.description,
-      vehicle_type_id: this.newForm.value.vehicle_type_id
+      vehicle_type_id: this.newForm.value.vehicle_type_id,
+      mileage: this.newForm.value.mileage
     };
+    console.log('DATA antes de enviar');
+    console.log(data);
     this.vehicleService.fnPostNewVehicle(data)
     .then(res =>{
       Swal.fire({
@@ -188,9 +217,12 @@ export class VehicleComponent implements OnInit {
         icon:'error',
         title:'Error!',
         text:'Algo salio mal'
-      })
+      });
+      console.log('ERROR');
+      console.log(rej);
     })
   }
+
   onSubmitEdit(){
     let data = {
       license_plate : (this.newForm.value.license_plate == undefined) ? this.currentVehicle.license_plate : this.newForm.value.license_plate,
@@ -221,4 +253,27 @@ export class VehicleComponent implements OnInit {
     })
   }
 
+  onSubmitKilometer(){
+    let data = {
+      mileage:this.newKilometerForm.value.mileage,
+      vehicle_id:this.currentVehicle.id,
+      fuel_cost:this.newKilometerForm.value.fuel_cost,
+      spent_fuel:this.newKilometerForm.value.spent_fuel
+    }
+    console.log('DATA');
+    console.log(data);
+
+    this.vehicleService.fnPostKilometer(data)
+    .then(res => {
+      Swal.fire({
+        icon:'success',
+        title:'Correcto',
+        text:'Se agrego el kilometraje correctamente'
+      });
+    })
+    .catch(rej => {
+      console.log('Error');
+      console.log(rej);
+    })
+  }
 }
