@@ -21,12 +21,14 @@ class CreateAddressesTable extends Migration
             $table->string('suburb', 200);
             $table->unsignedBigInteger('customer_id');
             $table->unsignedBigInteger('municipality_id');
+            $table->unsignedBigInteger('state_id');
 
             $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('municipality_id')->references('id')->on('municipalities');
+            $table->foreign('state_id')->references('id')->on('states');
         });
     }
 

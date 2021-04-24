@@ -19,7 +19,8 @@ class Address extends Model
         'zip_code',
         'suburb',
         'municipality_id',
-        'customer_id'
+        'customer_id',
+        'state_id'
     ];
 
     /*********** Relations ************/
@@ -42,13 +43,29 @@ class Address extends Model
         return $this->belongsTo(Municipality::class);
     }
 
+    /**
+     * Get State of address
+     * @return BelongsTo
+     */
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class);
+    }
+
     /********** End Relations *********/
 
 
     /*********** Appends ************/
 
+    public function getMunicipalityNameAttribute()
+    {
+        return $this->municipality->name ?? '';
+    }
+
+    public function getStateNameAttribute()
+    {
+        return $this->state->name ?? '';
+    }
+
     /********** End Appends *********/
-
-
-
 }

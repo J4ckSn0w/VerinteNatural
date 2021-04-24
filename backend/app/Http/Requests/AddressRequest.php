@@ -29,7 +29,8 @@ class AddressRequest extends FormRequest
             'number' => 'required|min:1|max:40',
             'zip_code' => 'required|min:2|max:40',
             'suburb'   => 'required|min:3|max:100',
-            'municipality_id' => 'required|exists:municipalities,id'
+            'municipality_id' => 'required|exists:municipalities,id',
+            'state_id' => 'required|exists:states,id'
         ];
     }
 }
