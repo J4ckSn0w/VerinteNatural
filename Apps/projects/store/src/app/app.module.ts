@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { CommonModule } from '@angular/common'
 
 //Tools
 import { HttpClientModule } from '@angular/common/http';
@@ -10,10 +10,11 @@ import { routing } from './app.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { NgPopupsModule } from 'ng-popups';
+import { ToastrModule } from 'ngx-toastr';
 
 //Views
 import { AppComponent } from './app.component';
-import { ProfileComponent } from 'views/profile/profile.component';
 import { HomeComponent } from 'views/home/home.component'
 
 // Shared
@@ -27,19 +28,14 @@ import { ForgotPasswordComponent } from 'components/modals/session-modal/forgot-
 import { RegisterComponent } from 'components/modals/session-modal/register/register.component';
 import { CarouselComponent } from 'components/home/carousel/carousel.component';
 import { PortfolioComponent } from './components/home/portfolio/portfolio.component';
-import { UserDataComponent } from './components/profile/user-data/user-data.component';
-import { ChangePasswordComponent } from './components/profile/change-password/change-password.component';
-import { MyOrdersComponent } from './components/profile/my-orders/my-orders.component';
-import { MyPendingsOrdersComponent } from './components/profile/my-pendings-orders/my-pendings-orders.component';
 import { ProductsListComponent } from './components/shared/products-list/products-list.component';
 import { ProductComponent } from './components/shared/product/product.component';
-
+import { AddressesModalComponent } from 'components/modals/addresses-modal/addresses-modal.component';
 
 @NgModule({
   declarations: [
     //Views
     AppComponent,
-    ProfileComponent,
     HomeComponent,
 
     //Shared
@@ -53,13 +49,9 @@ import { ProductComponent } from './components/shared/product/product.component'
     RegisterComponent,
     CarouselComponent,
     PortfolioComponent,
-    UserDataComponent,
-    ChangePasswordComponent,
-    MyOrdersComponent,
-    MyPendingsOrdersComponent,
     ProductsListComponent,
     ProductComponent,
-
+    AddressesModalComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +61,20 @@ import { ProductComponent } from './components/shared/product/product.component'
     BrowserAnimationsModule,
     NgbModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    CommonModule,
+    ToastrModule.forRoot(),
+    NgPopupsModule.forRoot({
+      theme: 'material', // available themes: 'default' | 'material' | 'dark'
+      okButtonText: 'Yes',
+      cancelButtonText: 'No',
+      color: '#003f88',
+      titles: {
+        alert: 'Danger!',
+        confirm: 'Confirmation',
+        prompt: 'Website asks...'
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
