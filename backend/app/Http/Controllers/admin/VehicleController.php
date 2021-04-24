@@ -21,7 +21,24 @@ class VehicleController extends Controller
     public function index(): JsonResponse
     {
         try {
-            return response()->json(['data' => Vehicle::all()], 200);
+            $vehicles = Vehicle::all();
+            $vehicles = $vehicles->map(function ($vehicle) {
+                $vehicle->append('vehicle_type_name');
+                $vehicle = $vehicle->only([
+                    "id",
+                    "license_plate",
+                    "brand",
+                    "description",
+                    "vehicle_type_id",
+                    "mileage",
+                    "spent_fuel",
+                    "fuel_cost",
+                    "created_at",
+                    "vehicle_type_name"
+                ]);
+                return $vehicle;
+            });
+            return response()->json(['data' => $vehicles], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 400);
         }
@@ -103,7 +120,7 @@ class VehicleController extends Controller
 
             $mileages = MileageRecord::where('vehicle_id', $id)->whereBetween('created_at', [$from, $to])->get();
             $pdf = PDF::loadView('pdfs.vehicleReport', compact('vehicle', 'mileages', 'date_to', 'date_from'));
-            return $pdf->download('reporte_vehiculo_' . $vehicle->license_plate . '__' . Carbon::now()->format('Ymd') . '.pdf'); //view('pdfs.vehicleReport', compact('vehicle', 'mileages', 'date_to', 'date_from')); 
+            return $pdf->download('reporte_vehiculo_' . $vehicle->license_plate . '__' . Carbon::now()->format('Ymd') . '.pdf');
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
         }
