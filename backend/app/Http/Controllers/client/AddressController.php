@@ -5,6 +5,8 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddressRequest;
 use App\Models\Address;
+use App\Models\Municipality;
+use App\Models\State;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -22,12 +24,14 @@ class AddressController extends Controller
     {
         try {
             $addresses = Address::where('customer_id', Auth::user()->customer->id)->get();
+            $addresses = $addresses->map(function ($address) {
+                $address->append(['municipality_name', 'state_name']);
+                return $address;
+            });
             return response()->json(['data' => $addresses], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-
     }
 
     /**
@@ -48,7 +52,7 @@ class AddressController extends Controller
                 )
             ], 200);
         } catch (\Exception $e) {
-          return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -65,8 +69,8 @@ class AddressController extends Controller
             $data->municipality;
             $data->municipality->state;
             return response()->json(['data' => $data], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -85,8 +89,8 @@ class AddressController extends Controller
             $address->save();
 
             return response()->json(['data' => $address], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -104,7 +108,27 @@ class AddressController extends Controller
 
             return response()->json(['data' => $address], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function municipalities($id)
+    {
+        try {
+            $municipalities = Municipality::query()->select('id', 'name')->where('state_id', $id)->get();
+            return response()->json(['data' => $municipalities], 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 500);
+        }
+    }
+
+    public function states()
+    {
+        try {
+            $states = State::query()->select('id', 'name')->get();
+            return response()->json(['data' => $states], 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 500);
         }
     }
 }

@@ -1,0 +1,65 @@
+<div>
+    <!-- Modal Header -->
+    <div class="modal-header">
+        <h4 class="modal-title">{{fromParent.title}} dirección</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+        <form>
+            <div class="row">
+
+                <div class="col-6 form-group">
+                    <input type="text" class="form-control" name="street" placeholder="Calle" [(ngModel)]="street">
+                    <span *ngIf="checkError('street')" class="text-danger">
+                        {{errors['street']}}</span>
+                </div>
+                <div class="col-6 form-group">
+                    <input type="text" class="form-control" name="number" placeholder="Número" [(ngModel)]="number">
+                    <span *ngIf="checkError('number')" class="text-danger">
+                        {{errors['number']}}</span>
+                </div>
+                <div class="col-6 form-group">
+                    <input type="text" class="form-control" name="suburb" placeholder="Colonia" [(ngModel)]="suburb">
+                    <span *ngIf="checkError('suburb')" class="text-danger">
+                        {{errors['suburb']}}</span>
+                </div>
+                <div class="col-6 form-group">
+                    <input type="text" class="form-control" name="zip_code" placeholder="Código postal"
+                        [(ngModel)]="zip_code">
+                    <span *ngIf="checkError('zip_code')" class="text-danger">
+                        {{errors['zip_code']}}</span>
+                </div>
+                <div class="col-6 form-group">
+                    <select name="state_id" [disabled]="states.length < 0" class="form-control" [(ngModel)]="state_id"
+                        (ngModelChange)="onChangeState($event)">
+                        <option value="null" selected disabled>Estado</option>
+                        <option class="form-control" *ngFor="let state of states" [value]="state.id">
+                            {{state.name}}</option>
+                    </select>
+                    <span *ngIf="checkError('state_id')" class="text-danger">
+                        {{errors['state_id']}}</span>
+                </div>
+                <div class="col-6 form-group">
+                    <select name="minicipality_id" [disabled]="!state_id" class="form-control"
+                        [(ngModel)]="municipality_id">
+                        <option value="null" selected disabled>Municipio</option>
+                        <option class="form-control" *ngFor="let municipality of municipalities"
+                            [value]="municipality.id">{{municipality.name}}</option>
+                    </select>
+                    <span *ngIf="checkError('municipality_id')" class="text-danger">
+                        {{errors['municipality_id']}}</span>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="onSubmit()">Guardar</button>
+    </div>
+</div>

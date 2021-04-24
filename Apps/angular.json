@@ -94,8 +94,7 @@
             "styles": [
               "projects/admin/src/styles.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           }
         },
         "lint": {
@@ -147,7 +146,8 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "projects/store/src/styles.css"
+              "projects/store/src/styles.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "projects/store/src/assets/js/vendor/jquery-1.11.1.min.js",
@@ -160,7 +160,6 @@
               "projects/store/src/assets/js/bootstrap.min.js",
               "projects/store/src/assets/js/owl.carousel.min.js",
               "projects/store/src/assets/js/main.js"
-              
             ]
           },
           "configurations": {
@@ -254,6 +253,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "admin"
 }

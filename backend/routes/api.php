@@ -202,6 +202,13 @@ Route::prefix('_p2')->group(function () {
 
     Route::put('reset-password/{user_id}/{token}', [UserController::class, 'setNewPassword'])->name('setNewPassword');
 
+    // Municipalities Resource
+    Route::get('municipalities/{id}', [AddressController::class, 'municipalities']);
+
+    // Municipalities Resource
+    Route::get('states', [AddressController::class, 'states']);
+
+
     // Addresses of Customers
     Route::apiResource('products', ProductControllerClient::class)
         ->only(['index', 'show']);

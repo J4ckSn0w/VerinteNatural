@@ -24,7 +24,6 @@ export class SessionModalComponent implements OnInit {
   }
 
   open(modal: String) {
-    console.log(modal)
     const modalRef = this.modalService.open(modal);
   }
 
