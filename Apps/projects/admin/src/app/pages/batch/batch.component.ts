@@ -208,6 +208,8 @@ export class BatchComponent implements OnInit {
         title:'Error!',
         text:'Hubo un error al intentar agregar el lote'        
       });
+      console.log('error');
+      console.log(rej);
     });
   }
 

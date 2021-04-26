@@ -9,6 +9,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class VehicleService {
 
+    userToken = this.sessionService.fnGetSessionToken();
+    headers = new HttpHeaders({
+        Authorization: 'Bearer '+this.userToken,
+        Accept: 'application/json',
+        ContentType: 'application/json'
+      });
+
     str_ip = environment.ip;
     str_image = environment.image;
 
@@ -110,5 +117,32 @@ export class VehicleService {
               })
         });
         return respuesta;
+    }
+
+    /*Entradas de kilometraje*/
+    fnPostKilometer(data):Promise<any>{
+        return new Promise((resolve,reject) => {
+            this.http.post(this.str_ip + '/api/_p1/mileage/records',data,{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        })
+    }
+
+    fnGetKilometer(id,firstDate,lastDate):Promise<any>{
+        return new Promise((resolve,reject) => {
+            //this.http.get(this.str_ip + '/api/_p1/vehicles/report/'+id+'/'+firstDate+'/'+lastDate,{headers:this.headers}).toPromise()
+            //this.http.get(this.str_ip + '/api/_p1/vehicles/report',{headers:this.headers}).toPromise()
+            this.http.get(this.str_ip + '/api/_p1/mileage/records/' + id +'?from='+firstDate+'&to='+lastDate,{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        })
     }
 }

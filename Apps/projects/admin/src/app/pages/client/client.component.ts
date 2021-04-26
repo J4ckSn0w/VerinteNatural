@@ -107,9 +107,7 @@ export class ClientComponent implements OnInit {
     denyButtonText: `Si`,
 
   }).then((result) => {
-    if(result.isConfirmed){
-
-    } else {
+    if(result.isDenied){
       this.clientService.fnDeleteClient(id)
       .then(res => {
         Swal.fire('Se elimino el cliente correctamente.', '', 'success');
