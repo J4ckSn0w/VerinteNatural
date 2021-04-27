@@ -18,7 +18,15 @@ export class HeaderComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    (function () {
+      'use strict'
+    
+      document.querySelector('[data-bs-toggle="offcanvas"]').addEventListener('click', function () {
+        document.querySelector('.offcanvas-collapse').classList.toggle('open')
+      })
+    })()
+  }
 
   open() {
     const modalRef = this.modalService.open(SessionModalComponent);

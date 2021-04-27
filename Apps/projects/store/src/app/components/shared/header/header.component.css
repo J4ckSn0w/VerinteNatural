@@ -1,157 +1,134 @@
-
-/* =================================== */
-/*  Style 
-/* =================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
-@import url("https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap');
-
 body {
-  background-color: #fff;
-  font-family: 'Roboto';
-  line-height: 1;
-	font-size: 15px;
-  color: #a8a8a8;
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 
-
-section h2{
-  font-family: "Dancing Script";
+img{
+  height: 80px;
+  width: 80px;
 }
 
-ol, ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+ul{
+  text-align: center;
 }
 
-figure, p {
-  margin: 0;
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 
-a {
-  -webkit-transition: all .3s ease-in 0s;
-     -moz-transition: all .3s ease-in 0s;
-      -ms-transition: all .3s ease-in 0s;
-       -o-transition: all .3s ease-in 0s;
-          transition: all .3s ease-in 0s;
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
 }
 
-iframe {
-  border: 0;
+@media (max-width: 991.98px) {
+  .offcanvas-collapse {
+    position: fixed;
+    top: 95px; /* Height of navbar */
+    bottom: 0;
+    left: 100%;
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    overflow-y: auto;
+    visibility: hidden;
+    background-color: #ffd154;
+    transition: transform .3s ease-in-out, visibility .3s ease-in-out;
+  }
+  .offcanvas-collapse.open {
+    visibility: visible;
+    transform: translateX(-100%);
+  }
 }
 
-a, a:focus, a:hover {
-  text-decoration: none;
-  outline: 0;
+.nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 2.75rem;
+  overflow-y: hidden;
 }
 
-a:focus, a:hover {
-  color: inherit;
+.nav-scroller .nav {
+  display: flex;
+  flex-wrap: nowrap;
+  padding-bottom: 1rem;
+  margin-top: -1px;
+  overflow-x: auto;
+  color: #10842e;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
-h1, h2, h3,
-h4, h5, h6 {
-font-weight: normal;
-margin: 0;
+.nav-underline .nav-link {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: .875rem;
+  color: #ffd154;
 }
 
-.clear:before,
-.clear:after {
-  content: " ";
-  display: table;
+.nav-underline .nav-link:hover {
+  color: #ffd154;
 }
 
-.clear:after {
- clear: both;
-}
-
-.clear {
- *zoom: 1;
-}
-
-body > section {
-  padding: 100px 0;
-}
-
-.section-title {
-margin: 0 auto 85px;
-}
-
-.section-title h2 {
-color: #1f2021;
-font-size: 30px;
-position: relative;
-margin-bottom: 25px;
-padding-bottom: 27px;
-text-transform: uppercase;
-}
-
-.section-title h2:before {
-border-bottom: 1px solid #1f2021;
-bottom: 0;
-content: "";
-left: 50%;
-margin-left: -50px;
-position: absolute;
-width: 100px;
-}
-
-.section-title h2:after {
-background: none repeat scroll 0 0 #fff;
-border: 1px solid #1F2021;
-border-radius: 25px;
-bottom: -6px;
-content: "";
-height: 11px;
-left: 50%;
-margin-left: -5.5px;
-position: absolute;
-width: 11px;
-}
-
-.section-title p {
-  line-height: 25px;
-  font-weight: 300;
-  font-size: 13px;
-}
-
-.btn {
-  border-radius: 5%;
-}
-
-.btn:hover,
-.btn:focus {
-  outline: 0;
-}
-
-.btn-blue {
-background-color: #ffd154;
-color: #fff;
-font-size: 16px;
-line-height: 24px;
-padding: 10px 35px;
-}
-
-.kill-margin {
-  margin: 0 !important;
+.nav-underline .active {
+  font-weight: 500;
+  color: #ffd154;
 }
 
 
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: black;
-}
 
-::-ms-input-placeholder { /* Microsoft Edge */
-  color: black;
-}
 
-/*************************
-*******Search******
-**************************/
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 .search-bar {
   height: 50px;
   width: 320px;
@@ -191,25 +168,18 @@ padding: 10px 35px;
   opacity: 0.5;
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder {
   color: black;
-  opacity: 1; /* Firefox */
+  opacity: 1; 
 }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
+:-ms-input-placeholder {
   color: black;
 }
 
-::-ms-input-placeholder { /* Microsoft Edge */
+::-ms-input-placeholder {
   color: black;
 }
-/*************************
-*******End-Search******
-**************************/
-
-/*************************
-*******Navigation******
-**************************/
 
 #navigation,
 .navbar-brand,
@@ -301,4 +271,4 @@ padding: 10px 35px;
 .animated-nav .search-form > #search-sub {
     bottom: 22px;
 }
-
+*/

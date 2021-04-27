@@ -1,28 +1,132 @@
+<header>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light shadow p-2 mb-4 bg-body rounded" style="background-color: #ffd154;" aria-label="Main navigation">
+      <div class="container-fluid">
+        <a href="#">
+            <img src="../../../../assets/images/logoVerinte (1) (1) (1).png" alt="Verinte Logo">
+        </a>
+    
+        <div class="navbar-collapse offcanvas-collapse">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#"><strong> INICIO</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><strong>CÓCENOS</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><strong> TIENDA</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><strong> CONTACTO</strong></a>
+                </li>
+                <li *ngIf="!isLogged" class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)" (click)="open()"><strong> INICIAR SESIÓN</strong></a>
+                </li>
+                <li *ngIf="isLogged" class="nav-item"><div>
+                    <a class="nav-link" href="javascript:void(0)" (click)="goToProfile()"><strong> BIENVENIDO</strong> {{isLogged.name}}</a></div>
+                    <a class="dropdown-item" aria-labelledby="dropdownMenuLink" (click)="logout()" href="javascript:void(0)"><strong> CERRAR SESIÓN</strong></a>
+                </li>
+            </ul>
+        </div>
+        
+        <form class="d-flex">
+            <input class="form-control me-2 mr-sm-2" type="search" placeholder="¿Qué producto buscas?" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+        <a href="" class="nav-link btn"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
+
+        <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="offcanvas" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+      </div>
+    </nav>
+
+    <!--
+    <div class="nav-scroller bg-body shadow-sm">
+      <nav class="nav nav-underline" aria-label="Secondary navigation">
+        <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+        <a class="nav-link" href="#">
+          Friends
+          <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
+        </a>
+        <a class="nav-link" href="#">Explore</a>
+        <a class="nav-link" href="#">Suggestions</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">Link</a>
+      </nav>
+    </div>
+    -->
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
 <header class="navbar-fixed-top">
     <div class="container" >
         <div class="navbar-header">
             <nav class="navbar navbar-expand-md navbar-light mb-3" style="background-color: trasparent;">
 
-                <!-- logo -->
                 <a href="#">
                     <img src="../../../../assets/images/logoVerinte (1) (1) (1).png" alt="Verinte Logo">
                 </a>
-                <!-- /logo -->
 
-                <!-- responsive nav button -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="f">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <!-- /responsive nav button -->
                 
                 <div class="navigation navbar-collapse collapse navbar-collapse navbar-right" id="navbarCollapse">
                     <div style="margin-top: 1.5rem;">
                         <ul class="navbar-nav navbar-center">
                             <li>
 
-                                <!--
-                                    #Search Bar
-                                    ========================== -->
                                     <div style="margin-right: 2rem; margin-left: 2rem;">
                                         <div class="search-bar">
                                             <form class="text-center">
@@ -34,10 +138,6 @@
                                                 </button>
                                         </div>
                                     </div>
-                                    
-                                    <!--
-                                        End #Search Bar
-                                        ========================== -->
                                     
                                     </li>
                                     <li class="current"><div style="margin-top: 0.8rem;"><a class="nav-link" href="#home">INICIO</a></div></li>
@@ -57,3 +157,4 @@
             </div>
         </div>
 </header>
+-->
