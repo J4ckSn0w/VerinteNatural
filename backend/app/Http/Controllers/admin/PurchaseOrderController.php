@@ -41,7 +41,7 @@ class PurchaseOrderController extends Controller
 
             return response()->json(['data' => $purchase_orders], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
         }
     }
 
@@ -73,7 +73,7 @@ class PurchaseOrderController extends Controller
 
             return response()->json(['data' => $purchase_order], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
         }
     }
 
@@ -116,7 +116,7 @@ class PurchaseOrderController extends Controller
 
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
         }
     }
 
@@ -147,7 +147,7 @@ class PurchaseOrderController extends Controller
 
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
         }
     }
 
@@ -165,7 +165,7 @@ class PurchaseOrderController extends Controller
             $purchase_order->delete();
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
         }
     }
 
@@ -194,7 +194,7 @@ class PurchaseOrderController extends Controller
             $purchase_order->save();
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
         }
     }
 
@@ -219,8 +219,8 @@ class PurchaseOrderController extends Controller
 
                 // Get product of batch
                 if ($product) {
-                    dd($product[]);
-                    $product = $product[$batch['product_id']];
+                    foreach ($product as $product_)
+                        $product = $product_;
 
                     // Update branch
                     (new BatchController)->update(
@@ -239,23 +239,22 @@ class PurchaseOrderController extends Controller
             }
 
 
+            $purchase_order->products()->detach();
 
-            // $purchase_order->products()->detach();
-
-            // // Update products of purchase order
-            // $purchase_order->products()->sync($products->map(function ($product) use ($purchase_order) {
-            //     return [
-            //         'product_id'            => $product['id'],
-            //         'purchase_order_id'     => $purchase_order->id,
-            //         'quantity'              => $product['quantity'],
-            //         'quantity_received'     => $product['quantity_received'],
-            //         'unit_price'            => $product['unit_price'],
-            //     ];
-            // }));
+            // Update products of purchase order
+            $purchase_order->products()->sync($products->map(function ($product__) use ($purchase_order) {
+                return [
+                    'product_id'            => $product__['id'],
+                    'purchase_order_id'     => $purchase_order->id,
+                    'quantity'              => $product__['quantity'],
+                    'quantity_received'     => $product__['quantity_received'],
+                    'unit_price'            => $product__['unit_price'],
+                ];
+            }));
 
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
         }
     }
 }
