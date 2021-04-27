@@ -16,7 +16,6 @@ use App\Http\Controllers\admin\WarehouseTypeController;
 use App\Http\Controllers\admin\WarehouseController;
 use App\Http\Controllers\admin\EmployeeTypeController;
 use App\Http\Controllers\admin\DriverController;
-use App\Http\Controllers\admin\DriverTypeController;
 use App\Http\Controllers\admin\IncidentController;
 use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\LogController;
@@ -70,10 +69,6 @@ Route::prefix('_p1')->group(function () {
         // Drivers resource
         Route::apiResource('drivers', DriverController::class)
             ->except(['edit', 'create', 'store', 'delete']);
-
-        // Drivers resource
-        Route::apiResource('driver/types', DriverTypeController::class)
-            ->only(['index']);
 
         // Get info of auth user
         Route::get('info', [AuthControllerAdmin::class, 'getAuthUser']);
