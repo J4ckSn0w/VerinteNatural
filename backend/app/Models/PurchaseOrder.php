@@ -63,6 +63,11 @@ class PurchaseOrder extends Model
         return $this->belongsToMany(Product::class)->withPivot('unit_price', 'quantity', 'quantity_received');
     }
 
+    public function batches()
+    {
+        return $this->hasMany(Batch::class);
+    }
+
     /********** End Relations *********/
 
 
