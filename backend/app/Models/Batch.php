@@ -12,10 +12,11 @@ class Batch extends Model
     use HasFactory, SoftDeletes;
 
     protected $STATUS = [
-        0 => 'Almacenado',
-        1 => 'Activo',
-        2 => 'Terminado',
-        3 => 'Perdida'
+        0 => 'No almacenado',
+        1 => 'Almacenado',
+        2 => 'Activo',
+        3 => 'Terminado',
+        4 => 'Perdida'
     ];
 
     protected $table = 'batches';
@@ -25,7 +26,9 @@ class Batch extends Model
         'unit_cost',
         'product_id',
         'provider_id',
-        'warehouse_id'
+        'warehouse_id',
+        'status',
+        'purchase_order_id'
     ];
 
     /*********** Methods ************/
@@ -48,6 +51,11 @@ class Batch extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function purchase_order()
+    {
+        return $this->belongsTo(PurchaseOrder::class);
     }
 
     /********** End Relations *********/
@@ -73,6 +81,11 @@ class Batch extends Model
     public function getStatusNameAttribute()
     {
         return $this->STATUS[$this->status] ?? '';
+    }
+
+    public function getPurchaseOrderFolioAttribute()
+    {
+        return $this->purchase_order->folio ?? '';
     }
 
     /********** End Appends *********/

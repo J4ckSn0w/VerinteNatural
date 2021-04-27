@@ -22,6 +22,7 @@ class CreateBatchesTable extends Migration
             $table->string('sku', 100)->nullable();
             $table->integer('status')->default(0);
             $table->foreignId('warehouse_id')->nullable();
+            $table->foreignId('purchase_order_id')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
@@ -29,6 +30,7 @@ class CreateBatchesTable extends Migration
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('provider_id')->references('id')->on('providers');
             $table->foreign('warehouse_id')->references('id')->on('warehouses');
+            $table->foreign('purchase_order_id')->references('id')->on('purchase_orders');
         });
     }
 

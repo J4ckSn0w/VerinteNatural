@@ -23,7 +23,7 @@ class BatchController extends Controller
         try {
             $batches = Batch::all();
             $batches = $batches->map(function ($batch) {
-                $batch->append(['product_name', 'provider_name', 'status_name']);
+                $batch->append(['product_name', 'provider_name', 'status_name', 'purchase_order_folio']);
                 $batch = $batch->only([
                     'id',
                     'sku',
@@ -33,7 +33,9 @@ class BatchController extends Controller
                     'status_name',
                     'product_name',
                     'provider_name',
-                    'created_at'
+                    'created_at',
+                    'purchase_order_id',
+                    'purchase_order_folio'
                 ]);
                 return $batch;
             });
@@ -98,25 +100,24 @@ class BatchController extends Controller
         }
     }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(BatchRequest $request, $id)
-    // {
-    //     try {
-    //         $batch = Batch::findOrfail($id);
-    //         $batch->quantity = $request->quantity;
-    //         $batch->unit_cost = $request->unit_cost;
-    //         $batch->save();
-    //         return response()->json(['data' => $batch], 200);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
-    //     }
-    // }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(BatchRequest $request, $id)
+    {
+        try {
+            $batch = Batch::findOrfail($id);
+            $batch->fill($request->all());
+            $batch->save();
+            return response()->json(['data' => $batch], 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+        }
+    }
 
     // /**
     //  * Remove the specified resource from storage.
@@ -140,7 +141,7 @@ class BatchController extends Controller
         try {
             $batch = Batch::findOrfail($id);
 
-            if ($status == 1) {
+            if ($batch->status != 2 && $status == 2) {
                 $minium_stock = $batch->load('product')->product->minium_stock;
                 (new InventoryController)->store(new InventoryRequest([
                     'available'     => $batch->quantity,
@@ -158,7 +159,7 @@ class BatchController extends Controller
             $batch->save();
             return response()->json(['data' => $batch], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }
