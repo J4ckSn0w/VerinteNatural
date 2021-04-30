@@ -16,10 +16,11 @@ export class ProductComponent implements OnInit {
   newForm = new FormGroup({
     name: new FormControl(null,[Validators.required]),
     description: new FormControl(null,[Validators.required]),
-    product_is_by_part: new FormControl(null,[Validators.required]),
+    product_is_by_part: new FormControl(null),
     product_type_id: new FormControl(null,[Validators.required]),
     image:new FormControl(null,[Validators.required]),
     minium_stock:new FormControl(null,[Validators.required]),
+    filename:new FormControl(null)
   });
 
   currentView = 0;
@@ -85,11 +86,11 @@ export class ProductComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-        console.log(reader.result);
+        //console.log(reader.result);
         this.base = reader.result;
     };
-    
-}
+    this.fnPreview(event);
+  }
 
   fnEdit(id){
     this.show = false;
@@ -132,6 +133,9 @@ export class ProductComponent implements OnInit {
     })
   }
   fnNew(){
+    this.newForm.reset();
+    this.base = '';
+    this.filePath = '';
     this.currentView = 0;
     this.fnOpenModal();
   }
@@ -234,6 +238,29 @@ export class ProductComponent implements OnInit {
       console.log('Error al editar');
       console.log(rej);
     })
+  }
+
+  /*Preview de imagen*/
+  filePath: string;
+  fnPreview(e){
+    const file = (e.target as HTMLInputElement).files[0];
+
+    console.log('file');
+    console.log(file);
+
+    this.newForm.patchValue({
+      img: file
+    });
+
+    this.newForm.get('image').updateValueAndValidity();
+
+    const reader = new FileReader();
+    console.log('reader');
+    console.log(reader);
+    reader.onload = () => {
+      this.filePath = reader.result as string;
+    }
+    reader.readAsDataURL(file)
   }
 
 }

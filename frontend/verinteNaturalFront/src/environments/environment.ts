@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   ip: 'http://localhost:3000',
+  //ip:'https://verintenatural.mydevelopsy.com'
   image: '',
   client_secret: "YOazEDG5qtyUHzm2Fr97GYQB19cbVLNSqxYUWvQX"
   //Old one

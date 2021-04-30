@@ -70,6 +70,7 @@ export class VehicleTypeComponent implements OnInit {
   }
 
   fnNew(){
+    this.newForm.reset();
     this.currentView = 0;
     this.fnOpenModal();
   }

@@ -17,6 +17,7 @@ import { BatchComponent } from './batch/batch.component';
 import { ReportComponent } from './report/report.component';
 import { RequisitionsComponent } from './requisitions/requisitions.component';
 import { UnitComponent } from './unit/unit.component';
+import { PurchaseComponent } from './purchase/purchase.component';
 export const pagesRoutes: Routes = [{
     path:'',
     component:PagesRoutingComponent,
@@ -37,6 +38,7 @@ export const pagesRoutes: Routes = [{
         { path:'batch', component:BatchComponent },
         { path:'report', component:ReportComponent },
         { path:'requisitions', component:RequisitionsComponent },
+        { path:'purchase', component:PurchaseComponent },
         { path:'units', component:UnitComponent },
     ]
 }];
