@@ -29,13 +29,16 @@
                             <!--Opciones-->
                             <td>
                                 <div class="row">
-                                    <div class="col-4 col-sm-4 text-left">
+                                    <div class="col-3 col-sm-3 text-left">
                                         <a href="javascript:void(0)" (click)="fnVer(requisition.id)"><i class="fa fa-eye"></i></a>
                                     </div>
-                                    <div class="col-4 col-sm-4 text-center">
+                                    <div class="col-3 col-sm-3 text-center">
                                         <a href="javascript:void(0)" (click)="fnEdit(requisition.id)"><i class="fa fa-pencil"></i></a>
                                     </div>
-                                    <div class="col-4 col-sm-4 text-right">
+                                    <div class="col-3 col-sm-3 text-center">
+                                        <a href="javascript:void(0)" (click)="fnChangheStatus(requisition.id)"><i class="fas fa-exchange-alt"></i></a>
+                                    </div>
+                                    <div class="col-3 col-sm-3 text-right">
                                         <a href="javascript:void(0)" (click)="fnDelete(requisition.id)"><i class="fa fa-trash text-danger"></i></a>
                                     </div>
                                 </div>

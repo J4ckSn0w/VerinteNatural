@@ -23,6 +23,7 @@ import { BatchComponent } from './batch/batch.component';
 import { ReportComponent } from './report/report.component';
 import { RequisitionsComponent } from './requisitions/requisitions.component';
 import { UnitComponent } from './unit/unit.component';
+import { PurchaseComponent } from './purchase/purchase.component';
 
 @NgModule({
     declarations:[
@@ -44,7 +45,8 @@ import { UnitComponent } from './unit/unit.component';
         BatchComponent,
         ReportComponent,
         RequisitionsComponent,
-        UnitComponent
+        UnitComponent,
+        PurchaseComponent
     ],
     imports:[
         CommonModule,

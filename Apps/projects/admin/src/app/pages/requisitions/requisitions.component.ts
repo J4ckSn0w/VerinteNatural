@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ɵclearResolutionOfComponentResourcesQueue } from '@angular/core';
 import { ModalDismissReasons, NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -342,5 +342,46 @@ export class RequisitionsComponent implements OnInit {
         }
       }
     }
+   }
+
+   fnChangheStatus(id){
+     Swal.fire({
+       icon:'info',
+       title:'Cambiar Status',
+       text:'Cambiar status de la solicitud de mercancia',
+       showDenyButton:true,
+       denyButtonText:'Rechazar',
+       confirmButtonText:'Acceptar'
+     }).then(result => {
+       if(result.isConfirmed){
+         this.changeStatus(id,1);
+       }
+       else if(result.isDenied){
+         this.changeStatus(id,2);
+       }
+     })
+   }
+
+   changeStatus(id,status){
+    this.requisitionService.fnPutChangeStatusRequisition(id,status)
+    .then(res => {
+      Swal.fire({
+        icon:'success',
+        title:'Correcto!',
+        text:'Se cambio el status de la solicitud correctamente',
+        didClose:() => {
+          this.fnLoadRequisitions();
+        }
+      })
+    })
+    .catch(rej => {
+      Swal.fire({
+        icon:'error',
+        title:'Error!',
+        text:'Hubo un error al intentar cambiar el status de la solicitud de mercancia'
+      })
+      console.log('Error');
+      console.log(rej);
+    })
    }
 }

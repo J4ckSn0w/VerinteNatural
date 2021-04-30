@@ -112,6 +112,7 @@ export class ProductTypeComponent implements OnInit {
   }
 
   fnNew(){
+    this.newForm.reset();
     console.log('Entre');
     this.currentView = 0;
     this.fnOpenModal();

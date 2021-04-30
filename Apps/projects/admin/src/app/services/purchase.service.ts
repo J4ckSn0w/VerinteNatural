@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SessionService } from './sessionService.service';
 import { environment } from '../../environments/environment';
+import { SessionService } from './sessionService.service';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn:'root'
 })
 
-export class RequisitionService{
+export class PurchaseService {
 
     str_ip = environment.ip;
 
@@ -20,13 +20,13 @@ export class RequisitionService{
     })
 
     constructor(
-        private http: HttpClient,
-        private sessionService: SessionService
+        private sessionService: SessionService,
+        private http: HttpClient
     ){}
 
-    fnPostNewRequisition(data):Promise<any>{
+    fnPostNewPurchase(data):Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.post(this.str_ip + '/api/_p1/requisitions',data,{headers:this.headers}).toPromise()
+            this.http.post(this.str_ip + '/api/_p1/purchase/orders',data,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -36,9 +36,9 @@ export class RequisitionService{
         })
     }
 
-    fnGetAllRequisition():Promise<any>{
+    fnGetPurchases():Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.get(this.str_ip + '/api/_p1/requisitions',{headers:this.headers}).toPromise()
+            this.http.get(this.str_ip+'/api/_p1/purchase/orders',{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -48,9 +48,22 @@ export class RequisitionService{
         })
     }
 
-    fnGetRequisitionById(id):Promise<any>{
+    fnGetPurchaseById(id):Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.get(this.str_ip + '/api/_p1/requisitions/' + id,{headers:this.headers}).toPromise()
+            this.http.get(this.str_ip+'/api/_p1/purchase/orders/'+id,{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+
+        }) 
+    }
+
+    fnPutEditPurchase(data):Promise<any>{
+        return new Promise((resolve,reject) => {
+            this.http.put(this.str_ip+'/api/_p1/purchase/orders/'+data.id,data,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -60,33 +73,9 @@ export class RequisitionService{
         })
     }
 
-    fnUpdateRequisition(data):Promise<any>{
+    fnDeletePurchase(id):Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.put(this.str_ip + '/api/_p1/requisitions/'+data.id,data,{headers:this.headers}).toPromise()
-            .then(res => {
-                resolve(res);
-            })
-            .catch(rej => {
-                reject(rej);
-            })
-        })
-    }
-
-    fnDeleteRequisition(id):Promise<any>{
-        return new Promise((resolve,reject) => {
-            this.http.delete(this.str_ip + '/api/_p1/requisitions/'+id,{headers:this.headers}).toPromise()
-            .then(res => {
-                resolve(res);
-            })
-            .catch(rej => {
-                reject(rej);
-            })
-        })
-    }
-
-    fnPutChangeStatusRequisition(id,status):Promise<any>{
-        return new Promise((resolve,reject) => {
-            this.http.put(this.str_ip + '/api/_p1/requisitions/'+id+'/'+status,null,{headers:this.headers}).toPromise()
+            this.http.delete(this.str_ip+'/api/_p1/purchase/orders/'+id,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
