@@ -40,4 +40,9 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['profile'])
   }
 
+  gotToShoppingCart() {
+    console.log('aaaa')
+    this.router.navigate(['shopping-cart'])
+  }
+
 }

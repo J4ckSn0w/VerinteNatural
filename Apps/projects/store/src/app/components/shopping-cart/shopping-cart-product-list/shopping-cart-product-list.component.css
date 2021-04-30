@@ -1,0 +1,10 @@
+.list {
+    height: 40%;
+    border: 1px solid #e8eddf;
+    width: 100%;
+    margin-left: 1%;
+    justify-content: center;
+    display: block;
+    overflow-y: scroll;
+    border-radius: 5px;
+}

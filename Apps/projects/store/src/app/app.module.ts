@@ -27,9 +27,9 @@ import { LoginComponent } from 'components/modals/session-modal/login/login.comp
 import { ForgotPasswordComponent } from 'components/modals/session-modal/forgot-password/forgot-password.component'
 import { RegisterComponent } from 'components/modals/session-modal/register/register.component';
 import { CarouselComponent } from 'components/home/carousel/carousel.component';
-import { PortfolioComponent } from './components/home/portfolio/portfolio.component';
-import { ProductsListComponent } from './components/shared/products-list/products-list.component';
-import { ProductComponent } from './components/shared/product/product.component';
+import { PortfolioComponent } from 'components/home/portfolio/portfolio.component';
+import { ProductsListComponent } from 'components/shared/products-list/products-list.component';
+import { ProductComponent } from 'components/shared/product/product.component';
 import { AddressesModalComponent } from 'components/modals/addresses-modal/addresses-modal.component';
 
 @NgModule({
@@ -51,7 +51,7 @@ import { AddressesModalComponent } from 'components/modals/addresses-modal/addre
     PortfolioComponent,
     ProductsListComponent,
     ProductComponent,
-    AddressesModalComponent
+    AddressesModalComponent,
   ],
   imports: [
     BrowserModule,

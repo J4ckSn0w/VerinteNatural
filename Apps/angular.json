@@ -196,11 +196,13 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "store:build"
+            "browserTarget": "store:build",
+            "proxyConfig": "ecommerce_proxy.config.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "store:build:production"
+              "browserTarget": "store:build:production",
+              "proxyConfig": "ecommerce_proxy.config.json"
             }
           }
         },
