@@ -116,7 +116,7 @@ class PurchaseOrderController extends Controller
 
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -147,7 +147,7 @@ class PurchaseOrderController extends Controller
 
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -165,7 +165,7 @@ class PurchaseOrderController extends Controller
             $purchase_order->delete();
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -194,7 +194,7 @@ class PurchaseOrderController extends Controller
             $purchase_order->save();
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -254,7 +254,7 @@ class PurchaseOrderController extends Controller
 
             return response()->json(['data' => $purchase_order], 200);
         } catch (\Exception $e) {
-            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

@@ -19,8 +19,8 @@ class EmployeeTypeController extends Controller
     {
         try {
             return response()->json(['data' => EmployeeType::all()], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -34,8 +34,8 @@ class EmployeeTypeController extends Controller
     {
         try {
             return response()->json(['data' => EmployeeType::find($id)], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

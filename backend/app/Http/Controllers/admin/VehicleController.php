@@ -40,7 +40,7 @@ class VehicleController extends Controller
             });
             return response()->json(['data' => $vehicles], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -56,7 +56,7 @@ class VehicleController extends Controller
             $vehicle = Vehicle::create($request->all());
             return response()->json(['data' => $vehicle], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -71,7 +71,7 @@ class VehicleController extends Controller
         try {
             return response()->json(['data' => Vehicle::findOrfail($id)->load('vehicle_type')], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -90,7 +90,7 @@ class VehicleController extends Controller
             $vehicle->save();
             return response()->json(['data' => $vehicle], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -107,7 +107,7 @@ class VehicleController extends Controller
             $vehicle->delete();
             return response()->json(['data' => $vehicle], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -122,7 +122,7 @@ class VehicleController extends Controller
             $pdf = PDF::loadView('pdfs.vehicleReport', compact('vehicle', 'mileages', 'date_to', 'date_from'));
             return $pdf->download('reporte_vehiculo_' . $vehicle->license_plate . '__' . Carbon::now()->format('Ymd') . '.pdf');
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -138,7 +138,7 @@ class VehicleController extends Controller
             $pdf = PDF::loadView('pdfs.vehiclesReport', compact('vehicles', 'date'));
             return $pdf->download('reporte_general_vehicular' . Carbon::now()->format('Ymd') . '.pdf');
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

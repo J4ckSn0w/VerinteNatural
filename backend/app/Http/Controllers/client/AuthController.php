@@ -47,10 +47,10 @@ class AuthController extends Controller
 
                 ], 200);
             } else {
-                return response()->json(['error' => 'Verifique su información'], 401);
+                return response()->json(['errors' => ['authentication' => ['Verifique su información']]], 401);
             }
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -90,7 +90,7 @@ class AuthController extends Controller
                 ]
             );
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -104,7 +104,7 @@ class AuthController extends Controller
         try {
             return Auth::user()->token()->revoke();
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 401);
         }
     }
 
@@ -130,7 +130,7 @@ class AuthController extends Controller
                 ]
             );
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

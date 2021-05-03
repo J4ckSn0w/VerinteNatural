@@ -26,7 +26,7 @@ class UserController extends Controller
         try {
             return response()->json(['data' => User::findOrfail(Auth::id())], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -47,7 +47,7 @@ class UserController extends Controller
 
             return response()->json(['data' => $user], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -65,7 +65,7 @@ class UserController extends Controller
 
             return redirect()->to('email/confirmed');
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -80,7 +80,7 @@ class UserController extends Controller
             $this->changeNewPassword(Auth::user()->id, $request->new_password);
             return response()->json(['data' => ['msg' => 'success']], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -107,7 +107,7 @@ class UserController extends Controller
             }
             return response()->json(['data' => ['msg' => 'ok']], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -126,14 +126,18 @@ class UserController extends Controller
 
             return redirect('/password/changed');
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
     public function changeNewPassword($user_id, $new_password)
     {
-        $user = User::find($user_id);
-        $user->password = bcrypt($new_password);
-        $user->save();
+        try {
+            $user = User::find($user_id);
+            $user->password = bcrypt($new_password);
+            $user->save();
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+        }
     }
 }

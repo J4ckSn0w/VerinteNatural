@@ -18,8 +18,8 @@ class VehicleTypeController extends Controller
     {
         try {
             return response()->json(['data' => VehicleType::all()], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -33,9 +33,9 @@ class VehicleTypeController extends Controller
     {
         try {
             $vehicleType = VehicleType::create($request->all());
-            return response()->json(['data' =>$vehicleType], 201);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['data' => $vehicleType], 201);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -49,8 +49,8 @@ class VehicleTypeController extends Controller
     {
         try {
             return response()->json(['data' => VehicleType::findOrfail($id)], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -68,8 +68,8 @@ class VehicleTypeController extends Controller
             $vehicleType->fill($request->all());
             $vehicleType->save();
             return response()->json(['data' => $vehicleType], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -85,8 +85,8 @@ class VehicleTypeController extends Controller
             $vehicleType = VehicleType::findOrfail($id);
             $vehicleType->delete();
             return response()->json(['data' => $vehicleType], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

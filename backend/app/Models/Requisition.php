@@ -12,9 +12,10 @@ class Requisition extends Model
     use HasFactory, SoftDeletes;
 
     protected $STATUS = [
-        0 => 'En proceso',
-        1 => 'Aceptada',
-        2 => 'Rechazada'
+        0 => 'Pendiente',
+        1 => 'Aceptada por Ventas',
+        2 => 'Completada',
+        3 => 'Rechazada'
     ];
 
     protected $table = 'requisitions';
