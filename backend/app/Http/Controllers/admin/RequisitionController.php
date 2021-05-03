@@ -163,6 +163,17 @@ class RequisitionController extends Controller
     {
         try {
             $requisition = Requisition::findOrfail($id);
+
+            switch ($status) {
+                case 0: // Add activity
+                    break;
+                case 1: // Add activity
+                    break;
+                case 2: // Add activity
+                    break;
+                case 3: // Add activity
+                    break;
+            }
             $requisition->status = $status;
             $requisition->save();
             return response()->json(['data' => $requisition], 200);
