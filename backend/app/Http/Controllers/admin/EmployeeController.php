@@ -38,7 +38,7 @@ class EmployeeController extends Controller
 
             return response()->json(['data' => $employees], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -67,7 +67,7 @@ class EmployeeController extends Controller
 
             return response()->json(['data' => $employee], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -94,7 +94,7 @@ class EmployeeController extends Controller
             );
             return response()->json(['data' => $employee], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -125,7 +125,7 @@ class EmployeeController extends Controller
 
             return response()->json(['data' => $employee], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -147,7 +147,7 @@ class EmployeeController extends Controller
             $user->delete();
             return response()->json(['data' => $employee], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -165,7 +165,7 @@ class EmployeeController extends Controller
 
             return response()->json(['data' => $roles], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

@@ -38,7 +38,7 @@ class ProductTypeController extends Controller
 
             return response()->json(['data' => $product_types], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -66,7 +66,7 @@ class ProductTypeController extends Controller
                 return response()->json(['error' => ['errors' => ['name' => 'No se puede obtener un código valido con este nombre']]], 400);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -81,7 +81,7 @@ class ProductTypeController extends Controller
         try {
             return response()->json(['data' => ProductType::find($id)], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -101,7 +101,7 @@ class ProductTypeController extends Controller
             $product_type->save();
             return response()->json(['data' => $product_type], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -118,7 +118,7 @@ class ProductTypeController extends Controller
             $product_type->delete();
             return response()->json(['data' => $product_type], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

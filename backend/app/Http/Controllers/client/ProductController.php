@@ -17,7 +17,7 @@ class ProductController extends Controller
             });
             return response()->json(['data' => $products], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

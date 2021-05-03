@@ -30,7 +30,7 @@ class AddressController extends Controller
             });
             return response()->json(['data' => $addresses], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -52,7 +52,7 @@ class AddressController extends Controller
                 )
             ], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -70,7 +70,7 @@ class AddressController extends Controller
             $data->municipality->state;
             return response()->json(['data' => $data], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -90,7 +90,7 @@ class AddressController extends Controller
 
             return response()->json(['data' => $address], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -108,7 +108,7 @@ class AddressController extends Controller
 
             return response()->json(['data' => $address], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -118,7 +118,7 @@ class AddressController extends Controller
             $municipalities = Municipality::query()->select('id', 'name')->where('state_id', $id)->get();
             return response()->json(['data' => $municipalities], 200);
         } catch (\Exception $e) {
-            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 500);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -128,7 +128,7 @@ class AddressController extends Controller
             $states = State::query()->select('id', 'name')->get();
             return response()->json(['data' => $states], 200);
         } catch (\Exception $e) {
-            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 500);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WarehouseTypeRequest;
 use App\Models\WarehouseType;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class WarehouseTypeController extends Controller
 {
@@ -20,8 +18,8 @@ class WarehouseTypeController extends Controller
     {
         try {
             return response()->json(['data' => WarehouseType::all()], 200);
-        } catch(\Exception $e){
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -36,8 +34,8 @@ class WarehouseTypeController extends Controller
         try {
             $warehouseType = WarehouseType::create($request->all());
             return response()->json(['data' => $warehouseType], 201);
-        } catch(\Exception $e){
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -51,8 +49,8 @@ class WarehouseTypeController extends Controller
     {
         try {
             return response()->json(['data' => WarehouseType::findOrfail($id)], 200);
-        } catch(\Exception $e){
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -70,8 +68,8 @@ class WarehouseTypeController extends Controller
             $warehouseType->fill($request->all());
             $warehouseType->save();
             return response()->json(['data' => $warehouseType], 200);
-        } catch(\Exception $e){
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -87,8 +85,8 @@ class WarehouseTypeController extends Controller
             $warehouseType = WarehouseType::findOrfail($id);
             $warehouseType->delete();
             return response()->json(['data' => $warehouseType], 200);
-        } catch(\Exception $e){
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

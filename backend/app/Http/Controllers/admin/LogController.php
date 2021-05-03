@@ -19,8 +19,8 @@ class LogController extends Controller
         try {
             $logs = Log::all();
             return response()->json(['data' => $logs], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

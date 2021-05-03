@@ -18,8 +18,8 @@ class UserTypeController extends Controller
     {
         try {
             return response()->json(['data' => UserType::all()], 200);
-        } catch(\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 401);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

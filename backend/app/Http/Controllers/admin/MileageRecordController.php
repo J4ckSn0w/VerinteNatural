@@ -34,7 +34,7 @@ class MileageRecordController extends Controller
                 ->get();
             return response()->json(['data' => $mileage_records], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -57,7 +57,7 @@ class MileageRecordController extends Controller
 
             return response()->json(['data' => $mileage_record], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

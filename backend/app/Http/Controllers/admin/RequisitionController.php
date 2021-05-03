@@ -35,7 +35,7 @@ class RequisitionController extends Controller
             });
             return response()->json(['data' => $requisitions], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -68,7 +68,7 @@ class RequisitionController extends Controller
             }));
             return response()->json(['data' => $requisition], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -107,7 +107,7 @@ class RequisitionController extends Controller
 
             return response()->json(['data' => $requisition], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -137,7 +137,7 @@ class RequisitionController extends Controller
 
             return response()->json(['data' => $requisition], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -155,7 +155,7 @@ class RequisitionController extends Controller
             $requisition->delete();
             return response()->json(['data' => $requisition], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -174,11 +174,12 @@ class RequisitionController extends Controller
                 case 3: // Add activity
                     break;
             }
+
             $requisition->status = $status;
             $requisition->save();
             return response()->json(['data' => $requisition], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

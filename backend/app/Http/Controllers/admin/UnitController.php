@@ -19,7 +19,7 @@ class UnitController extends Controller
         try {
             return response()->json(['data' => Unit::all()], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -35,7 +35,7 @@ class UnitController extends Controller
             $unit = Unit::create($request->all());
             return response()->json(['data' => $unit], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -50,7 +50,7 @@ class UnitController extends Controller
         try {
             return response()->json(['data' => Unit::findOrfail($id)], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -69,7 +69,7 @@ class UnitController extends Controller
             $unit->save();
             return response()->json(['data' => $unit], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -86,7 +86,7 @@ class UnitController extends Controller
             $unit->delete();
             return response()->json(['data' => $unit], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

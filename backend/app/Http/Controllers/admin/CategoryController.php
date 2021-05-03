@@ -19,7 +19,7 @@ class CategoryController extends Controller
             $categories = Category::select('id', 'name')->get();
             return response()->json(['data' => $categories], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
         }
     }
 }

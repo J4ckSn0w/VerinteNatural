@@ -66,7 +66,7 @@ class IncidentController extends Controller
 
             return response()->json(['data' => $incident], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -83,7 +83,7 @@ class IncidentController extends Controller
             $incident->delete();
             return response()->json(['data' => $incident], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -95,7 +95,7 @@ class IncidentController extends Controller
             $incident->save();
             return response()->json(['data' => $incident], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 }

@@ -41,7 +41,7 @@ class BatchController extends Controller
             });
             return response()->json(['data' => $batches], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -67,7 +67,7 @@ class BatchController extends Controller
 
             return response()->json(['data' => $batch], 201);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
@@ -96,7 +96,7 @@ class BatchController extends Controller
             $batch = Batch::findOrfail($id);
             return response()->json(['data' => $batch], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
