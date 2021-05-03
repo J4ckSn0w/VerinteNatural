@@ -40,6 +40,50 @@
                         </tr>
                     </tbody>
                 </table>
+                <ngx-datatable *ngIf="tableLoaded" #table class="bootstrap" [headerHeight]="50" [limit]="10" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [rows]="rows">
+                    <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="true" [resizeable]="false" [headerCheckboxable]="false" [checkboxable]="false">
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="nombre">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span>Nombre</span>
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template let-value="value">
+                            {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="apellidos">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span>Apellidos</span>
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template let-value="value">
+                            {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="correo">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span>Correo</span>
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template let-value="value">
+                            {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="id">
+                        <ng-template let-column="column" ngx-datatable-header-template>
+                            <span>Acciones</span>
+                        </ng-template>
+                        <ng-template ngx-datatable-cell-template let-value="value">
+                            <ng-container>
+                                <a href="javascript:void(0)" class="table-icon-button mx-1" (click)="fnEdit(value)" placement="bottom" ngbTooltip="Editar usuario">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a href="javascript:void(0)" class="table-icon-button mx-1" (click)="openModal(value)" placement="bottom" ngbTooltip="Eliminar usuario">
+                                    <i class="fa fa-trash text-danger"></i>
+                                </a>
+                            </ng-container>
+
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
             </div>
         </div>
     </div>

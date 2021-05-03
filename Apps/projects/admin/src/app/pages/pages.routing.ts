@@ -18,6 +18,7 @@ import { ReportComponent } from './report/report.component';
 import { RequisitionsComponent } from './requisitions/requisitions.component';
 import { UnitComponent } from './unit/unit.component';
 import { PurchaseComponent } from './purchase/purchase.component';
+import { IncidentTypeComponent } from './incident-type/incident-type.component';
 export const pagesRoutes: Routes = [{
     path:'',
     component:PagesRoutingComponent,
@@ -35,6 +36,7 @@ export const pagesRoutes: Routes = [{
         { path:'warehouse-type', component:WarehouseTypeComponent },
         { path:'provider', component:ProviderComponent },
         { path:'incident', component:IncidentComponent },
+        { path:'incident-type', component:IncidentTypeComponent },
         { path:'batch', component:BatchComponent },
         { path:'report', component:ReportComponent },
         { path:'requisitions', component:RequisitionsComponent },

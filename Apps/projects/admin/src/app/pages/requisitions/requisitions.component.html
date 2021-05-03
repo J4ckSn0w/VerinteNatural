@@ -29,7 +29,7 @@
                             <!--Opciones-->
                             <td>
                                 <div class="row">
-                                    <div class="col-3 col-sm-3 text-left">
+                                    <div class="col-3 col-sm-3 text-center">
                                         <a href="javascript:void(0)" (click)="fnVer(requisition.id)"><i class="fa fa-eye"></i></a>
                                     </div>
                                     <div class="col-3 col-sm-3 text-center">
@@ -38,8 +38,11 @@
                                     <div class="col-3 col-sm-3 text-center">
                                         <a href="javascript:void(0)" (click)="fnChangheStatus(requisition.id)"><i class="fas fa-exchange-alt"></i></a>
                                     </div>
-                                    <div class="col-3 col-sm-3 text-right">
+                                    <div class="col-3 col-sm-3 text-center">
                                         <a href="javascript:void(0)" (click)="fnDelete(requisition.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                    <div class="col-3 col-sm-3 text-center">
+                                        <a href="javascript:void(0)" (click)="fnCheckRequisition(requisition.id)"><i class="fas fa-check-circle"></i></a>
                                     </div>
                                 </div>
                             </td>
@@ -111,6 +114,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div *ngIf="errorProducts" class="text-danger">
+                            <p>Debe agregar por lo menos un producto a la hoja.</p>
                         </div>
                     </div>
                     <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
