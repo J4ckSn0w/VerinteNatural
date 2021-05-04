@@ -23,7 +23,8 @@ class Incident extends Model
     protected $fillable = [
         'subject',
         'description',
-        'employee_id'
+        'employee_id',
+        'incident_type_id'
     ];
 
     /*********** Methods ************/
@@ -36,6 +37,14 @@ class Incident extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    /**
+     * Get incident type
+     */
+    public function incident_type()
+    {
+        return $this->belongsTo(IncidentType::class);
     }
 
     /********** End Relations *********/
