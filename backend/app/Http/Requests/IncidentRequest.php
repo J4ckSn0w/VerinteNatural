@@ -26,7 +26,8 @@ class IncidentRequest extends FormRequest
         return [
             'subject' => 'required|max:100',
             'description' => 'required|max:500',
-            'employee_id' => 'required|exists:employees,id'
+            'employee_id' => 'required|exists:employees,id',
+            'incident_type_id' => 'required|exists:incident_types,id'
         ];
     }
 }
