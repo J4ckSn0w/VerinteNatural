@@ -17,13 +17,15 @@ class CreateIncidentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('subject', 255)->nullable();
             $table->string('description', 720)->nullable();
-            $table->unsignedBigInteger('employee_id')->nullable();
+            $table->foreignId('employee_id')->nullable();
+            $table->foreignId('incident_type_id');
             $table->integer('status')->default(1);
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('employee_id')->references('id')->on('employees');
+            $table->foreign('incident_type_id')->references('id')->on('incident_types');
         });
     }
 

@@ -17,6 +17,7 @@ use App\Http\Controllers\admin\WarehouseController;
 use App\Http\Controllers\admin\EmployeeTypeController;
 use App\Http\Controllers\admin\DriverController;
 use App\Http\Controllers\admin\IncidentController;
+use App\Http\Controllers\admin\IncidentTypeController;
 use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\LogController;
 use App\Http\Controllers\admin\MileageRecordController;
@@ -145,6 +146,9 @@ Route::prefix('_p1')->group(function () {
 
         // Mileage Records store
         Route::post('mileage/records', [MileageRecordController::class, 'store']);
+
+        // Incident Type resource
+        Route::apiResource('incident/types', IncidentTypeController::class);
 
         // End API Rest
 

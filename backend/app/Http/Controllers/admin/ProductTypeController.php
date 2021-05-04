@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductTypeRequest;
 use App\Models\ProductType;
+use Illuminate\Support\Str;
 
 class ProductTypeController extends Controller
 {
@@ -51,20 +52,42 @@ class ProductTypeController extends Controller
     public function store(ProductTypeRequest $request)
     {
         try {
+
             $name = $request->name;
+            $code = strtoupper($name[0]) .
+                strtoupper($name[strlen($name) - 1]) .
+                (strlen($name) < 10 ? '0' . strlen($name) : strlen($name)) . 'A';
+
+            $found = false;
+            while (!$found) {
+                if (!ProductType::where('code', $code)->first()) {
+                    $found = true;
+                    break;
+                } else {
+
+
+                    $lastLetter = Str::upper(Str::random(1));
+
+                    loop:
+                    while (intval($lastLetter)) $lastLetter = Str::upper(Str::random(1));
+
+                    if ($lastLetter == '0') {
+                        $lastLetter = Str::upper(Str::random(1));
+                        goto loop;
+                    }
+
+                    $code = substr($code, 0, strlen($code) - 1) . $lastLetter;
+                }
+            }
+
             $data = array_merge(
                 $request->toArray(),
-                ['code' => strtoupper($name[0]) .
-                    strtoupper($name[strlen($name) - 1]) .
-                    (strlen($name) < 10 ? '0' . strlen($name) : strlen($name))]
+                ['code' => $code]
             );
 
-            if (!ProductType::where('code', $data['code'])->first()) {
-                $product_type = ProductType::create($data);
-                return response()->json(['data' => $product_type], 201);
-            } else {
-                return response()->json(['error' => ['errors' => ['name' => 'No se puede obtener un código valido con este nombre']]], 400);
-            }
+            $product_type = ProductType::create($data);
+
+            return response()->json(['data' => $product_type], 201);
         } catch (\Exception $e) {
             return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }

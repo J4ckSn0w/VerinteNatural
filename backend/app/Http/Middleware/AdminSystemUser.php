@@ -19,9 +19,12 @@ class AdminSystemUser
     {
         $user = User::findForPassport($request->username);
 
+        if (!$user)
+            return $next($request);
+
         if ($user && $user->user_type_id != 3)
             return $next($request);
-        else  
-            return response()->json(['error', ['errors' => ['server_error' => 'Unauthorized']]], 401);
+        else
+            return response()->json(['errors' => ['server_error' => 'Unauthorized']], 401);
     }
 }

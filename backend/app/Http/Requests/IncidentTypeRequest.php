@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class IncidentRequest extends FormRequest
+class IncidentTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class IncidentRequest extends FormRequest
     public function rules()
     {
         return [
-            'subject' => 'required|max:100',
-            'description' => 'required|max:500',
-            'employee_id' => 'required|exists:employees,id',
-            'incident_type_id' => 'required|exists:incident_types,id'
+            'name'  =>  'required|max:200'
         ];
     }
 }
