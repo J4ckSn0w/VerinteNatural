@@ -34,6 +34,7 @@ class CreateBouncerTables extends Migration
             $table->integer('level')->unsigned()->nullable();
             $table->integer('scope')->nullable()->index();
             $table->unsignedBigInteger('employee_type_id')->nullable();
+            $table->integer('section')->unsigned()->nullable();
             $table->timestamps();
 
             $table->unique(
