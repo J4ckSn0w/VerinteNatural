@@ -20,6 +20,6 @@ class EcommerceAuth
         if (Auth::user()->user_type_id == 3)
             return $next($request);
         else
-            return response()->json(['errors' => ['server_error' => 'No autorizado']], 401);
+            return response()->json(['errors' => ['server-error' => 'No autorizado']], 401);
     }
 }
