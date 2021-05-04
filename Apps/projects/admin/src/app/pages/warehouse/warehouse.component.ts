@@ -70,6 +70,7 @@ export class WarehouseComponent implements OnInit {
   }
 
   fnNew(myModal){
+    this.newForm.reset();
     this.currentView = 0;
     this.show = false;
     this.modalService.open(myModal).result.then((result) => {

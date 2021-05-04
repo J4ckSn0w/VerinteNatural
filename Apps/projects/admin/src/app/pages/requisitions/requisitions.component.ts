@@ -18,7 +18,7 @@ export class RequisitionsComponent implements OnInit {
   /*Modal Inicio*/
   newForm = new FormGroup({
     date: new FormControl(null,[Validators.required]),
-    quantity: new FormControl(null,[Validators.required])
+    quantity: new FormControl(null)
   });
 
   currentView = 0;
@@ -65,6 +65,8 @@ export class RequisitionsComponent implements OnInit {
     id:'',
     products:[]
   }
+
+  errorProducts = false;
 
   constructor(
     private modalService: NgbModal,
@@ -185,7 +187,7 @@ export class RequisitionsComponent implements OnInit {
   }
 
   fnDateFormat(date){
-    return this.firstDate.year + '-' + (this.firstDate.month < 10 ? ('0') : '') + this.firstDate.month + '-' + this.firstDate.day;
+    return this.firstDate.year + '-' + (this.firstDate.month < 10 ? ('0') : '') + this.firstDate.month + '-' + (this.firstDate.day > 10 ? '' : '0') + this.firstDate.day;
     //return ''+date.year + '-'+((date.month <10 )? +('0'):'' )+date.month +'-'+ (date.day < 10) ? +('0'):'' + date.day;
   }
 
@@ -224,9 +226,16 @@ export class RequisitionsComponent implements OnInit {
   }
 
   onSubmitNew(){
+    this.errorProducts = false;
     let data = {
       required_to:this.fnDateFormat(this.firstDate),
       products:this.arrayOrderProducts
+    }
+    console.log('Length');
+    console.log(this.arrayOrderProducts.length);
+    if(this.arrayOrderProducts.length <= 0){
+      this.errorProducts = true;
+      return;
     }
 
     console.log(this.firstDate);
@@ -246,6 +255,11 @@ export class RequisitionsComponent implements OnInit {
       })
     })
     .catch(rej => {
+      Swal.fire({
+        icon:'error',
+        title:'Error!',
+        text:'Algo salio mal al intentar crear la nueva solicitud.'
+      })
       console.log('ALGO SALIO MAL');
       console.log(rej);
     })
@@ -303,14 +317,16 @@ export class RequisitionsComponent implements OnInit {
     console.log('Nuevo producto');
     console.log(newProduct);
     this.arrayOrderProducts.push(newProduct);
-
+    /*Limpia el valor de cantidad */
     this.newForm.value.quantity = '';
+    this.newForm.controls['quantity'].setValue('');
     
     //console.log(this.arrayOrderProducts);
 
     /*Delete option of new product */
     
     this.fnCheckRemainingProducts();
+
     
     /*
     this.currentProduct = {
@@ -354,10 +370,10 @@ export class RequisitionsComponent implements OnInit {
        confirmButtonText:'Acceptar'
      }).then(result => {
        if(result.isConfirmed){
-         this.changeStatus(id,1);
+         this.changeStatus(id,2);
        }
        else if(result.isDenied){
-         this.changeStatus(id,2);
+         this.changeStatus(id,3);
        }
      })
    }
@@ -383,5 +399,39 @@ export class RequisitionsComponent implements OnInit {
       console.log('Error');
       console.log(rej);
     })
+   }
+
+   /* Check para ventas en cada hoja de requerimientos */
+   fnCheckRequisition(id){
+     Swal.fire({
+       icon:'question',
+       title:'Aprobar Hoja',
+       text:'Desea aprobar esta hoja de requerimientos?',
+       confirmButtonText:'Confirmar.'
+     }).then(result => {
+       if(result.isConfirmed)
+       {
+         this.requisitionService.fnPutChangeStatusRequisition(id,1)
+         .then(res => {
+           Swal.fire({
+             icon:'success',
+             title:'Correcto',
+             text:'Se confirmo la hoja de requerimientos correctamente',
+             didClose:() => {
+               this.fnLoadRequisitions();
+             }
+           })
+         })
+         .catch(rej => {
+           Swal.fire({
+             icon:'error',
+             title:'Error!',
+             text:'Algo salio mal al intentar confirmar la hoja de requerimientos',
+           })
+           console.log('Error');
+           console.log(rej);
+         })
+       }
+     })
    }
 }

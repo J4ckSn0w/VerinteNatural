@@ -25,6 +25,9 @@ import { RequisitionsComponent } from './requisitions/requisitions.component';
 import { UnitComponent } from './unit/unit.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { IncidentTypeComponent } from './incident-type/incident-type.component';
+
 @NgModule({
     declarations:[
         HomeComponent,
@@ -46,14 +49,16 @@ import { PurchaseComponent } from './purchase/purchase.component';
         ReportComponent,
         RequisitionsComponent,
         UnitComponent,
-        PurchaseComponent
+        PurchaseComponent,
+        IncidentTypeComponent
     ],
     imports:[
         CommonModule,
         RouterModule.forChild(pagesRoutes),
         NgbModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        NgxDatatableModule
     ]
 })
 

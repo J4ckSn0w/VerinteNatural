@@ -3,6 +3,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import Swal from 'sweetalert2';
+import { IncidentTypeService } from '../../services/incident-type.service';
 import{ IncidentService } from '../../services/incidents.service'
 
 @Component({
@@ -16,6 +17,7 @@ export class IncidentComponent implements OnInit {
   newForm = new FormGroup({
     subject: new FormControl(null,[Validators.required]),
     description: new FormControl(null,[Validators.required]),
+    incidentType_id: new FormControl(null,[Validators.required])
   });
 
   currentView = 0;
@@ -56,15 +58,19 @@ export class IncidentComponent implements OnInit {
   constructor(
     private incidentService: IncidentService,
     private modalService: NgbModal,
-    private userService: UserService
+    private userService: UserService,
+    private indicentsTypesService: IncidentTypeService
   ) { }
 
   arrayIndicents = [];
 
+  arrayIncidentsTypes = [];
+
   currentIncident = {
     subject:'',
     description:'',
-    employee_id:''
+    employee_id:'',
+    incidentType_id:''
   }
 
   currentEmployee;
@@ -119,7 +125,16 @@ export class IncidentComponent implements OnInit {
     });
   }
 
-  fnLoadIncident(id){}
+  fnLoadIncident(id){
+    this.incidentService.fnGetIncidentById(id)
+    .then(res => {
+      this.currentIncident = res.data;
+    })
+    .catch(rej => {
+      console.log('Error al cargar incidencia');
+      console.log(rej);
+    })
+  }
 
   onSubmitNew(){
     let data = {
