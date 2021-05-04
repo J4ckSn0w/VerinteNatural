@@ -29,25 +29,13 @@ class EmployeeTypesTableSeeder extends Seeder
         ]);
         DB::table('employee_types')->updateOrInsert([
             'id' => 3,
-            'name' => 'Conductor',
+            'name' => 'Ventas',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
         DB::table('employee_types')->updateOrInsert([
             'id' => 4,
-            'name' => 'Recepción',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        DB::table('employee_types')->updateOrInsert([
-            'id' => 5,
-            'name' => 'Soporte',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        DB::table('employee_types')->updateOrInsert([
-            'id' => 6,
-            'name' => 'Servicio al cliente',
+            'name' => 'Compras',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
