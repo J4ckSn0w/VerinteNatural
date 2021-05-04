@@ -148,7 +148,9 @@ return [
 
     'attributes' => [
         "warehouse_id" => "almácen",
-        "image" => "imagen"
+        "image" => "imagen",
+        "incident_type_id" => "tipo de incidencia",
+        "employee_id"      => "empleado"
     ],
 
 ];
