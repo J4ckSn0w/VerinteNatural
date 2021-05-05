@@ -4,8 +4,12 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IncidentRequest;
+use App\Models\Employee;
 use App\Models\Incident;
+use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class IncidentController extends Controller
 {
@@ -45,7 +49,19 @@ class IncidentController extends Controller
     public function store(IncidentRequest $request)
     {
         try {
-            $incident = Incident::create($request->all());
+            $superior = $this->searchSuperiorEmployee();
+
+            if ($superior) {
+                $incident = Incident::create(array_merge(
+                    $request->toArray(),
+                    [
+                        'employee_id'    => Auth::user()->employee->id,
+                        'responsable_id' =>  $superior->id
+                    ]
+                ));
+            } else {
+                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 400);
+            }
 
             return response()->json(['data' => $incident], 201);
         } catch (\Exception $e) {
@@ -97,5 +113,71 @@ class IncidentController extends Controller
         } catch (\Exception $e) {
             return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
+    }
+
+    public function climb($id)
+    {
+        try {
+            $superior = $this->searchSuperiorEmployee();
+            if ($superior) {
+                $incident = Incident::findOrfail($id);
+                $incident->responsable_id = $superior->id;
+                $incident->save();
+            } else {
+                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 400);
+            }
+
+            return response()->json(['data' => $incident], 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+        }
+    }
+
+    public function searchSuperiorEmployee()
+    {
+        $auth = Auth::user();
+        $superior_role = null;
+
+        if ($auth->employee) {
+            $role_name = $auth->getRoles()[0];
+            if ($role_name) {
+                $role = DB::table('roles')->where('name', $role_name)->first();
+                $superior_role = DB::table('roles')
+                    ->where([
+                        ['level', ($role->level - 1)],
+                        ['employee_type_id', $role->employee_type_id],
+                        ['section', $role->section]
+                    ])->first();
+
+                if (!$superior_role) {
+                    $superior_role = DB::table('roles')
+                        ->where([
+                            ['level', ($role->level - 1)],
+                            ['employee_type_id', $role->employee_type_id]
+                        ])->first();
+
+                    if (!$superior_role) {
+                        $superior_role = DB::table('roles')
+                            ->where([
+                                ['level', ($role->level - 1)]
+                            ])->first();
+                    }
+                }
+            }
+
+            if ($superior_role) {
+                $superior_user = DB::table('assigned_roles')->where('role_id', $superior_role->id)->first();
+                if ($superior_user) {
+                    $employee = Employee::whereHas('user', function ($user) use ($superior_user) {
+                        $user->where('id', $superior_user->entity_id);
+                    })->first();
+                    if ($employee) {
+                        return $employee;
+                    }
+                }
+            }
+        }
+
+        return null;
     }
 }
