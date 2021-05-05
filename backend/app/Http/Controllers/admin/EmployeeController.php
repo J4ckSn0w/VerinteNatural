@@ -90,7 +90,8 @@ class EmployeeController extends Controller
                     'phone_number',
                     'user_id',
                     'warehouse',
-                    'employee_type'
+                    'employee_type',
+                    'role'
                 ]
             );
             return response()->json(['data' => $employee], 201);
