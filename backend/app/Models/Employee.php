@@ -168,6 +168,11 @@ class Employee extends Model
         return $this->warehouse->name;
     }
 
+    public function getRoleAttribute()
+    {
+        return $this->user->getRoles()[0];
+    }
+
     /********** End Appends *********/
 
 
