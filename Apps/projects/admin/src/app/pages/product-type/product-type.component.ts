@@ -50,6 +50,8 @@ export class ProductTypeComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   currentProductType = {
@@ -124,6 +126,7 @@ export class ProductTypeComponent implements OnInit {
   }
 
   fnLoadProductTypes(){
+    this.tableLoad = false;
     this.arrayProductTypes = [];
     this.arrayProductCategory = [];
     this.productTypeService.fnGetProductTypes()
@@ -131,6 +134,7 @@ export class ProductTypeComponent implements OnInit {
       res.data.forEach(element => {
         this.arrayProductTypes.push(element);
       });
+      this.tableLoad = true;
     })
     .catch(rej => {
     });

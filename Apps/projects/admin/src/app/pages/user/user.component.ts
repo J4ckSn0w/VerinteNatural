@@ -18,6 +18,8 @@ export class UserComponent implements OnInit {
   @ViewChild('EditUserModal', { static: true }) input: ElementRef;
   @ViewChild('NewUserModal', { static: true }) myModal: ElementRef;
 
+  tableLoad = false;
+
   currentView = 0;
 
   arrayViewsNames = ['Nuevo Usuario','Editar Usuario','Info Usuario'];
@@ -143,6 +145,7 @@ export class UserComponent implements OnInit {
       resolve.data.forEach(element => {
         this.arrayUser.push(element);
       });
+      this.tableLoad = true;
     })
     .catch(reject => {
       console.log('reject' + reject);

@@ -25,6 +25,8 @@ export class WarehouseTypeComponent implements OnInit {
 
   closeResult = '';
 
+  tableLoad = false;
+
   /**Modal Final */
 
   currentWarehouseType = {
@@ -44,6 +46,7 @@ export class WarehouseTypeComponent implements OnInit {
   }
 
   fnLoadWarehouseTypes(){
+    this.tableLoad = false;
     this.arrayWarehouseTypes = [];
     this.warehouseTypeService.fnGetWarehouses()
     .then(res => {
@@ -52,6 +55,7 @@ export class WarehouseTypeComponent implements OnInit {
       res.data.forEach(element => {
         this.arrayWarehouseTypes.push(element);
       });
+      this.tableLoad = true;
     })
     .catch(rej => {
       //this.fnGetWarehousetypes();

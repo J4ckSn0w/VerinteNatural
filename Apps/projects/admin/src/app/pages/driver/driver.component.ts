@@ -52,6 +52,8 @@ export class DriverComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   arrayDrivers = [];
@@ -95,7 +97,8 @@ export class DriverComponent implements OnInit {
       console.log(res);
       res.data.forEach(element => {
         this.arrayDrivers.push(element);
-      }); 
+      });
+      this.tableLoad = true;
     })
     .catch(rej => {
       console.log('ERROR');

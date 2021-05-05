@@ -38,6 +38,8 @@ export class WarehouseComponent implements OnInit {
     }
   }
 
+  tableLoad = false;
+
   /**Modal Final */
 
   arrayUsers = [];
@@ -101,6 +103,7 @@ export class WarehouseComponent implements OnInit {
   fnDelete(){}
 
   fnLoadWarehouses(){
+    this.tableLoad = false;
     this.arrayUsers = [];
     this.arrayWarehouseTypes = [];
     this.arrayWarehouses = [];
@@ -108,7 +111,8 @@ export class WarehouseComponent implements OnInit {
     .then(res => {
       res.data.forEach(element => {
         this.arrayWarehouses.push(element);
-      })
+      });
+      this.tableLoad = true;
     })
     .catch(rej => {
     });
