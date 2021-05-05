@@ -18,6 +18,7 @@ class CreateIncidentsTable extends Migration
             $table->string('subject', 255)->nullable();
             $table->string('description', 720)->nullable();
             $table->foreignId('employee_id')->nullable();
+            $table->foreignId('responsable_id')->nullable();
             $table->foreignId('incident_type_id');
             $table->integer('status')->default(1);
 
@@ -25,6 +26,7 @@ class CreateIncidentsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('employee_id')->references('id')->on('employees');
+            $table->foreign('responsable_id')->references('id')->on('employees');
             $table->foreign('incident_type_id')->references('id')->on('incident_types');
         });
     }
