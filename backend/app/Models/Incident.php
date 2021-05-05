@@ -24,7 +24,8 @@ class Incident extends Model
         'subject',
         'description',
         'employee_id',
-        'incident_type_id'
+        'incident_type_id',
+        'responsable_id'
     ];
 
     /*********** Methods ************/
@@ -33,10 +34,20 @@ class Incident extends Model
 
 
     /*********** Relations ************/
-
+    /**
+     * Get the employee of inicident
+     */
     public function employee()
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    /**
+     * Get the responsable of inicident
+     */
+    public function responsable()
+    {
+        return $this->belongsTo(Employee::class, 'responsable_id', 'id');
     }
 
     /**
