@@ -56,7 +56,7 @@ export class RequisitionService{
             })
             .catch(rej => {
                 reject(rej);
-            })
+            });
         })
     }
 

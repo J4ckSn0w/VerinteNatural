@@ -27,7 +27,7 @@ export class IncidentTypeService{
 
     fnPostNewIncidentType(data):Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.post(this.str_ip + '/api/_p1/incidents/types',data,{headers:this.headers}).toPromise()
+            this.http.post(this.str_ip + '/api/_p1/incident/types',data,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -51,7 +51,7 @@ export class IncidentTypeService{
 
     fngetIncidentsTypes():Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.get(this.str_ip+'/api/_p1/incidents/types',{headers:this.headers}).toPromise()
+            this.http.get(this.str_ip+'/api/_p1/incident/types',{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -63,7 +63,7 @@ export class IncidentTypeService{
 
     fnGetIndicidenttypeById(id):Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.get(this.str_ip+'/api/_p1/incidents/types/'+id,{headers:this.headers}).toPromise()
+            this.http.get(this.str_ip+'/api/_p1/incident/types/'+id,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -75,7 +75,7 @@ export class IncidentTypeService{
 
     fnDeleteIndicentType(id):Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.delete(this.str_ip + '/api/_p1/incidents/types/'+id,{headers:this.headers}).toPromise()
+            this.http.delete(this.str_ip + '/api/_p1/incident/types/'+id,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })

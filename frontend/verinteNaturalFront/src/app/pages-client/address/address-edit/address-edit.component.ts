@@ -49,7 +49,6 @@ export class AddressEditComponent implements OnInit {
       console.log('Hubo un error al traer la direccion.');
       console.log(rej);
     });
-
   }
 
   onSubmit(){

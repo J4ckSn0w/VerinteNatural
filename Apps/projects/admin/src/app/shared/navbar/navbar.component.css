@@ -87,3 +87,8 @@ dropdown-btn {
         font-size: 18px;
     }
 }
+
+.responsive {
+    width: 100%;
+    height: auto;
+}

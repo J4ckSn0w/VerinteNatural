@@ -49,6 +49,8 @@ export class UnitComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   constructor(
@@ -68,12 +70,14 @@ export class UnitComponent implements OnInit {
   }
 
   fnLoadUnits(){
+    this.tableLoad = false;
     this.arrayUnits = [];
     this.unitService.fnGetUnits()
     .then(res => {
       res.data.forEach(element => {
         this.arrayUnits.push(element);
-      })
+      });
+      this.tableLoad = true;
       console.log(res);
     })
     .catch(rej => {

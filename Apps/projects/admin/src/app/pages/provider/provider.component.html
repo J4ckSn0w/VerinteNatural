@@ -1,7 +1,16 @@
 <h2 class="display-3 text-center mt-5">Control Proveedores</h2>
 <div class="row">
     <div class="col-12">
-        <div class="card text-center my-4">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center my-4">
             <div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
                     <li class="nav-item">

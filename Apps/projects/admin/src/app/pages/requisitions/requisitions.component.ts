@@ -7,6 +7,7 @@ import { ProductService } from './../../services/product.service';
 import { RequisitionService } from '../../services/requisitions.service';
 import { NgbDateStructAdapter } from '@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-requisitions',
@@ -53,6 +54,8 @@ export class RequisitionsComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   firstDate : NgbDateStruct;
@@ -63,7 +66,8 @@ export class RequisitionsComponent implements OnInit {
 
   currentRequisition = {
     id:'',
-    products:[]
+    products:[],
+    status:0
   }
 
   errorProducts = false;
@@ -71,7 +75,8 @@ export class RequisitionsComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private productService: ProductService,
-    private requisitionService: RequisitionService
+    private requisitionService: RequisitionService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -80,12 +85,14 @@ export class RequisitionsComponent implements OnInit {
   }
 
   fnLoadRequisitions(){
+    this.tableLoad = false;
     this.arrayRequisitions = [];
     this.requisitionService.fnGetAllRequisition()
     .then(res => {
       res.data.forEach(element => {
         this.arrayRequisitions.push(element);
-      })
+      });
+      this.tableLoad = true;
       console.log(res);
     })
     .catch(rej => {
@@ -433,5 +440,32 @@ export class RequisitionsComponent implements OnInit {
          })
        }
      })
+   }
+
+   /*Generar hoja de recoleccion*/
+   fnGenerateCollectionOrder(id){
+     console.log('id');
+     console.log(id);
+     this.requisitionService.fnGetRequisitionById(id)
+     .then(res => {
+       this.currentRequisition = res.data;
+     })
+     .catch(rej => {
+       console.log('Error al traer la informacion de requisition');
+       console.log(rej);
+     })
+     console.log('Current Requisition');
+     console.log(this.currentRequisition);
+     console.log('Status');
+     console.log(this.currentRequisition.status);
+     if(this.currentRequisition.status != 2){
+       Swal.fire({
+         icon:'error',
+         title:'Error!',
+         text:'No puede crear una hoja de recoleccion de esta hoja de requerimientos, hasta ser aceptada por compras.'
+       });
+       return;
+     }
+     this.router.navigate(["/admin/purchase",id]);
    }
 }

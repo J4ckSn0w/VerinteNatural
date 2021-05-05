@@ -41,6 +41,7 @@ export const pagesRoutes: Routes = [{
         { path:'report', component:ReportComponent },
         { path:'requisitions', component:RequisitionsComponent },
         { path:'purchase', component:PurchaseComponent },
+        { path:'purchase/:requisition_id', component:PurchaseComponent },
         { path:'units', component:UnitComponent },
     ]
 }];
