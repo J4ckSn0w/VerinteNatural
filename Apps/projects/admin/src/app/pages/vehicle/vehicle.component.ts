@@ -55,6 +55,8 @@ export class VehicleComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   arrayVehicles = [];
@@ -94,13 +96,15 @@ export class VehicleComponent implements OnInit {
   }
 
   fnLoadVehicles(){
+    this.tableLoad = false;
     this.arrayVehicleTypes = [];
     this.arrayVehicles = [];
     this.vehicleService.fnGetVehicles()
     .then(res => {
       res.data.forEach(element => {
         this.arrayVehicles.push(element);
-      })
+      });
+      this.tableLoad = true;
     });
     this.vehicleTypeService.fnGetVehicleTypes()
     .then(res => {

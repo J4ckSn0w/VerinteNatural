@@ -55,6 +55,8 @@ export class BatchComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   arrayBatches = [];
@@ -131,6 +133,7 @@ export class BatchComponent implements OnInit {
         this.arrayBatches.push(element);
       })
       console.log(res);
+      this.tableLoad = true;
     });
   }
 

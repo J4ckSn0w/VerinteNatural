@@ -48,6 +48,8 @@ export class IncidentTypeComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   arrayIncidentsTypes = [];
@@ -63,15 +65,18 @@ export class IncidentTypeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.fnLoadIncidentsTypes();
   }
 
   fnLoadIncidentsTypes(){
+    this.tableLoad = false;
     this.arrayIncidentsTypes = [];
     this.incidentTypeService.fngetIncidentsTypes()
     .then(res => {
       res.data.forEach(element => {
         this.arrayIncidentsTypes.push(element);
-      })
+      });
+      this.tableLoad = true;
     })
     .catch(rej => {
       console.log('Error al cargar tipos de incidencias');

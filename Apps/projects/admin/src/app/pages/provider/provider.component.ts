@@ -54,6 +54,8 @@ export class ProviderComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   constructor(
@@ -152,12 +154,14 @@ export class ProviderComponent implements OnInit {
   }
 
   fnLoadProviders(){
+    this.tableLoad = false;
     this.arrayProviders = [];
     this.providerService.fnGetProviders()
     .then(res => {
       res.data.forEach(element => {
         this.arrayProviders.push(element);
       });
+      this.tableLoad = true;
       console.log('RESPUESTA');
       console.log(this.arrayProviders);
     })

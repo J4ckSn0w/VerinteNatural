@@ -17,7 +17,7 @@ export class IncidentComponent implements OnInit {
   newForm = new FormGroup({
     subject: new FormControl(null,[Validators.required]),
     description: new FormControl(null,[Validators.required]),
-    incidentType_id: new FormControl(null,[Validators.required])
+    incident_type_id: new FormControl(null,[Validators.required])
   });
 
   currentView = 0;
@@ -52,6 +52,8 @@ export class IncidentComponent implements OnInit {
   }
 
   @ViewChild('myModal') myModal:ElementRef;
+
+  tableLoad = false;
 
   /**Modal Final */
 
@@ -121,6 +123,7 @@ export class IncidentComponent implements OnInit {
       res.data.forEach(element => {
         this.arrayIndicents.push(element);
       });
+      this.tableLoad = true;
       //this.fnOpenModal();
     });
   }
@@ -140,7 +143,8 @@ export class IncidentComponent implements OnInit {
     let data = {
       subject:this.newForm.value.subject,
       description:this.newForm.value.description,
-      employee_id:this.currentEmployee.employee_id
+      employee_id:this.currentEmployee.employee_id,
+      incident_type_id:this.newForm.value.incident_type_id
       //employee_id:this.currentEmployee.id
     };
     console.log('DATA');
@@ -166,4 +170,36 @@ export class IncidentComponent implements OnInit {
   }
   
   onSubmitEdit(){}
+
+  /*Escalar incidencia */
+  fnEscaleteIncident(id){
+    Swal.fire({
+      icon:'question',
+      title:'Escalar incidencia',
+      text:'Desea escalar esta incidencia a su superior?',
+      denyButtonText:'No',
+      showDenyButton:true,
+      confirmButtonText:'Si'
+    }).then(result => {
+      if(result.isConfirmed){
+        this.incidentService.fnEscaleteIncident(id)
+        .then(res => {
+          Swal.fire({
+            icon:'success',
+            title:'Correcto!',
+            text:'La incidencia fue escalada con exito.'
+          })
+        })
+        .catch(rej => {
+          Swal.fire({
+            icon:'error',
+            title:'Error!',
+            text:'Ocurrio un error al intentar escalar la incidencia.'
+          })
+          console.log('Error');
+          console.log(rej);
+        })
+      }
+    })
+  }
 }

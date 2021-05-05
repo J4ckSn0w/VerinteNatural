@@ -60,6 +60,8 @@ export class ClientComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   //New Client
@@ -146,6 +148,7 @@ export class ClientComponent implements OnInit {
       res.data.forEach(element => {
         this.arrayClients.push(element);
       });
+      this.tableLoad = true;
     })
     .then(rej => {
     })

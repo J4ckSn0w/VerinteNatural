@@ -4,6 +4,8 @@ import { NgbModal, ModalDismissReasons, NgbDateStruct } from '@ng-bootstrap/ng-b
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { WarehouseService } from '../../services/warehouse.service';
 import { ProviderService } from '../../services/provider.service';
+import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
+import { RequisitionService } from '../../services/requisitions.service';
 import { ProductService } from'../../services/product.service';
 
 @Component({
@@ -59,6 +61,8 @@ export class PurchaseComponent implements OnInit {
 
   @ViewChild('myModal') myModal:ElementRef;
 
+  tableLoad = false;
+
   /**Modal Final */
 
   constructor(
@@ -66,7 +70,9 @@ export class PurchaseComponent implements OnInit {
     private modalService: NgbModal,
     private warehouseService:WarehouseService,
     private providerService:ProviderService,
-    private productService:ProductService
+    private productService:ProductService,
+    private route: ActivatedRoute,
+    private requisitionService: RequisitionService
   ) { }
 
   firstDate : NgbDateStruct;
@@ -93,7 +99,28 @@ export class PurchaseComponent implements OnInit {
   total = 0;
   iva = 0;
 
+  requisition_id;
+
+  curretnRequisition;
+
   ngOnInit(): void {
+    this.fnLoadPurchases();
+    this.requisition_id = this.route.snapshot.params.requisition_id;
+    console.log('Imprimir');
+    console.log(this.requisition_id);
+
+    if(this.requisition_id != undefined){
+      this.requisitionService.fnGetRequisitionById(this.requisition_id)
+      .then(res => {
+        console.log('Hoja de requerimientos');
+        console.log(res);
+      })
+      .catch(rej => {
+        console.log('Error');
+        console.log(rej);
+      })
+    }
+
   }
 
   fnNew(){
@@ -114,7 +141,10 @@ export class PurchaseComponent implements OnInit {
 
   fnDelete(id){}
 
-  fnLoadPurchases(){}
+  fnLoadPurchases(){
+    this.tableLoad = false;
+    this.tableLoad = true;
+  }
 
   fnLoadPurchase(id){}
 

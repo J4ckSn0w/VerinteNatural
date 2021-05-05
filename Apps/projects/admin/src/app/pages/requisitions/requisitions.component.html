@@ -1,7 +1,16 @@
 <h2 class="display-3 text-center mt-5">Control Solicitudes de mercancia</h2>
 <div class="row">
     <div class="col-12">
-        <div class="card text-center my-4">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center my-4">
             <div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
                     <li class="nav-item">
@@ -30,19 +39,22 @@
                             <td>
                                 <div class="row">
                                     <div class="col-3 col-sm-3 text-center">
-                                        <a href="javascript:void(0)" (click)="fnVer(requisition.id)"><i class="fa fa-eye"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnVer(requisition.id)" alt="Ver"><i class="fa fa-eye" title="Ver"></i></a>
                                     </div>
                                     <div class="col-3 col-sm-3 text-center">
-                                        <a href="javascript:void(0)" (click)="fnEdit(requisition.id)"><i class="fa fa-pencil"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnEdit(requisition.id)" alt="Editar"><i class="fa fa-pencil" title="Editar"></i></a>
                                     </div>
                                     <div class="col-3 col-sm-3 text-center">
-                                        <a href="javascript:void(0)" (click)="fnChangheStatus(requisition.id)"><i class="fas fa-exchange-alt"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnChangheStatus(requisition.id)" alt="Cambiar Status"><i class="fas fa-exchange-alt" title="Cambiar Status"></i></a>
                                     </div>
                                     <div class="col-3 col-sm-3 text-center">
-                                        <a href="javascript:void(0)" (click)="fnDelete(requisition.id)"><i class="fa fa-trash text-danger"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnDelete(requisition.id)" alt="Eliminar"><i class="fa fa-trash text-danger" title="Eliminar"></i></a>
                                     </div>
                                     <div class="col-3 col-sm-3 text-center">
-                                        <a href="javascript:void(0)" (click)="fnCheckRequisition(requisition.id)"><i class="fas fa-check-circle"></i></a>
+                                        <a href="javascript:void(0)" (click)="fnCheckRequisition(requisition.id)" alt="Aceptar"><i class="fas fa-check-circle" title="Aceptar"></i></a>
+                                    </div>
+                                    <div class="col-3 col-sm-3 text-center">
+                                        <a href="javascript:void(0)" (click)="fnGenerateCollectionOrder(requisition.id)" alt="Crear hoja de recoleccion"><i class="fas fa-arrow-circle-right" title="Crear hoja de recoleccion"></i></a>
                                     </div>
                                 </div>
                             </td>
