@@ -27,6 +27,7 @@ use App\Http\Controllers\admin\ProviderController;
 use App\Http\Controllers\admin\PurchaseOrderController;
 use App\Http\Controllers\admin\RequisitionController;
 use App\Http\Controllers\admin\UnitController;
+
 // Client Controllers
 use App\Http\Controllers\client\AuthController as AuthControllerClient;
 use App\Http\Controllers\client\UserController;
@@ -178,6 +179,9 @@ Route::prefix('_p1')->group(function () {
 
         // Download Report
         Route::get('vehicles/report/{id}/{date_from}/{date_to}', [VehicleController::class, 'vehicleReport']);
+
+        //Climb incident
+        Route::put('incident/climb/{id}', [IncidentController::class, 'climb']);
 
 
 
