@@ -31,7 +31,8 @@ class EmployeeController extends Controller
             $employees = Employee::all(); //Employee::offset($limit * ($page - 1))->limit($limit)->get();
 
             $employees = $employees->map(function ($e) {
-                $e = $e->only(['id', 'employee_number', 'name', 'employee_type_name', 'warehouse_name']);
+                $e->append(['role']);
+                $e = $e->only(['id', 'employee_number', 'name', 'employee_type_name', 'warehouse_name', 'role']);
                 return $e;
             });
 
