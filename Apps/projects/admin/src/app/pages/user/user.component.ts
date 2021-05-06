@@ -27,7 +27,7 @@ export class UserComponent implements OnInit {
   error_email = false;
   error_phone_number = false;
 
-  errors = {}
+  errors = []
 
   show  = false;
 
@@ -231,6 +231,7 @@ export class UserComponent implements OnInit {
   }
 
   fnNew(content){
+    this.errors = [];
     this.currentView = 0;
     this.newUserForm.reset();
     console.log('Ando por aca');
@@ -256,6 +257,7 @@ export class UserComponent implements OnInit {
   }
 
   onSubmitNew(){
+    this.errors = [];
     let data = {
         "name": this.newUserForm.value.name,
         "email": this.newUserForm.value.email,
@@ -291,6 +293,7 @@ export class UserComponent implements OnInit {
           icon: 'error',
           title: 'Ocurrio un error!'
         });
+        this.errors = reject.error.errors;
         let errors = reject.error.errors;
         console.log(reject);
         if(errors.email){
@@ -340,6 +343,9 @@ export class UserComponent implements OnInit {
   }
 
   fnCheckErrors(cadea){
+    console.log('Entre con');
+    console.log(cadea);
+    console.log(this.errors);
     return this.errors[cadea] ?? false;
   }
 }
