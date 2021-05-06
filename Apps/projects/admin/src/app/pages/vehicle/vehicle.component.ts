@@ -22,7 +22,7 @@ export class VehicleComponent implements OnInit {
   });
 
   currentView = 0;
-  arrayViewsNames = ['Nuevo tipo producto','Editar tipo producto','Info tipo producto'];
+  arrayViewsNames = ['Nuevo vehiculo','Editar vehiculo','Info vehiculo'];
 
   show  = false;
 
