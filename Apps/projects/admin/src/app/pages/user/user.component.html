@@ -73,9 +73,9 @@
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Correo</label>
                         <input type="email" class="form-control" placeholder="Correo" formControlName="email">
-                        <div *ngIf="error_email" class="text-danger">
+                        <!-- <div *ngIf="error_email" class="text-danger">
                             El correo ya esta siendo usado por otro usuario.
-                        </div>
+                        </div> -->
                         <div *ngIf="fnCheckErrors('email')" class="text-danger">
                             {{ errors['email'] }}
                         </div>
@@ -90,9 +90,9 @@
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Telefono</label>
                         <input type="text" class="form-control" placeholder="Telefono" formControlName="phone_number">
-                        <div *ngIf="error_phone_number" class="text-danger">
+                        <!-- <div *ngIf="error_phone_number" class="text-danger">
                             El telefono esta siendo usado por otro usuario.
-                        </div>
+                        </div> -->
                         <div *ngIf="fnCheckErrors('phone_number')" class="text-danger">
                             {{ errors['phone_number'] }}
                         </div>
