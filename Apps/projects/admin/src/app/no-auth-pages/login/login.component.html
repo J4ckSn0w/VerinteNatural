@@ -1,4 +1,67 @@
-<div class="bg-image">
+<div style="padding-left: 36rem;"><h3>Bienvenido al sistema de administración de Verinte Natural</h3></div>
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="../../../assets/images/logoVerinte.png" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" novalidate role="form">
+      <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" formControlName="correo">
+      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password" formControlName="password">
+      <input (click)="onSubmit()" type="submit" class="fadeIn fourth" value="Log In">
+    </form>
+
+    <!-- Remind Passowrd
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>-->
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="bg-image">
 </div>
 <div class="big-container">
     <div class="row">
@@ -45,9 +108,13 @@
                 <div class="my-container-bottom">
                     <p>¿No eres miembro? <a href="javascript:void(0)" (click)="fnRegister()">  Registrate</a></p>
                 </div>
-            </div>
+            </div>-->
+
+
+
+
             <!--<div class="this-body">
-            
+
                 <div class="wrapper">
                     <div class="my-header">
                         <h2 class="my-card-header center">Bienvenido</h2>
@@ -74,7 +141,9 @@
                     </div>
                 </div>
             </div>-->
-        </div>
+
+
+        <!--</div>
     </div>
     <br>
     <br>
@@ -87,3 +156,4 @@
     <br>
     <br>
 </div>
+-->
