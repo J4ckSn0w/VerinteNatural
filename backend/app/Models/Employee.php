@@ -170,7 +170,7 @@ class Employee extends Model
 
     public function getRoleAttribute()
     {
-        return $this->user->getRoles()[0];
+        return $this->user->getRoles()[0] ?? 'Sin rol asignado';
     }
 
     /********** End Appends *********/
