@@ -33,6 +33,7 @@ use App\Http\Controllers\client\AuthController as AuthControllerClient;
 use App\Http\Controllers\client\UserController;
 use App\Http\Controllers\client\AddressController;
 use App\Http\Controllers\client\ProductController as ProductControllerClient;
+use App\Models\PaymentForm;
 
 /*
 |--------------------------------------------------------------------------
@@ -151,6 +152,10 @@ Route::prefix('_p1')->group(function () {
         // Incident Type resource
         Route::apiResource('incident/types', IncidentTypeController::class);
 
+        // Payment Form resource
+        Route::apiResource('payment/forms', PaymentForm::class)
+            ->only(['index']);
+
         // End API Rest
 
 
@@ -182,9 +187,6 @@ Route::prefix('_p1')->group(function () {
 
         //Climb incident
         Route::put('incident/climb/{id}', [IncidentController::class, 'climb']);
-
-
-
 
         // End Singles api route
     });
