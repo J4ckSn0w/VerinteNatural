@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import Swal from 'sweetalert2';
 import { IncidentTypeService } from '../../services/incident-type.service';
+import { IncidentTypeComponent } from '../incident-type/incident-type.component';
 import{ IncidentService } from '../../services/incidents.service'
 
 @Component({
@@ -72,14 +73,29 @@ export class IncidentComponent implements OnInit {
     subject:'',
     description:'',
     employee_id:'',
-    incidentType_id:''
+    incident_type_id:'',
+    id:''
   }
 
   currentEmployee;
 
   ngOnInit(): void {
     this.fnLoadIncidents();
-    this.fnLoadEmployee();
+    //this.fnLoadEmployee();
+    this.fnLoadIncidentTypes();
+  }
+
+  fnLoadIncidentTypes(){
+    this.indicentsTypesService.fngetIncidentsTypes()
+    .then(res => {
+      res.data.forEach(element => {
+        this.arrayIncidentsTypes.push(element);
+      })
+    })
+    .catch(rej => {
+      console.log('Error tipos de incidencias');
+      console.log(rej);
+    })
   }
 
   fnLoadEmployee(){
@@ -110,11 +126,51 @@ export class IncidentComponent implements OnInit {
     this.fnOpenModal();
   }
 
-  fnEdit(id){}
+  fnEdit(id){
+    this.fnLoadIncident(id);
+    this.show = true;
+    this.currentView = 1;
+    this.fnOpenModal();
+  }
 
-  fnVer(id){}
+  fnVer(id){
+    this.fnLoadIncident(id);
+    this.show = false;
+    this.currentView = 1;
+    this.fnOpenModal();
+  }
 
-  fnDelete(id){}
+  fnDelete(id){
+    Swal.fire({
+      icon:'question',
+      title:'Elimiar?',
+      text:'Desea eliminar la incidencia?',
+      denyButtonText:'Si',
+      confirmButtonText:'No',
+      showDenyButton:true,
+    }).then(result => {
+      if(result.isDenied){
+        this.incidentService.fnDeleteIncident(id)
+        .then(res => {
+          Swal.fire({
+            icon:'success',
+            title:'Correcto!',
+            text:'Se elimino correctamente la incidencia',
+            didClose:() => {
+              this.fnLoadIncidents();
+            }
+          })
+        })
+        .catch(rej => {
+          Swal.fire({
+            icon:'error',
+            title:'Error!',
+            text:'Hubo un problema al intentar eliminar la incidencia'
+          })
+        })
+      }
+    })
+  }
 
   fnLoadIncidents(){
     this.arrayIndicents = [];
@@ -125,6 +181,8 @@ export class IncidentComponent implements OnInit {
       });
       this.tableLoad = true;
       //this.fnOpenModal();
+      console.log('Incident');
+      console.log(res.data);
     });
   }
 
@@ -132,6 +190,12 @@ export class IncidentComponent implements OnInit {
     this.incidentService.fnGetIncidentById(id)
     .then(res => {
       this.currentIncident = res.data;
+      this.newForm.controls['incident_type_id'].setValue(this.currentIncident.incident_type_id);
+      this.newForm.value.incident_type_id = this.currentIncident.incident_type_id;
+      console.log('Incident by id');
+      console.log(res.data);
+      console.log('Formulario');
+      console.log(this.newForm);
     })
     .catch(rej => {
       console.log('Error al cargar incidencia');
@@ -143,7 +207,7 @@ export class IncidentComponent implements OnInit {
     let data = {
       subject:this.newForm.value.subject,
       description:this.newForm.value.description,
-      employee_id:this.currentEmployee.employee_id,
+      //employee_id:this.currentEmployee.employee_id,
       incident_type_id:this.newForm.value.incident_type_id
       //employee_id:this.currentEmployee.id
     };
@@ -151,10 +215,15 @@ export class IncidentComponent implements OnInit {
     console.log(data);
     this.incidentService.fnPostNewIncident(data)
     .then(res => {
-      console.log('Todo chido');
-      console.log(res);
-      this.fnLoadIncidents();
-      this.fnCloseModal();
+      Swal.fire({
+        icon:'success',
+        title:'Correcto',
+        text:'Se creo correctamente la incidencia',
+        didClose:() => {
+          this.fnLoadIncidents();
+          this.fnCloseModal();
+        }
+      })
     })
     .catch(rej => {
       console.log('ERROR');
@@ -168,8 +237,29 @@ export class IncidentComponent implements OnInit {
       })
     });
   }
-  
-  onSubmitEdit(){}
+  /*
+  onSubmitEdit(){
+    let data = {
+      subject:this.newForm.value.subject,
+      description:this.newForm.value.description,
+      incident_type_id:this.newForm.value.incident_type_id,
+      id:this.currentIncident.id
+    };
+    this.incidentService.fnPutEditIncident(data)
+    .then(res => {
+      this.fnLoadIncidents();
+      this.fnCloseModal();
+    })
+    .catch(rej => {
+      let arrayErrores = '';
+      arrayErrores = rej.error.errors.employee_id[0];
+      Swal.fire({
+        icon:'error',
+        title:'Error!',
+        text:arrayErrores
+      })
+    });
+  }*/
 
   /*Escalar incidencia */
   fnEscaleteIncident(id){
@@ -198,6 +288,91 @@ export class IncidentComponent implements OnInit {
           })
           console.log('Error');
           console.log(rej);
+        })
+      }
+    })
+  }
+  /*Cambiar incidencia a status 2, en proceso*/
+  fnStartIncident(id){
+    Swal.fire({
+      icon:'question',
+      title:'Iniciar incidencia',
+      text:'Iniciar el proceso de la incidencia?',
+      showDenyButton:true,
+      denyButtonText:'No',
+      confirmButtonText:'Si'
+    }).then(result => {
+      if(result.isConfirmed){
+        this.incidentService.fnChangeStatus(id,2)
+        .then(res => {
+          Swal.fire({
+            icon:'success',
+            title:'Correcto!',
+            text:'Se inicio la incidencia correctamente',
+            didClose:() => {
+              this.fnLoadIncidents();
+            }
+          })
+        })
+        .catch(rej => {
+          Swal.fire({
+            icon:'error',
+            title:'Error!',
+            text:'Hubo un error al intentar iniciar el proceso de la incidencia'
+          })
+        })
+      }
+    })
+  }
+
+  /*Cambiar incidencia a status 3 o 4, dependiendo de si se acepta o rechaza*/
+  fnChangeIncidenStatus(id){
+    Swal.fire({
+      icon:'question',
+      title:'Incidencia',
+      text:'Cambiar el estado de la incidencia',
+      showConfirmButton:true,
+      showDenyButton:true,
+      confirmButtonText:'Completada',
+      denyButtonText:'Rechazada'
+    }).then(result => {
+      if(result.isConfirmed){
+        this.incidentService.fnChangeStatus(id,3)
+        .then(res => {
+          Swal.fire({
+            icon:'success',
+            title:'Correcto!',
+            text:'Se cambio la incidencia a "completada" correctamente',
+            didClose:() => {
+              this.fnLoadIncidents();
+            }
+          })
+        })
+        .catch(rej => {
+          Swal.fire({
+            icon:'error',
+            title:'Error!',
+            text:'Algo salio mal al intentar cambiar la incidencia a "completada"'
+          })
+        })
+      } else if(result.isDenied){
+        this.incidentService.fnChangeStatus(id,4)
+        .then(res => {
+          Swal.fire({
+            icon:'success',
+            title:'Correcto!',
+            text:'Se cambio la incidencia a "rechazada" correctamente',
+            didClose:() => {
+              this.fnLoadIncidents();
+            }
+          })
+        })
+        .catch(rej => {
+          Swal.fire({
+            icon:'error',
+            title:'Error!',
+            text:'Algo salio mal al intentar cambiar la incidencia a "rechazada"'
+          })
         })
       }
     })
