@@ -35,9 +35,10 @@ export class IncidentService {
         return respuesta;
     }
 
+    /*
     fnPutEditIncident(data):Promise<any>{
         let respuesta = new Promise((resolve,reject) => {
-            this.http.put(this.str_ip+'/api/_p1/incidents'+data.id,data,{headers:this.headers}).toPromise()
+            this.http.put(this.str_ip+'/api/_p1/incidents/'+data.id,data,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -46,7 +47,7 @@ export class IncidentService {
             })
         });
         return respuesta;
-    }
+    }*/
 
     fnGetIncidents():Promise<any>{
         let respuesta = new Promise((resolve,reject) => {
@@ -63,7 +64,7 @@ export class IncidentService {
 
     fnGetIncidentById(id):Promise<any>{
         let respuesta = new Promise((resolve,reject) => {
-            this.http.get(this.str_ip + '/api/_p1/incidents'+id,{headers:this.headers}).toPromise()
+            this.http.get(this.str_ip + '/api/_p1/incidents/'+id,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -89,7 +90,19 @@ export class IncidentService {
 
     fnEscaleteIncident(id):Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.post(this.str_ip+'/api/_p1/incidents/escalete/'+id,{header:this.headers}).toPromise()
+            this.http.put(this.str_ip+'/api/_p1/incident/climb/'+id,null,{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        })
+    }
+
+    fnChangeStatus(id,status):Promise<any>{
+        return new Promise((resolve,reject) => {
+            this.http.put(this.str_ip+'/api/_p1/incidents/'+id+'/'+status,null,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })

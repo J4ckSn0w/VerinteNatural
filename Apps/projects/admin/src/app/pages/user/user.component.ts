@@ -51,7 +51,8 @@ export class UserComponent implements OnInit {
     user_id:'',
     employee_number:'',
     role:{
-      id:''
+      name:'',
+      title:''
     }
   }
 
@@ -71,7 +72,8 @@ export class UserComponent implements OnInit {
     this.newUserForm.value.phone_number = data.phone_number,
     this.newUserForm.value.email = data.email,
     this.newUserForm.value.employee_type_id = data.employee_type.id,
-    this.newUserForm.value.warehouse_id = data.warehouse.id
+    this.newUserForm.value.warehouse_id = data.warehouse.id,
+    this.newUserForm.value.role = data.role
 
     console.log(this.newUserForm);
   }
@@ -127,8 +129,8 @@ export class UserComponent implements OnInit {
       res.data.forEach(element => {
         this.arrayRoles.push(element);
       });
-      console.log('Roles');
-      console.log(res.data);
+      /*console.log('Roles');
+      console.log(res.data);*/
     })
     .catch(rej => {
       console.log('Algo salio mal al traer los roles');
@@ -146,16 +148,18 @@ export class UserComponent implements OnInit {
         this.arrayUser.push(element);
       });
       this.tableLoad = true;
+      console.log(this.arrayUser);
     })
     .catch(reject => {
-      console.log('reject' + reject);
+      console.log('reject');
+      console.log(reject);
     })
   }
 
   fnEdit(id){
     this.newUserForm.reset();
-    console.log('Roles');
-    console.log(this.arrayRoles);
+    /*console.log('Roles');
+    console.log(this.arrayRoles);*/
     this.userService.fnGetUserById(id)
     .then(res => {
       console.log('INFO');
@@ -174,8 +178,8 @@ export class UserComponent implements OnInit {
   }
 
   fnVer(id){
-    console.log('Roles');
-    console.log(this.arrayRoles);
+    /*console.log('Roles');
+    console.log(this.arrayRoles);*/
     this.newUserForm.reset();
     this.userService.fnGetUserById(id)
     .then(res => {
@@ -307,7 +311,10 @@ export class UserComponent implements OnInit {
       password: (this.newUserForm.value.password != null) ? this.newUserForm.value.password : null,
       warehouse_id:(this.newUserForm.value.warehouse_id != null) ? this.newUserForm.value.warehouse_id : this.currentUser.warehouse.id,
       id: this.currentUser.id,
-      user_id: this.currentUser.user_id
+      user_id: this.currentUser.user_id,
+      role:{
+        name:(this.newUserForm.value.role != null) ? this.newUserForm.value.role : this.currentUser.role
+      }
     };
     console.log(data);
     this.userService.fnUpdateUser(data)
