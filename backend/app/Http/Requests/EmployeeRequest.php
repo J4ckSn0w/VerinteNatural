@@ -33,7 +33,8 @@ class EmployeeRequest extends FormRequest
             'password' => 'string|min:8|max:40' . $passwordValidation,
             'employee_type_id' => 'required|exists:employee_types,id',
             'warehouse_id' => 'required|exists:warehouses,id',
-            'role' => 'required'
+            'role' => 'required',
+            'role.name' => 'required'
         ];
     }
 }
