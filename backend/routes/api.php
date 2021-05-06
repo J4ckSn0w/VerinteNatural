@@ -183,9 +183,6 @@ Route::prefix('_p1')->group(function () {
         //Climb incident
         Route::put('incident/climb/{id}', [IncidentController::class, 'climb']);
 
-
-
-
         // End Singles api route
     });
 });
