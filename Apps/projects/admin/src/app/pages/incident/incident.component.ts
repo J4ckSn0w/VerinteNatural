@@ -229,11 +229,11 @@ export class IncidentComponent implements OnInit {
       console.log('ERROR');
       console.log(rej);
       let arrayErrores = '';
-      arrayErrores = rej.error.errors.employee_id[0];
+      //arrayErrores = rej.error.errors.employee_id[0];
       Swal.fire({
         icon:'error',
         title:'Error!',
-        text:arrayErrores
+        text:'Ocurrio un error al intentar crear la incidencia'
       })
     });
   }

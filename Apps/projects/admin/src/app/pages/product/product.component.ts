@@ -162,9 +162,11 @@ export class ProductComponent implements OnInit {
   }
 
   fnLoadProductInfo(id){
+    this.filePath = '';
     this.productService.fnGetProductById(id)
     .then(res => {
       this.currentProduct = res.data;
+      this.filePath = ('data:image/jpeg;base64,' + this.currentProduct.image) as string;
       this.currentView = 1;
       this.fnOpenModal();
       console.log('Producto:');

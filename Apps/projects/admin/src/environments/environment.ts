@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  ip: 'http://localhost:3000',
-  //ip:'https://www.verintenatural.mydevelopsy.com',
+  //ip: 'http://localhost:3000',
+  ip:'https://www.verintenatural.mydevelopsy.com',
   //ip:'http://nandoacevedo.me:8901',
   image: '',
   client_secret: "lk3OAoUOQv8YrGSjQeiSOUZbdWPW9C55UZV93e9o"

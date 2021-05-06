@@ -96,6 +96,8 @@ export class ProviderComponent implements OnInit {
   }
 
   fnNew(){
+    this.newForm.reset();
+    this.arrayProviderProducts = [];
     this.currentView = 0;
     this.fnLoadProducts();
     this.fnOpenModal();
@@ -151,6 +153,7 @@ export class ProviderComponent implements OnInit {
     console.log('Despues');
     console.log(this.arrayProviderProducts.length);
     this.fnLoadProducts();
+    this.fnCheckRemainingProducts();
   }
 
   fnLoadProviders(){
@@ -193,6 +196,7 @@ export class ProviderComponent implements OnInit {
       res.data.forEach(element => {
         this.arrayProducts.push(element);
       })
+      this.fnCheckRemainingProducts();
     })
     .catch();
   }
@@ -235,6 +239,9 @@ export class ProviderComponent implements OnInit {
       name:'',
       price:''
     };
+
+    //this.newForm.controls['']
+    this.fnCheckRemainingProducts();
   }
 
   onOptionsSelected(event){
@@ -313,6 +320,18 @@ export class ProviderComponent implements OnInit {
       console.log(rej);
     });
   }
+
+  fnCheckRemainingProducts(){
+    for(var i = 0 ; i < this.arrayProviderProducts.length; i ++ ){      
+      for(var j = 0; j < this.arrayProducts.length; j ++){
+        if( this.arrayProviderProducts[i].id == this.arrayProducts[j].id){
+          this.arrayProducts.splice(j,1);
+          j--;
+        }
+      }
+    }
+  }
+
   fnCheckErrors(cadena){
     return this.errors[cadena] ?? false;
   }
