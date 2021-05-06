@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\IncidentRequest;
 use App\Models\Employee;
 use App\Models\Incident;
-use Error;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
