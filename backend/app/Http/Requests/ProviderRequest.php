@@ -27,7 +27,6 @@ class ProviderRequest extends FormRequest
             'name' => 'required|max:255',
             'email' => 'nullable|email|max:255',
             'phone_number' => 'nullable|max:255',
-            'contact' => 'nullable|max:255',
             'schedule' => 'nullable|max:255',
             'products' => 'nullable|array',
             'products.*.price' => 'required|numeric',
