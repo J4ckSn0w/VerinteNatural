@@ -15,7 +15,6 @@ class Provider extends Model
 
     protected $fillable = [
         'name',
-        'contact',
         'address',
         'email',
         'phone_number',
