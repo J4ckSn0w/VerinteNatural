@@ -20,15 +20,15 @@ class Provider extends Model
         'email',
         'phone_number',
         'schedule',
-        'business_name',
-        'contact_job',
-        'contact_name',
-        'bank_account',
-        'bank',
-        'payment_form_id',
-        'credit',
-        'max_purchase_all',
-        'is_producer'
+        //'business_name',
+        //'contact_job',
+        //'contact_name',
+        //'bank_account',
+        //'bank',
+        //'payment_form_id',
+        //'credit',
+        //'max_purchase_all',
+        //'is_producer'
     ];
 
     /*********** Methods ************/
@@ -43,10 +43,10 @@ class Provider extends Model
         return $this->belongsToMany(Product::class)->withPivot('price');
     }
 
-    public function payment_form()
-    {
-        return $this->belongsTo(PaymentForm::class);
-    }
+    //public function payment_form()
+    //{
+    //    return $this->belongsTo(PaymentForm::class);
+    //}
 
 
     /********** End Relations *********/
