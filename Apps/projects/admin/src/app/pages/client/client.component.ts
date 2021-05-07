@@ -79,7 +79,8 @@ export class ClientComponent implements OnInit {
     email: "",
     user_id:'',
     id:'',
-    employee_type_id:''
+    employee_type_id:'',
+    rfc:''
   };
 
   constructor(
@@ -228,8 +229,12 @@ export class ClientComponent implements OnInit {
       name:(this.newForm.value.name == undefined) ? this.currentClient.name : this.newForm.value.name,
       email:(this.newForm.value.email == undefined) ? this.currentClient.email : this.newForm.value.email,
       phone_number:(this.newForm.value.phone_number == undefined) ? this.currentClient.phone_number : this.newForm.value.phone_number,
-      employee_type_id:(this.newForm.value.employee_type_id == undefined) ? this.currentClient.employee_type_id : this.newForm.value.employee_type_id
+      employee_type_id:(this.newForm.value.employee_type_id == undefined) ? this.currentClient.employee_type_id : this.newForm.value.employee_type_id,
+      rfc:(this.newForm.value.rfc == undefined) ?this.currentClient.rfc : this.newForm.value.rfc
     }
+
+    console.log('Data');
+    console.log(data);
 
     this.clientService.fnEditUser(data)
     .then( res => {

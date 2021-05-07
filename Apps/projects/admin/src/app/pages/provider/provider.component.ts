@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { ProviderService } from '../../services/provider.service';
 import Swal from 'sweetalert2';
+import { PaymentMethodService } from '../../services/payment_methos.service';
 
 @Component({
   selector: 'app-provider',
@@ -19,6 +20,15 @@ export class ProviderComponent implements OnInit {
     phone_number: new FormControl(null,[Validators.required]),
     contact: new FormControl(null,[Validators.required]),
     schedule: new FormControl(null,[Validators.required]),
+    business_name: new FormControl(null,[Validators.required]),
+    contact_job: new FormControl(null,[Validators.required]),
+    contact_name: new FormControl(null,[Validators.required]),
+    bank_account: new FormControl(null,[Validators.required]),
+    bank: new FormControl(null,[Validators.required]),
+    credit: new FormControl(null,[Validators.required]),
+    max_purchase_all: new FormControl(null,[Validators.required]),
+    is_producer: new FormControl(null,[Validators.required]),
+    payment_form_id: new FormControl(null,[Validators.required])
   });
 
   currentView = 0;
@@ -61,7 +71,8 @@ export class ProviderComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private productService: ProductService,
-    private providerService: ProviderService
+    private providerService: ProviderService,
+    private paymentMethodsService: PaymentMethodService
   ) { }
 
   arrayProviders = [];
@@ -69,6 +80,8 @@ export class ProviderComponent implements OnInit {
   arrayProducts = [];
 
   arrayProviderProducts = [];
+
+  arrayPaymentForms = [];
 
   currentProduct = {
     id:'',
@@ -83,7 +96,16 @@ export class ProviderComponent implements OnInit {
     phone_number: '',
     contact: '',
     schedule: '',
-    products:[]
+    products:[],
+    business_name:'',
+    contact_job:'',
+    contact_name:'',
+    bank_account:'',
+    bank:'',
+    payment_form_id:'',
+    credit:'',
+    max_purchase_all:'',
+    is_producer:false
   }
 
   priceError = false;
@@ -93,6 +115,7 @@ export class ProviderComponent implements OnInit {
 
   ngOnInit(): void {
     this.fnLoadProviders();
+    this.fnLoadPaymentMethods();
   }
 
   fnNew(){
@@ -154,6 +177,21 @@ export class ProviderComponent implements OnInit {
     console.log(this.arrayProviderProducts.length);
     this.fnLoadProducts();
     this.fnCheckRemainingProducts();
+  }
+
+  fnLoadPaymentMethods(){
+    this.paymentMethodsService.fnGetPaymentMethods()
+    .then(res => {
+      res.data.forEach(element => {
+        this.arrayPaymentForms.push(element);
+      });
+      console.log('Metodos de pago');
+      console.log(this.arrayPaymentForms);
+    })
+    .catch(rej => {
+      console.log('Error payment methods');
+      console.log(rej);
+    })
   }
 
   fnLoadProviders(){
