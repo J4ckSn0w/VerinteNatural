@@ -69,7 +69,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @param $data
      * @return Customer
      */
-    public function setCustomer($rfc, $photo): Customer
+    public function setCustomer($photo, $rfc): Customer
     {
         $customer = new Customer();
         $customer->rfc = $rfc;
