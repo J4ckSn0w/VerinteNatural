@@ -12,7 +12,7 @@
     <!-- Login Form -->
     <form [formGroup]="loginForm" novalidate role="form">
       <input type="text" id="login" class="fadeIn second" name="login" placeholder="login" formControlName="correo">
-      <input type="password" id="password" class="fadeIn third" name="login" placeholder="password" formControlName="password">
+      <input type="text" id="password" class="fadeIn third" name="login" placeholder="password" formControlName="password">
       <input (click)="onSubmit()" type="submit" class="fadeIn fourth" value="Log In">
     </form>
 
