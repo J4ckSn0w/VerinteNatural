@@ -1,8 +1,6 @@
 /* BASIC */
 
-html {
-  background-color: #56baed;
-}
+@import url("https://fonts.googleapis.com/css2?family=Commissioner&display=swap");
 
 body {
   font-family: "Poppins", sans-serif;
@@ -14,6 +12,14 @@ a {
   display:inline-block;
   text-decoration: none;
   font-weight: 400;
+}
+h3{
+  padding-bottom: 2rem;
+  font-family: "Commissioner", sans-serif;
+  text-align: center;
+  font-size: 30px;
+  display:inline-block;
+  margin: 40px 8px 10px 8px;
 }
 
 h2 {
@@ -81,7 +87,7 @@ h2.active {
 /* FORM TYPOGRAPHY*/
 
 input[type=button], input[type=submit], input[type=reset]  {
-  background-color: #56baed;
+  background-color: #4cc942;
   border: none;
   color: white;
   padding: 15px 80px;
@@ -260,6 +266,11 @@ input[type=text]:placeholder, input[type=password]:placeholder {
   width:60%;
 }
 
+.row{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 
 
