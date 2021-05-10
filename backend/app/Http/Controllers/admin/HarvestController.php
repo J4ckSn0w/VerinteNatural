@@ -29,7 +29,7 @@ class HarvestController extends Controller
     {
         try {
             $harvest = Harvest::create($request->all());
-            $harvest->folio = '' . $this->formattedID($harvest->id);
+            $harvest->folio = 'RC' . $this->formattedID($harvest->id);
         } catch (\Exception $e) {
             return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
