@@ -31,6 +31,6 @@ export class PaymentMethodService {
             .catch(rej => {
                 reject(rej);
             })
-        })
+        });
     }
 }
