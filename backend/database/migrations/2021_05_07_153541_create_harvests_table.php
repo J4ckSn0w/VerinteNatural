@@ -15,14 +15,14 @@ class CreateHarvestsTable extends Migration
     {
         Schema::create('harvests', function (Blueprint $table) {
             $table->id();
-            $table->string('folio', 100);
+            $table->string('folio', 100)->nullable();
             $table->foreignId('requisition_id')->nullable();
             $table->foreignId('provider_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('requisition_id')->references('id')->on('requisition');
+            $table->foreign('requisition_id')->references('id')->on('requisitions');
             $table->foreign('provider_id')->references('id')->on('providers');
         });
     }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\HarvestRequest;
+use App\Models\Harvest;
 use Illuminate\Http\Request;
 
 class HarvestController extends Controller
@@ -18,24 +20,33 @@ class HarvestController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(HarvestRequest $request)
     {
-        //
+        try {
+            $harvest = Harvest::create($request->all());
+            $harvest->folio = '' . $this->formattedID($harvest->id);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+        }
+    }
+
+    public function formatID($id)
+    {
+
+        $formattedID = '';
+
+        for ($i = 1; $i < 6; $i++)
+            if (pow(10, $i) > $id) $formattedID .= '0';
+
+
+        $formattedID .= $id;
+
+        return $formattedID;
     }
 
     /**
@@ -49,16 +60,6 @@ class HarvestController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
