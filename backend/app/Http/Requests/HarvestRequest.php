@@ -13,7 +13,7 @@ class HarvestRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class HarvestRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'requisition_id' => 'required|exists:requisitions,id',
+            'provider_id'    => 'required|exists:providers,id',
+            'products'       => 'required|array',
+            'products.*.id'  => 'required|exists:products,id',
+            'products.*.quantity' => 'required|gt:0',
         ];
     }
 }
