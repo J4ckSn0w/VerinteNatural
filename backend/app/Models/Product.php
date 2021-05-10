@@ -39,6 +39,11 @@ class Product extends Model
         return $this->belongsToMany(Provider::class);
     }
 
+    public function harvests()
+    {
+        return $this->belongsToMany(Harvest::class);
+    }
+
     /********** End Relations *********/
 
 

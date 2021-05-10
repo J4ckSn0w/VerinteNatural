@@ -21,6 +21,7 @@ use App\Http\Controllers\admin\IncidentTypeController;
 use App\Http\Controllers\admin\InventoryController;
 use App\Http\Controllers\admin\LogController;
 use App\Http\Controllers\admin\MileageRecordController;
+use App\Http\Controllers\admin\PaymentFormController;
 use App\Http\Controllers\admin\ProductController as ProductControllerAdmin;
 use App\Http\Controllers\admin\ProductTypeController;
 use App\Http\Controllers\admin\ProviderController;
@@ -33,7 +34,7 @@ use App\Http\Controllers\client\AuthController as AuthControllerClient;
 use App\Http\Controllers\client\UserController;
 use App\Http\Controllers\client\AddressController;
 use App\Http\Controllers\client\ProductController as ProductControllerClient;
-use App\Models\PaymentForm;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -153,7 +154,7 @@ Route::prefix('_p1')->group(function () {
         Route::apiResource('incident/types', IncidentTypeController::class);
 
         // Payment Form resource
-        Route::apiResource('payment/forms', PaymentForm::class)
+        Route::apiResource('payment/forms', PaymentFormController::class)
             ->only(['index']);
 
         // End API Rest

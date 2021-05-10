@@ -18,7 +18,14 @@ class ProviderController extends Controller
     public function index()
     {
         try {
-            $providers = Provider::query()->select('id', 'name', 'email', 'phone_number')->get();
+            $product = request()->get('product', false);
+            if ($product)
+                $providers = Provider::query()->select('id', 'name', 'email', 'phone_number')->whereHas('products', function ($_product) use ($product) {
+                    $_product->where('product_id', $product);
+                })->get();
+            else
+                $providers = Provider::query()->select('id', 'name', 'email', 'phone_number')->get();
+
             return response()->json(['data' => $providers], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => ['errors' => ['server_error' => $e->getMessage()]]], 400);
