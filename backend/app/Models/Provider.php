@@ -26,7 +26,7 @@ class Provider extends Model
         'bank',
         'payment_form_id',
         'credit',
-        'max_purchase_all',
+        'max_purchase_allowed',
         'is_producer'
     ];
 
