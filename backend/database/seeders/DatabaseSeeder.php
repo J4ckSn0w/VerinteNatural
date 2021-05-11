@@ -24,9 +24,21 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentFormsTableSeeder::class);
 
         // Real Data
-        $this->call(UsersTableSeeder::class);
 
         // Roles 
         $this->call(AbilitiesAndRoles::class);
+
+        // Develop Data
+        $this->call(VehicleTypesTableSeeder::class);
+        $this->call(ProductTypesSeeder::class);
+        $this->call(ProductsSeeder::class);
+        $this->call(ProductImagesSeeder::class);
+        $this->call(WarehouseTypesTableSeeder::class);
+        $this->call(WarehousesTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(AssignRolesSeeder::class);
+        $this->call(EmployeesSeeder::class);
+        $this->call(ProvidersSeeder::class);
+        $this->call(ProviderProductSeeder::class);
     }
 }
