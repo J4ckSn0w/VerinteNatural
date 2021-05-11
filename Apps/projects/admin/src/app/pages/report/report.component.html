@@ -60,7 +60,7 @@
                 <tbody>
                     <tr *ngFor="let vehicle of arrayVehicles; let index;">
                         <td>{{ vehicle.id }}</td>
-                        <td>{{ vehicle.driver }}</td>
+                        <td>{{ vehicle.driver_name }}</td>
                         <td>{{ vehicle.mileage }}</td>
                         <td>{{ vehicle.spent_fuel }}</td>
                         <td>{{ vehicle.fuel_cost | currency : 'MXN' : true : '1.2-2' }}</td>

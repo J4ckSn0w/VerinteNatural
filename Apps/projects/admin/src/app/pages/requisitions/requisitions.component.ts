@@ -121,6 +121,7 @@ export class RequisitionsComponent implements OnInit {
       let last = first[2].split('T');
       this.firstDate = { year:Number(first[0]), month:Number(first[1]), day: Number(last[0])};
       //console.log(this.firstDate);
+      this.fnCheckRemainingProducts();
     })
   }
 
@@ -353,24 +354,11 @@ export class RequisitionsComponent implements OnInit {
    }
 
    fnCheckRemainingProducts(){
-
-    //console.log('Array de la orden');
-    //console.log(this.arrayOrderProducts);
-    //console.log(this.arrayOrderProducts.length);
-    // console.log('Array de productos');
-    // console.log(this.arrayProducts);
-    // console.log(this.arrayProducts.length);
-
-    //console.log('Antes de entrar a los dos for');
-    //return;
     for(var i = 0 ; i < this.arrayOrderProducts.length; i ++ ){
-      //console.log('PRIMER FOR');
       for(var j = 0; j < this.arrayProducts.length; j ++){
-        //console.log('Order: ' + this.arrayOrderProducts[i].id + 'Products: '+this.arrayProducts[j].id);
         if( this.arrayOrderProducts[i].id == this.arrayProducts[j].id){
           this.arrayProducts.splice(j,1);
           j--;
-          //console.log('ENTRE');
         }
       }
     }
@@ -491,7 +479,7 @@ export class RequisitionsComponent implements OnInit {
 
    fnLoadProviders(){
      this.arrayProviders = [];
-     this.providerService.fnGetProviders()
+     this.providerService.fnGetProvidersWithProducts()
      .then(res => {
        res.data.forEach(element => {
          this.arrayProviders.push(element);
@@ -533,8 +521,10 @@ export class RequisitionsComponent implements OnInit {
 
    fnFilterProvidersByProductId(product_id){
      let newArray = [];
+    //  console.log('Providers');
+    //  console.log(this.arrayProviders[1].products);
      this.arrayProviders.forEach(element => {
-       if(element.products.include(product_id))
+       if(element.products.hasOwnProperty(product_id))
        {
          newArray.push(element);
        }
