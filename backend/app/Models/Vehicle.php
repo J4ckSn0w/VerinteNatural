@@ -18,7 +18,8 @@ class Vehicle extends Model
         'license_plate',
         'brand',
         'description',
-        'vehicle_type_id'
+        'vehicle_type_id',
+        'employee_id'
     ];
     /**
      * @var mixed
@@ -38,15 +39,16 @@ class Vehicle extends Model
         return $this->belongsTo(VehicleType::class);
     }
 
-    public function driver(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(Driver::class);
-    }
-
     public function mileage_records()
     {
         return $this->hasMany(MileageRecord::class);
     }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
     /********** End Relations *********/
 
 
@@ -55,6 +57,11 @@ class Vehicle extends Model
     public function getVehicleTypeNameAttribute()
     {
         return $this->vehicle_type->name ?? '';
+    }
+
+    public function getDriverNameAttribute()
+    {
+        return $this->employee->user->name ?? '';
     }
 
     /********** End Appends *********/

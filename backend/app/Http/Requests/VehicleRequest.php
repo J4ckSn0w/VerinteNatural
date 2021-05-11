@@ -28,7 +28,8 @@ class VehicleRequest extends FormRequest
             'brand' => 'required|max:255',
             'description' => 'required|max:255',
             'vehicle_type_id' => 'required|exists:vehicle_types,id',
-            'mileage'   => 'required|numeric'
+            'mileage'   => 'required|numeric',
+            'employee_id' => 'nullable|exists:employees,id'
         ];
     }
 }

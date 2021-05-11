@@ -33,8 +33,8 @@
                 @foreach ($vehicles as $vehicle)
                 @php
                 $total_mileage += $vehicle->mileage;
-                $total_fuel_cost = $vehicle->fuel_cost;
-                $total_spent_fuel = $vehicle->spent_fuel;
+                $total_fuel_cost += $vehicle->fuel_cost;
+                $total_spent_fuel += $vehicle->spent_fuel;
                 @endphp
                 <tr>
                     <td>{{$vehicle->license_plate }}</td>
