@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HarvestRequest;
 use App\Models\Harvest;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class HarvestController extends Controller
@@ -16,7 +17,13 @@ class HarvestController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $harvests = Harvest::all();
+
+            return response()->json(['data' => $harvests], 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+        }
     }
 
     /**
@@ -28,14 +35,41 @@ class HarvestController extends Controller
     public function store(HarvestRequest $request)
     {
         try {
-            $harvest = Harvest::create($request->all());
-            $harvest->folio = 'RC' . $this->formattedID($harvest->id);
+
+            $providers = [];
+
+            foreach ($request->products as $_product) {
+                if (isset($providers[$_product['provider_id']]))
+                    array_push($providers[$_product['provider_id']], $_product);
+                else {
+                    $providers[$_product['provider_id']] = [$_product];
+                }
+            }
+
+            foreach ($providers as $provider) {
+
+                $harvest = Harvest::create($request->all());
+                $harvest->folio = 'RC' . $this->formattedID($harvest->id);
+                $harvest->provider_id = $provider[0]['provider_id'];
+                $harvest->save();
+
+                $products = new Collection($provider);
+                $harvest->products()->sync($products->map(function ($product) {
+                    return [
+                        'product_id' => $product['id'],
+                        'quantity' => $product['quantity'],
+                        'to_collect' => 0
+                    ];
+                }));
+            }
+
+            return response()->json(['data' => $harvest], 201);
         } catch (\Exception $e) {
             return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
 
-    public function formatID($id)
+    public function formattedID($id)
     {
 
         $formattedID = '';
@@ -57,7 +91,23 @@ class HarvestController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $harvest = Harvest::findOrfail($id);
+            $harvest->products = $harvest->products()->select('id', 'name', 'sku')->get()->map(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'sku' => $product->sku,
+                    'quantity' => $product->pivot->quantity,
+                    'to_collect' => $product->pivot->to_collect,
+                    'was_finalized' => $product->pivot->was_finalized
+                ];
+            });
+
+            return response()->json(['data' => $harvest], 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+        }
     }
 
 
@@ -68,10 +118,28 @@ class HarvestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    // public function update(HarvestRequest $request, $id)
+    // {
+    //     try {
+    //         $harvest = Harvest::findOrfail($id);
+    //         $harvest->fill($request->all());
+    //         $harvest->save();
+
+    //         $products = $request->products;
+    //         $harvest->products()->detach();
+    //         $harvest->products()->sync($products->map(function ($product) {
+    //             return [
+    //                 'product_id' => $product['id'],
+    //                 'quantity' => $product['quantity'],
+    //                 'to_collect' => 0
+    //             ];
+    //         }));
+
+    //         return response()->json(['data' => $harvest], 400);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+    //     }
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -81,6 +149,14 @@ class HarvestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $harvest = Harvest::findOrfail($id);
+            $harvest->products()->detach();
+            $harvest->delete();
+
+            return response()->json(['data' => $harvest], 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+        }
     }
 }

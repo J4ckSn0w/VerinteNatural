@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MileageRecordRequest;
 use App\Http\Requests\VehicleRequest;
 use App\Models\MileageRecord;
 use App\Models\Vehicle;
@@ -53,7 +54,17 @@ class VehicleController extends Controller
     public function store(VehicleRequest $request): JsonResponse
     {
         try {
-            $vehicle = Vehicle::create($request->all());
+            $vehicle = new Vehicle();
+            $vehicle->fill($request->all());
+            $vehicle->mileage = $request->mileage;
+            $vehicle->save();
+            (new MileageRecordController())
+                ->store(new MileageRecordRequest([
+                    "mileage" => $vehicle->mileage,
+                    "vehicle_id" => $vehicle->id,
+                    "fuel_cost" => 0,
+                    "spent_fuel" => 0
+                ]));
             return response()->json(['data' => $vehicle], 200);
         } catch (\Exception $e) {
             return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);

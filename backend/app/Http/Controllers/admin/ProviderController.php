@@ -18,12 +18,15 @@ class ProviderController extends Controller
     public function index()
     {
         try {
-            $product = request()->get('product', false);
-            if ($product)
-                $providers = Provider::query()->select('id', 'name', 'email', 'phone_number')->whereHas('products', function ($_product) use ($product) {
-                    $_product->where('product_id', $product);
-                })->get();
-            else
+            $with_products = request()->get('with_products', false);
+            if ($with_products) {
+                $providers = Provider::query()->select('id', 'name', 'email', 'phone_number')->get();
+
+                $providers = $providers->each(function ($provider) {
+                    $provider->products = $provider->products()->pluck('name', 'id')->toArray();
+                    return $provider;
+                });
+            } else
                 $providers = Provider::query()->select('id', 'name', 'email', 'phone_number')->get();
 
             return response()->json(['data' => $providers], 200);
