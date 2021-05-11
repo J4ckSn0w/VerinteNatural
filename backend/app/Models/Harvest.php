@@ -11,12 +11,11 @@ class Harvest extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'harvest';
+    protected $table = 'harvests';
 
     protected $fillable = [
         'folio',
-        'requisition_id',
-        'provider_id'
+        'requisition_id'
     ];
 
     /*******  Relations *******/
@@ -27,7 +26,7 @@ class Harvest extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('quantity', 'to_collect', 'was_finalized');
     }
 
     // BOOT
