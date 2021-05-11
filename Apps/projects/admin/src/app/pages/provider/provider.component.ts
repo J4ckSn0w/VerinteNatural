@@ -18,7 +18,6 @@ export class ProviderComponent implements OnInit {
     name: new FormControl(null,[Validators.required]),
     email: new FormControl(null,[Validators.required]),
     phone_number: new FormControl(null,[Validators.required]),
-    contact: new FormControl(null,[Validators.required]),
     schedule: new FormControl(null,[Validators.required]),
     business_name: new FormControl(null,[Validators.required]),
     contact_job: new FormControl(null,[Validators.required]),
@@ -26,7 +25,7 @@ export class ProviderComponent implements OnInit {
     bank_account: new FormControl(null,[Validators.required]),
     bank: new FormControl(null,[Validators.required]),
     credit: new FormControl(null,[Validators.required]),
-    max_purchase_all: new FormControl(null,[Validators.required]),
+    max_purchase_allowed: new FormControl(null,[Validators.required]),
     is_producer: new FormControl(null,[Validators.required]),
     payment_form_id: new FormControl(null,[Validators.required])
   });
@@ -104,7 +103,7 @@ export class ProviderComponent implements OnInit {
     bank:'',
     payment_form_id:'',
     credit:'',
-    max_purchase_all:'',
+    max_purchase_allowed:'',
     is_producer:false
   }
 
@@ -292,10 +291,20 @@ export class ProviderComponent implements OnInit {
       name: this.newForm.value.name,
       email: this.newForm.value.email,
       phone_number: this.newForm.value.phone_number,
-      contact: this.newForm.value.contact,
       schedule: this.newForm.value.schedule,
-      products: this.arrayProviderProducts
+      products: this.arrayProviderProducts,
+      business_name: this.newForm.value.business_name,
+      contact_job: this.newForm.value.contact_job,
+      contact_name: this.newForm.value.contact_name,
+      bank_account: this.newForm.value.bank_account,
+      bank: this.newForm.value.bank,
+      credit: this.newForm.value.credit,
+      max_purchase_allowed: this.newForm.value.max_purchase_allowed,
+      is_producer: this.newForm.value.is_producer,
+      payment_form_id: this.newForm.value.payment_form_id
     };
+    console.log('Data Provider');
+    console.log(data);
     this.providerService.fnPostProviderNew(data)
     .then(res => {
       console.log('RESPUESTA');
@@ -329,7 +338,16 @@ export class ProviderComponent implements OnInit {
       schedule:(this.newForm.value.schedule == undefined) ? this.currentProvider.schedule : this.newForm.value.schedule,
       contact:(this.newForm.value.contact == undefined) ? this.currentProvider.contact : this.newForm.value.contact,
       products:this.arrayProviderProducts,
-      id:this.currentProvider.id
+      id:this.currentProvider.id,
+      business_name:(this.newForm.value.business_name == undefined)? this.newForm.value.business_name: this.newForm.value.business_name,
+      contact_job:(this.newForm.value.contact_job == undefined)? this.newForm.value.contact_job: this.newForm.value.contact_job,
+      contact_name:(this.newForm.value.contact_name == undefined)? this.newForm.value.contact_name: this.newForm.value.contact_name,
+      bank_account:(this.newForm.value.bank_account == undefined)? this.newForm.value.bank_account: this.newForm.value.bank_account,
+      bank:(this.newForm.value.bank == undefined)? this.newForm.value.bank: this.newForm.value.bank,
+      credit:(this.newForm.value.credit == undefined)? this.newForm.value.credit: this.newForm.value.credit,
+      max_purchase_allowed:(this.newForm.value.max_purchase_allowed == undefined)? this.newForm.value.max_purchase_allowed: this.newForm.value.max_purchase_allowed,
+      is_producer:(this.newForm.value.is_producer == undefined)? this.newForm.value.is_producer: this.newForm.value.is_producer,
+      payment_form_id:(this.newForm.value.payment_form_id == undefined)? this.newForm.value.payment_form_id: this.newForm.value.payment_form_id
     };
     this.providerService.fnPutEditProvider(data)
     .then(res => {

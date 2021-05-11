@@ -68,7 +68,8 @@ export class ProductComponent implements OnInit {
     product_type_id:'',
     description:'',
     image:'',
-    id:''
+    id:'',
+    minium_stock:''
   }
 
   base;
@@ -217,7 +218,8 @@ export class ProductComponent implements OnInit {
       description: (this.newForm.value.description == undefined) ? this.currentProduct.description : this.newForm.value.description,
       product_type_id:(this.newForm.value.product_type_id == undefined) ? this.currentProduct.product_type_id : this.newForm.value.product_type_id,
       id:this.currentProduct.id,
-      image: this.base
+      image: this.filePath,
+      minium_stock: (this.newForm.value.minium_stock == undefined) ? this.currentProduct.minium_stock : this.newForm.value.minium_stock
     };
     console.log('Data');
     console.log(data);

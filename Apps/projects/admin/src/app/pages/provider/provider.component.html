@@ -90,7 +90,7 @@
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Contacto</label>
-                            <input class="form-control" type="text" placeholder="Contacto" formControlName="contact">
+                            <input class="form-control" type="text" placeholder="Contacto" formControlName="contact_name">
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Horarios</label>
@@ -112,7 +112,7 @@
                             <label>Banco</label>
                             <input class="form-control" type="text" placeholder="Banco" formControlName="bank" [(ngModel)]="currentProvider.bank" [attr.disabled]="show?'disabled':null">
                         </div>
-                        <div>
+                        <div class="form-group col-md-6 col-sm-12">
                             <label>Forma de pago</label>
                             <select class="form-control" formControlName="payment_form_id" [attr.disabled]="show?'disabled':null" [(ngModel)]="currentProvider.payment_form_id">
                                 <option *ngFor="let paymentMethod of arrayPaymentForms; let index;"  [value]="paymentMethod.id" >{{paymentMethod.name}}</option>
@@ -124,7 +124,7 @@
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Maximo de Compra</label>
-                            <input class="form-control" type="text" placeholder="Maximo de Compra" formControlName="max_purchase_all" [(ngModel)]="currentProvider.max_purchase_all" [attr.disabled]="show?'disabled':null">
+                            <input class="form-control" type="text" placeholder="Maximo de Compra" formControlName="max_purchase_allowed" [(ngModel)]="currentProvider.max_purchase_allowed" [attr.disabled]="show?'disabled':null">
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <div class="form-check">
@@ -200,7 +200,7 @@
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Contacto</label>
-                            <input class="form-control" type="text" placeholder="Contacto" formControlName="contact" [(ngModel)]="currentProvider.contact" [attr.disabled]="show?'disabled':null">
+                            <input class="form-control" type="text" placeholder="Contacto" formControlName="contact_name" [(ngModel)]="currentProvider.contact_name" [attr.disabled]="show?'disabled':null">
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Horarios</label>
@@ -222,7 +222,7 @@
                             <label>Banco</label>
                             <input class="form-control" type="text" placeholder="Banco" formControlName="bank" [(ngModel)]="currentProvider.bank" [attr.disabled]="show?'disabled':null">
                         </div>
-                        <div>
+                        <div class="form-group col-md-6 col-sm-12">
                             <label>Forma de pago</label>
                             <select class="form-control" formControlName="payment_form_id" [attr.disabled]="show?'disabled':null" [(ngModel)]="currentProvider.payment_form_id">
                                 <option *ngFor="let paymentMethod of arrayPaymentForms; let index;"  [value]="paymentMethod.id" >{{paymentMethod.name}}</option>
@@ -234,11 +234,13 @@
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Maximo de Compra</label>
-                            <input class="form-control" type="text" placeholder="Maximo de Compra" formControlName="max_purchase_all" [(ngModel)]="currentProvider.max_purchase_all" [attr.disabled]="show?'disabled':null">
+                            <input class="form-control" type="text" placeholder="Maximo de Compra" formControlName="max_purchase_allowed" [(ngModel)]="currentProvider.max_purchase_allowed" [attr.disabled]="show?'disabled':null">
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
-                            <input class="form-check-input" type="radio" name="credit" placeholder="Maximo de Compra" formControlName="credit" [(ngModel)]="currentProvider.credit" [attr.disabled]="show?'disabled':null">
-                            <label class="form-check-label" for="credit">Es productor</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="producer" placeholder="Maximo de Compra" formControlName="is_producer" [(ngModel)]="currentProvider.is_producer" [attr.disabled]="show?'disabled':null">
+                                <label class="form-check-label" for="producer">Es productor</label>
+                            </div>
                         </div>
                         <div class="container">
                             <div class="wrapper">
