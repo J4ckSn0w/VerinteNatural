@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { VehicleService } from '../../services/vehicle.service';
 import Swal from 'sweetalert2';
 import { VehicleTypeService } from '../../services/vehicle-type.service';
+import { DriverService } from '../../services/driver.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -18,7 +19,8 @@ export class VehicleComponent implements OnInit {
     brand: new FormControl(null,[Validators.required]),
     description: new FormControl(null,[Validators.required]),
     vehicle_type_id: new FormControl(null,[Validators.required]),
-    mileage: new FormControl(null,[Validators.required])
+    mileage: new FormControl(null,[Validators.required]),
+    employee_id: new FormControl(null)
   });
 
   currentView = 0;
@@ -63,6 +65,8 @@ export class VehicleComponent implements OnInit {
 
   arrayVehicleTypes = [];
 
+  arrayDrivers = [];
+
   currentVehicle = {
     id:'',
     license_plate:'',
@@ -74,7 +78,8 @@ export class VehicleComponent implements OnInit {
     },
     mileage:'',
     fuel_cost:'',
-    spent_fuel:''
+    spent_fuel:'',
+    employee_id:''
   }
 
   newKilometerForm = new FormGroup({
@@ -88,7 +93,8 @@ export class VehicleComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private vehicleService: VehicleService,
-    private vehicleTypeService: VehicleTypeService
+    private vehicleTypeService: VehicleTypeService,
+    private driverService: DriverService
   ) { }
 
   ngOnInit(): void {
@@ -99,12 +105,17 @@ export class VehicleComponent implements OnInit {
     this.tableLoad = false;
     this.arrayVehicleTypes = [];
     this.arrayVehicles = [];
+    this.arrayDrivers = [];
     this.vehicleService.fnGetVehicles()
     .then(res => {
       res.data.forEach(element => {
         this.arrayVehicles.push(element);
       });
       this.tableLoad = true;
+      console.log('Cantidad');
+      console.log(res.data.length);
+      console.log('Vehiculos');
+      console.log(this.arrayVehicles);
     });
     this.vehicleTypeService.fnGetVehicleTypes()
     .then(res => {
@@ -112,6 +123,16 @@ export class VehicleComponent implements OnInit {
         this.arrayVehicleTypes.push(element);
       });
     })
+    this.driverService.fnGetDriversAll()
+    .then(res => {
+      // console.log('Drivers');
+      // console.log(res);
+      res.data.forEach(element => {
+        this.arrayDrivers.push(element);
+      });
+      console.log('Drivers');
+      console.log(this.arrayDrivers);
+    }) 
   }
 
   fnLoadVehicleInfo(id){
@@ -184,7 +205,7 @@ export class VehicleComponent implements OnInit {
   fnNewKilometraje(id){
     this.currentView = 3;
     this.show = false;
-    //this.fnOpenModal();
+    this.newKilometerForm.reset();
 
     this.vehicleService.fnGetVehicleById(id)
     .then(res => {
@@ -200,7 +221,8 @@ export class VehicleComponent implements OnInit {
       brand: this.newForm.value.brand,
       description: this.newForm.value.description,
       vehicle_type_id: this.newForm.value.vehicle_type_id,
-      mileage: this.newForm.value.mileage
+      mileage: this.newForm.value.mileage,
+      employee_id: this.newForm.value.employee_id
     };
     console.log('DATA antes de enviar');
     console.log(data);
@@ -233,7 +255,9 @@ export class VehicleComponent implements OnInit {
       license_plate : (this.newForm.value.license_plate == undefined) ? this.currentVehicle.license_plate : this.newForm.value.license_plate,
       brand : (this.newForm.value.brand == undefined) ? this.currentVehicle.brand : this.newForm.value.brand,
       description: (this.newForm.value.description == undefined) ? this.currentVehicle.description : this.newForm.value.description,
-      vehicle_type_id: (this.newForm.value.vehicle_type_id == undefined) ? this.currentVehicle.vehicle_type_id : this.newForm.value.vehicle_type_id
+      vehicle_type_id: (this.newForm.value.vehicle_type_id == undefined) ? this.currentVehicle.vehicle_type_id : this.newForm.value.vehicle_type_id,
+      mileage:(this.newForm.value.milage == undefined) ? this.currentVehicle.mileage : this.newForm.value.mileage,
+      employee_id: (this.newForm.value.employee_id == undefined) ? this.currentVehicle.employee_id : this.newForm.value.employee_id
     };
     this.vehicleService.fnPostUpdateVehicle(data,this.currentVehicle.id)
     .then(res => {
@@ -255,6 +279,8 @@ export class VehicleComponent implements OnInit {
         didClose: () => {
         }
       });
+      console.log('Error');
+      console.log(rej);
     })
   }
 
@@ -273,10 +299,19 @@ export class VehicleComponent implements OnInit {
       Swal.fire({
         icon:'success',
         title:'Correcto',
-        text:'Se agrego el kilometraje correctamente'
+        text:'Se agrego el kilometraje correctamente',
+        didClose:() => {
+          //this.fnLoadVehicles();
+          this.fnCloseModal();
+        }
       });
     })
     .catch(rej => {
+      Swal.fire({
+        icon:'error',
+        title:'Error!',
+        text:'Ocurrio un error al intentar agregar el kilometraje.',
+      })
       console.log('Error');
       console.log(rej);
     })

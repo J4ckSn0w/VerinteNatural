@@ -81,12 +81,18 @@
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>kilometraje</label>
-                        <input type="text" class="form-control" placeholder="kilometraje" formControlName="mileage" [ngModel]="currentVehicle.mileage" [attr.disabled]="show ? 'disabled': null">
+                        <input type="text" class="form-control" placeholder="kilometraje" formControlName="mileage">
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Tipo de Vehiculo</label>
                         <select class="form-control" formControlName="vehicle_type_id" [(ngModel)]="currentVehicle.vehicle_type.id">
                             <option *ngFor="let vehicleType of arrayVehicleTypes" [value]="vehicleType.id">{{vehicleType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Conductor asignado</label>
+                        <select class="form-control" formControlName="employee_id" [(ngModel)]="currentVehicle.employee_id">
+                            <option *ngFor="let driver of arrayDrivers" [value]="driver.id">{{ driver.name }}</option>
                         </select>
                     </div>
                     <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitNew()">Guardar</button>
@@ -117,6 +123,12 @@
                             <option *ngFor="let vehicleType of arrayVehicleTypes" [value]="vehicleType.id" >{{vehicleType.name}}</option>
                         </select>
                     </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Conductor asignado</label>
+                        <select class="form-control" formControlName="employee_id" [(ngModel)]="currentVehicle.employee_id" [attr.disabled]="show ? 'disabled': null">
+                            <option *ngFor="let driver of arrayDrivers" [value]="driver.id">{{ driver.name }}</option>
+                        </select>
+                    </div>
                     <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()">Guardar</button>
                 </form>
             </div>
@@ -136,11 +148,11 @@
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
                         <label>Costo de combustible</label>
-                        <input type="text" class="form-control" placeholder="Costo de combustible" formControlName="fuel_cost" [ngModel]="currentVehicle.fuel_cost" [attr.disabled]="show ? 'disabled': null">
+                        <input type="text" class="form-control" placeholder="Costo de combustible" formControlName="fuel_cost">
                     </div>
                     <div class="form-group col-md-12 col-sm-12">
                         <label>Combustible gastado</label>
-                        <input type="text" class="form-control" placeholder="Costo de combustible" formControlName="spent_fuel" [ngModel]="currentVehicle.spent_fuel" [attr.disabled]="show ? 'disabled': null">
+                        <input type="text" class="form-control" placeholder="Costo de combustible" formControlName="spent_fuel">
                     </div>
                     <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newKilometerForm.invalid" (click)="onSubmitKilometer()">Guardar</button>
                 </form>

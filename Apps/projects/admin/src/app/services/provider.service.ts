@@ -53,6 +53,25 @@ export class ProviderService  {
         return respuesta;
     }
 
+    fnGetProvidersWithProducts():Promise<any>{
+        let userToken = this.sesionService.fnGetSessionToken();
+        let respuesta = new Promise((resolve,reject) => {
+            let headers = new HttpHeaders({
+                Authorization: 'Bearer '+userToken,
+                Accept: 'application/json',
+                ContentType: 'application/json'
+            });
+            this.http.get(this.str_ip + '/api/_p1/providers?with_products=true',{headers:headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        });
+        return respuesta;
+    }
+
     fnGetProviderById(id):Promise<any>{
         let userToken = this.sesionService.fnGetSessionToken();
         let respuesta = new Promise((resolve,reject) => {

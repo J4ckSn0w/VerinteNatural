@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl(null, [Validators.required])
   });
 
+  
   constructor(
     private router: Router,
     //private toastr: ToastrService,
@@ -51,6 +52,7 @@ export class LoginComponent implements OnInit {
         console.log(resolve.user_type_id);
         switch(resolve.user_type_id){
           case 1:
+          case 2:
             this.router.navigate(["admin/home"]); //Redirigimos a la ruta principal 
             break;
           case 3:
