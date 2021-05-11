@@ -24,7 +24,7 @@ class VehicleController extends Controller
         try {
             $vehicles = Vehicle::all();
             $vehicles = $vehicles->map(function ($vehicle) {
-                $vehicle->append('vehicle_type_name');
+                $vehicle->append('vehicle_type_name', 'driver_name');
                 $vehicle = $vehicle->only([
                     "id",
                     "license_plate",
@@ -35,7 +35,8 @@ class VehicleController extends Controller
                     "spent_fuel",
                     "fuel_cost",
                     "created_at",
-                    "vehicle_type_name"
+                    "vehicle_type_name",
+                    "driver_name"
                 ]);
                 return $vehicle;
             });

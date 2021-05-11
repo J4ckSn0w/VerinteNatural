@@ -170,4 +170,23 @@ class EmployeeController extends Controller
             return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
         }
     }
+
+
+    public function getDriverEmployees()
+    {
+        try {
+
+            $drivers = DB::table('employees')
+                ->join('users', 'employees.user_id', '=', 'users.id')
+                ->join('assigned_roles', 'users.id', '=', 'assigned_roles.entity_id')
+                ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
+                ->where('roles.name', 'delivery')
+                ->orWhere('roles.name', 'purchasing_gatherer')
+                ->select('employees.id', 'users.name', 'roles.title')->get();
+
+            return response()->json(['data' => $drivers], 200);
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+        }
+    }
 }

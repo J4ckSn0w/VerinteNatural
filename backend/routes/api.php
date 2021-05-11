@@ -15,7 +15,6 @@ use App\Http\Controllers\admin\VehicleController;
 use App\Http\Controllers\admin\WarehouseTypeController;
 use App\Http\Controllers\admin\WarehouseController;
 use App\Http\Controllers\admin\EmployeeTypeController;
-use App\Http\Controllers\admin\DriverController;
 use App\Http\Controllers\admin\HarvestController;
 use App\Http\Controllers\admin\IncidentController;
 use App\Http\Controllers\admin\IncidentTypeController;
@@ -70,10 +69,6 @@ Route::prefix('_p1')->group(function () {
         // Employee Types
         Route::apiResource('employee/types', EmployeeTypeController::class)
             ->except(['edit', 'create']);
-
-        // Drivers resource
-        Route::apiResource('drivers', DriverController::class)
-            ->except(['edit', 'create', 'store', 'delete']);
 
         // Get info of auth user
         Route::get('info', [AuthControllerAdmin::class, 'getAuthUser']);
@@ -190,8 +185,11 @@ Route::prefix('_p1')->group(function () {
         // Download Report
         Route::get('vehicles/report/{id}/{date_from}/{date_to}', [VehicleController::class, 'vehicleReport']);
 
-        //Climb incident
+        // Climb incident
         Route::put('incident/climb/{id}', [IncidentController::class, 'climb']);
+
+        // Get Drivers 
+        Route::get('drivers', [EmployeeController::class, 'getDriverEmployees']);
 
         // End Singles api route
     });

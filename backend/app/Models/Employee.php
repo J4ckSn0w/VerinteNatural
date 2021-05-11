@@ -78,7 +78,7 @@ class Employee extends Model
 
         $employeeTypeChars = Str::upper(substr(EmployeeType::find($employee->employee_type_id)->name, 1, 2));
 
-        return $employeeTypeChars . $formattedID;
+        return $employeeTypeChars . $formattedID . $employee->id;
     }
 
     public static function formatProductID($id)
