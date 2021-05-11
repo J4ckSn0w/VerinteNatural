@@ -25,10 +25,10 @@ class HarvestRequest extends FormRequest
     {
         return [
             'requisition_id' => 'required|exists:requisitions,id',
-            'provider_id'    => 'required|exists:providers,id',
             'products'       => 'required|array',
             'products.*.id'  => 'required|exists:products,id',
-            'products.*.quantity' => 'required|gt:0',
+            'products.*.quantity' => 'required|numeric|gt:0',
+            'products.*.provider_id'    => 'required|exists:providers,id',
         ];
     }
 }
