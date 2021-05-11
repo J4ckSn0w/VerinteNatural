@@ -1,19 +1,19 @@
 <div class="row">
-  <div class="col-lg-4">
-    <h3>Bienvenido al sistema de administración de Verinte Natural</h3>
-    <div class="wrapper fadeInDown">
-      <div id="formContent">
-        <div class="fadeIn first">
-        <img src="../../../assets/images/logoVerinte.png" id="icon" alt="User Icon" />
+    <div class="col-lg-4">
+        <h3>Bienvenido al sistema de administración de Verinte Natural</h3>
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+                <div class="fadeIn first">
+                    <img src="../../../assets/images/logoVerinte.png" id="icon" alt="User Icon" />
+                </div>
+                <form [formGroup]="loginForm" novalidate role="form">
+                    <input type="text" id="login" class="fadeIn second" name="login" placeholder="Correo" formControlName="correo">
+                    <input type="password" id="password" class="fadeIn third" name="login" placeholder="Contraseña" formControlName="password">
+                    <input (click)="onSubmit()" type="submit" class="fadeIn fourth" value="Entrar al sistema">
+                </form>
+            </div>
         </div>
-        <form [formGroup]="loginForm" novalidate role="form">
-          <input type="text" id="login" class="fadeIn second" name="login" placeholder="Correo" formControlName="correo">
-          <input type="password" id="password" class="fadeIn third" name="login" placeholder="Contraseña" formControlName="password">
-          <input (click)="onSubmit()" type="submit" class="fadeIn fourth" value="Entrar al sistema">
-        </form>
-      </div>
     </div>
-  </div>
 </div>
 
 
@@ -105,7 +105,7 @@
 
 
 
-            <!--<div class="this-body">
+<!--<div class="this-body">
 
                 <div class="wrapper">
                     <div class="my-header">
@@ -135,7 +135,7 @@
             </div>-->
 
 
-        <!--</div>
+<!--</div>
     </div>
     <br>
     <br>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { VehicleService } from '../../services/vehicle.service';
 import { DriverService } from '../../services/driver.service';
 import { ReportService } from '../../services/report.service';
@@ -25,15 +25,39 @@ export class ReportComponent implements OnInit {
 
   showDetails = false;
 
+  tableLoad = false;
+  tableLoadReports = false;
+
   constructor(
     private vehicleService: VehicleService,
     private driverService:DriverService,
     private reportService: ReportService
   ) { }
 
+  today: NgbDate;
+  calendar: NgbCalendar;
+
   ngOnInit(): void {
     this.fnLoadInfo();
+
+    
+    const currentDate = new Date();
+    const currentDateObj = {
+      year: currentDate.getFullYear(),
+      month: currentDate.getMonth()+1,
+      day: String(currentDate.getDate()).padStart(2, '0')
+    };
+    //this.today = new NgbDate();
+    this.firstDate = new NgbDate(currentDateObj.year,currentDateObj.month,Number(currentDateObj.day));
+    this.lastDate = new NgbDate(currentDateObj.year,currentDateObj.month,Number(currentDateObj.day));
+    //this.today = this.calendar.getToday();
+    //console.log('Today');
+    //console.log(this.isToday);
+    console.log('firstDate');
+    console.log(this.firstDate);
   }
+
+  isToday(date: NgbDate) { return this.today.equals(date); }
 
   arrayVehicles = [];
 
@@ -46,6 +70,7 @@ export class ReportComponent implements OnInit {
   totalExpense = 0;
 
   fnLoadInfo(){
+    this.tableLoad = false;
     this.arrayVehicles = [];
     this.vehicleService.fnGetVehicles()
     .then(res => {
@@ -53,7 +78,8 @@ export class ReportComponent implements OnInit {
       console.log(res);
       res.data.forEach(element => {
         this.arrayVehicles.push(element);
-      })
+      });
+      this.tableLoad = true;
     });
   }
 
@@ -63,9 +89,12 @@ export class ReportComponent implements OnInit {
     console.log(this.firstDate);
     console.log('Segunda fecha');
     console.log(this.lastDate);
+    this.fnDetalle(this.currentVehicule.id);
   }
 
   fnDetalle(id){
+    this.tableLoadReports = false;
+    this.arrayReports = [];
     if(this.firstDate == undefined || this.lastDate == undefined)
     {
       this.errorFecha = true;
@@ -74,41 +103,40 @@ export class ReportComponent implements OnInit {
     if(this.firstDate.year > this.lastDate.year){
       console.log('Año menor');
       this.errorFecha = true;
+      this.tableLoadReports = true;
       return;
     }
     else{
       if(this.firstDate.month > this.lastDate.month){
         console.log('Mes menor');
         this.errorFecha = true;
+        this.tableLoadReports = true;
         return;
       }
       else{
         if((this.firstDate.day > this.lastDate.day) && this.firstDate.month == this.lastDate.month){
           console.log('Dia es menor');
           this.errorFecha = true;
+          this.tableLoadReports = true;
           return;
         }
-        console.log(this.firstDate);
-        console.log(this.lastDate);
-        console.log('ULTIMO');
       }
     }
-    this.arrayReports = [];
+    this.totalExpense = 0;
     let firstDate = this.firstDate.year + '-' + (this.firstDate.month < 10 ? ('0') : '') + this.firstDate.month + '-' + this.firstDate.day;
     let lastDate = this.lastDate.year + '-' + (this.lastDate.month < 10 ? ('0') : '') + this.firstDate.month + '-'  + this.lastDate.day;
     console.log(firstDate);
     console.log(lastDate);
     this.myFirstDate = firstDate;
-    this.myLastDate = firstDate;
+    this.myLastDate = lastDate;
     this.vehicleService.fnGetKilometer(id,firstDate,lastDate)
     .then(res => {
-      console.log('DATAAA');
-      console.log(res);
       res.data.forEach(element => {
         this.arrayReports.push(element);
-        this.totalExpense += (element.fuel_cost * element.spent_fuel);
+        this.totalExpense += (Number(element.fuel_cost) /** element.spent_fuel*/);
       });
       this.currentVehicule.id = id;
+      this.tableLoadReports = true;
     })
     .catch(rej => {
       console.log('ERROR');

@@ -70,8 +70,18 @@
                         <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
+
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
                         <label>Peso maximo.</label>
                         <input type="text" class="form-control" placeholder="Peso maximo." formControlName="max_weight">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Unidades</label>
+                        <select class="form-control">
+                            <option value="1">Kilos</option>
+                            <option value="2">Toneladas</option>
+                        </select>
                     </div>
                     <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitNew()">Guardar</button>
                 </form>

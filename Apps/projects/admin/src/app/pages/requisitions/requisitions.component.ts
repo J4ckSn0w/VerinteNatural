@@ -8,6 +8,7 @@ import { RequisitionService } from '../../services/requisitions.service';
 import { NgbDateStructAdapter } from '@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { ProviderService } from '../../services/provider.service';
 
 @Component({
   selector: 'app-requisitions',
@@ -23,7 +24,7 @@ export class RequisitionsComponent implements OnInit {
   });
 
   currentView = 0;
-  arrayViewsNames = ['Nueva solicitud de compra','Editar solicitud de compra','Info solicitud de compra'];
+  arrayViewsNames = ['Nueva solicitud de compra','Editar solicitud de compra','Info solicitud de compra','Hoja de Recoleccion'];
 
   show  = false;
 
@@ -76,13 +77,21 @@ export class RequisitionsComponent implements OnInit {
     private modalService: NgbModal,
     private productService: ProductService,
     private requisitionService: RequisitionService,
-    private router: Router
+    private router: Router,
+    private providerService: ProviderService
   ) { }
 
   ngOnInit(): void {
     this.fnLoadProducts();
     this.fnLoadRequisitions();
+
+    /**Trying to set this to a variable to acces in callback functions */
+  
+    this.globalContext = this;
+
   }
+
+  globalContext;
 
   fnLoadRequisitions(){
     this.tableLoad = false;
@@ -107,11 +116,11 @@ export class RequisitionsComponent implements OnInit {
       this.currentRequisition = res.data;
       this.arrayOrderProducts = res.data.products;
       console.log(this.currentRequisition);
-      console.log('Date');
+      //console.log('Date');
       let first = res.data.created_at.split('-');
       let last = first[2].split('T');
       this.firstDate = { year:Number(first[0]), month:Number(first[1]), day: Number(last[0])};
-      console.log(this.firstDate);
+      //console.log(this.firstDate);
     })
   }
 
@@ -444,6 +453,13 @@ export class RequisitionsComponent implements OnInit {
 
    /*Generar hoja de recoleccion*/
    fnGenerateCollectionOrder(id){
+ 
+    this.fnLoadProviders();
+    this.currentView = 3;
+    this.show = false;
+    this.fnLoadRequisition(id);    
+    return;
+
      console.log('id');
      console.log(id);
      this.requisitionService.fnGetRequisitionById(id)
@@ -467,5 +483,62 @@ export class RequisitionsComponent implements OnInit {
        return;
      }
      this.router.navigate(["/admin/purchase",id]);
+   }
+
+   /*Hoja de recoleccion */
+
+   arrayProviders = [];
+
+   fnLoadProviders(){
+     this.arrayProviders = [];
+     this.providerService.fnGetProviders()
+     .then(res => {
+       res.data.forEach(element => {
+         this.arrayProviders.push(element);
+       });
+       console.log('Array en res');
+       console.log(this.arrayProviders)
+       this.fnOpenModal();
+     })
+   }
+
+   fnLoadProvider(id){
+     this.providerService.fnGetProviderById(id)
+     .then(res => {
+       return res.data;
+     })
+     .catch(rej => {
+       console.log('Algo salio mal al traer al proveedor');
+       console.log(rej);
+     })
+   }
+
+   fnProviderContainsProduct(id,elemento){
+     console.log('Elemento');
+     console.log(elemento);
+     console.log('ID');
+     console.log(id);
+
+     let provider = this.fnLoadProvider(elemento.id);
+     return elemento;
+      /*
+     if(provider.products.include(id))
+     {
+       return elemento;
+     }
+     else{
+       return null;
+     }*/
+   }
+
+   fnFilterProvidersByProductId(product_id){
+     let newArray = [];
+     this.arrayProviders.forEach(element => {
+       if(element.products.include(product_id))
+       {
+         newArray.push(element);
+       }
+     });
+     return newArray;
    }
 }
