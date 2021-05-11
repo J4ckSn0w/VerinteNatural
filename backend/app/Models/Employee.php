@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class Employee extends Model
 {
@@ -45,13 +46,6 @@ class Employee extends Model
         $employee->employee_number = self::newEmployeeNumber($employee);
         $employee->save();
 
-        if ($data['employee']['employee_type_id'] == 3) {
-            $driver = new Driver();
-            $driver->employee_id = $employee->id;
-            $driver->rate = 0;
-            $driver->save();
-        }
-
         return $employee;
     }
 
@@ -77,7 +71,28 @@ class Employee extends Model
 
     public static function newEmployeeNumber($employee): string
     {
-        return EmployeeType::find($employee->employee_type_id)->name[0] . ($employee->id + ($employee->employee_type_id * 1000));
+        $formattedID = '';
+
+        for ($i = 1; $i < 5; $i++)
+            if (pow(10, $i) > $employee->id) $formattedID .= '0';
+
+        $employeeTypeChars = Str::upper(substr(EmployeeType::find($employee->employee_type_id)->name, 1, 2));
+
+        return $employeeTypeChars . $formattedID . $employee->id;
+    }
+
+    public static function formatProductID($id)
+    {
+
+        $formattedID = '';
+
+        for ($i = 1; $i < 6; $i++)
+            if (pow(10, $i) > $id) $formattedID .= '0';
+
+
+        $formattedID .= $id;
+
+        return $formattedID;
     }
 
     /********** End Methods *********/

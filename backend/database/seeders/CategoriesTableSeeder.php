@@ -46,5 +46,21 @@ class CategoriesTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+
+        DB::table('categories')->insert([
+            'id' => 5,
+            'name' => 'Tuberculos',
+            'code' => 'TU',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('categories')->insert([
+            'id' => 6,
+            'name' => 'Lacteos',
+            'code' => 'LA',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
     }
 }
