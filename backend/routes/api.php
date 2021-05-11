@@ -16,6 +16,7 @@ use App\Http\Controllers\admin\WarehouseTypeController;
 use App\Http\Controllers\admin\WarehouseController;
 use App\Http\Controllers\admin\EmployeeTypeController;
 use App\Http\Controllers\admin\DriverController;
+use App\Http\Controllers\admin\HarvestController;
 use App\Http\Controllers\admin\IncidentController;
 use App\Http\Controllers\admin\IncidentTypeController;
 use App\Http\Controllers\admin\InventoryController;
@@ -157,7 +158,10 @@ Route::prefix('_p1')->group(function () {
         Route::apiResource('payment/forms', PaymentFormController::class)
             ->only(['index']);
 
-        // End API Rest
+        // Harvest resource
+        Route::apiResource('harvests', HarvestController::class);
+
+        // End API Rest 
 
 
         // Singles api route

@@ -18,8 +18,7 @@ class Vehicle extends Model
         'license_plate',
         'brand',
         'description',
-        'vehicle_type_id',
-        'mileage'
+        'vehicle_type_id'
     ];
     /**
      * @var mixed
