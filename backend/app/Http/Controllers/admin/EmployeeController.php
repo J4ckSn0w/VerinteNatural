@@ -176,12 +176,21 @@ class EmployeeController extends Controller
     {
         try {
 
+            $only_deliveries = request()->get('deliveries', false);
+            $only_purchasing_gatherers = request()->get('gatherers', false);
+
+            $search_roles = [];
+
+            if ($only_deliveries || $only_purchasing_gatherers) {
+                if ($only_deliveries) array_push($search_roles, 'delivery');
+                if ($only_purchasing_gatherers) array_push($search_roles, 'purchasing_gatherer');
+            } else $search_roles = ['delivery', 'purchasing_gatherer'];
+
             $drivers = DB::table('employees')
                 ->join('users', 'employees.user_id', '=', 'users.id')
                 ->join('assigned_roles', 'users.id', '=', 'assigned_roles.entity_id')
                 ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
-                ->where('roles.name', 'delivery')
-                ->orWhere('roles.name', 'purchasing_gatherer')
+                ->whereIn('roles.name', $search_roles)
                 ->select('employees.id', 'users.name', 'roles.title')->get();
 
             return response()->json(['data' => $drivers], 200);

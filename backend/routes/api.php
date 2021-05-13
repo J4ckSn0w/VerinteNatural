@@ -16,6 +16,7 @@ use App\Http\Controllers\admin\WarehouseTypeController;
 use App\Http\Controllers\admin\WarehouseController;
 use App\Http\Controllers\admin\EmployeeTypeController;
 use App\Http\Controllers\admin\HarvestController;
+use App\Http\Controllers\admin\HarvestSheetController;
 use App\Http\Controllers\admin\IncidentController;
 use App\Http\Controllers\admin\IncidentTypeController;
 use App\Http\Controllers\admin\InventoryController;
@@ -155,6 +156,9 @@ Route::prefix('_p1')->group(function () {
 
         // Harvest resource
         Route::apiResource('harvests', HarvestController::class);
+
+        // Harvest Sheets resource
+        Route::apiResource('harvest/sheets', HarvestSheetController::class);
 
         // End API Rest 
 
