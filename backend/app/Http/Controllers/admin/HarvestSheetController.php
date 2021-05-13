@@ -133,15 +133,19 @@ class HarvestSheetController extends Controller
     {
         try {
             $harvest_sheet = HarvestSheet::findOrfail($id);
+            if ($harvest_sheet->status != 1) {
+                $harvest_sheet->status = 1;
+                $harvest_sheet->save();
 
-            $products = new Collection($request->products);
-            $harvest_sheet->products()->sync($products->map(function ($product) use ($harvest_sheet) {
-                return [
-                    'product_id'    => $product['id'],
-                    'quantity'      => $product['quantity'],
-                    'quantity_real' => $product['quantity_real']
-                ];
-            }));
+                $products = new Collection($request->products);
+                $harvest_sheet->products()->sync($products->map(function ($product) use ($harvest_sheet) {
+                    return [
+                        'product_id'    => $product['id'],
+                        'quantity'      => $product['quantity'],
+                        'quantity_real' => $product['quantity_real']
+                    ];
+                }));
+            }
 
             return response()->json(['data' => $harvest_sheet], 200);
         } catch (\Exception $e) {
