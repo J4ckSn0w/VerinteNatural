@@ -173,23 +173,6 @@ class PurchaseOrderController extends Controller
     {
         try {
             $purchase_order = PurchaseOrder::findOrfail($id)->load('products');
-
-            if ($purchase_order->status != 1 && $status == 1) {
-                foreach ($purchase_order->products as $product) {
-                    // Create new batch
-                    (new BatchController)->store(
-                        new BatchRequest([
-                            'quantity'          => $product['pivot']->quantity,
-                            'unit_cost'         => $product['pivot']->unit_price,
-                            'product_id'        => $product->id,
-                            'provider_id'       => $purchase_order->provider_id,
-                            'warehouse_id'      => $purchase_order->warehouse_id,
-                            'purchase_order_id' => $purchase_order->id
-                        ])
-                    );
-                };
-            }
-
             $purchase_order->status = $status;
             $purchase_order->save();
             return response()->json(['data' => $purchase_order], 200);
@@ -200,48 +183,14 @@ class PurchaseOrderController extends Controller
 
     public function receive(ReceivePurchaseOrderRequest $request, $id)
     {
-        $errors = '';
         try {
             $purchase_order = PurchaseOrder::findOrfail($id)->load('batches');
             $purchase_order->status = 4;
             $purchase_order->save();
             $products = new Collection($request->products);
 
-            // Arrays to handle on foreach
-            $batches_array = $purchase_order->batches->toArray();
-            $products_array = $products->toArray();
-
-            foreach ($batches_array as $batch) {
-
-                $product = array_filter($products_array, function ($p) use ($batch) {
-                    return $p['id'] == $batch['product_id'];
-                });
-
-                // Get product of batch
-                if ($product) {
-                    foreach ($product as $product_)
-                        $product = $product_;
-
-                    // Update branch
-                    (new BatchController)->update(
-                        new BatchRequest([
-                            'quantity'      => $product['quantity_received'],
-                            'unit_cost'     => $product['unit_price'],
-                            'product_id'    => $product['id'],
-                            'provider_id'   => $purchase_order->provider_id,
-                            'warehouse_id'  => $purchase_order->warehouse_id,
-                            'status'        => 1
-                        ]),
-                        $batch['id']
-                    );
-                    $errors .= 'batch ' . $batch['id'] . ' ';
-                }
-            }
-
-
             $purchase_order->products()->detach();
 
-            // Update products of purchase order
             $purchase_order->products()->sync($products->map(function ($product__) use ($purchase_order) {
                 return [
                     'product_id'            => $product__['id'],

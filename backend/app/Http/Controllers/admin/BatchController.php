@@ -23,7 +23,7 @@ class BatchController extends Controller
         try {
             $batches = Batch::all();
             $batches = $batches->map(function ($batch) {
-                $batch->append(['product_name', 'provider_name', 'status_name', 'purchase_order_folio']);
+                $batch->append(['product_name', 'provider_name', 'status_name']);
                 $batch = $batch->only([
                     'id',
                     'sku',
@@ -33,9 +33,7 @@ class BatchController extends Controller
                     'status_name',
                     'product_name',
                     'provider_name',
-                    'created_at',
-                    'purchase_order_id',
-                    'purchase_order_folio'
+                    'created_at'
                 ]);
                 return $batch;
             });
