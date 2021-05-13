@@ -22,6 +22,7 @@ class CreateHarvestSheetsTable extends Migration
             $table->dateTime('collect_to');
             $table->foreignId('harvest_id')->nullable();
             $table->string('folio', 100)->nullable();
+            $table->integer('status')->default(0);
 
             $table->timestamps();
             $table->softDeletes();

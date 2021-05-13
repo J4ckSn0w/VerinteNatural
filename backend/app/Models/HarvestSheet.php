@@ -21,6 +21,11 @@ class HarvestSheet extends Model
         'folio'
     ];
 
+    protected $STATUS = [
+        0 => 'Sin recolectar',
+        1 => 'Recolectado'
+    ];
+
 
     /***** Relations *****/
     /**
@@ -65,5 +70,13 @@ class HarvestSheet extends Model
     public function getGathererNameAttribute()
     {
         return $this->employee->user->name ?? '';
+    }
+
+    /**
+     * Get status name
+     */
+    public function getStatusNameAttribute()
+    {
+        return $this->STATUS[$this->status] ?? $this->STATUS[0];
     }
 }

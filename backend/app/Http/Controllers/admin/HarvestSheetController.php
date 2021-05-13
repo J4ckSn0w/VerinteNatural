@@ -33,14 +33,16 @@ class HarvestSheetController extends Controller
                 $harvest_sheets = HarvestSheet::all();
 
             $harvest_sheets = $harvest_sheets->map(function ($harvest_sheet) {
-                $harvest_sheet->append('gatherer_name');
+                $harvest_sheet->append(['gatherer_name', 'status_name']);
                 $harvest_sheet = $harvest_sheet->only([
                     "id",
                     "address",
                     "contact_name",
                     "folio",
                     "collect_to",
-                    "gatherer_name"
+                    "gatherer_name",
+                    "status",
+                    "status_name"
                 ]);
                 return $harvest_sheet;
             });
