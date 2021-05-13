@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BatchRequest;
 use App\Http\Requests\HarvestRequest;
 use App\Models\Harvest;
+use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -35,6 +37,11 @@ class HarvestController extends Controller
     public function store(HarvestRequest $request)
     {
         try {
+            $requisition_id = $request->requisition_id;
+
+            $warehouse = Warehouse::whereHas('requisitions', function ($requisition) use ($requisition_id) {
+                $requisition->where('id', $requisition_id);
+            })->first();
 
             $providers = [];
 
@@ -54,7 +61,19 @@ class HarvestController extends Controller
                 $harvest->save();
 
                 $products = new Collection($provider);
-                $harvest->products()->sync($products->map(function ($product) {
+
+                $harvest->products()->sync($products->map(function ($product) use ($warehouse) {
+
+                    (new BatchController)->store(
+                        new BatchRequest([
+                            'quantity'          => $product['quantity'],
+                            'unit_cost'         => 0,
+                            'product_id'        => $product['id'],
+                            'provider_id'       => $product['provider_id'],
+                            'warehouse_id'      => $warehouse->id
+                        ])
+                    );
+
                     return [
                         'product_id' => $product['id'],
                         'quantity' => $product['quantity'],
