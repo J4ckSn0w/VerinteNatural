@@ -58,7 +58,7 @@ class IncidentController extends Controller
                     ]
                 ));
             } else {
-                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 400);
+                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 422);
             }
 
             return response()->json(['data' => $incident], 201);
@@ -122,7 +122,7 @@ class IncidentController extends Controller
                 $incident->responsable_id = $superior->id;
                 $incident->save();
             } else {
-                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 400);
+                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 422);
             }
 
             return response()->json(['data' => $incident], 200);

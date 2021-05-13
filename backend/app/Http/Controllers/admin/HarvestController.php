@@ -22,6 +22,18 @@ class HarvestController extends Controller
         try {
             $harvests = Harvest::all();
 
+            $harvests = $harvests->map(function ($harvest) {
+                $harvest->append(['requisition_folio', 'provider_name']);
+                $harvest = $harvest->only([
+                    "id",
+                    "folio",
+                    "requisition_folio",
+                    "provider_name",
+                    "created_at"
+                ]);
+                return $harvest;
+            });
+
             return response()->json(['data' => $harvests], 200);
         } catch (\Exception $e) {
             return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
@@ -56,7 +68,7 @@ class HarvestController extends Controller
             foreach ($providers as $provider) {
 
                 $harvest = Harvest::create($request->all());
-                $harvest->folio = 'RC' . $this->formattedID($harvest->id);
+                $harvest->folio = 'RG' . $this->formattedID($harvest->id);
                 $harvest->provider_id = $provider[0]['provider_id'];
                 $harvest->save();
 

@@ -38,6 +38,7 @@ class AuthController extends Controller
                     'email' => $user->email,
                     'phone_number' => $user->phone_number,
                     'user_type_id' => $user->user_type_id,
+                    'employee_id' => $user->employee->id,
                     'created_at' => $user->created_at,
                     'accessToken' => $token
                 ], 200);
@@ -85,6 +86,7 @@ class AuthController extends Controller
                     'email' => $user->email,
                     'phone_number' => $user->phone_number,
                     'user_type_id' => $user->user_type_id,
+                    'employee_id' => $user->employee->id,
                     'created_at' => $user->created_at,
                     'abilities' => $abilities
                 ]

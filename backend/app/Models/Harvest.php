@@ -19,14 +19,47 @@ class Harvest extends Model
     ];
 
     /*******  Relations *******/
+    /**
+     * Get requisition of harvest
+     */
     public function requisition()
     {
         return $this->belongsTo(Requisition::class);
     }
 
+    /**
+     * Get products of harvest
+     */
     public function products()
     {
         return $this->belongsToMany(Product::class)->withPivot('quantity', 'to_collect', 'was_finalized');
+    }
+
+    /**
+     * Get provider of harvest
+     */
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class);
+    }
+
+
+    /**** Appends ****/
+
+    /**
+     * Get requisition folio
+     */
+    public function getRequisitionFolioAttribute()
+    {
+        return $this->requisition->folio ?? '';
+    }
+
+    /**
+     * Get provider name
+     */
+    public function getProviderNameAttribute()
+    {
+        return $this->provider->name ?? '';
     }
 
     // BOOT
