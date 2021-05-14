@@ -137,12 +137,12 @@ class EmployeeController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id): JsonResponse
+    public function destroy($id)
     {
         try {
             $employee = Employee::find($id);
-            $employee->driver()->delete();
             $employee->delete();
+
             $user = User::find($employee->user_id);
             $user->email = $user->email . "__deleted_" . $user->id;
             $user->save();
