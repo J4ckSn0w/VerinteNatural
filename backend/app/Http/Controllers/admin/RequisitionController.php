@@ -55,7 +55,7 @@ class RequisitionController extends Controller
             $requisition->warehouse_id = Auth::user()->employee->warehouse_id ??  1;
             $requisition->save();
 
-            $requisition->folio = 'R' . $this->formatID($requisition->id);
+            $requisition->folio = 'RC' . $this->formatID($requisition->id);
             $requisition->save();
 
             $products = new Collection($request->products);

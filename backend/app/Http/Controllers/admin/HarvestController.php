@@ -89,7 +89,7 @@ class HarvestController extends Controller
                     return [
                         'product_id' => $product['id'],
                         'quantity' => $product['quantity'],
-                        'to_collect' => 0
+                        'to_collect' => $product['quantity']
                     ];
                 }));
             }
