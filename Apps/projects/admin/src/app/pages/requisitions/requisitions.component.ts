@@ -9,6 +9,8 @@ import { NgbDateStructAdapter } from '@ng-bootstrap/ng-bootstrap/datepicker/adap
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { ProviderService } from '../../services/provider.service';
+import { async } from '@angular/core/testing';
+import { HarvestService } from '../../services/harvest.service';
 
 @Component({
   selector: 'app-requisitions',
@@ -20,7 +22,9 @@ export class RequisitionsComponent implements OnInit {
   /*Modal Inicio*/
   newForm = new FormGroup({
     date: new FormControl(null,[Validators.required]),
-    quantity: new FormControl(null)
+    quantity: new FormControl(null),
+    quantity_real : new FormControl(null),
+    provider_id:new FormControl(null)
   });
 
   currentView = 0;
@@ -78,7 +82,8 @@ export class RequisitionsComponent implements OnInit {
     private productService: ProductService,
     private requisitionService: RequisitionService,
     private router: Router,
-    private providerService: ProviderService
+    private providerService: ProviderService,
+    private harvestService:HarvestService
   ) { }
 
   ngOnInit(): void {
@@ -121,6 +126,7 @@ export class RequisitionsComponent implements OnInit {
       let last = first[2].split('T');
       this.firstDate = { year:Number(first[0]), month:Number(first[1]), day: Number(last[0])};
       //console.log(this.firstDate);
+      this.fnUpdateGeneralProducts();//Solo para cantidades autorizadas al hacer hoja de recoleccion general
       this.fnCheckRemainingProducts();
     })
   }
@@ -285,7 +291,9 @@ export class RequisitionsComponent implements OnInit {
   currentProduct = {
     id:'',
     quantity:'',
-    name:''
+    name:'',
+    provider_id:'',
+    quantity_real:''
   }
 
   arrayProducts = [];
@@ -293,8 +301,8 @@ export class RequisitionsComponent implements OnInit {
   arrayOrderProducts = [];
 
   fnDeleteProduct(id){
-    console.log('Entre aqui');
-    console.log(this.arrayOrderProducts.length);
+    //console.log('Entre aqui');
+    //console.log(this.arrayOrderProducts.length);
     //this.arrayProviderProducts.splice(id);
     //delete this.arrayProviderProducts[id];
     for(var i = 0 ; i < this.arrayOrderProducts.length; i ++ ){
@@ -307,6 +315,15 @@ export class RequisitionsComponent implements OnInit {
     //console.log(this.arrayOrderProducts.length);
     this.fnLoadProducts();
     this.fnCheckRemainingProducts()
+
+    //CALANDO CON CANTIDAD AUTORIZADA
+    /*
+    for(var i = 0 ; i < this.arrayGeneralProduct.length; i ++ ){
+      if( this.arrayGeneralProduct[i].id == id){
+        this.arrayGeneralProduct.splice(i,1);
+        i--;
+      }
+    }*/
   }
 
   onOptionsSelected(event){
@@ -318,10 +335,10 @@ export class RequisitionsComponent implements OnInit {
      //let data = this.arrayProducts[this.currentProduct.id];
     let data = this.arrayProducts.find(element => element.id == this.currentProduct.id);
 
-    console.log('AL CONSULTAR');
-    console.log(data);
+    //console.log('AL CONSULTAR');
+    //console.log(data);
 
-    console.log(data);
+    //console.log(data);
     if(this.currentProduct.id == undefined || this.newForm.value.quantity == undefined || data == undefined){
       return;
     }
@@ -331,26 +348,30 @@ export class RequisitionsComponent implements OnInit {
       name:data.name
     }
 
-    console.log('Nuevo producto');
-    console.log(newProduct);
+    // console.log('Nuevo producto');
+    // console.log(newProduct);
+
+    console.log('Antes de agregar producto en arrayOrderProduct');
+    console.log(this.arrayOrderProducts);
+
     this.arrayOrderProducts.push(newProduct);
+
     /*Limpia el valor de cantidad */
     this.newForm.value.quantity = '';
     this.newForm.controls['quantity'].setValue('');
     
     //console.log(this.arrayOrderProducts);
-
-    /*Delete option of new product */
-    
-    this.fnCheckRemainingProducts();
-
-    
+    //CALANDO CON CANTIDAD AUTORIZZADA
     /*
-    this.currentProduct = {
-      id:'',
+    let otherProduct = {
+      id:newProduct.id,
       quantity:'',
-      name:''
-    };*/
+      provider_id:''
+    }
+
+    this.arrayGeneralProduct.push(otherProduct);*/
+
+    this.fnCheckRemainingProducts();
    }
 
    fnCheckRemainingProducts(){
@@ -385,21 +406,25 @@ export class RequisitionsComponent implements OnInit {
    changeStatus(id,status){
     this.requisitionService.fnPutChangeStatusRequisition(id,status)
     .then(res => {
-      Swal.fire({
-        icon:'success',
-        title:'Correcto!',
-        text:'Se cambio el status de la solicitud correctamente',
-        didClose:() => {
-          this.fnLoadRequisitions();
-        }
-      })
+      if(status != 2){
+        Swal.fire({
+          icon:'success',
+          title:'Correcto!',
+          text:'Se cambio el status de la solicitud correctamente',
+          didClose:() => {
+            this.fnLoadRequisitions();
+          }
+        })
+      }
     })
     .catch(rej => {
-      Swal.fire({
-        icon:'error',
-        title:'Error!',
-        text:'Hubo un error al intentar cambiar el status de la solicitud de mercancia'
-      })
+      if(status != 2){
+        Swal.fire({
+          icon:'error',
+          title:'Error!',
+          text:'Hubo un error al intentar cambiar el status de la solicitud de mercancia'
+        })
+      }
       console.log('Error');
       console.log(rej);
     })
@@ -473,7 +498,9 @@ export class RequisitionsComponent implements OnInit {
      this.router.navigate(["/admin/purchase",id]);
    }
 
-   /*Hoja de recoleccion */
+   /*Hoja general de recoleccion */
+
+   errorGeneralProduct = '';
 
    arrayProviders = [];
 
@@ -530,5 +557,161 @@ export class RequisitionsComponent implements OnInit {
        }
      });
      return newArray;
+   }
+
+   arrayGeneralProduct = [];
+
+   fnCreateGeneralRecolectionOrder(){
+     let newProductsArray = [];
+     this.errorGeneralProduct = '';
+     console.log('Orden de recoleccion general');
+     console.log(this.currentRequisition);
+     console.log('ArrayGeneralProducts');
+     console.log(this.arrayGeneralProduct);
+     if(this.arrayGeneralProduct.length == 0){
+       //error
+       this.errorGeneralProduct = 'No puede crear una orden de recoleccion general sin productos!'
+     }
+     this.arrayGeneralProduct.forEach(element => {
+       if(element.quantity_real == undefined || element.quantity_real == 0 || element.quantity_real == ""
+       || element.provider_id == 0 || element.provider_id == "" || element.provider_id == undefined)
+       {
+         //error
+         this.errorGeneralProduct = 'Favor de llenar todos los campos necesarios.'
+       }
+       else{
+         newProductsArray.push({
+          id:element.id,
+          quantity_real:'',
+          provider_id:element.provider_id,
+          name:element.name,
+          quantity:element.quantity_real
+        });
+       }
+     });
+     let data = {
+       requisition_id:this.currentRequisition.id,
+       products:newProductsArray
+     }
+     console.log('Data');
+     console.log(data);
+
+     this.harvestService.fnPostNewHarvest(data)
+     .then(res => {
+       Swal.fire({
+         icon:'success',
+         title:'Correcto',
+         text:'Se creo la hoja de recoleccion general',
+         didClose:() => {
+          this.changeStatus(this.currentRequisition.id,2);
+          this.fnCloseModal();
+         }
+       })
+     })
+     .catch(rej => {
+       Swal.fire({
+         icon:'error',
+         title:'Error!',
+         text:'Ocurrion un error al intentar crear la hoja de recoleccion general'
+       })
+     })
+   }
+
+   fnUpdateGeneralProducts(){
+     console.log('Entre a update general product');
+     this.arrayGeneralProduct = [];
+     if(this.arrayOrderProducts.length > 0)
+     {
+       if(this.arrayGeneralProduct.length == 0 ){
+        this.arrayOrderProducts.forEach(element => {
+          this.arrayGeneralProduct.push({
+            id:element.id,
+            quantity_real:'',
+            provider_id:'',
+            name:element.name,
+            quantity:element.quantity
+          });
+        });
+        console.log('Tamaño de productos orden general');
+        console.log(this.arrayGeneralProduct.length);
+        console.log(this.arrayGeneralProduct);
+       }
+       else
+       {
+         
+       }
+     }
+     else
+     {
+       this.arrayGeneralProduct = [];
+     }
+   }
+
+   fnAddProductToGeneral ()
+   {
+     console.log('Entre a ProductGeneral');
+    let data = this.arrayProducts.find(element => element.id == this.currentProduct.id);
+    //if(this.currentProduct.id == undefined || this.newForm.value.quantity == undefined || data == undefined){
+    if(this.currentProduct.id == undefined || this.currentProduct.quantity == undefined || data == undefined){
+      console.log('Entre a aquijujujuju');
+      console.log(this.currentProduct.id);
+      console.log(this.newForm.value.quantity);
+      console.log(data);
+      return;
+    }
+    console.log('Aqui tambien');
+    let newProduct = {
+      id:Number(this.currentProduct.id),
+      quantity:Number(this.currentProduct.quantity),
+      name:data.name,
+      quantity_real:Number(this.currentProduct.quantity),
+      provider_id:Number(this.currentProduct.provider_id)
+    }
+    console.log('Ando aca');
+    /**Probando auxiliar */
+    //this.arrayGeneralProduct = this.arrayGeneralProduct;
+    //let newArray = [...this.arrayGeneralProduct];
+    let newArray = [];
+    this.arrayGeneralProduct.forEach(element => {
+       newArray.push({
+         id:element.id,
+         quantity:element.quantity,
+         quantity_real:element.quantity_real,
+         provider_id:element.provider_id,
+         name:element.name
+       });      
+    });
+    console.log('Antes de push');
+    console.log(newArray);
+    //setTimeout(() => { newArray.push(newProduct); console.log('Dentro del delay'); console.log(newArray);this.arrayGeneralProduct = newArray}, 1000);
+    console.log('NewArray');
+    console.log(newArray);
+
+    /*Limpia el valor de cantidad */
+    //this.newForm.value.quantity = '';
+    //this.newForm.controls['quantity'].setValue('');
+    this.currentProduct = {
+      id:'',
+      name:'',
+      quantity:'',
+      provider_id:'',
+      quantity_real:''
+    };
+    newArray.push(newProduct); console.log('Dentro del delay'); 
+    console.log(newArray);
+    this.arrayGeneralProduct = newArray
+
+    this.fnCheckRemainingProducts();
+   }
+
+   fnDeleteProductToGeneral(id){
+    for(var i = 0 ; i < this.arrayGeneralProduct.length; i ++ ){
+      if( this.arrayGeneralProduct[i].id == id){
+        this.arrayGeneralProduct.splice(i,1);
+        i--;
+      }
+    }
+    this.fnLoadProducts();
+    this.fnCheckRemainingProducts();
    }
 }

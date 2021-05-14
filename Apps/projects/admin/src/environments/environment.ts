@@ -4,9 +4,11 @@
 
 export const environment = {
   production: false,
-  ip: 'http://localhost:3000',
+  //ip: 'http://localhost:3000',
+  ip: 'http://192.168.1.92:3000',
   //ip: 'https://www.verintenatural.mydevelopsy.com',
   //ip:'http://nandoacevedo.me:8901',
+  //ip:'https://bd4882d083c0.ngrok.io',
   image: '',
   client_secret: "93JuQNHdUkOnpyoAUez7IBputgWyRY45ic6U5FWO"
 };

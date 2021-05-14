@@ -196,9 +196,9 @@
                 </form>
             </div>
             <div *ngSwitchCase="3" class="modal-body">
-                <!--Hoja de recoleccion - View-->
-                <form novalidate role="form" [formGroup]="newForm" class="row">
-                    <!-- <div class="container">
+                <!--Hoja general de recoleccion - View-->
+                <!-- <form novalidate role="form" [formGroup]="newForm" class="row"> -->
+                <!-- <div class="container">
                         <div class="form-group">
                             <h3>Fecha de peticion</h3>
                             <div *ngIf="!show" class="input-group">
@@ -215,59 +215,75 @@
                     <div class="form-group col-md-6 col-sm-12">
 
                     </div> -->
-                    <div class="container">
-                        <div class="wrapper">
-                            <div class="panel-body table-responsive">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th></th>
-                                            <th scope="col">Producto</th>
-                                            <th scope="col">Cantidad</th>
-                                            <th scope="col">Cantidad Autorizada</th>
-                                            <th scope="col">Proveedor</th>
-                                            <th *ngIf="!show" scope="col">Opciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let product of arrayOrderProducts" class="">
-                                            <td></td>
-                                            <td>{{ product.name }}</td>
-                                            <td>{{ product.quantity }}</td>
-                                            <td>
-                                                <input type="text" class="form-control" placeholder="Cantidad Autorizada">
-                                            </td>
-                                            <td>
-                                                <select class="form-control">
+                <div class="container">
+                    <div class="wrapper">
+                        <div class="panel-body table-responsive">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th></th>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Cantidad Autorizada</th>
+                                        <th scope="col">Proveedor</th>
+                                        <th *ngIf="!show" scope="col">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <tr *ngFor="let product of arrayOrderProducts;let indexOfElement = index;" class=""> -->
+                                    <tr *ngFor="let product of arrayGeneralProduct; let indexOfElement = index;" class="">
+                                        <td></td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.quantity }}</td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Cantidad Autorizada" x [(ngModel)]="product.quantity_real">
+                                        </td>
+                                        <td>
+                                            <select class="form-control" [(ngModel)]="product.provider_id">
+                                                        <!-- <option *ngFor="let provider of arrayProviders.filter(fnProviderContainsProduct.bind(this,product.id));let index" 
+                                                        [value]="provider.id">{{provider.name}}</option> -->
+                                                        <option *ngFor="let provider of fnFilterProvidersByProductId(product.id);let index;" 
+                                                        [value]="provider.id">{{provider.name}}</option>
+                                                    </select>
+                                        </td>
+                                        <td>
+                                            <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProductToGeneral(product.id)"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="!show">
+                                        <th scope="row"></th>
+                                        <td>
+                                            <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
+                                                <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
+                                        </td>
+                                        <td>
+                                            <select class="form-control" [(ngModel)]="currentProduct.provider_id">
                                                     <!-- <option *ngFor="let provider of arrayProviders.filter(fnProviderContainsProduct.bind(this,product.id));let index" 
                                                     [value]="provider.id">{{provider.name}}</option> -->
-                                                    <option *ngFor="let provider of fnFilterProvidersByProductId(product.id);let index" 
+                                                    <option *ngFor="let provider of fnFilterProvidersByProductId(currentProduct.id);let index;" 
                                                     [value]="provider.id">{{provider.name}}</option>
                                                 </select>
-                                            </td>
-                                            <td>
-                                                <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProduct(product.id)"><i class="fas fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr *ngIf="!show">
-                                            <th scope="row"></th>
-                                            <td>
-                                                <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
-                                                    <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input formControlName="quantity" class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
-                                            </td>
-                                            <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProduct()"><i class="fas fa-plus"></i> Crear</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </td>
+                                        <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProductToGeneral()"><i class="fas fa-plus"></i> Agregar</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()">Actualizar</button>
-                </form>
+                    <div *ngIf="errorGeneralProduct.length > 0">
+                        <span class="text-danger text-center col-md-12">{{ errorGeneralProduct }}</span>
+                    </div>
+                    <br>
+                    <div class="col-md-12 text-center">
+                        <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="fnCreateGeneralRecolectionOrder()">Generar hoja de recoleccion general.</button>
+                    </div>
+                    <br>
+                </div>
+                <!-- </form> -->
             </div>
             <div class="modal-footer">
                 <div>
