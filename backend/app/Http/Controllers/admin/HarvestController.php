@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BatchRequest;
 use App\Http\Requests\HarvestRequest;
 use App\Models\Harvest;
+use App\Models\Warehouse;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -19,6 +21,18 @@ class HarvestController extends Controller
     {
         try {
             $harvests = Harvest::all();
+
+            $harvests = $harvests->map(function ($harvest) {
+                $harvest->append(['requisition_folio', 'provider_name']);
+                $harvest = $harvest->only([
+                    "id",
+                    "folio",
+                    "requisition_folio",
+                    "provider_name",
+                    "created_at"
+                ]);
+                return $harvest;
+            });
 
             return response()->json(['data' => $harvests], 200);
         } catch (\Exception $e) {
@@ -35,6 +49,11 @@ class HarvestController extends Controller
     public function store(HarvestRequest $request)
     {
         try {
+            $requisition_id = $request->requisition_id;
+
+            $warehouse = Warehouse::whereHas('requisitions', function ($requisition) use ($requisition_id) {
+                $requisition->where('id', $requisition_id);
+            })->first();
 
             $providers = [];
 
@@ -49,12 +68,24 @@ class HarvestController extends Controller
             foreach ($providers as $provider) {
 
                 $harvest = Harvest::create($request->all());
-                $harvest->folio = 'RC' . $this->formattedID($harvest->id);
+                $harvest->folio = 'RG' . $this->formattedID($harvest->id);
                 $harvest->provider_id = $provider[0]['provider_id'];
                 $harvest->save();
 
                 $products = new Collection($provider);
-                $harvest->products()->sync($products->map(function ($product) {
+
+                $harvest->products()->sync($products->map(function ($product) use ($warehouse) {
+
+                    (new BatchController)->store(
+                        new BatchRequest([
+                            'quantity'          => $product['quantity'],
+                            'unit_cost'         => 0,
+                            'product_id'        => $product['id'],
+                            'provider_id'       => $product['provider_id'],
+                            'warehouse_id'      => $warehouse->id
+                        ])
+                    );
+
                     return [
                         'product_id' => $product['id'],
                         'quantity' => $product['quantity'],

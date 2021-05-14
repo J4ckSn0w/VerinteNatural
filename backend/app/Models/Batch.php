@@ -27,8 +27,7 @@ class Batch extends Model
         'product_id',
         'provider_id',
         'warehouse_id',
-        'status',
-        'purchase_order_id'
+        'status'
     ];
 
     /*********** Methods ************/
@@ -51,11 +50,6 @@ class Batch extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
-    }
-
-    public function purchase_order()
-    {
-        return $this->belongsTo(PurchaseOrder::class);
     }
 
     /********** End Relations *********/
@@ -81,11 +75,6 @@ class Batch extends Model
     public function getStatusNameAttribute()
     {
         return $this->STATUS[$this->status] ?? '';
-    }
-
-    public function getPurchaseOrderFolioAttribute()
-    {
-        return $this->purchase_order->folio ?? '';
     }
 
     /********** End Appends *********/

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\IncidentRequest;
 use App\Models\Employee;
 use App\Models\Incident;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -48,7 +49,6 @@ class IncidentController extends Controller
     {
         try {
             $superior = $this->searchSuperiorEmployee();
-
             if ($superior) {
                 $incident = Incident::create(array_merge(
                     $request->toArray(),
@@ -58,7 +58,7 @@ class IncidentController extends Controller
                     ]
                 ));
             } else {
-                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 400);
+                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 422);
             }
 
             return response()->json(['data' => $incident], 201);
@@ -122,7 +122,7 @@ class IncidentController extends Controller
                 $incident->responsable_id = $superior->id;
                 $incident->save();
             } else {
-                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 400);
+                return response()->json(['errors' => ['server_error' => ['No existe usuario con role superior a quien reportar']]], 422);
             }
 
             return response()->json(['data' => $incident], 200);
@@ -137,45 +137,47 @@ class IncidentController extends Controller
         $superior_role = null;
 
         if ($auth->employee) {
-            $role_name = $auth->getRoles()[0];
+            $role_name = $auth->getRoles()[0] ?? null;
             if ($role_name) {
                 $role = DB::table('roles')->where('name', $role_name)->first();
-                $superior_role = DB::table('roles')
+
+                $superior_role = DB::table('employees')
+                    ->join('users', 'employees.user_id', '=', 'users.id')
+                    ->join('assigned_roles', 'users.id', '=', 'assigned_roles.entity_id')
+                    ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
+                    ->whereIn('roles.level', [($role->level - 1), ($role->level - 2), ($role->level - 3)])
                     ->where([
-                        ['level', ($role->level - 1)],
-                        ['employee_type_id', $role->employee_type_id],
-                        ['section', $role->section]
-                    ])->first();
+                        ['roles.employee_type_id', $role->employee_type_id],
+                        ['roles.section', $role->section]
+                    ])
+                    ->select('employees.id')->first();
+
+
+                if (!$superior_role)
+                    $superior_role = DB::table('employees')
+                        ->join('users', 'employees.user_id', '=', 'users.id')
+                        ->join('assigned_roles', 'users.id', '=', 'assigned_roles.entity_id')
+                        ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
+                        ->whereIn('roles.level', [($role->level - 1), ($role->level - 2), ($role->level - 3)])
+                        ->where('roles.employee_type_id', $role->employee_type_id)
+                        ->select('employees.id')->first();
+
 
                 if (!$superior_role) {
-                    $superior_role = DB::table('roles')
-                        ->where([
-                            ['level', ($role->level - 1)],
-                            ['employee_type_id', $role->employee_type_id]
-                        ])->first();
+                    $superior_role = DB::table('employees')
+                        ->join('users', 'employees.user_id', '=', 'users.id')
+                        ->join('assigned_roles', 'users.id', '=', 'assigned_roles.entity_id')
+                        ->join('roles', 'assigned_roles.role_id', '=', 'roles.id')
+                        ->whereIn('roles.level', [($role->level - 1), ($role->level - 2), ($role->level - 3)])
+                        ->select('employees.id')->first();
 
-                    if (!$superior_role) {
-                        $superior_role = DB::table('roles')
-                            ->where([
-                                ['level', ($role->level - 1)]
-                            ])->first();
-                    }
-                }
-            }
 
-            if ($superior_role) {
-                $superior_user = DB::table('assigned_roles')->where('role_id', $superior_role->id)->first();
-                if ($superior_user) {
-                    $employee = Employee::whereHas('user', function ($user) use ($superior_user) {
-                        $user->where('id', $superior_user->entity_id);
-                    })->first();
-                    if ($employee) {
-                        return $employee;
-                    }
+                    if (!$superior_role)
+                        $superior_role = (object) array('id' => Auth::user()->employee->id);
                 }
             }
         }
 
-        return null;
+        return $superior_role;
     }
 }

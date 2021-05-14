@@ -22,6 +22,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000000',
             'user_type_id' => 2,
+            'email_verified_at' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -33,6 +34,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000011',
             'user_type_id' => 2,
+            'email_verified_at' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -44,6 +46,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000012',
             'user_type_id' => 2,
+            'email_verified_at' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -55,6 +58,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000013',
             'user_type_id' => 2,
+            'email_verified_at' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -66,6 +70,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000021',
             'user_type_id' => 2,
+            'email_verified_at' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -77,6 +82,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000022',
             'user_type_id' => 2,
+            'email_verified_at' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -88,6 +94,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000031',
             'user_type_id' => 2,
+            'email_verified_at' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -99,6 +106,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000032',
             'user_type_id' => 2,
+            'email_verified_at' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -110,6 +118,7 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone_number' => '4490000033',
             'user_type_id' => 2,
+            'email_verified_at' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
