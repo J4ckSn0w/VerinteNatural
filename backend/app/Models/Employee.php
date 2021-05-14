@@ -128,14 +128,6 @@ class Employee extends Model
     }
 
     /**
-     * Driver data of employee
-     */
-    public function driver(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(Driver::class);
-    }
-
-    /**
      * Warehouse of leader
      */
     public function leader_warehouse(): \Illuminate\Database\Eloquent\Relations\HasOne
