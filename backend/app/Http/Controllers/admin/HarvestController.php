@@ -188,6 +188,7 @@ class HarvestController extends Controller
             $harvest_sheets_products = DB::table('harvest_sheet_product', 'a')
                 ->join('harvest_sheets', 'harvest_sheets.id', '=', 'a.harvest_sheet_id')
                 ->join('harvests', 'harvests.id', '=', 'harvest_sheets.harvest_id')
+                ->where('harvests.id', $id)
                 ->select('a.*')
                 ->get();
 
