@@ -108,4 +108,28 @@ export class DriverService{
         });
         return respuesta;
     }
+
+    fnGetDeliveryDrivers():Promise<any>{
+        return new Promise((resolve,reject) => {
+            this.http.get(this.str_ip+'/api/_p1/drivers?deliveries=true',{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        });
+    }
+
+    fnGetGatheres():Promise<any>{
+        return new Promise((resolve,reject) => {
+            this.http.get(this.str_ip+'/api/_p1/drivers?gatherers=true',{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        });
+    }
 }
