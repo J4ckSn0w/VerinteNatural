@@ -44,7 +44,7 @@ export class HarvestService {
             .catch(rej => {
                 reject(rej);
             })
-        })
+        });
     }
 
     fnGetHarvestById(harvest_id):Promise<any>{

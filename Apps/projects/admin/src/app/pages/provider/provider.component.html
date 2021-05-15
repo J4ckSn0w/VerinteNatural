@@ -126,6 +126,10 @@
                             <label>Maximo de Compra</label>
                             <input class="form-control" type="text" placeholder="Maximo de Compra" formControlName="max_purchase_allowed" [(ngModel)]="currentProvider.max_purchase_allowed" [attr.disabled]="show?'disabled':null">
                         </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Direccion</label>
+                            <input class="form-control" type="text" name="address" placeholder="Direccion" formControlName="address" [(ngModel)]="currentProvider.address">
+                        </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="producer" placeholder="Maximo de Compra" formControlName="is_producer" [(ngModel)]="currentProvider.is_producer" [attr.disabled]="show?'disabled':null">
@@ -235,6 +239,10 @@
                         <div class="form-group col-md-6 col-sm-12">
                             <label>Maximo de Compra</label>
                             <input class="form-control" type="text" placeholder="Maximo de Compra" formControlName="max_purchase_allowed" [(ngModel)]="currentProvider.max_purchase_allowed" [attr.disabled]="show?'disabled':null">
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Direccion</label>
+                            <input class="form-control" type="text" name="address" placeholder="Direccion" formControlName="address" [(ngModel)]="currentProvider.address" [attr.disabled]="show?'disabled':null">
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <div class="form-check">

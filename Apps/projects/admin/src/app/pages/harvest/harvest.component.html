@@ -84,7 +84,7 @@
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Cantidad Por Recolectar</th>
                                         <!-- <th scope="col">Proveedor</th> -->
-                                        <th *ngIf="show" scope="col">Opciones</th>
+                                        <th *ngIf="!show" scope="col">Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -124,8 +124,8 @@
                                                     [value]="provider.id">{{provider.name}}</option> -->
                                         <!-- <option *ngFor="let provider of fnFilterProvidersByProductId(currentProduct.id);let index;" [value]="provider.id">{{provider.name}}</option>
                                         </select>
-                                        </td>
-                                        <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProductToGeneral()"><i class="fas fa-plus"></i> Agregar</a></td> -->
+                                        </td>-->
+                                        <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddOrderProduct(product.id)"><i class="fas fa-plus"></i> Agregar</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -143,12 +143,25 @@
                             <label>Fecha</label>
                             <div class="input-group">
 
-                                <input class="form-control" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6 col-sm-6">
+                            <p *ngIf="errorRetriever" class="text-danger text-center">
+                                Debe seleccionar un recolector.
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <p *ngIf="errorDate" class="text-danger text-center">
+                                Debe seleccionar una fecha valida.
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <h5>Lista de productos.</h5>
                     </div>
                     <div class="wrapper">
                         <div class="panel-body table-responsive">
@@ -161,25 +174,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let product of currentGeneralRecolection.products;let indexOfElement = index;">
-                                        <td>{{ product.name }}</td>
+                                    <tr *ngFor="let orderProduct of arrayOrderRecollection;let indexOfElement = index;">
+                                        <td>{{ orderProduct.name }}</td>
                                         <!-- <td>{{ product.quantity }}</td> -->
                                         <td>
-                                            <input class="form-group" type="text" [(ngModel)]="product.quantity">
+                                            <input class="form-group" type="text" [(ngModel)]="orderProduct.quantity">
                                         </td>
-                                        <td></td>
+                                        <td>
+                                            <div class="col-4 col-md-6 col-sm-4 text-center" style="text-align: center;">
+                                                <a href="javascript:void(0)" (click)="fnDeleteOrderProduct(orderProduct.id)"><i class="fa fa-trash text-danger" title="Eliminar producto de la recoleccion"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
 
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Direccion" x [(ngModel)]="currentGeneralRecolection.address">
+                    <div *ngIf="errorProducts" class="col-sm-12 col-md-12">
+                        <p class="text-danger text-center">
+                            La lista de productos no puede estar vacia.
+                        </p>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Direccion</label>
+                            <input type="text" class="form-control" placeholder="Direccion" x [(ngModel)]="currentGeneralRecolection.address">
+                        </div>
+                    </div>
+                    <br>
+                    <div *ngIf="errorAddress" class="col-md-12 col-sm-12">
+                        <p class="text-danger text-center">
+                            Debe escribir una direccion.
+                        </p>
                     </div>
                 </div>
+
+
+                <!-- <div class="text-danger" *ngIf="error.length > 0">
+                    <h4>{{ error }}</h4>
+                </div> -->
                 <!-- <div *ngIf="errorGeneralProduct.length > 0">
                         <span class="text-danger text-center col-md-12">{{ errorGeneralProduct }}</span>
                     </div> -->

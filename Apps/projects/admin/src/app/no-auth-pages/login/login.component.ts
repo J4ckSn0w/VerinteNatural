@@ -54,10 +54,12 @@ export class LoginComponent implements OnInit {
           case 1:
           case 2:
             this.router.navigate(["admin/home"]); //Redirigimos a la ruta principal 
+            console.log('Home');
             break;
           case 3:
             console.log('Entre a el case 4');
             this.router.navigate(["store/home"]); //Redirigimos a la ruta principal 
+            console.log('Tienda');
             break;
           default:
             console.log('Default');

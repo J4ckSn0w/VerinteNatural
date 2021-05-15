@@ -27,7 +27,8 @@ export class ProviderComponent implements OnInit {
     credit: new FormControl(null,[Validators.required]),
     max_purchase_allowed: new FormControl(null,[Validators.required]),
     is_producer: new FormControl(null,[Validators.required]),
-    payment_form_id: new FormControl(null,[Validators.required])
+    payment_form_id: new FormControl(null,[Validators.required]),
+    address: new FormControl(null,[Validators.required])
   });
 
   currentView = 0;
@@ -104,7 +105,8 @@ export class ProviderComponent implements OnInit {
     payment_form_id:'',
     credit:'',
     max_purchase_allowed:'',
-    is_producer:false
+    is_producer:false,
+    address:''
   }
 
   priceError = false;
