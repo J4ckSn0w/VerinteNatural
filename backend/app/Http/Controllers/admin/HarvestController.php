@@ -198,7 +198,7 @@ class HarvestController extends Controller
                 foreach ($harvest_sheets_products as $_product) {
                     if ($product['id'] == $_product->product_id) {
                         $product['to_collect'] -= $_product->quantity;
-                        if ($product['to_collect'] == 0)
+                        if ($product['to_collect'] <= 0)
                             $product['was_finalized'] = 1;
                     }
                 }
