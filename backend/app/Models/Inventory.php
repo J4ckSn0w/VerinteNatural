@@ -12,8 +12,8 @@ class Inventory extends Model
     use HasFactory, SoftDeletes;
 
     protected $STATUS = [
-        0 => 'Por encima del stock minimo',
-        1 => 'Cerca del stock minimo',
+        0 => 'Sin Stock',
+        1 => 'Por encima del Stock',
         2 => 'Por debajo del stock minimo',
         3 => 'Sin existencias'
     ];
@@ -23,11 +23,13 @@ class Inventory extends Model
     protected $fillable = [
         'available',
         'total',
-        'product_name',
+        'product_id',
         'sku',
         'warehouse_id',
-        'batch_id',
-        'minium_stock'
+        'minium_stock',
+        'provider_id',
+        'status',
+        'harvest_id'
     ];
 
     /*********** Methods ************/
@@ -37,11 +39,6 @@ class Inventory extends Model
 
     /*********** Relations ************/
 
-    public function batch()
-    {
-        return $this->belongsTo(Batch::class);
-    }
-
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
@@ -50,6 +47,16 @@ class Inventory extends Model
     public function units()
     {
         return $this->belongsToMany(Unit::class)->withPivot('price', 'is_default');
+    }
+
+    public function harvest()
+    {
+        return $this->belongsTo(Harvest::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 
     /********** End Relations *********/
@@ -67,17 +74,14 @@ class Inventory extends Model
         return $this->STATUS[$this->status] ?? '';
     }
 
-    public function getUnitDefaultAttribute()
-    {
-        $unit = $this->units()->select('id', 'name', 'price')->where('is_default', 1)->first() ??  null;
-        if ($unit)
-            return $unit->only('id', 'name', 'price');
-        else return null;
-    }
-
     public function getImageAttribute()
     {
         return config('services.storage.products') . substr($this->sku, 6, 12)  . '.png';
+    }
+
+    public function getProductNameAttribute()
+    {
+        return $this->product->name ?? '';
     }
 
     /********** End Appends *********/

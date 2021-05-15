@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductType;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -58,9 +59,18 @@ class ProductController extends Controller
                 $this->formatProductID($product->id);
             $product->save();
 
+            // Set sale units
+            $units = new Collection($request->units);
+            $product->units()->sync($units->map(function ($unit) {
+                return [
+                    'unit_id' => $unit['id'],
+                    'priority' => $unit['priority']
+                ];
+            }));
+
             $base64_str = substr($request->image, strpos($request->image, ",") + 1);
             $image = base64_decode($base64_str);
-            $path = Storage::disk('public')->put('/images/products/' . $product->sku . '.png', $image);
+            Storage::disk('public')->put('/images/products/' . $product->sku . '.png', $image);
 
             return response()->json(['data' => $product], 201);
         } catch (\Exception $e) {
@@ -93,6 +103,15 @@ class ProductController extends Controller
     {
         try {
             $product = Product::findOrfail($id);
+
+            $product->units = $product->units()->select('id', 'name')->get()->map(function ($unit) {
+                return [
+                    'id'    => $unit->id,
+                    'name'  => $unit->name,
+                    'priority' => $unit->pivot->priority
+                ];
+            });
+
             $product->image = base64_encode(Storage::disk('public')->get('images/products/' . $product->sku . '.png'));
 
             return response()->json(['data' => $product], 200);

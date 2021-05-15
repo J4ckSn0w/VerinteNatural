@@ -19,9 +19,11 @@ class CreateHarvestProductTable extends Migration
             $table->double('quantity')->default(0);
             $table->double('to_collect')->nullable();
             $table->boolean('was_finalized')->default(0);
+            $table->foreignId('unit_id')->nullable();
 
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('harvest_id')->references('id')->on('harvests');
+            $table->foreign('unit_id')->references('id')->on('units');
         });
     }
 

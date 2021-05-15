@@ -5,6 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InventoryRequest;
 use App\Models\Inventory;
+use App\Models\Product;
+use Carbon\Carbon;
 use Error;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -21,7 +23,7 @@ class InventoryController extends Controller
         try {
             $inventories = Inventory::all();
             $inventories = $inventories->map(function ($inventory) {
-                $inventory->append(['status_name', 'warehouse_name']);
+                $inventory->append(['product_name', 'status_name', 'warehouse_name']);
                 $inventory = $inventory->only([
                     'id',
                     'sku',
@@ -51,23 +53,38 @@ class InventoryController extends Controller
     public function store(InventoryRequest $request)
     {
         try {
-            $inventory = new Inventory();
-            $inventory->fill($request->all());
-            $inventory->status = $request->status;
+
+            $date = Carbon::now()->format('dmy');
+            $product = Product::findOrfail($request->product_id);
+            $providerID = $this->formatID($request->provider_id, 4);
+            $sameBatches = Inventory::where([['product_id', $request->product_id], ['provider_id', $request->provider_id]])->count();
+            $sku = 'VN' . $providerID . $product->sku . $date . $this->formatID(($sameBatches + 1), 2);
+
+            $inventory = Inventory::create(array_merge(
+                $request->toArray(),
+                [
+                    'sku' => $sku
+                ]
+            ));
             $inventory->save();
-            $units = new Collection($request->units);
-            $inventory->units()->sync($units->map(function ($unit) use ($inventory) {
-                return [
-                    'unit_id'            => $unit['id'],
-                    'inventory_id'     => $inventory->id,
-                    'price'              => $unit['price'],
-                    'is_default'    => $unit['is_default']
-                ];
-            }));
+
             return response()->json(['data' => $inventory], 200);
         } catch (\Exception $e) {
             throw  new Error($e->getMessage());
         }
+    }
+
+    public function formatID($id, $digits)
+    {
+        $formattedID = '';
+
+        for ($i = 1; $i < $digits; $i++)
+            if (pow(10, $i) > $id) $formattedID .= '0';
+
+
+        $formattedID .= $id;
+
+        return $formattedID;
     }
 
     /**

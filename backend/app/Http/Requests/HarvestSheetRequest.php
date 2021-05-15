@@ -35,7 +35,8 @@ class HarvestSheetRequest extends FormRequest
             'products'              => 'required|array',
             'products.*.id'         => 'required|exists:products,id',
             'products.*.quantity'   => 'required|numeric|gt:0',
-            'products.*.quantity_real' => $validation
+            'products.*.quantity_real' => $validation,
+            'products.*.unit_id'   => 'required|numeric|exists:units,id',
         ];
     }
 }

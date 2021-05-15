@@ -29,6 +29,7 @@ class HarvestRequest extends FormRequest
             'products.*.id'  => 'required|exists:products,id',
             'products.*.quantity' => 'required|numeric|gt:0',
             'products.*.provider_id'    => 'required|exists:providers,id',
+            'products.*.unit_id'    => 'required|exists:units,id',
         ];
     }
 }

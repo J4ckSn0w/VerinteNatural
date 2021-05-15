@@ -57,7 +57,7 @@ class HarvestSheet extends Model
      */
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('quantity', 'quantity_real');
+        return $this->belongsToMany(Product::class)->withPivot('quantity', 'quantity_real', 'unit_id');
     }
 
 

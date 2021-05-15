@@ -18,12 +18,14 @@ class CreateHarvestsTable extends Migration
             $table->string('folio', 100)->nullable();
             $table->foreignId('requisition_id')->nullable();
             $table->foreignId('provider_id')->nullable();
+            $table->foreignId('warehouse_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('requisition_id')->references('id')->on('requisitions');
             $table->foreign('provider_id')->references('id')->on('providers');
+            $table->foreign('warehouse_id')->references('id')->on('warehouses');
         });
     }
 
