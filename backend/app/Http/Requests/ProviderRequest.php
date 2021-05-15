@@ -39,7 +39,8 @@ class ProviderRequest extends FormRequest
             'payment_form_id' => 'required|exists:payment_forms,id',
             'credit' => 'required|numeric',
             'max_purchase_allowed' => 'required|numeric',
-            'is_producer' => 'required|boolean'
+            'is_producer' => 'required|boolean',
+            'address'     => 'required|string|max:255'
         ];
     }
 }
