@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\HarvestRequest;
 use App\Http\Requests\HarvestSheetRequest;
+use App\Models\Harvest;
 use App\Models\HarvestSheet;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -66,13 +68,16 @@ class HarvestSheetController extends Controller
             $harvest_sheet->save();
 
             $products = new Collection($request->products);
-            $harvest_sheet->products()->sync($products->map(function ($product) use ($harvest_sheet) {
+            $harvest_sheet->products()->sync($products->map(function ($product) {
                 return [
                     'product_id'    => $product['id'],
                     'quantity'      => $product['quantity'],
+                    'unit_id'       => $product['unit_id'],
                     'quantity_real' => 0
                 ];
             }));
+
+            (new HarvestController)->update($harvest_sheet->harvest_id);
 
             return response()->json(['data' => $harvest_sheet], 201);
         } catch (\Exception $e) {
@@ -113,6 +118,7 @@ class HarvestSheetController extends Controller
                     'sku' => $product->sku,
                     'quantity' => $product->pivot->quantity,
                     'quantity_real' => $product->pivot->quantity_real,
+                    'unit_id'   => $product->pivot->unit_id
                 ];
             });
 
@@ -129,29 +135,30 @@ class HarvestSheetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(HarvestSheetRequest $request, $id)
-    {
-        try {
-            $harvest_sheet = HarvestSheet::findOrfail($id);
-            if ($harvest_sheet->status != 1) {
-                $harvest_sheet->status = 1;
-                $harvest_sheet->save();
+    // public function update(HarvestSheetRequest $request, $id)
+    // {
+    //     try {
+    //         $harvest_sheet = HarvestSheet::findOrfail($id);
+    //         if ($harvest_sheet->status != 1) {
+    //             $harvest_sheet->status = 1;
+    //             $harvest_sheet->save();
 
-                $products = new Collection($request->products);
-                $harvest_sheet->products()->sync($products->map(function ($product) use ($harvest_sheet) {
-                    return [
-                        'product_id'    => $product['id'],
-                        'quantity'      => $product['quantity'],
-                        'quantity_real' => $product['quantity_real']
-                    ];
-                }));
-            }
+    //             $products = new Collection($request->products);
+    //             $harvest_sheet->products()->sync($products->map(function ($product) use ($harvest_sheet) {
+    //                 return [
+    //                     'product_id'    => $product['id'],
+    //                     'quantity'      => $product['quantity'],
+    //                     'unit_id' => $product['unit_id'],
+    //                     'quantity_real' => $product['quantity_real']
+    //                 ];
+    //             }));
+    //         }
 
-            return response()->json(['data' => $harvest_sheet], 200);
-        } catch (\Exception $e) {
-            return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
-        }
-    }
+    //         return response()->json(['data' => $harvest_sheet], 200);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['errors' => ['server_error' => [$e->getMessage()]]], 400);
+    //     }
+    // }
 
     /**
      * Remove the specified resource from storage.

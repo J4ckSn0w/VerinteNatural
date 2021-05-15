@@ -63,7 +63,8 @@ class RequisitionController extends Controller
                 return [
                     'product_id' => $product['id'],
                     'requisition_id' => $requisition->id,
-                    'quantity' => $product['quantity']
+                    'quantity' => $product['quantity'],
+                    'unit_id' => $product['unit_id']
                 ];
             }));
             return response()->json(['data' => $requisition], 201);
@@ -102,6 +103,7 @@ class RequisitionController extends Controller
                     'name' => $product->name,
                     'sku' => $product->sku,
                     'quantity' => $product->pivot->quantity,
+                    'unit_id'  => $product->pivot->unit_id
                 ];
             });
 
@@ -131,7 +133,8 @@ class RequisitionController extends Controller
                 return [
                     'product_id' => $product['id'],
                     'requisition_id' => $requisition->id,
-                    'quantity' => $product['quantity']
+                    'quantity' => $product['quantity'],
+                    'unit_id' => $product['unit_id']
                 ];
             }));
 

@@ -19,7 +19,9 @@ class Product extends Model
         'product_type_id',
         'description',
         'sku',
-        'minium_stock'
+        'minium_stock',
+        'storage_unit_id',
+        'factor_unit_id'
     ];
 
     /*********** Methods ************/
@@ -42,6 +44,21 @@ class Product extends Model
     public function harvests()
     {
         return $this->belongsToMany(Harvest::class);
+    }
+
+    public function units()
+    {
+        return $this->belongsToMany(Unit::class)->withPivot('priority');
+    }
+
+    public function factor_unit()
+    {
+        return $this->belongsTo(Unit::class, 'factor_unit_id', 'id');
+    }
+
+    public function storage_unit()
+    {
+        return $this->belongsTo(Unit::class, 'storage_unit_id', 'id');
     }
 
     /********** End Relations *********/

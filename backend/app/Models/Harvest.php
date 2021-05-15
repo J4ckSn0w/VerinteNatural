@@ -32,7 +32,7 @@ class Harvest extends Model
      */
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('quantity', 'to_collect', 'was_finalized');
+        return $this->belongsToMany(Product::class)->withPivot('quantity', 'to_collect', 'was_finalized', 'unit_id');
     }
 
     /**
@@ -42,6 +42,22 @@ class Harvest extends Model
     {
         return $this->belongsTo(Provider::class);
     }
+
+    /**
+     * Get warehouse of Harvest
+     */
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    // /**
+    //  * Get 
+    //  */
+    // public function inventories()
+    // {
+    //     return $this->hasMany(Harvest::class);
+    // }
 
 
     /**** Appends ****/
@@ -61,6 +77,18 @@ class Harvest extends Model
     {
         return $this->provider->name ?? '';
     }
+
+    /**
+     * Get warehouse name
+     */
+    public function getWarehouseNameAttribute()
+    {
+        return $this->warehouse->name ?? '';
+    }
+
+
+
+
 
     // BOOT
     public static function boot()

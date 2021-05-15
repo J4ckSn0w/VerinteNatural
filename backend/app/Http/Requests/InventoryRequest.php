@@ -26,15 +26,10 @@ class InventoryRequest extends FormRequest
         return [
             'available'     => 'required|numeric',
             'total'         => 'required|numeric',
-            'product_name'  => 'required|string|max:100',
-            'sku'           => 'required|string|max:100',
+            'product_id'  => 'required|numeric|exists:products,id',
             'warehouse_id'  => 'required|exists:warehouses,id',
-            'batch_id'      => 'required|exists:batches,id',
             'minium_stock'  => 'required|numeric|lt:total',
-            'units'         => 'required|array',
-            'units.*.unit_id'       => 'required|exists:units,id',
-            'units.*.price'         => 'required|numeric',
-            'units.*.is_default'    => 'required|boolean'
+            'provider_id'  => 'required|numeric|exists:providers,id',
         ];
     }
 }

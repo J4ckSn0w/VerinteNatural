@@ -27,7 +27,8 @@ class RequisitionRequest extends FormRequest
             'required_to' => 'required|date_format:Y-m-d',
             'products' => 'required|array',
             'products.*.quantity' => 'required|numeric',
-            'products.*.id' => 'required|numeric|exists:products,id'
+            'products.*.id' => 'required|numeric|exists:products,id',
+            'products.*.unit_id' => 'required|numeric|exists:units,id'
         ];
     }
 }

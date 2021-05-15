@@ -16,8 +16,14 @@ class CreateHarvestSheetProductTable extends Migration
         Schema::create('harvest_sheet_product', function (Blueprint $table) {
             $table->foreignId('harvest_sheet_id');
             $table->foreignId('product_id');
+            $table->foreignId('unit_id')->nullable();
             $table->double('quantity')->default(0);
             $table->double('quantity_real')->default(0);
+
+
+            $table->foreign('harvest_sheet_id')->references('id')->on('harvest_sheets');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('unit_id')->references('id')->on('units');
         });
     }
 

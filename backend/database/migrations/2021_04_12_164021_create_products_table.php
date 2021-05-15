@@ -20,11 +20,15 @@ class CreateProductsTable extends Migration
             $table->string('description', 255)->nullable();
             $table->string('sku', 255)->nullable();
             $table->double('minium_stock')->nullable();
+            $table->foreignId('storage_unit_id');
+            $table->foreignId('factor_unit_id');
 
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('product_type_id')->references('id')->on('product_types');
+            $table->foreign('storage_unit_id')->references('id')->on('units');
+            $table->foreign('factor_unit_id')->references('id')->on('units');
         });
     }
 

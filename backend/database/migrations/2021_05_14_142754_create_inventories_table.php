@@ -15,20 +15,23 @@ class CreateInventoriesTable extends Migration
     {
         Schema::create('inventories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('product_name')->nullable();
+            $table->foreignId('product_id')->nullable();
             $table->string('sku')->nullable();
-            $table->foreignId('batch_id')->nullable();
             $table->double('available')->nullable();
             $table->double('total')->nullable();
             $table->double('minium_stock')->nullable();
             $table->foreignId('warehouse_id')->nullable();
-            $table->integer('status');
+            $table->foreignId('provider_id')->nullable();
+            $table->integer('status')->default(0);
+            $table->foreignId('harvest_id')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('batch_id')->references('id')->on('batches');
             $table->foreign('warehouse_id')->references('id')->on('warehouses');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('provider_id')->references('id')->on('providers');
+            $table->foreign('harvest_id')->references('id')->on('harvests');
         });
     }
 

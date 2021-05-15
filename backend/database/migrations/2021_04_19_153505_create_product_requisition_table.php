@@ -17,9 +17,11 @@ class CreateProductRequisitionTable extends Migration
             $table->unsignedBigInteger('requisition_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();
             $table->double('quantity')->nullable();
+            $table->foreignId('unit_id')->nullable();
 
             $table->foreign('requisition_id')->references('id')->on('requisitions');
             $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('unit_id')->references('id')->on('units');
         });
     }
 
