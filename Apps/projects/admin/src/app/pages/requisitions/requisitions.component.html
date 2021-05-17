@@ -80,7 +80,7 @@
                             <h3>Fecha de peticion</h3>
                             <div class="input-group">
 
-                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker">
+                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
                                 </div>
@@ -141,13 +141,13 @@
                         <div class="form-group">
                             <h3>Fecha de peticion</h3>
                             <div *ngIf="!show" class="input-group">
-                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker">
+                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
                                 </div>
                             </div>
                             <div *ngIf="show">
-                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" disabled>
+                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" disabled [minDate]="minDate">
                             </div>
                         </div>
                     </div>
