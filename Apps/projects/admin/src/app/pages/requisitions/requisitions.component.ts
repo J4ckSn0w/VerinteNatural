@@ -63,7 +63,7 @@ export class RequisitionsComponent implements OnInit {
 
   /**Modal Final */
 
-  firstDate : NgbDate;
+  firstDate : NgbDateStruct;
   lastDate: NgbDateStruct;
 
   arrayRequisitions = [];
