@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from '../../services/sessionService.service';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-navbar',
@@ -18,8 +19,41 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.fnSesionIniciada();
-    this.myFunction();
+    /*this.myFunction();*/
+    this.MyQuery($);
   }
+
+  MyQuery ($){
+
+    $(".sidebar-dropdown > a").click(function(): void {
+      $(".sidebar-submenu").slideUp(200);
+      if (
+        $(this)
+          .parent()
+          .hasClass("active")
+      ){
+        $(".sidebar-dropdown").removeClass("active");
+        $(this)
+          .parent()
+          .removeClass("active");
+      }else {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this)
+          .next(".sidebar-submenu")
+          .slideDown(200);
+        $(this)
+          .parent()
+          .addClass("active");
+      }
+    });
+    $("#close-sidebar").click(function() {
+      $(".page-wrapper").removeClass("toggled");
+      });
+      $("#show-sidebar").click(function() {
+      $(".page-wrapper").addClass("toggled");
+  });
+};
+
 
   fnSesionIniciada(){
     let valor = localStorage.getItem("authorization");
@@ -35,9 +69,10 @@ export class NavbarComponent implements OnInit {
   fnLogout() {
     this.sessionService.fnLogOut();
     this.router.navigate(['/']);
-}
+  }
 
- openNav() {
+
+ /*openNav() {
     document.getElementById("mySidenav").style.width = "250px";
     document.getElementById("main").style.marginLeft = "250px";
     document.getElementById("container").style.marginLeft = "250px";
@@ -64,7 +99,6 @@ export class NavbarComponent implements OnInit {
       dropdownContent.style.display = "block";
       }
       });
-  }
-}
-
+    }
+  }*/
 }

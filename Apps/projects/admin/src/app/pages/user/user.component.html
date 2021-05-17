@@ -1,5 +1,5 @@
-<h2 class="display-3 text-center mt-5">Control Usuarios</h2>
-<div class="row">
+<div class="row ajuste">
+    <h1 class="">CONTROL DE USUARIOS</h1>
     <div class="col-12">
         <!--Loading Start-->
         <div *ngIf="!tableLoad" class="loading">
@@ -14,18 +14,18 @@
             <div class="card-header">
                 <ul class="nav nav-pills card-header-pills">
                     <li class="nav-item">
-                        <a class="btn btn-primary btn-sm" href="javascript:void(0)" (click)="fnNew(NewUserModal)"><i class="fas fa-plus"></i> Nuevo usuario</a>
+                        <a class="btn btn-warning btn-sm" href="javascript:void(0)" (click)="fnNew(NewUserModal)"><i style="color: white;" class="fas fa-plus"></i><span style="color: white;"> Nuevo usuario</span></a>
                     </li>
                 </ul>
             </div>
             <div class="card-body">
                 <table class="table">
-                    <thead class="thead-dark">
+                    <thead style="background-color: #10842e;">
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Puesto</th>
-                            <th scope="col">Opciones</th>
+                            <th style="color: white;" scope="col">ID</th>
+                            <th style="color: white;" scope="col">Nombre</th>
+                            <th style="color: white;" scope="col">Puesto</th>
+                            <th style="color: white;" scope="col">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,7 +115,7 @@
                             <option *ngFor="let rol of arrayRoles;" [ngValue]="rol">{{ rol.title }}</option>
                         </select>
                     </div>
-                    <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newUserForm.invalid" (click)="onSubmitNew()">Guardar</button>
+                    <button style="color: white;" type="button" class="btn btn-warning mx-auto" [disabled]="this.newUserForm.invalid" (click)="onSubmitNew()">Guardar</button>
                 </form>
             </div>
             <div *ngSwitchCase="1" class="modal-body">
@@ -163,7 +163,7 @@
                             <option *ngFor="let rol of arrayRoles;" [ngValue]="rol.name">{{ rol.title }}</option>
                         </select>
                     </div>
-                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdi()">Actualizar</button>
+                    <button style="color: white;" *ngIf="!show" type="button" class="btn btn-warning mx-auto" (click)="onSubmitEdi()">Actualizar</button>
                     <!--<button type="button" class="btn btn-primary mx-auto" (click)="change()">Cambiar</button>-->
                 </form>
             </div>

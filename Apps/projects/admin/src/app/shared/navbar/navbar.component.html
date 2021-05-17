@@ -1,3 +1,312 @@
+<body class="sidenav">
+  <div class="page-wrapper chiller-theme toggled">
+    <a id="show-sidebar" class="btn btn-sm btn-dark">
+      <i style="color: #b8bfce;" class="fas fa-bars"></i>
+    </a>
+    <nav id="sidebar" class="sidebar-wrapper">
+      <div class="sidebar-content">
+        <div class="sidebar-brand">
+          <a href="#"><span style="color:#ffd124;">Verinte <span style="color: #4cc942;">Natural</span></span></a>
+          <div id="close-sidebar">
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
+        <div class="sidebar-header">
+          <div class="user-pic">
+            <img style="width: 70px; height:70px;"  src="../../../assets/images/logoVerinte.png"
+              alt="User picture">
+          </div>
+          <div class="user-info">
+            <!-- <span class="user-name">César
+              <strong>Sánchez</strong>
+            </span> -->
+            <span class="user-role">Administrador</span>
+            <span class="user-status">
+              <i class="fa fa-circle"></i>
+              <span>Online</span>
+            </span>
+          </div>
+        </div>
+        <!-- sidebar-header  -->
+      <div class="sidebar-search">
+        <div>
+          <div class="input-group">
+            <ul><li class="header-menu">
+              <a href=" " [routerLink]="['/admin/home']" routerLinkActive="active"><span style="color: #b8bfce;">INICIO</span></a>
+            </li>
+          </ul>
+            <!-- <input type="text" class="form-control search-menu" placeholder="Buscar...">
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </span>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <!-- sidebar-search  -->
+      <div class="sidebar-menu">
+        <ul>
+          <li class="sidebar-dropdown">
+            <a href="" [routerLink]="['/admin/user']" routerLinkActive="router-link-active"><i style="color: #ffd124;" class="fa fa-users"></i><span>USUARIOS</span>
+              <!-- <span class="badge badge-pill badge-warning">New</span> -->
+            </a>
+            <!-- <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">Dashboard 1
+                    <span class="badge badge-pill badge-success">Pro</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">Dashboard 2</a>
+                </li>
+                <li>
+                  <a href="#">Dashboard 3</a>
+                </li>
+              </ul>
+            </div> -->
+          </li>
+          <li class="sidebar-dropdown">
+            <a href=" " [routerLink]="['/admin/client']" routerLinkActive="router-link-active"><i style="color: #ffd124;" class="fa fa-shopping-bag"></i><span>CLIENTES</span>
+              <!-- <span class="badge badge-pill badge-danger">3</span> -->
+            </a>
+            <!-- <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">Products
+
+                  </a>
+                </li>
+                <li>
+                  <a href="#">Orders</a>
+                </li>
+                <li>
+                  <a href="#">Credit cart</a>
+                </li>
+              </ul>
+            </div> -->
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="" [routerLink]="['/admin/provider']" routerLinkActive="router-link-active"><i style="color: #ffd124;" class="fa fa-truck"></i><span>PROVEEDORES</span>
+            </a>
+            <!-- <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">General</a>
+                </li>
+                <li>
+                  <a href="#">Panels</a>
+                </li>
+                <li>
+                  <a href="#">Tables</a>
+                </li>
+                <li>
+                  <a href="#">Icons</a>
+                </li>
+                <li>
+                  <a href="#">Forms</a>
+                </li>
+              </ul>
+            </div> -->
+          </li>
+          <li class="sidebar-dropdown">
+            <a><i style="color: #ffd124;" class="fa fa-archive"></i><span>ALMACÉN</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a [routerLink]="['/admin/warehouse']" routerLinkActive="router-link-active">Agregar almacén</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/admin/warehouse-type']" routerLinkActive="router-link-active">Tipo de almacén</a>
+                </li>
+                <!-- <li>
+                  <a href="#">Bar chart</a>
+                </li>
+                <li>
+                  <a href="#">Histogram</a>
+                </li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a><i style="color: #ffd124;" class="fa fa-apple"></i><span>PRODUCTOS</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a [routerLink]="['/admin/product']" routerLinkActive="router-link-active">Agregar producto</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/admin/product-type']" routerLinkActive="router-link-active">Tipos de productos</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/admin/units']" routerLinkActive="router-link-active">Unidades</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a><i style="color: #ffd124;" class="fa fa-motorcycle"></i><span>VEHÍCULOS</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a [routerLink]="['/admin/vehicle']" routerLinkActive="router-link-active">Agregar vehículo</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/admin/vehicle-type']" routerLinkActive="router-link-active">Tipo de vehículo</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/admin/driver']" routerLinkActive="router-link-active">Conductores</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="" [routerLink]="['/admin/requisitions']" routerLinkActive="router-link-active"><i style="color: #ffd124;" class="fa fa-calendar"></i><span>SOLICITUDES DE MERCANCIA</span>
+            </a>
+            <!-- <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">General</a>
+                </li>
+                <li>
+                  <a href="#">Panels</a>
+                </li>
+                <li>
+                  <a href="#">Tables</a>
+                </li>
+                <li>
+                  <a href="#">Icons</a>
+                </li>
+                <li>
+                  <a href="#">Forms</a>
+                </li>
+              </ul>
+            </div> -->
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="" [routerLink]="['/admin/purchase']" routerLinkActive="router-link-active"><i style="color: #ffd124;" class="fa fa-money"></i><span>ORDENES DE COMPRA</span>
+            </a>
+            <!-- <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">General</a>
+                </li>
+                <li>
+                  <a href="#">Panels</a>
+                </li>
+                <li>
+                  <a href="#">Tables</a>
+                </li>
+                <li>
+                  <a href="#">Icons</a>
+                </li>
+                <li>
+                  <a href="#">Forms</a>
+                </li>
+              </ul>
+            </div> -->
+          </li>
+          <li class="sidebar-dropdown">
+            <a><i style="color: #ffd124;" class="fa fa-list-alt"></i><span>REPORTES</span></a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a [routerLink]="['/admin/report']" routerLinkActive="router-link-active">Gasolina</a>
+                </li>
+                <!-- <li>
+                  <a href="#">Tipo de vehículo</a>
+                </li>
+                <li>
+                  <a href="#">Histogram</a>
+                </li> -->
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a><i style="color: #ffd124;" class="fa fa-flag"></i><span>INCIDENCIAS</span></a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a [routerLink]="['/admin/incident']" routerLinkActive="router-link-active">Agregar incidencia</a>
+                </li>
+                <li>
+                  <a [routerLink]="['/admin/incident-type']" routerLinkActive="router-link-active">Tipo de incidencia</a>
+                </li>
+                <!-- <li>
+                  <a href="#">Histogram</a>
+                </li> -->
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+      </div>
+      <!-- sidebar-content  -->
+    <div class="sidebar-footer">
+      <!-- <a href="#">
+        <i class="fa fa-cog"></i>
+        <span class="badge-sonar"></span>
+      </a> -->
+      <a href="javascript:void(0)" *ngIf="logged"><span (click)="fnLogout()">Cerrar Sesión</span></a>
+      <a href="javascript:void(0)" *ngIf="logged"><i href="javascript:void(0)" (click)="fnLogout()" class="fa fa-sign-in"></i></a>
+    </div>
+    </nav>
+  </div>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Admin</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,7 +374,14 @@
     </div>
 </nav>-->
 
-<div id="mySidenav" class="sidenav">
+
+
+
+
+
+
+
+<!-- <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
     <ul class="navbar-nav mr-auto">
         <li class="nav-item">
@@ -109,18 +425,21 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="" [routerLink]="['/admin/incident-type']" routerLinkActive="router-link-active">Tipos de Incidencias</a>
-        </li>
+        </li> -->
+
         <!-- <li class="nav-item">
             <a class="nav-link" href="" [routerLink]="['/admin/batch']" routerLinkActive="router-link-active">Lotes</a>
         </li> -->
-        <li class="nav-item">
+
+        <!-- <li class="nav-item"> -->
+
             <!--<a class="nav-link" href="" [routerLink]="['/admin/report']" routerLinkActive="router-link-active">Reportes</a>-->
-            <a class="dropdown-btn">Reportes <i class="fa fa-caret-down"></i></a>
-            <div id="myDropdown" class="dropdown-container">
+            <!-- <a class="dropdown-btn">Reportes <i class="fa fa-caret-down"></i></a>
+            <div id="myDropdown" class="dropdown-container"> -->
                 <!--<a href="javascript:void(0)" [routerLink]="['/admin/report']">Compras</a>-->
-                <a href="javascript:void(0)" [routerLink]="['/admin/report']">Gasolina</a>
+                <!-- <a href="javascript:void(0)" [routerLink]="['/admin/report']">Gasolina</a> -->
                 <!--<a href="javascript:void(0)" [routerLink]="['/admin/report']">Otros</a>-->
-            </div>
+            <!-- </div>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="" [routerLink]="['/admin/requisitions']" routerLinkActive="router-link-active">Solicitudes de mercancia.</a>
@@ -152,7 +471,4 @@
 
 <div id="main">
     <span style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776;</span>
-</div>
-
-<script>
-</script>
+</div> -->
