@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, ɵclearResolutionOfComponentResourcesQueue } from '@angular/core';
-import { ModalDismissReasons, NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal, NgbDate, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
@@ -63,7 +63,8 @@ export class RequisitionsComponent implements OnInit {
 
   /**Modal Final */
 
-  firstDate : NgbDateStruct;
+  firstDate : NgbDate;
+  lastDate: NgbDateStruct;
 
   arrayRequisitions = [];
 
@@ -76,6 +77,7 @@ export class RequisitionsComponent implements OnInit {
   }
 
   errorProducts = false;
+  errorDate = false;
 
   constructor(
     private modalService: NgbModal,
@@ -83,7 +85,8 @@ export class RequisitionsComponent implements OnInit {
     private requisitionService: RequisitionService,
     private router: Router,
     private providerService: ProviderService,
-    private harvestService:HarvestService
+    private harvestService:HarvestService,
+    private calendar: NgbCalendar
   ) { }
 
   ngOnInit(): void {
@@ -93,6 +96,7 @@ export class RequisitionsComponent implements OnInit {
     /**Trying to set this to a variable to acces in callback functions */
   
     this.globalContext = this;
+    this.minDate = this.calendar.getToday();
 
   }
 
@@ -215,6 +219,8 @@ export class RequisitionsComponent implements OnInit {
   }
 
   onSubmitEdit(){
+    this.errorProducts = false;
+    this.errorDate = false;
     let data = {
       required_to:this.fnDateFormat(this.firstDate),
       products:this.arrayOrderProducts,
@@ -250,6 +256,12 @@ export class RequisitionsComponent implements OnInit {
 
   onSubmitNew(){
     this.errorProducts = false;
+    this.errorDate = false;
+    this.lastDate = this.calendar.getToday();
+    if(this.fnCheckDates() == true){
+      console.log('Fecha erronea');
+      return;
+    }
     let data = {
       required_to:this.fnDateFormat(this.firstDate),
       products:this.arrayOrderProducts
@@ -285,7 +297,7 @@ export class RequisitionsComponent implements OnInit {
       })
       console.log('ALGO SALIO MAL');
       console.log(rej);
-    })
+    });
   }
 
   currentProduct = {
@@ -299,6 +311,8 @@ export class RequisitionsComponent implements OnInit {
   arrayProducts = [];
 
   arrayOrderProducts = [];
+
+  minDate = {};
 
   fnDeleteProduct(id){
     //console.log('Entre aqui');
@@ -714,4 +728,23 @@ export class RequisitionsComponent implements OnInit {
     this.fnLoadProducts();
     this.fnCheckRemainingProducts();
    }
+
+   fnCheckDates(){
+    if(this.lastDate.year > this.firstDate.year){
+      console.log('Año menor');
+      return true;
+    }
+    else{
+      if(this.lastDate.month > this.firstDate.month){
+        console.log('Mes menor');
+        return true;
+      }
+      else{
+        if((this.lastDate.day > this.firstDate.day) && this.lastDate.month == this.firstDate.month){
+          console.log('Dia es menor');
+          return true;
+        }
+      }
+    }
+  }
 }

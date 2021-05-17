@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   //ip: 'http://localhost:3000',
-  ip: 'http://192.168.1.94:3000',
+  ip: 'http://192.168.1.75:3000',
   //ip: 'https://www.verintenatural.mydevelopsy.com',
   //ip:'http://nandoacevedo.me:8901',
   //ip:'https://bd4882d083c0.ngrok.io',
   image: '',
-  client_secret: "IX4k5t1c2ZmLxOcxTQnX0Tmp3kdv161arfOIeWAL"
+  client_secret: "LBEmXloLiuu6ZiFYRyp2Jnm9l90L4wUNA3Xx2YsI"
 };
 
 /*

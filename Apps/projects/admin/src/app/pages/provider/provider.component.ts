@@ -119,10 +119,34 @@ export class ProviderComponent implements OnInit {
     this.fnLoadPaymentMethods();
   }
 
+  fnCleanCurrentProvider(){
+    this.currentProvider = {
+      id:'',
+      name: '',
+      email: '',
+      phone_number: '',
+      contact: '',
+      schedule: '',
+      products:[],
+      business_name:'',
+      contact_job:'',
+      contact_name:'',
+      bank_account:'',
+      bank:'',
+      payment_form_id:'',
+      credit:'',
+      max_purchase_allowed:'',
+      is_producer:false,
+      address:''
+    }
+  }
+
   fnNew(){
     this.newForm.reset();
     this.arrayProviderProducts = [];
     this.currentView = 0;
+    this.show = false;
+    this.fnCleanCurrentProvider();
     this.fnLoadProducts();
     this.fnOpenModal();
   }
@@ -257,7 +281,7 @@ export class ProviderComponent implements OnInit {
     if(this.currentProduct.id == undefined || this.currentProduct.id == '0'){
       this.idError = true;
     }
-    if(this.currentProduct.price == undefined || this.currentProduct.price == ''){
+    if(this.currentProduct.price == undefined || this.currentProduct.price == '' || this.currentProduct.price == '0'){
       this.priceError = true;
     }
     if(this.priceError || this.idError ){
@@ -303,7 +327,8 @@ export class ProviderComponent implements OnInit {
       credit: this.newForm.value.credit,
       max_purchase_allowed: this.newForm.value.max_purchase_allowed,
       is_producer: this.newForm.value.is_producer,
-      payment_form_id: this.newForm.value.payment_form_id
+      payment_form_id: this.newForm.value.payment_form_id,
+      address: this.newForm.value.address
     };
     console.log('Data Provider');
     console.log(data);
@@ -341,15 +366,16 @@ export class ProviderComponent implements OnInit {
       contact:(this.newForm.value.contact == undefined) ? this.currentProvider.contact : this.newForm.value.contact,
       products:this.arrayProviderProducts,
       id:this.currentProvider.id,
-      business_name:(this.newForm.value.business_name == undefined)? this.newForm.value.business_name: this.newForm.value.business_name,
-      contact_job:(this.newForm.value.contact_job == undefined)? this.newForm.value.contact_job: this.newForm.value.contact_job,
-      contact_name:(this.newForm.value.contact_name == undefined)? this.newForm.value.contact_name: this.newForm.value.contact_name,
-      bank_account:(this.newForm.value.bank_account == undefined)? this.newForm.value.bank_account: this.newForm.value.bank_account,
-      bank:(this.newForm.value.bank == undefined)? this.newForm.value.bank: this.newForm.value.bank,
-      credit:(this.newForm.value.credit == undefined)? this.newForm.value.credit: this.newForm.value.credit,
-      max_purchase_allowed:(this.newForm.value.max_purchase_allowed == undefined)? this.newForm.value.max_purchase_allowed: this.newForm.value.max_purchase_allowed,
-      is_producer:(this.newForm.value.is_producer == undefined)? this.newForm.value.is_producer: this.newForm.value.is_producer,
-      payment_form_id:(this.newForm.value.payment_form_id == undefined)? this.newForm.value.payment_form_id: this.newForm.value.payment_form_id
+      business_name:(this.newForm.value.business_name == undefined)? this.currentProvider.business_name: this.newForm.value.business_name,
+      contact_job:(this.newForm.value.contact_job == undefined)? this.currentProvider.contact_job: this.newForm.value.contact_job,
+      contact_name:(this.newForm.value.contact_name == undefined)? this.currentProvider.contact_name: this.newForm.value.contact_name,
+      bank_account:(this.newForm.value.bank_account == undefined)? this.currentProvider.bank_account: this.newForm.value.bank_account,
+      bank:(this.newForm.value.bank == undefined)? this.currentProvider.bank: this.newForm.value.bank,
+      credit:(this.newForm.value.credit == undefined)? this.currentProvider.credit: this.newForm.value.credit,
+      max_purchase_allowed:(this.newForm.value.max_purchase_allowed == undefined)? this.currentProvider.max_purchase_allowed: this.newForm.value.max_purchase_allowed,
+      is_producer:(this.newForm.value.is_producer == undefined)? this.currentProvider.is_producer: this.newForm.value.is_producer,
+      payment_form_id:(this.newForm.value.payment_form_id == undefined)? this.currentProvider.payment_form_id: this.newForm.value.payment_form_id,
+      address: (this.newForm.value.address == undefined) ? this.currentProvider.address : this.newForm.value.address
     };
     this.providerService.fnPutEditProvider(data)
     .then(res => {
