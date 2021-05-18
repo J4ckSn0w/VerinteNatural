@@ -79,4 +79,12 @@ class HarvestSheet extends Model
     {
         return $this->STATUS[$this->status] ?? $this->STATUS[0];
     }
+
+    /**
+     * Get Payment form name
+     */
+    public function getPaymentFormNameAttribute()
+    {
+        return $this->payment_form->name ?? '';
+    }
 }

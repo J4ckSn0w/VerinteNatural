@@ -160,6 +160,9 @@ Route::prefix('_p1')->group(function () {
         // Harvest Sheets resource
         Route::apiResource('harvest/sheets', HarvestSheetController::class);
 
+        // Harvest Sheets Files
+        Route::get('harvest/sheet/{id}/file', [HarvestSheetController::class, 'downloadHarvestSheet']);
+
         // End API Rest 
 
 

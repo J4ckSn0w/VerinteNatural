@@ -134,15 +134,11 @@ class HarvestController extends Controller
     public function show($id)
     {
         try {
-            $harvest = Harvest::findOrfail($id);
-            $harvest->products = $harvest->products()->select('id', 'name', 'sku')->get()->map(function ($product) use ($harvest) {
+            $harvest = Harvest::findOrfail($id)->append(['warehouse_name', 'provider_name']);
+            $inventory = $harvest->inventories;
 
-                $inventory = Inventory::where([
-                    ['harvest_id', $harvest->id],
-                    ['provider_id', $harvest->provider_id],
-                    ['product_id', $product->id]
-                ])->first();
-
+            $harvest->products = $harvest->products()->select('id', 'name', 'sku')->get()->map(function ($product) use ($inventory) {
+                $index = array_search($product->id, array_column($inventory->toArray(), 'id'));
                 return [
                     'id' => $product->id,
                     'name' => $product->name,
@@ -151,9 +147,22 @@ class HarvestController extends Controller
                     'to_collect' => $product->pivot->to_collect,
                     'was_finalized' => $product->pivot->was_finalized,
                     'unit_id' => $product->pivot->unit_id,
-                    'inventory_sku' => $inventory->sku ?? 'No existe lote'
+                    'inventory_sku' => $inventory->toArray()[$index]['sku']
                 ];
             });
+
+            $harvest = (object) $harvest->only([
+                "id",
+                "folio",
+                "requisition_id",
+                "provider_id",
+                "warehouse_id",
+                "created_at",
+                "updated_at",
+                "products",
+                "warehouse_name",
+                "provider_name"
+            ]);
 
             return response()->json(['data' => $harvest], 200);
         } catch (\Exception $e) {
