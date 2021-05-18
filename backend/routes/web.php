@@ -18,7 +18,9 @@ Route::get('/email/confirm/{user_id}', [\App\Http\Controllers\client\UserControl
 Route::view('email/confirmed/', 'emails.confirmed')->name('EmailIsConfirmed');
 Route::view('password/changed/', 'auth.passwordSuccess')->name('PasswordChanged');
 
-Route::get('/_reset_password', function() {
+Route::view('harvest/sheet/provider', 'pdfs.harvestSheet');
+
+Route::get('/_reset_password', function () {
     return view('auth.newPassword');
 })->name('password.reset');
 

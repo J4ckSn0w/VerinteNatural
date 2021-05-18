@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\HarvestRequest;
 use App\Http\Requests\HarvestSheetRequest;
 use App\Models\Harvest;
 use App\Models\HarvestSheet;
+use App\Models\Inventory;
+use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+use PDF;
+
 
 class HarvestSheetController extends Controller
 {
@@ -109,16 +112,23 @@ class HarvestSheetController extends Controller
     public function show($id)
     {
         try {
-            $harvest_sheet = HarvestSheet::findOrfail($id);
+            $harvest_sheet = HarvestSheet::findOrfail($id)->append('payment_form_name', 'gatherer_name');
+            $harvest = (new HarvestController)->show($harvest_sheet->harvest_id)->original['data'];
+            $harvest_sheet->provider = $harvest->provider_name;
+            $harvest_sheet->warehouse = $harvest->warehouse_name;
 
-            $harvest_sheet->products = $harvest_sheet->products()->select('id', 'name', 'sku')->get()->map(function ($product) {
+            $harvest_sheet->products = $harvest_sheet->products->map(function ($product) use ($harvest) {
+
+                $index = array_search($product->id, array_column($harvest->products->toArray(), 'id'));
+                $unit = Unit::findOrfail($product->pivot->unit_id);
+
                 return [
-                    'id' => $product->id,
-                    'name' => $product->name,
-                    'sku' => $product->sku,
+                    'id'    => $product->id,
+                    'sku'   => $harvest->products->toArray()[$index]['inventory_sku'],
+                    'name'  => $product->name,
                     'quantity' => $product->pivot->quantity,
                     'quantity_real' => $product->pivot->quantity_real,
-                    'unit_id'   => $product->pivot->unit_id
+                    'unit'  => $unit
                 ];
             });
 
@@ -169,5 +179,17 @@ class HarvestSheetController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function downloadHarvestSheet($id)
+    {
+        try {
+            $forProvider = request()->get('forProvider', false);
+            $harvest_sheet = $this->show($id)->original['data'];
+            $pdf = PDF::loadView('pdfs.harvestSheet', compact('harvest_sheet', 'forProvider'));
+            return $pdf->download('HojaRecolección' . $harvest_sheet->folio . '.pdf');
+        } catch (\Exception $e) {
+            return response()->json(['errors' => ['server_error' => $e->getMessage()]], 400);
+        }
     }
 }
