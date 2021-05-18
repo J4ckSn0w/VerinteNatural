@@ -22,8 +22,10 @@ class HarvestSheet extends Model
     ];
 
     protected $STATUS = [
-        0 => 'Sin recolectar',
-        1 => 'Recolectado'
+        0 => 'Pendiente',
+        1 => 'En proceso',
+        2 => 'Recolectado',
+        3 => 'Entregado en almacén'
     ];
 
 
@@ -78,5 +80,13 @@ class HarvestSheet extends Model
     public function getStatusNameAttribute()
     {
         return $this->STATUS[$this->status] ?? $this->STATUS[0];
+    }
+
+    /**
+     * Get Payment form name
+     */
+    public function getPaymentFormNameAttribute()
+    {
+        return $this->payment_form->name ?? '';
     }
 }

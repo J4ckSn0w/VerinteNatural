@@ -160,6 +160,9 @@ Route::prefix('_p1')->group(function () {
         // Harvest Sheets resource
         Route::apiResource('harvest/sheets', HarvestSheetController::class);
 
+        // Harvest Sheets Files
+        Route::get('harvest/sheet/{id}/file', [HarvestSheetController::class, 'downloadHarvestSheet']);
+
         // End API Rest 
 
 
@@ -194,6 +197,12 @@ Route::prefix('_p1')->group(function () {
 
         // Get Drivers 
         Route::get('drivers', [EmployeeController::class, 'getDriverEmployees']);
+
+        // Init harvest sheet
+        Route::put('harvest/sheet/init/{id}', [HarvestSheetController::class, 'initHarvestSheet']);
+
+        // Init harvest sheet
+        Route::put('harvest/sheet/receive/{id}', [HarvestSheetController::class, 'receiveHarvestSheet']);
 
         // End Singles api route
     });

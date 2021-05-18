@@ -40,6 +40,7 @@ class AuthController extends Controller
                     'user_type_id' => $user->user_type_id,
                     'employee_id' => $user->employee->id,
                     'created_at' => $user->created_at,
+                    'role'      => $user->getRoles()[0] ?? null,
                     'accessToken' => $token
                 ], 200);
             } else {
@@ -88,6 +89,7 @@ class AuthController extends Controller
                     'user_type_id' => $user->user_type_id,
                     'employee_id' => $user->employee->id,
                     'created_at' => $user->created_at,
+                    'role'      => $user->getRoles()[0] ?? null,
                     'abilities' => $abilities
                 ]
             );

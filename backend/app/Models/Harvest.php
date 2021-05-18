@@ -51,6 +51,11 @@ class Harvest extends Model
         return $this->belongsTo(Warehouse::class);
     }
 
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class);
+    }
+
     // /**
     //  * Get 
     //  */
