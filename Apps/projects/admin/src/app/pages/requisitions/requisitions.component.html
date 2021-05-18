@@ -65,89 +65,102 @@
         </div>
     </div>
 </div>
-<ng-template #myModal let-MyModal>
-    <div [ngSwitch]="currentView">
-        <div>
-            <div class="modal-header">
-                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
-                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
-            </div>
-            <div *ngSwitchCase="0" class="modal-body">
-                <!--New-->
-                <form novalidate role="form" [formGroup]="newForm" class="row">
-                    <div class="container">
-                        <div class="form-group">
-                            <h3>Fecha de peticion</h3>
-                            <div class="input-group">
+<div style="width: 100%;">
+    <ng-template #myModal let-MyModal>
+        <div [ngSwitch]="currentView">
+            <div>
+                <div class="modal-header">
+                    <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                    <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+                </div>
+                <div *ngSwitchCase="0" class="modal-body">
+                    <!--New-->
+                    <form novalidate role="form" [formGroup]="newForm" class="row">
+                        <div class="container">
+                            <div class="form-group">
+                                <h3>Fecha de peticion</h3>
+                                <div class="input-group">
 
-                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                                    <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group col-md-6 col-sm-12">
+                        <div class="form-group col-md-6 col-sm-12">
 
-                    </div>
-                    <div class="container">
-                        <div class="wrapper">
-                            <div class="panel-body table-responsive">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col"></th>
-                                            <th scope="col">Producto</th>
-                                            <th scope="col">Cantidad</th>
-                                            <th scope="col">Opciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let product of arrayOrderProducts" class="">
-                                            <th></th>
-                                            <td>{{ product.name }}</td>
-                                            <td>{{ product.quantity }}</td>
-                                            <td>
-                                                <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProduct(product.id)"><i class="fas fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr *ngIf="!show">
-                                            <th scope="row"></th>
-                                            <td>
-                                                <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
-                                                    <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input formControlName="quantity" class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
-                                            </td>
-                                            <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProduct()"><i class="fas fa-plus"></i> Crear</a></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        </div>
+                        <div class="container">
+                            <div class="wrapper">
+                                <div class="panel-body table-responsive">
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">Producto</th>
+                                                <th scope="col">Cantidad</th>
+                                                <th scope="col">Unidad</th>
+                                                <th scope="col">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let product of arrayOrderProducts" class="">
+                                                <th></th>
+                                                <td>{{ product.name }}</td>
+                                                <td>{{ product.quantity }}</td>
+                                                <td>
+                                                    <select class="form-control">
+                                                        <option *ngFor="let unit of arrayUnits;" [value]="unit.id" [attr.selected]="product.unit_id == unit.id ? 'selected' : null">{{ unit.name }}</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProduct(product.id)"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="!show">
+                                                <th scope="row"></th>
+                                                <td>
+                                                    <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
+                                                        <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input formControlName="quantity" class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
+                                                </td>
+                                                <td>
+                                                    <!--Probando-->
+                                                    <select class="form-control" formControlName="unit_id" [(ngModel)]="currentProduct.unit_id">
+                                                        <option *ngFor="let unit of arrayUnits;" [value]="unit.id">{{ unit.name }}</option>
+                                                    </select>
+                                                </td>
+                                                <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProduct()"><i class="fas fa-plus"></i> Crear</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div *ngIf="errorProducts" class="text-danger">
+                                <p>Debe agregar por lo menos un producto a la hoja.</p>
                             </div>
                         </div>
-                        <div *ngIf="errorProducts" class="text-danger">
-                            <p>Debe agregar por lo menos un producto a la hoja.</p>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
-                </form>
-            </div>
-            <div *ngSwitchCase="1" class="modal-body">
-                <!--Edit - View-->
-                <form novalidate role="form" [formGroup]="newForm" class="row">
+                        <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
+                    </form>
+                </div>
+                <div *ngSwitchCase="1" class="modal-body">
+                    <!--Edit - View-->
+                    <!--<form novalidate role="form" [formGroup]="newForm" class="row">-->
                     <div class="container">
                         <div class="form-group">
                             <h3>Fecha de peticion</h3>
                             <div *ngIf="!show" class="input-group">
-                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
                                 </div>
                             </div>
                             <div *ngIf="show">
-                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" disabled [minDate]="minDate">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" disabled [minDate]="minDate">
                             </div>
                         </div>
                     </div>
@@ -163,6 +176,7 @@
                                             <th></th>
                                             <th scope="col">Producto</th>
                                             <th scope="col">Cantidad</th>
+                                            <th scope="col">Unidad</th>
                                             <th *ngIf="!show" scope="col">Opciones</th>
                                         </tr>
                                     </thead>
@@ -172,7 +186,101 @@
                                             <td>{{ product.name }}</td>
                                             <td>{{ product.quantity }}</td>
                                             <td>
+                                                <select class="form-control" [attr.disabled]="show?'disabled':null" [(ngModel)]="product.unit_id">
+                                                        <option *ngFor="let unit of arrayUnits;" [value]="unit.id" [attr.selected]="unit.id==product.unit_id ? 'selected':null">{{ unit.name }}</option>
+                                                    </select>
+                                            </td>
+                                            <td>
                                                 <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProduct(product.id)"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="!show">
+                                            <th scope="row"></th>
+                                            <td>
+                                                <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
+                                                        <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
+                                                    </select>
+                                            </td>
+                                            <td>
+                                                <input class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
+                                            </td>
+                                            <td>
+                                                <select class="form-control" [(ngModel)]="currentProduct.unit_id">
+                                                    <option *ngFor="let unit of arrayUnits;" [value]="unit.id" >{{ unit.name }}</option>
+                                                </select>
+                                            </td>
+                                            <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProduct()"><i class="fas fa-plus"></i> Crear</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="text-center" style="text-align: center;">
+                            <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()">Actualizar</button>
+                        </div>
+                    </div>
+
+                    <!-- </form> -->
+                </div>
+                <div *ngSwitchCase="3" class="modal-body">
+                    <!--Hoja general de recoleccion - View-->
+                    <!-- <form novalidate role="form" [formGroup]="newForm" class="row"> -->
+                    <!-- <div class="container">
+                            <div class="form-group">
+                                <h3>Fecha de peticion</h3>
+                                <div *ngIf="!show" class="input-group">
+                                    <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                                    </div>
+                                </div>
+                                <div *ngIf="show">
+                                    <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" disabled>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-group col-md-6 col-sm-12">
+    
+                        </div> -->
+                    <div class="container">
+                        <div class="wrapper">
+                            <div class="panel-body table-responsive">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th></th>
+                                            <th scope="col">Producto</th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Unidad</th>
+                                            <th scope="col">Cantidad Autorizada</th>
+                                            <th colspan="2" scope="col">Proveedor</th>
+                                            <th *ngIf="!show" scope="col">Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- <tr *ngFor="let product of arrayOrderProducts;let indexOfElement = index;" class=""> -->
+                                        <tr *ngFor="let product of arrayGeneralProduct; let indexOfElement = index;" class="">
+                                            <td></td>
+                                            <td>{{ product.name }}</td>
+                                            <td>{{ product.quantity }}</td>
+                                            <td>
+                                                <select class="form-control" [(ngModel)]="product.unit_id">
+                                                    <option *ngFor="let unit of arrayUnits;" [value]="unit.id" [attr.selected]="unit.id == product.unit_id ? 'selected':null" >{{ unit.name }}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control" placeholder="Cantidad Autorizada" x [(ngModel)]="product.quantity_real">
+                                            </td>
+                                            <td colspan="2">
+                                                <select class="form-control" [(ngModel)]="product.provider_id">
+                                                            <!-- <option *ngFor="let provider of arrayProviders.filter(fnProviderContainsProduct.bind(this,product.id));let index" 
+                                                            [value]="provider.id">{{provider.name}}</option> -->
+                                                            <option *ngFor="let provider of fnFilterProvidersByProductId(product.id);let index;" 
+                                                            [value]="provider.id">{{provider.name}}</option>
+                                                        </select>
+                                            </td>
+                                            <td>
+                                                <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProductToGeneral(product.id)"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                         <tr *ngIf="!show">
@@ -183,113 +291,44 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input formControlName="quantity" class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
+                                                <input class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
                                             </td>
-                                            <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProduct()"><i class="fas fa-plus"></i> Crear</a></td>
+                                            <td>
+                                                <select class="form-control" [(ngModel)]="currentProduct.unit_id">
+                                                    <option *ngFor="let unit of arrayUnits;"> {{ unit.name }}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select class="form-control" [(ngModel)]="currentProduct.provider_id">
+                                                        <!-- <option *ngFor="let provider of arrayProviders.filter(fnProviderContainsProduct.bind(this,product.id));let index" 
+                                                        [value]="provider.id">{{provider.name}}</option> -->
+                                                        <option *ngFor="let provider of fnFilterProvidersByProductId(currentProduct.id);let index;" 
+                                                        [value]="provider.id">{{provider.name}}</option>
+                                                    </select>
+                                            </td>
+                                            <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProductToGeneral()"><i class="fas fa-plus"></i> Agregar</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div>
-                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()">Actualizar</button>
-                </form>
-            </div>
-            <div *ngSwitchCase="3" class="modal-body">
-                <!--Hoja general de recoleccion - View-->
-                <!-- <form novalidate role="form" [formGroup]="newForm" class="row"> -->
-                <!-- <div class="container">
-                        <div class="form-group">
-                            <h3>Fecha de peticion</h3>
-                            <div *ngIf="!show" class="input-group">
-                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
-                                </div>
-                            </div>
-                            <div *ngIf="show">
-                                <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" disabled>
-                            </div>
+                        <div *ngIf="errorGeneralProduct.length > 0">
+                            <span class="text-danger text-center col-md-12">{{ errorGeneralProduct }}</span>
                         </div>
-                    </div> 
-                    <div class="form-group col-md-6 col-sm-12">
-
-                    </div> -->
-                <div class="container">
-                    <div class="wrapper">
-                        <div class="panel-body table-responsive">
-                            <table class="table">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th></th>
-                                        <th scope="col">Producto</th>
-                                        <th scope="col">Cantidad</th>
-                                        <th scope="col">Cantidad Autorizada</th>
-                                        <th scope="col">Proveedor</th>
-                                        <th *ngIf="!show" scope="col">Opciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- <tr *ngFor="let product of arrayOrderProducts;let indexOfElement = index;" class=""> -->
-                                    <tr *ngFor="let product of arrayGeneralProduct; let indexOfElement = index;" class="">
-                                        <td></td>
-                                        <td>{{ product.name }}</td>
-                                        <td>{{ product.quantity }}</td>
-                                        <td>
-                                            <input type="text" class="form-control" placeholder="Cantidad Autorizada" x [(ngModel)]="product.quantity_real">
-                                        </td>
-                                        <td>
-                                            <select class="form-control" [(ngModel)]="product.provider_id">
-                                                        <!-- <option *ngFor="let provider of arrayProviders.filter(fnProviderContainsProduct.bind(this,product.id));let index" 
-                                                        [value]="provider.id">{{provider.name}}</option> -->
-                                                        <option *ngFor="let provider of fnFilterProvidersByProductId(product.id);let index;" 
-                                                        [value]="provider.id">{{provider.name}}</option>
-                                                    </select>
-                                        </td>
-                                        <td>
-                                            <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProductToGeneral(product.id)"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr *ngIf="!show">
-                                        <th scope="row"></th>
-                                        <td>
-                                            <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
-                                                <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
-                                        </td>
-                                        <td>
-                                            <select class="form-control" [(ngModel)]="currentProduct.provider_id">
-                                                    <!-- <option *ngFor="let provider of arrayProviders.filter(fnProviderContainsProduct.bind(this,product.id));let index" 
-                                                    [value]="provider.id">{{provider.name}}</option> -->
-                                                    <option *ngFor="let provider of fnFilterProvidersByProductId(currentProduct.id);let index;" 
-                                                    [value]="provider.id">{{provider.name}}</option>
-                                                </select>
-                                        </td>
-                                        <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProductToGeneral()"><i class="fas fa-plus"></i> Agregar</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <br>
+                        <div class="col-md-12 text-center">
+                            <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="fnCreateGeneralRecolectionOrder()">Generar hoja de recoleccion general.</button>
                         </div>
+                        <br>
                     </div>
-                    <div *ngIf="errorGeneralProduct.length > 0">
-                        <span class="text-danger text-center col-md-12">{{ errorGeneralProduct }}</span>
-                    </div>
-                    <br>
-                    <div class="col-md-12 text-center">
-                        <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="fnCreateGeneralRecolectionOrder()">Generar hoja de recoleccion general.</button>
-                    </div>
-                    <br>
+                    <!-- </form> -->
                 </div>
-                <!-- </form> -->
-            </div>
-            <div class="modal-footer">
-                <div>
-                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                <div class="modal-footer">
+                    <div>
+                        <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</ng-template>
+    </ng-template>
+</div>

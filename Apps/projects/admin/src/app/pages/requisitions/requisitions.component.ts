@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ProviderService } from '../../services/provider.service';
 import { async } from '@angular/core/testing';
 import { HarvestService } from '../../services/harvest.service';
+import { UnitService } from '../../services/unit.service';
 
 @Component({
   selector: 'app-requisitions',
@@ -24,7 +25,8 @@ export class RequisitionsComponent implements OnInit {
     date: new FormControl(null,[Validators.required]),
     quantity: new FormControl(null),
     quantity_real : new FormControl(null),
-    provider_id:new FormControl(null)
+    provider_id:new FormControl(null),
+    unit_id: new FormControl(null)
   });
 
   currentView = 0;
@@ -51,7 +53,7 @@ export class RequisitionsComponent implements OnInit {
   }
 
   fnOpenModal(){
-    this.modalService.open(this.myModal,{size:'lg'}).result.then((result) => {
+    this.modalService.open(this.myModal,{size:'xl'}).result.then((result) => {
     },(reason) => {
       this.getDismissReason(reason);
     })
@@ -86,7 +88,8 @@ export class RequisitionsComponent implements OnInit {
     private router: Router,
     private providerService: ProviderService,
     private harvestService:HarvestService,
-    private calendar: NgbCalendar
+    private calendar: NgbCalendar,
+    private unitService: UnitService
   ) { }
 
   ngOnInit(): void {
@@ -101,6 +104,20 @@ export class RequisitionsComponent implements OnInit {
   }
 
   globalContext;
+
+  fnLoadunits(){
+    this.arrayUnits = [];
+    this.unitService.fnGetUnits()
+    .then(res => {
+      res.data.forEach(element => {
+        this.arrayUnits.push(element);
+      });
+    })
+    .catch(rej => {
+      console.log('Error en unidades');
+      console.log(rej);
+    })
+  }
 
   fnLoadRequisitions(){
     this.tableLoad = false;
@@ -132,6 +149,7 @@ export class RequisitionsComponent implements OnInit {
       //console.log(this.firstDate);
       this.fnUpdateGeneralProducts();//Solo para cantidades autorizadas al hacer hoja de recoleccion general
       this.fnCheckRemainingProducts();
+      this.fnLoadunits();
     })
   }
 
@@ -156,6 +174,7 @@ export class RequisitionsComponent implements OnInit {
     this.currentView = 0;
     this.show = false;
     this.fnCleanProducts();
+    this.fnLoadunits();
     this.fnOpenModal();
   }
 
@@ -305,12 +324,15 @@ export class RequisitionsComponent implements OnInit {
     quantity:'',
     name:'',
     provider_id:'',
-    quantity_real:''
+    quantity_real:'',
+    unit_id:''
   }
 
   arrayProducts = [];
 
   arrayOrderProducts = [];
+
+  arrayUnits = [];
 
   minDate = {};
 
@@ -345,7 +367,7 @@ export class RequisitionsComponent implements OnInit {
     this.currentProduct.id = event;
    }
 
-   fnAddProduct(){
+  fnAddProduct(){
      //let data = this.arrayProducts[this.currentProduct.id];
     let data = this.arrayProducts.find(element => element.id == this.currentProduct.id);
 
@@ -353,13 +375,22 @@ export class RequisitionsComponent implements OnInit {
     //console.log(data);
 
     //console.log(data);
-    if(this.currentProduct.id == undefined || this.newForm.value.quantity == undefined || data == undefined){
+    if(this.currentProduct.id == undefined || data == undefined
+      ||this.currentProduct.quantity == ""){
+        console.log('Problema con informacion');
+        console.log(this.currentProduct);
+        console.log('Data');
+        console.log(data);
+        console.log(this.currentProduct.id == undefined);
+        console.log(this.newForm.value.quantity == undefined);
+        console.log(data == undefined);
       return;
     }
     let newProduct = {
       id:this.currentProduct.id,
-      quantity:this.newForm.value.quantity,
-      name:data.name
+      quantity:this.currentProduct.quantity,
+      name:data.name,
+      unit_id:this.currentProduct.unit_id
     }
 
     // console.log('Nuevo producto');
@@ -599,7 +630,8 @@ export class RequisitionsComponent implements OnInit {
           quantity_real:'',
           provider_id:element.provider_id,
           name:element.name,
-          quantity:element.quantity_real
+          quantity:element.quantity_real,
+          unit_id:element.unit_id
         });
        }
      });
@@ -643,7 +675,8 @@ export class RequisitionsComponent implements OnInit {
             quantity_real:'',
             provider_id:'',
             name:element.name,
-            quantity:element.quantity
+            quantity:element.quantity,
+            unit_id:element.unit_id
           });
         });
         console.log('Tamaño de productos orden general');
@@ -709,7 +742,8 @@ export class RequisitionsComponent implements OnInit {
       name:'',
       quantity:'',
       provider_id:'',
-      quantity_real:''
+      quantity_real:'',
+      unit_id:''
     };
     newArray.push(newProduct); console.log('Dentro del delay'); 
     console.log(newArray);

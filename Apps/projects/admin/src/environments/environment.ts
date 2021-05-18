@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   //ip: 'http://localhost:3000',
-  ip: 'http://192.168.1.75:3000',
+  ip: 'http://192.168.1.81:3000',
   //ip: 'https://www.verintenatural.mydevelopsy.com',
   //ip:'http://nandoacevedo.me:8901',
   //ip:'https://bd4882d083c0.ngrok.io',
