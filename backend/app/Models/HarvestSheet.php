@@ -22,8 +22,10 @@ class HarvestSheet extends Model
     ];
 
     protected $STATUS = [
-        0 => 'Sin recolectar',
-        1 => 'Recolectado'
+        0 => 'Pendiente',
+        1 => 'En proceso',
+        2 => 'Recolectado',
+        3 => 'Entregado en almacén'
     ];
 
 

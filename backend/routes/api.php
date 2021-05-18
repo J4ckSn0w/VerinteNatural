@@ -198,6 +198,12 @@ Route::prefix('_p1')->group(function () {
         // Get Drivers 
         Route::get('drivers', [EmployeeController::class, 'getDriverEmployees']);
 
+        // Init harvest sheet
+        Route::put('harvest/sheet/init/{id}', [HarvestSheetController::class, 'initHarvestSheet']);
+
+        // Init harvest sheet
+        Route::put('harvest/sheet/receive/{id}', [HarvestSheetController::class, 'receiveHarvestSheet']);
+
         // End Singles api route
     });
 });
