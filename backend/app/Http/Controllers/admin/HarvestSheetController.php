@@ -203,7 +203,7 @@ class HarvestSheetController extends Controller
         try {
             $harvest_sheet = HarvestSheet::findOrfail($id);
             if ($harvest_sheet->status != 0) {
-                return response()->json(['errors' => ['in_process' => 'La hoja de recolección ya se encuentra en proceso']], 406);
+                return response()->json(['errors' => ['in_process' => 'La hoja de recolección ya se encuentra en proceso']], 405);
             }
             $harvest_sheet->products()->detach();
             $harvest_sheet->delete();
