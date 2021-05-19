@@ -28,6 +28,7 @@ import { PurchaseComponent } from './purchase/purchase.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { IncidentTypeComponent } from './incident-type/incident-type.component';
 import { HarvestComponent } from './harvest/harvest.component';
+import { HarvestSheetComponent } from './harvest-sheet/harvest-sheet.component';
 
 @NgModule({
     declarations:[
@@ -52,7 +53,8 @@ import { HarvestComponent } from './harvest/harvest.component';
         UnitComponent,
         PurchaseComponent,
         IncidentTypeComponent,
-        HarvestComponent
+        HarvestComponent,
+        HarvestSheetComponent
     ],
     imports:[
         CommonModule,

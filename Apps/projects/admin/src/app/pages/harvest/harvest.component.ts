@@ -6,6 +6,8 @@ import { DriverService } from '../../services/driver.service';
 import { ProductService } from '../../services/product.service';
 import { NgbDateStructAdapter } from '@ng-bootstrap/ng-bootstrap/datepicker/adapters/ngb-date-adapter';
 import { ProviderService } from '../../services/provider.service';
+import { UnitService } from '../../services/unit.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-harvest',
@@ -64,7 +66,8 @@ export class HarvestComponent implements OnInit {
     private driverService: DriverService,
     private productService: ProductService,
     private calendar: NgbCalendar,
-    private providerService:ProviderService
+    private providerService:ProviderService,
+    private unitService:UnitService
   ) { }
 
   arrayGeneralRecolecctions = [];
@@ -73,13 +76,19 @@ export class HarvestComponent implements OnInit {
 
   arrayDrivers = [];
 
+  arrayUnits = [];
+
   firstDate : NgbDate;
   lastDate: NgbDateStruct;
+
+  startTime;
 
   errorAddress = false;//'Debe escribir una direccion.';
   errorRetriever = false;//'Debe seleccionar un recolector.';
   errorDate = false;//'Debe seleccionar una fecha valida.';
   errorProducts = false;//'La lista de productos no puede estar vacia.'
+  errorTime = false;
+  errorQuantity = false;
 
   currentGeneralRecolection = {
     folio:'',
@@ -92,7 +101,9 @@ export class HarvestComponent implements OnInit {
   }
 
   currentProvider = {
-    address:''
+    address:'',
+    contact_name:'',
+    payment_form_id:''
   }
 
   newDate;
@@ -170,47 +181,132 @@ export class HarvestComponent implements OnInit {
     })
   }
 
+  fnLoadUnits(){
+    this.arrayUnits = [];
+    this.unitService.fnGetUnits()
+    .then(res => {
+      res.data.forEach(element => {
+        this.arrayUnits.push(element);
+      });
+    })
+  }
+
   fnVer(id){}
   fnEdit(id){}
   fnDelete(id){}
   fnNew(harvest_id){
     this.currentView = 0;
     this.show = false;
+    this.fnErrorsToFalse();
     //this.fnOpenModal();
     this.fnLoadGenerlRecolection(harvest_id);
     this.fnLoadDrivers();
+    this.fnLoadUnits();
   }
 
   fnCreateGeneralRecolectionOrder(){
     //this.error = '';
-    this.errorAddress = false;
-    this.errorDate = false;
-    this.errorProducts = false;
-    this.errorRetriever = false;
-    console.log(this.calendar.getToday());
+    // this.errorAddress = false;
+    // this.errorDate = false;
+    // this.errorProducts = false;
+    // this.errorRetriever = false;
+    // this.errorTime = false;
+    this.fnErrorsToFalse();
+    // console.log(this.calendar.getToday());
     this.lastDate = this.calendar.getToday();
     if(this.arrayOrderRecollection.length == 0)
     {
-      //this.error = 'La lista de productos en la orden de recoleccion no puede estar vacia!'
       this.errorProducts = true;
+      //return;
     }
     if(this.currentGeneralRecolection.employee_id == '' || this.currentGeneralRecolection.employee_id == undefined){
       //this.error = 'Seleccione un recolector.'
       this.errorRetriever = true;
+      console.log('Entre a error recolector');
+      //return;
     }
     if(this.firstDate == undefined || this.firstDate == null || this.fnCheckDates()){
       //this.error = 'Seleccione una fecha para la recoleccion.'
+      console.log('Entre a error fecha');
       this.errorDate = true;
+      //return;
     }
     if(this.currentGeneralRecolection.address == "" || this.currentGeneralRecolection.address == undefined){
       this.errorAddress = true;
+      //return;
     }
+    this.arrayOrderRecollection.forEach(element => {
+      if(element.quantity == "" || element.quantity == 0 || !element.quantity){
+        this.errorProducts = true;
+      }
+    });
+    if(this.startTime == undefined || this.startTime == null){
+      this.errorTime = true;
+      //return;
+    }
+    this.fnErrorsProduct();
+
+    if(this.errorProducts)
+      return;
+    if(this.errorProducts || this.errorRetriever || this.errorTime || this.errorDate || this.errorAddress || this.errorQuantity)
+      return;
+
+    // console.log(this.arrayOrderRecollection);
+
+    // console.log('Fecha');
+    // console.log(this.firstDate);
+
+    // console.log('Recolector');
+    // console.log(this.currentGeneralRecolection.employee_id);
+
+    // console.log('Tiempo');
+    // console.log(this.startTime);
+
+    if(!this.fnCheckTime()){
+      this.errorTime = true;
+      return;
+    }
+
+    this.fnChangeProductsToCreate();
 
     let data = {
-
+      address:this.currentProvider.address,
+      contact_name:this.currentProvider.contact_name,
+      employee_id:this.currentGeneralRecolection.employee_id,
+      collect_to:this.fnDateFormat(this.firstDate) + ' ' + this.fnTimeFormat(),
+      harvest_id:this.currentGeneralRecolection.id,
+      payment_form_id:this.currentProvider.payment_form_id,
+      products:this.arrayOrderRecollection
     }
+    console.log('Ando aca xd');
+    console.log(data);
 
-    return;
+    this.harvestSevice.fnPostNewHarvest(data)
+    .then(res => {
+      Swal.fire({
+        icon:'success',
+        title:'Correcto!',
+        text:'Se creo la orden de recoleccion correctamente',
+        didClose:() => {
+          this.fnLoadGeneralRecolections();
+          this.fnCloseModal();
+        }
+      })
+    })
+    .catch(rej => {
+      console.log('Error al intentar crear la orden de recoleccion');
+      console.log(rej);
+    })
+  }
+
+  fnDateFormat(date){
+    return this.firstDate.year + '-' + (this.firstDate.month < 10 ? ('0') : '') + this.firstDate.month + '-' + (this.firstDate.day > 10 ? '' : '0') + this.firstDate.day;
+    //return ''+date.year + '-'+((date.month <10 )? +('0'):'' )+date.month +'-'+ (date.day < 10) ? +('0'):'' + date.day;
+  }
+
+  fnTimeFormat(){
+    return (this.startTime.hour < 10 ? '0' : '') + this.startTime.hour + ':'+
+    (this.startTime.minute < 10 ? '0' : '') + this.startTime.minute;
   }
 
   fnCheckDates(){
@@ -230,6 +326,45 @@ export class HarvestComponent implements OnInit {
         }
       }
     }
+  }
+  
+  fnCheckTime(){
+    var time = new Date();
+    
+    var timeFormated = {
+      hour:time.getHours(),
+      minute:time.getMinutes()
+    }
+    console.log('Mio');
+    console.log(timeFormated);
+
+    let currentTime =  time.toLocaleString('en-US', { hour: 'numeric' })
+    console.log(currentTime);
+    console.log('Formateada');
+    console.log(this.fnformatAMPM(time));
+    if(this.lastDate.year == this.firstDate.year &&
+      this.lastDate.month == this.firstDate.month &&
+      this.lastDate.day == this.firstDate.day){
+        console.log('EL DIA ES HOY!!');
+        if(this.startTime.hour <= timeFormated.hour && this.startTime.minute < timeFormated.minute)
+          return false;
+        //else if(this.startTime == timeFormated.hour && this.startTime)
+        return true;
+      }
+      else {
+      return true;
+    }
+  }
+
+  fnformatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
   }
 
   fnDeleteOrderProduct(id){
@@ -257,14 +392,63 @@ export class HarvestComponent implements OnInit {
         return;
       }
     }
-    this.productService.fnGetProductById(id)
-    .then(res => {
-      this.arrayOrderRecollection.push(res.data);
+    let newProduct;
+    for(var i = 0 ; i < this.currentGeneralRecolection.products.length; i ++ ){
+      if( this.currentGeneralRecolection.products[i].id == id){
+        newProduct = this.currentGeneralRecolection.products[i];
+      }
+    }
+
+    this.arrayOrderRecollection.push({
+      id:newProduct.id,
+      inventory_sku:newProduct.inventory_sku,
+      name:newProduct.name,
+      quantity:newProduct.quantity,
+      sku:newProduct.sku,
+      to_collect:newProduct.to_collect,
+      unit_id:newProduct.unit_id,
+      was_finalized:newProduct.was_finalized,
+      new_quantity:''
+    });
+
+    // this.productService.fnGetProductById(id)
+    // .then(res => {
+    //   this.arrayOrderRecollection.push(res.data);
+    // })
+    // .catch(rej => {
+    //   console.log('Error al agregar el producto');
+    //   console.log(rej);
+    // });
+  }
+
+  /*Errors to false */
+  fnErrorsToFalse(){
+    this.errorAddress = false;
+    this.errorDate = false;
+    this.errorProducts = false;
+    this.errorRetriever = false;
+    this.errorTime = false;
+    this.errorQuantity = false;
+  }
+  /*Errores de cantidades */
+  fnErrorsProduct(){
+    this.errorQuantity = false;
+    console.log('Entre aqui.');
+    console.log(this.arrayOrderRecollection);
+    this.arrayOrderRecollection.forEach(element => {
+      if(Number(element.new_quantity) > Number(element.to_collect)){
+        this.errorQuantity = true;
+        console.log('Entre al error de producto');
+        return;
+      }
     })
-    .catch(rej => {
-      console.log('Error al agregar el producto');
-      console.log(rej);
-    })
+  }
+
+  /*Cambia productos para mandarlos*/
+  fnChangeProductsToCreate(){
+    this.arrayOrderRecollection.forEach(element => {
+      element.quantity = element.new_quantity
+    });
   }
 
 }

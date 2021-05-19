@@ -83,6 +83,7 @@
                                         <th scope="col">Producto</th>
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Cantidad Por Recolectar</th>
+                                        <th scope="col">Unidad</th>
                                         <!-- <th scope="col">Proveedor</th> -->
                                         <th *ngIf="!show" scope="col">Opciones</th>
                                     </tr>
@@ -94,6 +95,11 @@
                                         <td>{{ product.name }}</td>
                                         <td>{{ product.quantity }}</td>
                                         <td>{{ product.to_collect }}</td>
+                                        <td>
+                                            <select class="form-control" disabled>
+                                                <option *ngFor="let unit of arrayUnits;" [value]="unit.id" [attr.selected]="unit.id == product.unit_id ? 'selected' : null" >{{ unit.name }}</option>
+                                            </select>
+                                        </td>
                                         <!-- <td>
                                             <input type="text" class="form-control" placeholder="Cantidad Autorizada" x [(ngModel)]="product.quantity_real">
                                         </td> -->
@@ -133,30 +139,37 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-6 col-sm-6">
+                        <div class="form-group col-md-12 col-sm-12">
                             <label>Recolector</label>
                             <select class="form-control" [(ngModel)]="currentGeneralRecolection.employee_id" [attr.disabled]="show ? 'disabled': null">
                                 <option *ngFor="let driver of arrayDrivers; let index;" [value]="driver.id">{{driver.name}}</option>
                             </select>
                         </div>
+                        <div class="col-md-12 col-sm-12">
+                            <p *ngIf="errorRetriever" class="text-danger text-center">
+                                Debe seleccionar un recolector.
+                            </p>
+                        </div>
                         <div class="form-group col-md-6 col-sm-6">
                             <label>Fecha</label>
                             <div class="input-group">
-
                                 <input class="form-control" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-6">
-                            <p *ngIf="errorRetriever" class="text-danger text-center">
-                                Debe seleccionar un recolector.
-                            </p>
+                        <div class="form-group col-md-6 col-sm-6">
+                            <ngb-timepicker [(ngModel)]="startTime" meridian="meridian"></ngb-timepicker>
                         </div>
                         <div class="col-md-6 col-sm-6">
                             <p *ngIf="errorDate" class="text-danger text-center">
                                 Debe seleccionar una fecha valida.
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <p *ngIf="errorTime" class="text-danger text-center">
+                                Debe seleccionar una hora valida.
                             </p>
                         </div>
                     </div>
@@ -178,12 +191,22 @@
                                         <td>{{ orderProduct.name }}</td>
                                         <!-- <td>{{ product.quantity }}</td> -->
                                         <td>
-                                            <input class="form-group" type="text" [(ngModel)]="orderProduct.quantity">
+                                            <input class="form-group" type="text" [(ngModel)]="orderProduct.new_quantity">
                                         </td>
                                         <td>
                                             <div class="col-4 col-md-6 col-sm-4 text-center" style="text-align: center;">
                                                 <a href="javascript:void(0)" (click)="fnDeleteOrderProduct(orderProduct.id)"><i class="fa fa-trash text-danger" title="Eliminar producto de la recoleccion"></i></a>
                                             </div>
+                                        </td>
+                                        <!-- <span *ngIf="errorQuantity" class="text-danger">
+                                            La cantidad no debe exeder a la cantidad por recolectar.
+                                        </span> -->
+                                    </tr>
+                                    <tr *ngIf="errorQuantity">
+                                        <td>
+                                            <span class="text-danger">
+                                                La cantidad no debe exeder a la cantidad por recolectar.
+                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>

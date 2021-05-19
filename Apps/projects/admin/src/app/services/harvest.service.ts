@@ -25,7 +25,7 @@ export class HarvestService {
 
     fnPostNewHarvest(data):Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.post(this.str_ip + '/api/_p1/harvests',data,{headers:this.headers}).toPromise()
+            this.http.post(this.str_ip + '/api/_p1/harvest/sheets',data,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })

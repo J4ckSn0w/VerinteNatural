@@ -20,6 +20,7 @@ import { UnitComponent } from './unit/unit.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { IncidentTypeComponent } from './incident-type/incident-type.component';
 import { HarvestComponent } from './harvest/harvest.component';
+import { HarvestSheetComponent } from './harvest-sheet/harvest-sheet.component';
 export const pagesRoutes: Routes = [{
     path:'',
     component:PagesRoutingComponent,
@@ -45,5 +46,6 @@ export const pagesRoutes: Routes = [{
         { path:'purchase/:requisition_id', component:PurchaseComponent },
         { path:'units', component:UnitComponent },
         { path:'harvest', component:HarvestComponent },
+        { path:'harvest-sheet', component:HarvestSheetComponent },
     ]
 }];

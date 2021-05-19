@@ -5,10 +5,11 @@
 export const environment = {
   production: false,
   //ip: 'http://localhost:3000',
-  ip: 'http://192.168.1.81:3000',
+  //ip: 'http://192.168.1.74:3000',
   //ip: 'https://www.verintenatural.mydevelopsy.com',
   //ip:'http://nandoacevedo.me:8901',
   //ip:'https://bd4882d083c0.ngrok.io',
+  ip:'http://167.71.171.53',//IP DE SERVIDOR DIGITAL OCEAN
   image: '',
   client_secret: "LBEmXloLiuu6ZiFYRyp2Jnm9l90L4wUNA3Xx2YsI"
 };
