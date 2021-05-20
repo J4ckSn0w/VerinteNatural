@@ -25,7 +25,7 @@ export class HarvestService {
 
     fnPostNewHarvest(data):Promise<any>{
         return new Promise((resolve,reject) => {
-            this.http.post(this.str_ip + '/api/_p1/harvest/sheets',data,{headers:this.headers}).toPromise()
+            this.http.post(this.str_ip + '/api/_p1/harvests',data,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })
@@ -50,6 +50,19 @@ export class HarvestService {
     fnGetHarvestById(harvest_id):Promise<any>{
         return new Promise((resolve,reject) => {
             this.http.get(this.str_ip+'/api/_p1/harvests/'+harvest_id,{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        })
+    }
+
+    /*Ordenes de recoleccion*/
+    fnPostNewHarvestSheet(data):Promise<any>{
+        return new Promise((resolve,reject) => {
+            this.http.post(this.str_ip+'/api/_p1/harvest/sheets',data,{headers:this.headers}).toPromise()
             .then(res => {
                 resolve(res);
             })

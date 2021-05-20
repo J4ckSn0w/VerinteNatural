@@ -660,6 +660,8 @@ export class RequisitionsComponent implements OnInit {
          title:'Error!',
          text:'Ocurrion un error al intentar crear la hoja de recoleccion general'
        })
+       console.log('Error');
+       console.log(rej);
      })
    }
 

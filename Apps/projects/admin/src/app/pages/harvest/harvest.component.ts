@@ -133,6 +133,7 @@ export class HarvestComponent implements OnInit {
   }
 
   fnLoadGeneralRecolections(){
+    this.arrayGeneralRecolecctions = [];
     this.harvestSevice.fnGetHarvests()
     .then(res => {
       res.data.forEach(element => {
@@ -281,7 +282,7 @@ export class HarvestComponent implements OnInit {
     console.log('Ando aca xd');
     console.log(data);
 
-    this.harvestSevice.fnPostNewHarvest(data)
+    this.harvestSevice.fnPostNewHarvestSheet(data)
     .then(res => {
       Swal.fire({
         icon:'success',
