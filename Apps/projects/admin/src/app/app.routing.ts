@@ -10,4 +10,4 @@ export const routes: Routes  = [
     { path:'auth',loadChildren:() => NoAuthPagesModule }
 ];
 
-export const routing: ModuleWithProviders<any> = RouterModule.forRoot(routes);
+export const routing: ModuleWithProviders<any> = RouterModule.forRoot(routes,{useHash:true});

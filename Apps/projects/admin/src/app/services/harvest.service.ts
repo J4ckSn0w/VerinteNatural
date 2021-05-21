@@ -71,4 +71,28 @@ export class HarvestService {
             })
         })
     }
+
+    fnGetHarvestSheets():Promise<any>{
+        return new Promise((resolve,reject) => {
+            this.http.get(this.str_ip + '/api/_p1/harvest/sheets',{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        })
+    }
+
+    fnGetHarvestSheetById(id):Promise<any>{
+        return new Promise((resolve,reject) => {
+            this.http.get(this.str_ip+'/api/_p1/harvest/sheets/'+id,{headers:this.headers}).toPromise()
+            .then(res => {
+                resolve(res);
+            })
+            .catch(rej => {
+                reject(rej);
+            })
+        })
+    }
 }
