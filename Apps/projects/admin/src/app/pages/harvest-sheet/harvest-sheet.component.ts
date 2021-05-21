@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HarvestService } from '../../services/harvest.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-harvest-sheet',
@@ -41,7 +42,7 @@ export class HarvestSheetComponent implements OnInit {
   }
 
   fnOpenModal(){
-    this.modalService.open(this.myModal,{size:'lg'}).result.then((result) => {
+    this.modalService.open(this.myModal,{size:'xl'}).result.then((result) => {
 
     },(reason) => {
       this.getDismissReason(reason);
@@ -90,6 +91,7 @@ export class HarvestSheetComponent implements OnInit {
 
   fnLoadHarvestSheets(){
     this.tableLoad = false;
+    this.arrayHarvestSheets = [];
     this.haverstService.fnGetHarvestSheets()
     .then(res => {
       res.data.forEach(element => {
@@ -120,6 +122,41 @@ export class HarvestSheetComponent implements OnInit {
     this.currentView = 0;
     this.fnLoadHarvestSheet(id);
     this.fnOpenModal();
+  }
+
+  fnRecolectar(id){
+    this.show = true;
+    this.currentView = 0;
+    this.fnLoadHarvestSheet(id);
+    this.fnOpenModal();
+  }
+
+  onSubmit(){
+    console.log('Products');
+    console.log(this.currentHarvestSheet.products);
+    let data = {
+      id:this.currentHarvestSheet.id,
+      products:this.currentHarvestSheet.products
+    }
+    this.haverstService.fnPutHarvestSheet(data)
+    .then(res => {
+      Swal.fire({
+        icon:'success',
+        title:'Correcto!',
+        text:'Se agrego correctamente las cantidades recolectadas.',
+        didClose:() => {
+          this.fnLoadHarvestSheets();
+          this.fnCloseModal();
+        }
+      })
+    })
+    .catch(rej => {
+      Swal.fire({
+        icon:'error',
+        title:'Error!',
+        text:'Ocurrio un error al intentar agregar cantidades recolectadas.'        
+      })
+    })
   }
 
 }
