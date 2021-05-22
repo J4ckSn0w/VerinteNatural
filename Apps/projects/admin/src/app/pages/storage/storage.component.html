@@ -1,0 +1,131 @@
+<h2 class="display-3 text-center mt-5">Control Ordenes de Recoleccion</h2>
+<div class="row">
+    <div class="col-12">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nueva hoja de recoleccion general</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Folio</th>
+                            <th scope="col">Empleado</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let storageOrder of arrayStorageOrders; let index;">
+                            <th scope="row">{{ storageOrder.harvest_sheet_folio }}</th>
+                            <td>{{ storageOrder.employee_name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnVer(storageOrder.id)"><i class="fa fa-eye" title="Iniciar incidencia"></i></a>
+                                    </div>
+                                    <!-- <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnRecolectar(storageOrder.id)"><i class="fas fa-play-circle" title="Iniciar incidencia"></i></a>
+                                    </div> -->
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <!-- <div> -->
+        <div class="modal-header">
+            <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+            <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+        </div>
+        <div *ngSwitchCase="0" class="modal-body">
+            <!--New-->
+            <div class="container">
+                <h2>Folio orden de recoleccion</h2>
+                <span>{{ currentStorageOrder.folio }}</span>
+                <div class="row">
+                    <!-- <div class="form-group col col-md-12 col-sm-12">
+                        <label>Fecha de recoleccion</label>
+                        <input class="form-control" [value]="currentStorageOrder.collect_to" disabled>
+                    </div> -->
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Almacenista</label>
+                        <input class="form-control" [value]="currentStorageOrder.employee_name" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Recolector</label>
+                        <input class="form-control" [value]="currentStorageOrder.gatherer_name" disabled>
+                    </div>
+                    <!-- <div class="form-group col col-md-6 col-sm-12">
+                        <label>Nombre de contacto</label>
+                        <input class="form-control" [value]="currentStorageOrder.contact_name" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Nombre de recolector</label>
+                        <input class="form-control" [value]="currentStorageOrder.gatherer_name" disabled>
+                    </div>
+                    <div class="form-group col col-md-12 col-sm-12">
+                        <label>Direccion</label>
+                        <input class="form-control" [value]="currentStorageOrder.address" disabled>
+                    </div> -->
+                </div>
+                <div class="wrapper">
+                    <div class="panel-body table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Codigo</th>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Unidad</th>
+                                    <th scope="col">Autorizada</th>
+                                    <th scope="col">Recolectada</th>
+                                    <th scope="col">Almacenada</th>
+                                    <!-- <th scope="col">Proveedor</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let product of currentStorageOrder.products;">
+                                    <td>{{product.sku}}</td>
+                                    <td>{{product.name}}</td>
+                                    <td>{{product.unit.name}}</td>
+                                    <td>{{product.authorized_quantity}}</td>
+                                    <td>{{product.quantity_collected}}</td>
+                                    <td>{{product.quantity_stored}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center" *ngIf="show">
+                        <a class="btn btn-primary" href="javascript:void(0)" (click)="onSubmit()">Recolectar</a>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div *ngSwitchCase="1" class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

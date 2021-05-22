@@ -3,6 +3,7 @@ import { HarvestService } from '../../services/harvest.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-harvest-sheet',
@@ -56,12 +57,15 @@ export class HarvestSheetComponent implements OnInit {
 
   constructor(
     private haverstService: HarvestService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private storageService: StorageService
   ) { }
 
   tableLoad = false;
 
   arrayHarvestSheets = [];
+
+  arrayWarehouseOrderProducts = [];
 
   currentHarvestSheet = {
         "id": '',
@@ -130,6 +134,32 @@ export class HarvestSheetComponent implements OnInit {
     this.fnLoadHarvestSheet(id);
     this.fnOpenModal();
   }
+  
+  fnAlmacenar(id){
+    this.haverstService.fnGetHarvestSheetById(id)
+    .then(res => {
+      res.data.products.forEach(element => {
+        this.currentHarvestSheet = res.data;
+        this.arrayWarehouseOrderProducts.push({
+          "id": element.id,
+          "authorized_quantity": element.quantity,
+          "quantity_collected": element.quantity_real,
+          "quantity_stored": 0,
+          "sku": element.sku,
+          "name":element.name,
+          "unit":{
+            unit_id:element.unit.id,
+            name:element.unit.name
+          },
+          "unit_id":element.unit.id
+        });
+      });
+      console.log(res.data);
+      this.show = true;
+      this.currentView = 1;
+      this.fnOpenModal();
+    })
+  }
 
   onSubmit(){
     console.log('Products');
@@ -158,5 +188,32 @@ export class HarvestSheetComponent implements OnInit {
       })
     })
   }
+
+  onSubmitWarehouse(){
+    let data = {
+      harvest_sheet_id:this.currentHarvestSheet.id,
+      products:this.arrayWarehouseOrderProducts
+    };
+    console.log('My data');
+    console.log(data);
+    this.storageService.fnPostStorageOrder(data)
+    .then(res => {
+      Swal.fire({
+        icon:'success',
+        title:'Correcto!',
+        text:'Se creo la hoja de almacenamiento correctamente',
+        didClose:() => {
+          this.fnLoadHarvestSheets();
+          this.fnCloseModal();
+        }
+      })
+    })
+    .catch(rej => {
+      console.log('Error al almacenar');
+      console.log(rej);
+    })
+  }
+
+  /**/
 
 }
