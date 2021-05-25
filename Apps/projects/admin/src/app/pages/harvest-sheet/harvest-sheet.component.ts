@@ -102,6 +102,8 @@ export class HarvestSheetComponent implements OnInit {
         this.arrayHarvestSheets.push(element);
       });
       this.tableLoad = true;
+      console.log('Harvest Sheets');
+      console.log(res);
     })
     .catch(rej => {
       console.log('Ocurrio un error al intentar traer las hojas de recoleccion');
@@ -206,7 +208,7 @@ export class HarvestSheetComponent implements OnInit {
           this.fnLoadHarvestSheets();
           this.fnCloseModal();
         }
-      })
+      });
     })
     .catch(rej => {
       console.log('Error al almacenar');
