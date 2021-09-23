@@ -1,0 +1,106 @@
+/*============================================================
+    Footer
+============================================================*/
+
+#footer {
+    background-image: url("../../../../assets/images/piedepagina.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 115px 0 35px;
+}
+
+.footer-logo {
+    margin-bottom: 45px;
+}
+
+.footer-social {
+    margin-bottom: 50px;
+}
+
+.footer-social h3 {
+    font-size: 20px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.footer-social h3:after {
+  border-bottom: 1px solid #fff;
+  bottom: 0;
+  content: "";
+  display: block;
+  left: 50%;
+  margin-left: -115px;
+  position: absolute;
+  width: 230px;
+}
+
+.footer-social ul li a {
+  color: #fff;
+  display: block;
+  margin: 0 8px;
+}
+
+.footer-social ul li a:hover {
+  color: #ffd154;
+}
+
+.copyright {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.copyright a {
+    color: #ffd154;
+}
+
+.copyright a:hover {
+    color: #fff;
+}
+
+.copyright p:first-child {
+    margin-bottom: 15px;
+}
+
+.footer-bottom {
+	overflow: hidden;
+	width: 100%;
+	margin: auto;
+	padding: 18px 0;
+	background-color: #22211D;
+    text-align: center;
+    color: #ffd154;
+    font-size: 15px !important;
+}
+
+footer address {
+	display: block;
+	margin: auto;
+	font-style: normal;
+	line-height: 35px;
+	color: beige;
+	padding-top: 25px;
+	margin-top: 30px;
+	text-align: center;
+	margin-bottom: 0px;
+	font-size: 13px;
+	border: none;
+	letter-spacing: 0.5px;
+	padding-bottom:0px
+}
+footer address i {
+	
+	width: 25px!important;
+	line-height: 32px!important;
+	display: inline-block!important;
+	height: 35px!important;
+	text-align: center;
+	margin-left: 20px!important;
+	border-radius: 25px;
+	margin-right: 0px!important;
+	font-size: 16px !important;
+	vertical-align:middle
+}

@@ -1,0 +1,276 @@
+<h2 class="display-3 text-center mt-5">Control Recolecciones Generales</h2>
+<div class="row">
+    <div class="col-12">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nueva hoja de recoleccion general</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Folio</th>
+                            <th scope="col">Folio Hoja de Requrimientos</th>
+                            <th scope="col">Proveedor</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let generalRecoleccion of arrayGeneralRecolecctions; let index;">
+                            <th scope="row">{{ generalRecoleccion.folio }}</th>
+                            <td>{{ generalRecoleccion.requisition_folio }}</td>
+                            <td>{{ generalRecoleccion.provider_name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <!-- <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnVer(generalRecoleccion.id)"><i class="fa fa-eye" title="Ver incidencia"></i></a>
+                                    </div>-->
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnNew(generalRecoleccion.id)"><i class="fas fa-play-circle" title="Iniciar incidencia"></i></a>
+                                    </div>
+                                    <!--
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnChangeIncidenStatus(generalRecoleccion.id)"><i class="fas fa-exchange-alt" title="Finalizar incidencia"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEscaleteIncident(generalRecoleccion.id)"><i class="fas fa-arrow-up" title="Escalar incidencia"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnDelete(generalRecoleccion.id)"><i class="fa fa-trash text-danger" title="Eliminar incidencia"></i></a>
+                                    </div> -->
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <!--New-->
+                <div class="container">
+                    <h2>Folio orden general</h2>
+                    <span>{{ currentGeneralRecolection.folio }}</span>
+                    <br>
+                    <div class="wrapper">
+                        <div class="panel-body table-responsive">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th></th>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Cantidad Por Recolectar</th>
+                                        <th scope="col">Unidad</th>
+                                        <!-- <th scope="col">Proveedor</th> -->
+                                        <th *ngIf="!show" scope="col">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- <tr *ngFor="let product of arrayOrderProducts;let indexOfElement = index;" class=""> -->
+                                    <tr *ngFor="let product of currentGeneralRecolection.products; let indexOfElement = index;" class="">
+                                        <td></td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.quantity }}</td>
+                                        <td>{{ product.to_collect }}</td>
+                                        <td>
+                                            <select class="form-control" disabled>
+                                                <option *ngFor="let unit of arrayUnits;" [value]="unit.id" [attr.selected]="unit.id == product.unit_id ? 'selected' : null" >{{ unit.name }}</option>
+                                            </select>
+                                        </td>
+                                        <!-- <td>
+                                            <input type="text" class="form-control" placeholder="Cantidad Autorizada" x [(ngModel)]="product.quantity_real">
+                                        </td> -->
+                                        <!-- <td>
+                                            <select class="form-control" [(ngModel)]="product.provider_id">
+                                                        <!-- <option *ngFor="let provider of arrayProviders.filter(fnProviderContainsProduct.bind(this,product.id));let index" 
+                                                        [value]="provider.id">{{provider.name}}</option> -->
+                                        <!-- <option *ngFor="let provider of fnFilterProvidersByProductId(product.id);let index;" [value]="provider.id">{{provider.name}}</option>
+                                        </select>
+                                        </td> -->
+                                        <!-- <td>
+                                            <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProductToGeneral(product.id)"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="!show">
+                                        <th scope="row"></th>
+                                        <td>
+                                            <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
+                                                <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
+                                        </td>
+                                        <td>
+                                            <select class="form-control" [(ngModel)]="currentProduct.provider_id">
+                                                    <!-- <option *ngFor="let provider of arrayProviders.filter(fnProviderContainsProduct.bind(this,product.id));let index" 
+                                                    [value]="provider.id">{{provider.name}}</option> -->
+                                        <!-- <option *ngFor="let provider of fnFilterProvidersByProductId(currentProduct.id);let index;" [value]="provider.id">{{provider.name}}</option>
+                                        </select>
+                                        </td>-->
+                                        <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddOrderProduct(product.id)"><i class="fas fa-plus"></i> Agregar</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Recolector</label>
+                            <select class="form-control" [(ngModel)]="currentGeneralRecolection.employee_id" [attr.disabled]="show ? 'disabled': null">
+                                <option *ngFor="let driver of arrayDrivers; let index;" [value]="driver.id">{{driver.name}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <p *ngIf="errorRetriever" class="text-danger text-center">
+                                Debe seleccionar un recolector.
+                            </p>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6">
+                            <label>Fecha</label>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker" [minDate]="minDate">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6">
+                            <ngb-timepicker [(ngModel)]="startTime" meridian="meridian"></ngb-timepicker>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <p *ngIf="errorDate" class="text-danger text-center">
+                                Debe seleccionar una fecha valida.
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <p *ngIf="errorTime" class="text-danger text-center">
+                                Debe seleccionar una hora valida.
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <h5>Lista de productos.</h5>
+                    </div>
+                    <div class="wrapper">
+                        <div class="panel-body table-responsive">
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th *ngIf="!show" scope="col">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let orderProduct of arrayOrderRecollection;let indexOfElement = index;">
+                                        <td>{{ orderProduct.name }}</td>
+                                        <!-- <td>{{ product.quantity }}</td> -->
+                                        <td>
+                                            <input class="form-group" type="text" [(ngModel)]="orderProduct.new_quantity">
+                                        </td>
+                                        <td>
+                                            <div class="col-4 col-md-6 col-sm-4 text-center" style="text-align: center;">
+                                                <a href="javascript:void(0)" (click)="fnDeleteOrderProduct(orderProduct.id)"><i class="fa fa-trash text-danger" title="Eliminar producto de la recoleccion"></i></a>
+                                            </div>
+                                        </td>
+                                        <!-- <span *ngIf="errorQuantity" class="text-danger">
+                                            La cantidad no debe exeder a la cantidad por recolectar.
+                                        </span> -->
+                                    </tr>
+                                    <tr *ngIf="errorQuantity">
+                                        <td>
+                                            <span class="text-danger">
+                                                La cantidad no debe exeder a la cantidad por recolectar.
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div *ngIf="errorProducts" class="col-sm-12 col-md-12">
+                        <p class="text-danger text-center">
+                            La lista de productos no puede estar vacia.
+                        </p>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Direccion</label>
+                            <input type="text" class="form-control" placeholder="Direccion" x [(ngModel)]="currentGeneralRecolection.address">
+                        </div>
+                    </div>
+                    <br>
+                    <div *ngIf="errorAddress" class="col-md-12 col-sm-12">
+                        <p class="text-danger text-center">
+                            Debe escribir una direccion.
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- <div class="text-danger" *ngIf="error.length > 0">
+                    <h4>{{ error }}</h4>
+                </div> -->
+                <!-- <div *ngIf="errorGeneralProduct.length > 0">
+                        <span class="text-danger text-center col-md-12">{{ errorGeneralProduct }}</span>
+                    </div> -->
+                <br>
+                <div class="col-md-12 text-center">
+                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="fnCreateGeneralRecolectionOrder()">Generar hoja de recoleccion general.</button>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div *ngSwitchCase="1" class="modal-body">
+            <!--Edit - View-->
+            <!-- <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Problema</label>
+                        <input class="form-control" type="text" placeholder="Problema" formControlName="subject" [(ngModel)]="currentIncident.subject" [attr.disabled]="!show ? 'disabled': null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Tipo Incidencia</label>
+                        <select class="form-control" formControlName="incident_type_id" [(ngModel)]="currentIncident.incident_type_id" [attr.disabled]="!show ? 'disabled': null">
+                            <option *ngFor="let incidentType of arrayIncidentsTypes; let index;" [value]="incidentType.id">{{incidentType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Descripcion</label>
+                        <textarea class="form-control" placeholder="Descripcion" id="exampleFormControlTextarea1" rows="3" formControlName="description" [(ngModel)]="currentIncident.description" [attr.disabled]="!show ? 'disabled': null"></textarea>
+                    </div>
+                    <button *ngIf="show" type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitEdit()">Actualizar</button>
+                </form>-->
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

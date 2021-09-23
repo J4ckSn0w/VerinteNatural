@@ -1,0 +1,203 @@
+<h2 class="display-3 text-center mt-5">Control Ordenes de Recoleccion</h2>
+<div class="row">
+    <div class="col-12">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nueva hoja de recoleccion general</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Folio</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Contacto</th>
+                            <th scope="col">Recolector</th>
+                            <th scope="col">Fecha de Recoleccion</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let harvestSheet of arrayHarvestSheets; let index;">
+                            <th scope="row">{{ harvestSheet.folio }}</th>
+                            <td>{{ harvestSheet.status_name }}</td>
+                            <td>{{ harvestSheet.contact_name }}</td>
+                            <td>{{ harvestSheet.gatherer_name }}</td>
+                            <td>{{ harvestSheet.collect_to }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnVer(harvestSheet.id)"><i class="fa fa-eye" title="Iniciar incidencia"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a *ngIf="currentHarvestSheet.status_name === 'En proceso'" href="javascript:void(0)" (click)="fnRecolectar(harvestSheet.id)"><i class="fas fa-play-circle" title="Iniciar incidencia"></i></a>
+                                    </div>
+                                    <div *ngIf="harvestSheet.status_name === 'Entregado en almacén'" class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnAlmacenar(harvestSheet.id)"><i class="fas fa-box-open"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <!-- <div> -->
+        <div class="modal-header">
+            <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+            <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+        </div>
+        <div *ngSwitchCase="0" class="modal-body">
+            <!--New-->
+            <div class="container">
+                <h2>Folio orden de recoleccion</h2>
+                <span>{{ currentHarvestSheet.folio }}</span>
+                <div class="row">
+                    <div class="form-group col col-md-12 col-sm-12">
+                        <label>Fecha de recoleccion</label>
+                        <input class="form-control" [value]="currentHarvestSheet.collect_to" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Proveedor</label>
+                        <input class="form-control" [value]="currentHarvestSheet.provider" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Forma de pago</label>
+                        <input class="form-control" [value]="currentHarvestSheet.payment_form_name" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Nombre de contacto</label>
+                        <input class="form-control" [value]="currentHarvestSheet.contact_name" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Nombre de recolector</label>
+                        <input class="form-control" [value]="currentHarvestSheet.gatherer_name" disabled>
+                    </div>
+                    <div class="form-group col col-md-12 col-sm-12">
+                        <label>Direccion</label>
+                        <input class="form-control" [value]="currentHarvestSheet.address" disabled>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="panel-body table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Codigo</th>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Unidad</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Recolectado</th>
+                                    <!-- <th scope="col">Proveedor</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let product of currentHarvestSheet.products;">
+                                    <td>{{product.sku}}</td>
+                                    <td>{{product.name}}</td>
+                                    <td>{{product.unit.name}}</td>
+                                    <td>{{product.quantity}}</td>
+                                    <td *ngIf="!show">{{product.quantity_real}}</td>
+                                    <td *ngIf="show">
+                                        <input class="form-control" [(ngModel)]="product.quantity_real">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center" *ngIf="show">
+                        <a class="btn btn-primary" href="javascript:void(0)" (click)="onSubmit()">Recolectar</a>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div *ngSwitchCase="1" class="modal-body">
+            <!--Almacen-->
+            <div class="container">
+                <h2>Folio orden de recoleccion</h2>
+                <span>{{ currentHarvestSheet.folio }}</span>
+                <div class="row">
+                    <div class="form-group col col-md-12 col-sm-12">
+                        <label>Fecha de recoleccion</label>
+                        <input class="form-control" [value]="currentHarvestSheet.collect_to" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Proveedor</label>
+                        <input class="form-control" [value]="currentHarvestSheet.provider" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Forma de pago</label>
+                        <input class="form-control" [value]="currentHarvestSheet.payment_form_name" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Nombre de contacto</label>
+                        <input class="form-control" [value]="currentHarvestSheet.contact_name" disabled>
+                    </div>
+                    <div class="form-group col col-md-6 col-sm-12">
+                        <label>Nombre de recolector</label>
+                        <input class="form-control" [value]="currentHarvestSheet.gatherer_name" disabled>
+                    </div>
+                    <div class="form-group col col-md-12 col-sm-12">
+                        <label>Direccion</label>
+                        <input class="form-control" [value]="currentHarvestSheet.address" disabled>
+                    </div>
+                </div>
+                <div class="wrapper">
+                    <div class="panel-body table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Codigo</th>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Unidad</th>
+                                    <th scope="col">Cantidad Recolectada</th>
+                                    <th scope="col">cantidad Almacenada</th>
+                                    <!-- <th scope="col">Proveedor</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let product of arrayWarehouseOrderProducts;">
+                                    <td>{{product.sku}}</td>
+                                    <td>{{product.name}}</td>
+                                    <td>{{product.unit.name}}</td>
+                                    <td>{{product.quantity_collected}}</td>
+                                    <td *ngIf="!show">{{product.quantity_stored}}</td>
+                                    <td *ngIf="show">
+                                        <input class="form-control" [(ngModel)]="product.quantity_stored">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center" *ngIf="show">
+                        <a class="btn btn-primary" href="javascript:void(0)" (click)="onSubmitWarehouse()">Almacenar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,10 @@
+.footer-bottom {
+	overflow: hidden;
+	width: 100%;
+	margin: auto;
+	padding: 18px 0;
+	background-color: #22211D;
+    text-align: center;
+    color: #ffd154;
+    font-size: 15px !important;
+}

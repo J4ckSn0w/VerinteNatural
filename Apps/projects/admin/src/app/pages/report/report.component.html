@@ -1,0 +1,202 @@
+<div class="container">
+    <h2>{{ arrayViews[currentView] }}</h2>
+    <!--Loading Start-->
+    <div *ngIf="!tableLoad" class="loading">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <!--Loading End-->
+    <div *ngIf="!showDetails">
+        <div *ngIf="tableLoad">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <div class="row">
+                        <form class="form-inline">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="yyyy-mm-dd" name="lastdp" [(ngModel)]="lastDate" ngbDatepicker #d2="ngbDatepicker">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div>
+                                    <button class="btn btn-primary" (click)="fnGetByDates()">Aplicar</button>
+                                </div>
+                            </div>
+                            <div *ngIf="errorFecha">
+                                <p class="text-danger">Favor de seleccionar fechas validas.</p>
+                            </div>
+                        </form>
+                    </div> -->
+                </div>
+            </div>
+            <br>
+            <table class="table table-bordered">
+                <thead>
+                    <th scope="col">Vehiculo</th>
+                    <th scope="col">Chofer</th>
+                    <th scope="col">Kilometraje</th>
+                    <th scope="col">Litros consumidos</th>
+                    <th scope="col">Gastos total</th>
+                    <th scope="col">Opciones</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let vehicle of arrayVehicles; let index;">
+                        <td>{{ vehicle.id }}</td>
+                        <td>{{ vehicle.driver_name }}</td>
+                        <td>{{ vehicle.mileage }}</td>
+                        <td>{{ vehicle.spent_fuel }}</td>
+                        <td>{{ vehicle.fuel_cost | currency : 'MXN' : true : '1.2-2' }}</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-8 col-sm-6 text-right">
+                                    <a href="javascript:void(0)" (click)="fnDetalle(vehicle.id)"><i class="fa fa-eye"></i></a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div *ngIf="showDetails">
+        <div class="row">
+            <div class="col-md-8">
+                <!-- <a href="javascript:void(0)" (click)="fnRegresar()" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar</a>
+                <h3>De {{ myFirstDate | date:'mediumDate'}} hasta {{ myLastDate | date:'mediumDate' }}</h3>
+                <br>
+                <br> -->
+                <a href="javascript:void(0)" (click)="fnRegresar()" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Regresar</a>
+                <br>
+                <br>
+                <div class="row">
+                    <form class="form-inline">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy-mm-dd" name="lastdp" [(ngModel)]="lastDate" ngbDatepicker #d2="ngbDatepicker">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div>
+                                <button class="btn btn-primary" (click)="fnGetByDates()">Aplicar</button>
+                            </div>
+                        </div>
+                        <div *ngIf="errorFecha">
+                            <p class="text-danger">Favor de seleccionar fechas validas.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div *ngIf="tableLoadReports && arrayReports.length > 0" class="col">
+                <button class="btn btn-success" (click)="fnCreateReport()">Generar Reporte <i class="fas fa-download"></i></button>
+            </div>
+            <br>
+        </div>
+        <br>
+        <!--Loading Start-->
+        <div *ngIf="!tableLoadReports" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoadReports && arrayReports.length > 0">
+            <!-- <div class="row">
+                <form class="form-inline">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd" name="lastdp" [(ngModel)]="lastDate" ngbDatepicker #d2="ngbDatepicker">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div>
+                            <button class="btn btn-primary" (click)="fnGetByDates()">Aplicar</button>
+                        </div>
+                    </div>
+                    <div *ngIf="errorFecha">
+                        <p class="text-danger">Favor de seleccionar fechas validas.</p>
+                    </div>
+                </form>
+            </div> -->
+            <table class="table borderd">
+                <thead>
+                    <th>Fecha</th>
+                    <th>Id</th>
+                    <th>Litros</th>
+                    <th>ID vehiculo</th>
+                    <th>Subtotal</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let report of arrayReports; let index;">
+                        <td>{{ report.created_at | date:'mediumDate' }}</td>
+                        <td>{{ report.id }}</td>
+                        <td>{{ report.spent_fuel }}</td>
+                        <td>{{ currentVehicule.id }}</td>
+                        <td>{{ report.fuel_cost | currency : 'MXN' : true : '1.2-2' }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Total</td>
+                        <td> {{ totalExpense | currency : 'MXN' : true : '1.2-2' }} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="arrayReports.length == 0 && tableLoadReports">
+            <h2 class="text-danger">
+                No se encontraron reportes en el rango de fechas.
+            </h2>
+        </div>
+    </div>
+</div>

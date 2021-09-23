@@ -1,0 +1,165 @@
+<h2 class="display-3 text-center mt-5">Control Productos</h2>
+<div class="row">
+    <div class="col-12">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nuevo Producto</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Tipo Producto</th>
+                            <th scope="col">Categoria Producto</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of arrayProducts; let index;">
+                            <th scope="row">{{ product.id }}</th>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.product_type_name }}</td>
+                            <td>{{ product.category_name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-4 col-sm-4 text-left">
+                                        <a href="javascript:void(0)" (click)="fnVer(product.id)"><i class="fa fa-eye"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEdit(product.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-right">
+                                        <a href="javascript:void(0)" (click)="fnDelete(product.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <!--New-->
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre" formControlName="name">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Descripcion</label>
+                        <input class="form-control" type="text" placeholder="Descripcion" formControlName="description">
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Tipo Producto</label>
+                        <select class="form-control" formControlName="product_type_id">
+                            <option *ngFor="let productType of arrayProductTypes; let index;" [value]="productType.id">{{productType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="validatedCustomFile" required (change)="handleUpload($event)" formControlName="image">
+                            <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <div *ngIf="filePath && filePath !== ''">
+                            <img [src]="filePath" [alt]="newForm.value.name" style="max-width: 600px; width: 100%; max-height: 600px; height: 100%;">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Stock Minimo</label>
+                        <input class="form-control" type="text" placeholder="Stock Minimo" formControlName="minium_stock">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 ml-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" [value]="1" formControlName="product_is_by_part">
+                            <label class="form-check-label">
+                            Por pieza
+                        </label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <!--Edit - View-->
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre" formControlName="name" [(ngModel)]="currentProduct.name" [attr.disabled]="show?'disabled':null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Descripcion</label>
+                        <input class="form-control" type="text" placeholder="Descripcion" formControlName="description" [(ngModel)]="currentProduct.description" [attr.disabled]="show?'disabled':null">
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Tipo Producto</label>
+                        <select class="form-control" formControlName="product_type_id" [attr.disabled]="show?'disabled':null" [(ngModel)]="currentProduct.product_type_id">
+                            <option *ngFor="let productType of arrayProductTypes; let index;"  [value]="productType.id" >{{productType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <div class="custom-file">
+                            <input type="file" accept="img/*" class="custom-file-input" id="validatedCustomFile" required (change)="handleUpload($event)" [attr.disabled]="show?'disabled':null">
+                            <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <div *ngIf="filePath && filePath !== ''">
+                            <img [src]="filePath" [alt]="newForm.value.name" style="max-width: 600px; width: 100%; max-height: 600px; height: 100%;">
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Stock Minimo</label>
+                        <input class="form-control" type="text" placeholder="Stock Minimo" formControlName="minium_stock" [(ngModel)]="currentProduct.minium_stock" [attr.disabled]="show?'disabled':null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 ml-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" formControlName="product_is_by_part" [attr.disabled]="show?'disabled':null">
+                            <label class="form-check-label">
+                            Por pieza
+                        </label>
+                        </div>
+                    </div>
+                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()">Actualizar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

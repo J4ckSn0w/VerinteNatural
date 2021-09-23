@@ -1,0 +1,177 @@
+<div class="row ajuste">
+    <h1 class="">CONTROL DE USUARIOS</h1>
+    <div class="col-12">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center md-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="btn btn-warning btn-sm" href="javascript:void(0)" (click)="fnNew(NewUserModal)"><i style="color: white;" class="fas fa-plus"></i><span style="color: white;"> Nuevo usuario</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead style="background-color: #10842e;">
+                        <tr>
+                            <th style="color: white;" scope="col">ID</th>
+                            <th style="color: white;" scope="col">Nombre</th>
+                            <th style="color: white;" scope="col">Puesto</th>
+                            <th style="color: white;" scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of arrayUser; let index;">
+                            <th scope="row">{{ user.employee_number }}</th>
+                            <td>{{ user.name }}</td>
+                            <td>{{ user.employee_type_name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-8 col-sm-4 text-right">
+                                        <a href="javascript:void(0)" (click)="fnVer(user.id)"><i class="fas fa-eye"></i></a>
+                                    </div>
+                                    <div class="col-8 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEdit(user.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-8 col-sm-4 text-left">
+                                        <a href="javascript:void(0)" (click)="fnDelete(user.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modales-->
+<!--Modal Nuevo Usuario-->
+<ng-template #NewUserModal let-newUserModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <form role="form" novalidate class="row" [formGroup]="newUserForm">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Correo</label>
+                        <input type="email" class="form-control" placeholder="Correo" formControlName="email">
+                        <!-- <div *ngIf="error_email" class="text-danger">
+                            El correo ya esta siendo usado por otro usuario.
+                        </div> -->
+                        <div *ngIf="fnCheckErrors('email')" class="text-danger">
+                            {{ errors['email'] }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Contraseña</label>
+                        <input type="text" class="form-control" placeholder="Contraseña" formControlName="password">
+                        <div *ngIf="fnCheckErrors('password')" class="text-danger">
+                            {{ errors['password'] }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Telefono</label>
+                        <input type="text" class="form-control" placeholder="Telefono" formControlName="phone_number">
+                        <!-- <div *ngIf="error_phone_number" class="text-danger">
+                            El telefono esta siendo usado por otro usuario.
+                        </div> -->
+                        <div *ngIf="fnCheckErrors('phone_number')" class="text-danger">
+                            {{ errors['phone_number'] }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Puesto</label>
+                        <select class="form-control" formControlName="employee_type_id">
+                            <option *ngFor="let userType of arrayUserTypes" [value]="userType.id">{{userType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Almacen asignado</label>
+                        <select class="form-control" formControlName="warehouse_id">
+                            <option *ngFor="let warehouse of arrayWarehouses" [value]="warehouse.id">{{warehouse.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Rol</label>
+                        <select class="form-control" formControlName="role">
+                            <option *ngFor="let rol of arrayRoles;" [ngValue]="rol">{{ rol.title }}</option>
+                        </select>
+                    </div>
+                    <button style="color: white;" type="button" class="btn btn-warning mx-auto" [disabled]="this.newUserForm.invalid" (click)="onSubmitNew()">Guardar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <form role="form" novalidate [formGroup]="newUserForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [(ngModel)]="currentUser.name" [attr.disabled]="show ? 'disabled' : null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Telefono</label>
+                        <input type="text" class="form-control" placeholder="Apellidos" formControlName="phone_number" [(ngModel)]="currentUser.phone_number" [attr.disabled]="show ? 'disabled' : null">
+                        <div *ngIf="fnCheckErrors('phone_number')" class="text-danger">
+                            {{ errors['phone_number'] }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Telefono" formControlName="email" [(ngModel)]="currentUser.email" [attr.disabled]="show ? 'disabled' : null">
+                        <div *ngIf="fnCheckErrors('email')" class="text-danger">
+                            {{ errors['email'] }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Contraseña</label>
+                        <input type="text" class="form-control" placeholder="Contraseña" formControlName="password" [attr.disabled]="show ? 'disabled' : null">
+                        <div *ngIf="fnCheckErrors('password')" class="text-danger">
+                            {{ errors['password'] }}
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Puesto</label>
+                        <select class="form-control" formControlName="employee_type_id" [(ngModel)]="currentUser.employee_type.id" [attr.disabled]="show ? 'disabled' : null">
+                            <option *ngFor="let userType of arrayUserTypes" [value]="userType.id">{{userType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Almacen asignado</label>
+                        <select class="form-control" formControlName="warehouse_id" [(ngModel)]="currentUser.warehouse.id" [attr.disabled]="show ? 'disabled' : null">
+                            <option *ngFor="let warehouse of arrayWarehouses" [value]="warehouse.id">{{warehouse.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Rol</label>
+                        <select class="form-control" formControlName="role" [(ngModel)]="currentUser.role" [attr.disabled]="show ? 'disabled' : null">
+                            <option *ngFor="let rol of arrayRoles;" [ngValue]="rol.name">{{ rol.title }}</option>
+                        </select>
+                    </div>
+                    <button style="color: white;" *ngIf="!show" type="button" class="btn btn-warning mx-auto" (click)="onSubmitEdi()">Actualizar</button>
+                    <!--<button type="button" class="btn btn-primary mx-auto" (click)="change()">Cambiar</button>-->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="newUserModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,24 @@
+<div>
+    <div class="row text-center">
+        <!-- Avatar -->
+        <div class="col-12 d-flex justify-content-center">
+            <div class="circle" [ngStyle]="{backgroundColor: color}">
+                <div class="initials">
+                    {{initials}}
+                </div>
+            </div>
+        </div>
+        <!-- Name -->
+        <div class="col-12 user__name">
+            {{user.name}}
+        </div>
+        <!-- Email -->
+        <div class="col-12 user__email">
+            {{user.email}} <i class="fa fa-envelope"></i>
+        </div>
+        <!-- Phone Number -->
+        <div class="col-12 user__phone">
+            {{user.phone_number}} <i class="fa fa-mobile-alt"></i>
+        </div>
+    </div>
+</div>

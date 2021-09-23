@@ -1,0 +1,151 @@
+<div class="row">
+    <div class="col-lg-4">
+        <h3>Bienvenido al sistema de administración de Verinte Natural</h3>
+        <div class="wrapper fadeInDown">
+            <div id="formContent">
+                <div class="fadeIn first">
+                    <img src="../../../assets/images/logoVerinte.png" id="icon" alt="User Icon" />
+                </div>
+                <form [formGroup]="loginForm" novalidate role="form">
+                    <input type="text" id="login" class="fadeIn second" name="login" placeholder="Correo" formControlName="correo">
+                    <input type="password" id="password" class="fadeIn third" name="login" placeholder="Contraseña" formControlName="password">
+                    <input (click)="onSubmit()" type="submit" class="fadeIn fourth" value="Entrar al sistema">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="bg-image">
+</div>
+<div class="big-container">
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="col-md-6 my-container">
+                <div class="my-container-header">
+                    <h2>Bienvenido</h2>
+                    <p>Al registrarse, estas aceptando nuestros Terminos de uso y Politica de privacidad</p>
+                </div>
+                <div class="my-container-social">
+                    <div class="identificate">
+                        <p>Identificate con tus redes sociales</p>
+                    </div>
+                    <div class="my-buttons">
+                        <button class="google-button"><i class="fa fa-google"></i></button>
+                        <button class="facebook-button"><i class="fa fa-facebook"></i></button>
+                    </div>
+                </div>
+                <div class="line-divider">
+                    <span class="white-line"></span> <span class="white-line"></span>
+                </div>
+                <div class="my-container-form">
+                    <form role="form" novalidate [formGroup]="loginForm">
+                        <div class="my-inputs">
+                            <input class="my-input-text" type="email" placeholder="Email" formControlName="correo">
+                            <input class="my-input-text" type="password" placeholder="Contraseña" formControlName="password">
+                        </div>
+                        <div class="row bottom-text">
+                            <div class="col-6 col-md-4 col-sm-4 justify-content-start remember-me">
+                                <input type="checkbox" id="checkPass">
+                                <label for="checkPass">Recordarme</label>
+                            </div>
+                            <div class="col-6 col-md-6 col-sm-8 justify-content-end">
+                                <a href="javascript:void(0)" (click)="fnForgottenPassword()">¿Olvidaste tu contraseña?</a>
+                            </div>
+                        </div>
+                        <div class="row button-submit">
+                            <div class="col-12 align-self-center">
+                                <button class="idetificate-button" type="submit" value="Identificarse" (click)="onSubmit()">Identificarse</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="my-container-bottom">
+                    <p>¿No eres miembro? <a href="javascript:void(0)" (click)="fnRegister()">  Registrate</a></p>
+                </div>
+            </div>-->
+
+
+
+
+<!--<div class="this-body">
+
+                <div class="wrapper">
+                    <div class="my-header">
+                        <h2 class="my-card-header center">Bienvenido</h2>
+                        <p>Al registrarte, estas aceptando nuestros Terminos de uso y Politicas de privacidad</p>
+                    </div>
+                    <div class="redes-sociales">
+                        <p>Identificate con tus redes sociales</p>
+                        <button class="google"><i class="fa fa-google"></i></button>
+                        <button class="facebook"><i class="fa fa-facebook"></i></button>
+                    </div>
+                    <form role="form" novalidate [formGroup]="loginForm">
+                        <input type="email" placeholder="Email">
+                        <input type="password" placeholder="Contraseña">
+                        <div class="bottom-text">
+                            <input type="checkbox" id="checkPass">Recordarme
+                            <a href="javascript:void(0)">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <div class="button--submit">
+                            <button type="submit" value="Identificarse">Identificarse</button>
+                        </div>
+                    </form>
+                    <div>
+                        <p>¿No eres miembro? <a href="javascript:void(0)">Registrate</a></p>
+                    </div>
+                </div>
+            </div>-->
+
+
+<!--</div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+-->

@@ -1,0 +1,110 @@
+<h2 class="display-3 text-center mt-5">Control Tipo de Vehiculos</h2>
+<div class="row">
+    <div class="col-12">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center md-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nuevo tipo de vehiculo</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Peso maximo</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let vehicle of arrayVehiclesTypes; let index;">
+                            <th scope="row">{{ vehicle.id }}</th>
+                            <td>{{ vehicle.name }}</td>
+                            <td>{{ vehicle.max_weight }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-8 col-sm-3 text-right">
+                                        <a href="javascript:void(0)" (click)="fnVer(vehicle.id)"><i class="fas fa-eye"></i></a>
+                                    </div>
+                                    <div class="col-8 col-sm-3 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEdit(vehicle.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-8 col-sm-3 text-left">
+                                        <a href="javascript:void(0)" (click)="fnDelete(vehicle.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <!--New-->
+                <form role="form" novalidate class="row" [formGroup]="newForm">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Peso maximo.</label>
+                        <input type="text" class="form-control" placeholder="Peso maximo." formControlName="max_weight">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Unidades</label>
+                        <select class="form-control">
+                            <option value="1">Kilos</option>
+                            <option value="2">Toneladas</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitNew()">Guardar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <!--Edit - View-->
+                <form role="form" novalidate class="row" [formGroup]="newForm">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" placeholder="Nombre" formControlName="name" [ngModel]="currentVehicleType.name" [attr.disabled]="show ? 'disabled' : null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Peso maximo.</label>
+                        <input type="text" class="form-control" placeholder="Peso maximo." formControlName="max_weight" [ngModel]="currentVehicleType.max_weight" [attr.disabled]="show ? 'disabled' : null">
+                    </div>
+                    <button *ngIf="!show" type="button" class="btn btn-primary mx-auto" [disabled]="this.newForm.invalid" (click)="onSubmitEdit()">Actualizar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,41 @@
+<h2 class="display-3 text-center mt-5">Nuevo Almacen</h2>
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card my-4">
+                <div class="card-header">
+                    <ul class="nav nav-pills card-header-pills">
+                        <li class="nav-item">
+                            <a class="btn btn-danger btn-sm" href="javascript:void(0)" routerLinkActive="active" [routerLink]="['/system/warehouse']"><i class="fas fa-arrow-left"></i> Regresar</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <form role="form" novalidate class="row" [formGroup]="newWarehouseForm">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label>Direccion</label>
+                            <input type="text" class="form-control" placeholder="Direccion" formControlName="address">
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Tipo Almacen</label>
+                            <select class="form-control" formControlName="warehouse_type_id">
+                                <option *ngFor="let warehouseType of arrayWarehouseTypes" [value]="warehouseType.id">{{warehouseType.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label>Encargado de Almacen</label>
+                            <select class="form-control" formControlName="user_id">
+                                <option *ngFor="let user of arrayusers" [value]="user.id">{{user.name}}</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary mx-auto" [disabled]="this.newWarehouseForm.invalid" (click)="onSubmit()">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

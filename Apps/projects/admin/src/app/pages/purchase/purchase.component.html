@@ -1,0 +1,165 @@
+<h2 class="display-3 text-center mt-5">Control Ordenes de Compras</h2>
+<div class="row">
+    <div class="col-12">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nueva orden de compra.</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Tipo Producto</th>
+                            <th scope="col">Categoria Producto</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let purchase of arrayPurchases; let index;">
+                            <th scope="row">{{ purchase.id }}</th>
+                            <td>{{ purchase.name }}</td>
+                            <td>{{ purchase.product_type_name }}</td>
+                            <td>{{ purchase.category_name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-4 col-sm-4 text-left">
+                                        <a href="javascript:void(0)" (click)="fnVer(purchase.id)"><i class="fa fa-eye"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEdit(purchase.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-right">
+                                        <a href="javascript:void(0)" (click)="fnDelete(purchase.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <!--New-->
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-6">
+                        <h3>Fecha de recepcion de producto</h3>
+                        <div class="input-group">
+
+                            <input class="form-control" formControlName="date" placeholder="yyyy-mm-dd" name="firstdp" [(ngModel)]="firstDate" ngbDatepicker #d="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Proveedor</label>
+                        <select class="form-control" formControlName="provider_id" [(ngModel)]="currentProvider" (ngModelChange)='onProviderSelected($event)'>
+                            <option *ngFor="let provider of arrayProviders; let index;" [value]="provider.id">{{provider.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Almacen</label>
+                        <select class="form-control" formControlName="warehouse_id">
+                            <option *ngFor="let warehouse of arrayWarehouses; let index;" [value]="warehouse.id">{{warehouse.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>IVA</label>
+                        <input class="form-control" type="text" placeholder="IVA" formControlName="iva" (ngModelChange)="fnIvaChange($event)">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Subtotal</label>
+                        <input class="form-control" type="text" placeholder="Subtotal" formControlName="subtotal" disabled>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Total</label>
+                        <input class="form-control" type="text" placeholder="Total" formControlName="total" disabled>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+
+                    </div>
+                    <div class="container">
+                        <div class="wrapper">
+                            <div class="panel-body table-responsive">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Producto</th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Precio</th>
+                                            <th scope="col">Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let product of arrayOrderProducts" class="">
+                                            <th></th>
+                                            <td>{{ product.name }}</td>
+                                            <td>{{ product.quantity }}</td>
+                                            <td>{{ product.unit_cost }}</td>
+                                            <td>
+                                                <a *ngIf="!show" class="btn btn-danger" (click)="fnDeleteProduct(product.id)"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="!show">
+                                            <th scope="row"></th>
+                                            <td>
+                                                <select class="form-control" [(ngModel)]="currentProduct.id" [ngModelOptions]="{standalone: true}" (ngModelChange)='onOptionsSelected($event)'>
+                                                    <option *ngFor="let producto of arrayProducts;let index" [value]="producto.id">{{producto.name}}</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input formControlName="quantity" class="form-control" type="text" placeholder="Cantidad" [(ngModel)]="currentProduct.quantity">
+                                            </td>
+                                            <td>
+                                                <input formControlName="unit_price" class="form-control" type="text" placeholder="Precio" [(ngModel)]="currentProduct.unit_price" disabled>
+                                            </td>
+                                            <td><a *ngIf="!show" class="btn btn-primary" (click)="fnAddProduct()"><i class="fas fa-plus"></i> Crear</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <!--Edit - View-->
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <button type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()">Actualizar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

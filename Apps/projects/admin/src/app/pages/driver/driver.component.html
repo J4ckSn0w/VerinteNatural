@@ -1,0 +1,122 @@
+<h2 class="display-3 text-center mt-5">Control Conductores</h2>
+<div class="row">
+    <div class="col-12">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center md-4">
+            <!--<div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a class="btn btn-primary btn-sm" [routerLink]="['/system/driver/new']"><i class="fas fa-plus"></i> Nuevo conductor</a>
+                    </li>
+                </ul>
+            </div>-->
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Calificacion</th>
+                            <th scope="col">Vehiculo</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let driver of arrayDrivers; let index;">
+                            <th scope="row">{{ driver.employee_number }}</th>
+                            <td>{{ driver.rate }}</td>
+                            <td>{{ driver.vehicle_name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-4 col-sm-4 text-right">
+                                        <a href="javascript:void(0)" (click)="fnVer(driver.id)"><i class="fa fa-eye"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEdit(driver.id)"><i class="fa fa-pencil"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-left">
+                                        <a href="javascript:void(0)" (click)="fnDelete(driver.id)"><i class="fa fa-trash text-danger"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Modal de acciones-->
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <!--New-->
+                <!--
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre" formControlName="name">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Descripcion</label>
+                        <input class="form-control" type="text" placeholder="Descripcion" formControlName="description">
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Tipo Producto</label>
+                        <select class="form-control" formControlName="product_type_id">
+                            <option *ngFor="let productType of arrayProductTypes; let index;" [value]="productType.id">{{productType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12 ml-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" [value]="1" formControlName="product_is_by_part">
+                            <label class="form-check-label">
+                            Por pieza
+                        </label>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
+                </form>-->
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <!--Edit - View-->
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre" formControlName="name" [(ngModel)]="currentDriver.name" [attr.disabled]="show?'disabled':null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Puntuacion</label>
+                        <input class="form-control" type="text" placeholder="Puntuacion" formControlName="rate" [(ngModel)]="currentDriver.rate" [attr.disabled]="show?'disabled':null">
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Vehiculo Asignado</label>
+                        <select class="form-control" formControlName="vehicle_id" [attr.disabled]="show?'disabled':null">
+                            <option *ngFor="let vehicle of arrayVehicles; let index;" [attr.selected]="vehicle.id === currentDriver.vehicle_id ? 'selected' : null"  [value]="vehicle.id" >{{vehicle.license_plate}}</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" (click)="onSubmitEdit()" [disabled]="this.newForm.invalid">Guardar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

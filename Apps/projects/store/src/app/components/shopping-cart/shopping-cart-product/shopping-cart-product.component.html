@@ -1,0 +1,21 @@
+<div class="product">
+    <img [src]="product.img" alt="">
+    <div class="title">
+        <p>
+           {{product.name}}
+        </p>
+        <span>Precio unitario: ${{product.unit_price}} {{product.unit}}</span>
+    </div>
+    <div class="quantity">
+        <button (click)="sub()">
+            <i class="fa fa-minus"></i>
+        </button>
+        <input type="text" name="quantity" [(ngModel)]="product.quantity" (ngModelChange)="onChangeQuantity($event)">
+        <button (click)="add()">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+    <div class="total">
+        <label>${{product.total}}</label>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+<h2 class="display-3 text-center mt-5">Control Incidencias</h2>
+<div class="row">
+    <div class="col-12">
+        <!--Loading Start-->
+        <div *ngIf="!tableLoad" class="loading">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" style="width: 10rem; height: 10rem;" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <!--Loading End-->
+        <div *ngIf="tableLoad" class="card text-center my-4">
+            <div class="card-header">
+                <ul class="nav nav-pills card-header-pills">
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="btn btn-primary btn-sm" (click)="fnNew()"><i class="fas fa-plus"></i> Nueva incidencia</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID Empleado</th>
+                            <th scope="col">Empleado</th>
+                            <th scope="col">Titulo</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let incident of arrayIndicents; let index;">
+                            <th scope="row">{{ incident.employee_number }}</th>
+                            <td>{{ incident.employee_name }}</td>
+                            <td>{{ incident.subject }}</td>
+                            <td>{{ incident.status_name }}</td>
+                            <!--Opciones-->
+                            <td>
+                                <div class="row">
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnVer(incident.id)"><i class="fa fa-eye" title="Ver incidencia"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnStartIncident(incident.id)"><i class="fas fa-play-circle" title="Iniciar incidencia"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnChangeIncidenStatus(incident.id)"><i class="fas fa-exchange-alt" title="Finalizar incidencia"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnEscaleteIncident(incident.id)"><i class="fas fa-arrow-up" title="Escalar incidencia"></i></a>
+                                    </div>
+                                    <div class="col-4 col-sm-4 text-center">
+                                        <a href="javascript:void(0)" (click)="fnDelete(incident.id)"><i class="fa fa-trash text-danger" title="Eliminar incidencia"></i></a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #myModal let-MyModal>
+    <div [ngSwitch]="currentView">
+        <div>
+            <div class="modal-header">
+                <h2 *ngIf="!show">{{ arrayViewsNames[currentView] }}</h2>
+                <h2 *ngIf="show">{{ arrayViewsNames[currentView+1] }}</h2>
+            </div>
+            <div *ngSwitchCase="0" class="modal-body">
+                <!--New-->
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Problema</label>
+                        <input class="form-control" type="text" placeholder="Problema" formControlName="subject">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Tipo Incidencia</label>
+                        <select class="form-control" formControlName="incident_type_id">
+                            <option *ngFor="let incidentType of arrayIncidentsTypes; let index;" [value]="incidentType.id">{{incidentType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Descripcion</label>
+                        <textarea class="form-control" placeholder="Descripcion" id="exampleFormControlTextarea1" rows="3" formControlName="description"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitNew()">Agregar</button>
+                </form>
+            </div>
+            <div *ngSwitchCase="1" class="modal-body">
+                <!--Edit - View-->
+                <form novalidate role="form" [formGroup]="newForm" class="row">
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Problema</label>
+                        <input class="form-control" type="text" placeholder="Problema" formControlName="subject" [(ngModel)]="currentIncident.subject" [attr.disabled]="!show ? 'disabled': null">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label>Tipo Incidencia</label>
+                        <select class="form-control" formControlName="incident_type_id" [(ngModel)]="currentIncident.incident_type_id" [attr.disabled]="!show ? 'disabled': null">
+                            <option *ngFor="let incidentType of arrayIncidentsTypes; let index;" [value]="incidentType.id">{{incidentType.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 col-sm-12">
+                        <label>Descripcion</label>
+                        <textarea class="form-control" placeholder="Descripcion" id="exampleFormControlTextarea1" rows="3" formControlName="description" [(ngModel)]="currentIncident.description" [attr.disabled]="!show ? 'disabled': null"></textarea>
+                    </div>
+                    <button *ngIf="show" type="button" class="btn btn-primary mx-auto" [disabled]="newForm.invalid" (click)="onSubmitEdit()">Actualizar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <button class="btn btn-danger" (click)="MyModal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

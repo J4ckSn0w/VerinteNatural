@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Autour+One&display=swap');
+
+*{
+    color: #000;
+    font-family: 'roboto';
+    letter-spacing: 1px;
+    font-weight: 800;
+}
+
+/*Styling Buttons*/
+.login-button{
+    background-color: transparent;
+    border: 1.5px solid #10842e;
+    border-radius: 2em;
+    padding: 0.6rem 0.8rem;
+    margin-left: 2vw;
+    font-size: 1rem;
+    cursor: pointer;
+
+}
+.login-button:hover {
+    color: #131418;
+    background-color: #4cc942;
+    border:1.5px solid #4cc942;
+    transition: all ease-in-out 350ms;
+}
+
+.navbar {
+    padding: 0 0px;
+    box-shadow: 0 3px 20px #ffc22e;
+    display: flex;
+  }
+
+  .navbar.li{
+    padding-left: 10px;
+  }
+
+  .navbar-nav.navbar-center {
+    position: relative;
+    left: 25%;
+    transform: translatex(-25%);
+}
+.navbar-nav.navbar-right {
+  position: relative;
+  left: 55%;
+  transform: translatex(-55%);
+}
+
+  .navbar-brand>img {
+    height: 100%;
+    padding: 15px;
+    width: auto;
+  }
+  .navbar .dropdown .dropdown-menu {
+    margin-top: 0;
+    border-top: none;
+    border-radius: 0;
+  }
+  @media (min-width: 768px) {
+    .dropdown:hover > .dropdown-menu {
+      display: block;
+    }
+    .dropdown .dropdown-toggle::after {
+      display: none;
+    }
+    .dropdown .dropdown-toggle:active {
+      pointer-events: none;
+    }
+  }
+ 
+    .navbar {
+      padding: 8px 16px;
+    }
+    .navbar .dropdown .dropdown-toggle {
+      padding: 0 10px;
+      line-height: 40px;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  
